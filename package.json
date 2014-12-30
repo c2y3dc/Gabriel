@@ -38,6 +38,7 @@
     "famous": "0.3.3",
     "famous-polyfills": "^0.3.0",
     "famousify": "^0.1.5",
+    "oauth-js": "git://github.com/oauth-io/oauth-js",
     "watchify": "^2.2.1"
   }
 }
