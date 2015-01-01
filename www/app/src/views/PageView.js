@@ -185,7 +185,7 @@ define(function(require, exports, module) {
         }.bind(this));
 
         this.matchSurface.on('click', function() {
-            //this._eventOutput.emit('matchToggle');
+            this._eventOutput.emit('matchViewToggle');
         }.bind(this));
 
         this.noButtonSurface.on('click', function() {

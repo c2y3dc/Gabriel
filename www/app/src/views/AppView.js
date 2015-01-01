@@ -11,34 +11,43 @@ define(function(require, exports, module) {
 
     var Easing = require('famous/transitions/Easing');
     var Transitionable = require('famous/transitions/Transitionable');
+    var SpringTransition = require('famous/transitions/SpringTransition');
+    var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
-    Transitionable.register('spring', SnapTransition);
 
-    var CardView = require('views/CardView');
+    Transitionable.registerMethod('spring', SpringTransition);
+    Transitionable.registerMethod('wall', WallTransition);
+    Transitionable.registerMethod('snap', SnapTransition);
 
     var posititon = new Transitionable([0, 0]);
 
     GenericSync.register({
-      'mouse': MouseSync,
-      'touch': TouchSync
+        'mouse': MouseSync,
+        'touch': TouchSync
     });
 
-
     var StripData = require('data/StripData');
-
+    var MatchView = require('views/MatchView');
     var PageView = require('views/PageView');
     var MenuView = require('views/MenuView');
+    var CardView = require('views/CardView');
 
-    GenericSync.register({'mouse': MouseSync, 'touch': TouchSync});
+    GenericSync.register({
+        'mouse': MouseSync,
+        'touch': TouchSync
+    });
 
 
     function AppView() {
         View.apply(this, arguments);
         this.menuToggle = false;
+        this.matchViewToggle = false;
         this.pageViewPos = 0;
 
         this.cardViewPos = new Transitionable([0, 0]);
+
         _createPageView.call(this);
+        _createMatchView.call(this);
         _createMenuView.call(this);
         _setListeners.call(this);
 
@@ -56,9 +65,19 @@ define(function(require, exports, module) {
         }
     };
 
+    AppView.prototype.toggleMatchView = function() {
+        if (this.matchViewToggle) {
+            this.slideRightMatchView();
+        } else {
+            this.slideLeftMatchView();
+            //this.menuView.animateStrips();
+        }
+        this.matchViewToggle = !this.matchViewToggle;
+
+    };
 
     AppView.prototype.toggleMenu = function() {
-        if(this.menuToggle) {
+        if (this.menuToggle) {
             this.slideLeft();
         } else {
             this.slideRight();
@@ -71,10 +90,25 @@ define(function(require, exports, module) {
         this.pageModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
     };
 
-     AppView.prototype.slideLeft = function() {
+    AppView.prototype.slideLeft = function() {
         this.pageModifier.setTransform(Transform.translate(0, 0, 0), this.options.transition);
     };
 
+    AppView.prototype.slideRightMatchView = function() {
+        this.matchModifier.setTransform(Transform.translate(2 * window.innerWidth, 0, 0), {
+            method: 'spring',
+            dampingRatio: 0.5,
+            period: 900
+        });
+    };
+
+    AppView.prototype.slideLeftMatchView = function() {
+        this.matchModifier.setTransform(Transform.translate(0, 0, 0), {
+            method: 'wall',
+            dampingRatio: 1.0,
+            period: 500
+        });
+    };
 
     function _createPageView() {
         this.pageView = new PageView();
@@ -84,7 +118,9 @@ define(function(require, exports, module) {
     }
 
     function _createMenuView() {
-        this.menuView = new MenuView({ stripData: StripData });
+        this.menuView = new MenuView({
+            stripData: StripData
+        });
         var menuModifier = new StateModifier({
             transform: Transform.behind
         });
@@ -92,9 +128,25 @@ define(function(require, exports, module) {
         this.add(menuModifier).add(this.menuView);
     }
 
+    function _createMatchView() {
+        this.matchView = new MatchView();
+        this.matchModifier = new StateModifier({
+            transform: Transform.translate(2 * window.innerWidth, 0, 0)
+        });
+
+        var matchModifier2 = new StateModifier({
+            transform: Transform.inFront
+        });
+
+        this.add(this.matchModifier)
+            .add(matchModifier2)
+            .add(this.matchView);
+    }
 
     function _setListeners() {
         this.pageView.on('menuToggle', this.toggleMenu.bind(this));
+        this.pageView.on('matchViewToggle', this.toggleMatchView.bind(this));
+        this.matchView.on('matchViewToggle', this.toggleMatchView.bind(this));
     }
 
     // function _handleDrag() {
