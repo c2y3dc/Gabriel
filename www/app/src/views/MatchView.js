@@ -8,6 +8,7 @@ define(function(require, exports, module) {
     var ImageSurface = require('famous/surfaces/ImageSurface');
     var FastClick = require('famous/inputs/FastClick');
 
+    var ScrollableView = require('views/ScrollableView');
 
     function MatchView() {
         View.apply(this, arguments);
@@ -15,7 +16,9 @@ define(function(require, exports, module) {
         _createLayout.call(this);
         _createHeader.call(this);
         _createBody.call(this);
-        // _createCardView.call(this);
+
+        _createMatchList.call(this);
+
         _setListeners.call(this);
 
     }
@@ -105,15 +108,15 @@ define(function(require, exports, module) {
             transform: Transform.behind
         });
 
-        // this.cardView = new CardView();
+        var matchList = new ScrollableView();
 
-        // this.cardModifier = new Modifier({
-        //     origin: [0.5, 0.5],
-        //     align: [0.5, 0.5]
-        // });
+        var matchListModifier = new StateModifier({
+          origin: [0.5, 0.5],
+          align: [0.5, 0.5]
+        });
 
         node.add(this.bodyModifier).add(this.bodySurface);
-        // node.add(this.cardModifier).add(this.cardView);
+        node.add(matchListModifier).add(matchList);
     }
 
     function _setListeners() {
@@ -122,6 +125,16 @@ define(function(require, exports, module) {
         }.bind(this));
     }
 
+    function _createMatchList() {
+      var matchListView = new ScrollableView();
 
+      var matchListModifier = new StateModifier({
+        transform: Transform.inFront,
+        origin: [0.5, 0.5],
+        align: [0.5, 0.5]
+      });
+
+      this.add(matchListModifier).add(matchListView);
+    }
     module.exports = MatchView;
 });
