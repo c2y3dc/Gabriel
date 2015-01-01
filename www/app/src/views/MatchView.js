@@ -6,6 +6,7 @@ define(function(require, exports, module) {
 
     function MatchView() {
         View.apply(this, arguments);
+
     }
 
     MatchView.prototype = Object.create(View.prototype);
