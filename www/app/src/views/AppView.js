@@ -40,9 +40,6 @@ define(function(require, exports, module) {
         this.menuToggle = false;
         this.matchViewToggle = false;
         this.pageViewPos = 0;
-
-        this.cardViewPos = new Transitionable([0, 0]);
-
         _createPageView.call(this);
         _createMatchView.call(this);
         _createMenuView.call(this);
@@ -139,6 +136,7 @@ define(function(require, exports, module) {
     }
 
     function _setListeners() {
+        this.menuView.on('menuToggle', this.toggleMenu.bind(this));
         this.pageView.on('menuToggle', this.toggleMenu.bind(this));
         this.pageView.on('matchViewToggle', this.toggleMatchView.bind(this));
         this.matchView.on('matchViewToggle', this.toggleMatchView.bind(this));
