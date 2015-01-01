@@ -8,6 +8,8 @@ define(function(require, exports, module) {
     var ImageSurface = require('famous/surfaces/ImageSurface');
     var FastClick = require('famous/inputs/FastClick');
 
+    var CardView = require('views/CardView');
+
     function PageView() {
         View.apply(this, arguments);
         _createBacking.call(this);
@@ -15,6 +17,8 @@ define(function(require, exports, module) {
         _createHeader.call(this);
         _createFooter.call(this);
         _createBody.call(this);
+        // _createCardView.call(this);
+
         _setListeners.call(this);
     }
 
@@ -144,13 +148,35 @@ define(function(require, exports, module) {
         this.layout.footer.add(this.yesButtonModifier).add(this.yesButtonSurface);
     }
 
+    // function _createCardView() {
+    //   this.cardView = new CardView();
+    //
+    //
+    //
+    //   this.add(this.cardModifier).add(this.cardView);
+    // }
+
     function _createBody() {
+        var node = this.layout.content;
+
         this.bodySurface = new Surface({
-            size: [undefined, undefined],
-            classes: ['main-body-background']
+          size: [undefined, undefined],
+          classes: ['main-body-background']
         });
 
-        this.layout.content.add(this.bodySurface);
+        this.bodyModifier = new StateModifier({
+          transform: Transform.behind
+        });
+
+        this.cardView = new CardView();
+
+        this.cardModifier = new Modifier({
+          origin: [0.5, 0.5],
+          align: [0.5, 0.5]
+        });
+
+        node.add(this.bodyModifier).add(this.bodySurface);
+        node.add(this.cardModifier).add(this.cardView);
     }
 
     function _setListeners() {
