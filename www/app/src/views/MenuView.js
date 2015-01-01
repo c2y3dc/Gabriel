@@ -1,10 +1,9 @@
 define(function(require, exports, module) {
     var View = require('famous/core/View');
-    var Surface = require('famous/core/Surface');
     var Transform = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
     var Timer = require('famous/utilities/Timer');
-    var Easing = require('famous/transitions/Easing');
+
     var StripView = require('views/StripView');
 
     function MenuView() {
@@ -42,7 +41,6 @@ define(function(require, exports, module) {
             });
 
             this.stripSurfaces.push(stripView);
-            console.log(this.stripSurfaces[0]);
             var stripModifier = new StateModifier({
                 transform: Transform.translate(0, yOffset, 0)
             });
