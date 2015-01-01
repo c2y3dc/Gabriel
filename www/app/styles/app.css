@@ -40,6 +40,7 @@ html {
     line-height: 40px;
     background-color: white;
 }
+
 .yes-button {
     border: 2px solid #A8C7FF;
     color: #A8C7FF;
@@ -47,4 +48,7 @@ html {
     text-align: center;
     line-height: 40px;
     background-color: #3677E1;
+}
+.button-hover {
+  background-color: red;
 }

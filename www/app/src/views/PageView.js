@@ -1,11 +1,12 @@
 define(function(require, exports, module) {
-    var View            = require('famous/core/View');
-    var Surface         = require('famous/core/Surface');
-    var Transform       = require('famous/core/Transform');
-    var StateModifier   = require('famous/modifiers/StateModifier');
-    var HeaderFooter    = require('famous/views/HeaderFooterLayout');
-    var ImageSurface    = require('famous/surfaces/ImageSurface');
-    var FastClick       = require('famous/inputs/FastClick');
+    var View = require('famous/core/View');
+    var Surface = require('famous/core/Surface');
+    var Transform = require('famous/core/Transform');
+    var Modifier = require('famous/core/Modifier');
+    var StateModifier = require('famous/modifiers/StateModifier');
+    var HeaderFooter = require('famous/views/HeaderFooterLayout');
+    var ImageSurface = require('famous/surfaces/ImageSurface');
+    var FastClick = require('famous/inputs/FastClick');
 
     function PageView() {
         View.apply(this, arguments);
@@ -27,7 +28,7 @@ define(function(require, exports, module) {
         footerWithd: window.innerWidth
     };
 
-     function _createBacking() {
+    function _createBacking() {
         var backing = new Surface({
             properties: {
                 backgroundColor: 'black',
@@ -54,7 +55,7 @@ define(function(require, exports, module) {
 
     function _createHeader() {
         var backgroundSurface = new Surface({
-            classes: ['ionic-blue-background'] 
+            classes: ['ionic-blue-background']
         });
 
         var backgroundModifier = new StateModifier({
@@ -83,17 +84,17 @@ define(function(require, exports, module) {
         /*HEADER MODIFIERS */
         var hamburgerModifier = new StateModifier({
             origin: [0, 0.5],
-            align : [0, 0.5]
+            align: [0, 0.5]
         });
 
         var titleModifier = new StateModifier({
             origin: [0.5, 0],
-            align : [0.5, 0.3]
+            align: [0.5, 0.3]
         });
 
         var matchModifier = new StateModifier({
             origin: [1, 0.5],
-            align : [1, 0.5]
+            align: [1, 0.5]
         });
 
         this.layout.header.add(hamburgerModifier).add(this.hamburgerSurface);
@@ -104,7 +105,7 @@ define(function(require, exports, module) {
 
     function _createFooter() {
         var backgroundSurface = new Surface({
-            classes: ['ionic-footer-background'] 
+            classes: ['ionic-footer-background']
         });
 
         var backgroundModifier = new StateModifier({
@@ -127,24 +128,26 @@ define(function(require, exports, module) {
         });
 
         /*HEADER MODIFIERS */
-        var noButtonModifier = new StateModifier({
+        this.noButtonModifier = new Modifier({
+            opacity: 1,
             origin: [0, 0.5],
-            align : [0.05, 0.5]
+            align: [0.05, 0.5]
         });
 
-        var yesButtonModifier = new StateModifier({
+        this.yesButtonModifier = new Modifier({
+            opacity: 1,
             origin: [1, 0.5],
-            align : [0.95, 0.5]
+            align: [0.95, 0.5]
         });
 
-        this.layout.footer.add(noButtonModifier).add(this.noButtonSurface);
-        this.layout.footer.add(yesButtonModifier).add(this.yesButtonSurface);
+        this.layout.footer.add(this.noButtonModifier).add(this.noButtonSurface);
+        this.layout.footer.add(this.yesButtonModifier).add(this.yesButtonSurface);
     }
 
     function _createBody() {
         this.bodySurface = new Surface({
-            size : [undefined, undefined],
-            classes : ['main-body-background']
+            size: [undefined, undefined],
+            classes: ['main-body-background']
         });
 
         this.layout.content.add(this.bodySurface);
@@ -157,6 +160,23 @@ define(function(require, exports, module) {
 
         this.matchSurface.on('click', function() {
             //this._eventOutput.emit('matchToggle');
+        }.bind(this));
+
+        this.noButtonSurface.on('click', function() {
+            this._eventOutput.emit('menuToggle');
+        }.bind(this));
+
+        this.yesButtonSurface.on('click', function() {
+            this._eventOutput.emit('menuToggle');
+        }.bind(this));
+
+        this.noButtonSurface.on('touchstart', function() {
+            this.noButtonModifier.setOpacity(0.3, { duration: 100 });
+        }.bind(this));
+
+        this.noButtonSurface.on('touchend', function() {
+            this.noButtonModifier.setOpacity(1, { duration: 100 });
+            //this._eventOutput.emit('buttonToggle');
         }.bind(this));
     }
 
