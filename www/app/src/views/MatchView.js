@@ -59,7 +59,7 @@ define(function(require, exports, module) {
         });
 
         var backgroundModifier = new StateModifier({
-            transform: Transform.behind
+            transform: Transform.inFront
         });
 
         this.layout.header.add(backgroundModifier).add(backgroundSurface);
@@ -78,11 +78,13 @@ define(function(require, exports, module) {
 
         /*HEADER MODIFIERS */
         var backButtonModifier = new StateModifier({
+            transform: Transform.inFront,
             origin: [0, 0.5],
             align: [0, 0.5]
         });
 
         var titleModifier = new StateModifier({
+            transform: Transform.inFront,
             origin: [0.5, 0],
             align: [0.5, 0.3]
         });

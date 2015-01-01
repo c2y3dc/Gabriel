@@ -24,12 +24,12 @@ define(function(require, exports, module) {
     };
 
     function _createBackground() {
-        var backgroundSurface = new Surface({
+        this.backgroundSurface = new Surface({
             size: [this.options.width, this.options.height],
             classes: ['strip-view']
         });
 
-        this.add(backgroundSurface);
+        this.add(this.backgroundSurface);
     }
 
      function _createIcon() {

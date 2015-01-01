@@ -1,6 +1,7 @@
 html {
     background: #2D2D2D;
     font-family: "AvenirNextLTPro-Ultlt", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 200;
 }
 .backfaceVisibility {
     -webkit-backface-visibility: visible;
@@ -22,16 +23,16 @@ html {
     background-color: #444444;
 }
 .menu-titles {
-    font-family: 'Helvetica', Arial;
-    color: #ffffff;
+    color: white;
+    font-weight: 100;
     font-size: 18px;
     text-transform: 'uppercase';
     pointer-events: 'none';
 }
 .header-title {
-    font-family: 'Helvetica', Arial;
     color: #ffffff;
     font-size: 18px;
+    font-weight: 
 }
 .no-button {
     color: ##2155aa;

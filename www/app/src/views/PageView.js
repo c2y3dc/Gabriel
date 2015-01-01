@@ -8,6 +8,7 @@ define(function(require, exports, module) {
     var ImageSurface = require('famous/surfaces/ImageSurface');
     var FastClick = require('famous/inputs/FastClick');
 
+    var ScrollSync = require("famous/inputs/ScrollSync");
     var MouseSync = require('famous/inputs/MouseSync');
     var TouchSync = require('famous/inputs/TouchSync');
     var GenericSync = require('famous/inputs/GenericSync');
@@ -19,23 +20,23 @@ define(function(require, exports, module) {
     var CardView = require('views/CardView');
 
     GenericSync.register({
-      'mouse': MouseSync,
-      'touch': TouchSync
+        'mouse': MouseSync,
+        'touch': TouchSync,
+        "scroll": ScrollSync
     });
+
+    var position = new Transitionable([0, 0]);
 
     function PageView() {
         View.apply(this, arguments);
-
-        this.cardViewPos = new Transitionable([0, 0]);
-
         _createBacking.call(this);
         _createLayout.call(this);
         _createHeader.call(this);
         _createFooter.call(this);
         _createBody.call(this);
-
         _setListeners.call(this);
         _handleDrag.call(this);
+
     }
 
     PageView.prototype = Object.create(View.prototype);
@@ -78,7 +79,7 @@ define(function(require, exports, module) {
         });
 
         var backgroundModifier = new StateModifier({
-            transform: Transform.behind
+            transform: Transform.inFront
         });
 
         this.layout.header.add(backgroundModifier).add(backgroundSurface);
@@ -102,16 +103,19 @@ define(function(require, exports, module) {
 
         /*HEADER MODIFIERS */
         var hamburgerModifier = new StateModifier({
+            transform: Transform.inFront,
             origin: [0, 0.5],
             align: [0, 0.5]
         });
 
         var titleModifier = new StateModifier({
+            transform: Transform.inFront,
             origin: [0.5, 0],
             align: [0.5, 0.3]
         });
 
         var matchModifier = new StateModifier({
+            transform: Transform.inFront,
             origin: [1, 0.5],
             align: [1, 0.5]
         });
@@ -166,19 +170,21 @@ define(function(require, exports, module) {
         var node = this.layout.content;
 
         this.bodySurface = new Surface({
-          size: [undefined, undefined],
-          classes: ['main-body-background']
+            size: [undefined, undefined],
+            classes: ['main-body-background']
         });
 
         this.bodyModifier = new StateModifier({
-          transform: Transform.behind
+            transform: Transform.behind
         });
 
-        this.cardView = new CardView();
+        this.cardView = new CardView({
+            position: new Transitionable([0, 0])
+        });
 
         this.cardModifier = new Modifier({
-          origin: [0.5, 0.5],
-          align: [0.5, 0.5]
+            origin: [0.5, 0.5],
+            align: [0.5, 0.5]
         });
 
         node.add(this.bodyModifier).add(this.bodySurface);
@@ -203,64 +209,83 @@ define(function(require, exports, module) {
         }.bind(this));
 
         this.noButtonSurface.on('touchstart', function() {
-            this.noButtonModifier.setOpacity(0.5, { duration: 100 });
+            this.noButtonModifier.setOpacity(0.5, {
+                duration: 100
+            });
         }.bind(this));
 
         this.noButtonSurface.on('touchend', function() {
-            this.noButtonModifier.setOpacity(1, { duration: 100 });
+            this.noButtonModifier.setOpacity(1, {
+                duration: 100
+            });
             //this._eventOutput.emit('buttonToggle');
         }.bind(this));
 
         this.yesButtonSurface.on('touchstart', function() {
-            this.yesButtonModifier.setOpacity(0.5, { duration: 100 });
+            this.yesButtonModifier.setOpacity(0.5, {
+                duration: 100
+            });
         }.bind(this));
 
         this.yesButtonSurface.on('touchend', function() {
-            this.yesButtonModifier.setOpacity(1, { duration: 100 });
+            this.yesButtonModifier.setOpacity(1, {
+                duration: 100
+            });
             //this._eventOutput.emit('buttonToggle');
         }.bind(this));
     }
 
     function _handleDrag() {
-      var sync = new GenericSync({
-        'mouse': {},
-        'touch': {}
-      });
 
-      this.cardView.pipe(sync);
-
-      sync.on('update', function(data) {
-        var currentPosition = this.cardViewPos.get();
-        this.cardViewPos.set([
-          currentPosition[0] + data.delta[0],
-          currentPosition[1] + data.delta[1]
-        ]);
-      });
-
-      sync.on('end', function(data) {
-        var velocity = data.velocity;
-        this.cardViewPos.set([0, 0], {
-          method: 'spring',
-          period: 150,
-          velocity: velocity
+        var sync = new GenericSync({
+            "mouse": {},
+            "touch": {},
+            "scroll": {
+                scale: .5
+            }
         });
-      }.bind(this));
 
-      var positionModifier = new Modifier({
-        transform: function() {
-          var currentPosition = this.cardViewPos.get();
-          return Transform.translate(currentPosition[0], currentPosition[1], 0);
-        }.bind(this)
-      });
+        // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
+        this.cardView.backgroundSurface.pipe(sync);
 
-      var rotationModifier = new Modifier({
-        transform: function() {
-          var currentPosition = this.cardViewPos.get();
-          return Transform.rotateZ(-0.002 * currentPosition[0]);
-        }.bind(this)
-      });
+        sync.on('update', function(data) {
+            var currentPosition = position.get();
+            position.set([
+                currentPosition[0] + data.delta[0],
+                currentPosition[1] + data.delta[1]
+            ]);
+        });
 
-      this.add(positionModifier).add(rotationModifier);
+        sync.on('end', function(data) {
+            var velocity = data.velocity;
+            position.set([0, 0], {
+                method: 'spring',
+                period: 150,
+                velocity: velocity
+            });
+        });
+
+        var positionModifier = new Modifier({
+            transform: function() {
+                var currentPosition = position.get();
+                return Transform.translate(currentPosition[0], currentPosition[1], 0);
+            }
+        });
+
+        var centerModifier = new Modifier({
+            origin: [0.5, 0.5],
+            align: [0.5, 0.5]
+        });
+
+        var rotationModifier = new Modifier({
+            transform: function() {
+                var currentPosition = position.get();
+                return Transform.rotateZ(-0.0015 * currentPosition[0]);
+            }
+        });
+
+
+        var moveableNode = this.cardView.add(positionModifier).add(rotationModifier).add(this.cardView.backgroundSurface);
     }
 
     module.exports = PageView;
