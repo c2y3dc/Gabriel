@@ -8,18 +8,34 @@ define(function(require, exports, module) {
     var ImageSurface = require('famous/surfaces/ImageSurface');
     var FastClick = require('famous/inputs/FastClick');
 
+    var MouseSync = require('famous/inputs/MouseSync');
+    var TouchSync = require('famous/inputs/TouchSync');
+    var GenericSync = require('famous/inputs/GenericSync');
+
+    var Transitionable = require('famous/transitions/Transitionable');
+    var SnapTransition = require('famous/transitions/SnapTransition');
+    Transitionable.registerMethod('spring', SnapTransition);
+
     var CardView = require('views/CardView');
+
+    GenericSync.register({
+      'mouse': MouseSync,
+      'touch': TouchSync
+    });
 
     function PageView() {
         View.apply(this, arguments);
+
+        this.cardViewPos = new Transitionable([0, 0]);
+
         _createBacking.call(this);
         _createLayout.call(this);
         _createHeader.call(this);
         _createFooter.call(this);
         _createBody.call(this);
-        // _createCardView.call(this);
 
         _setListeners.call(this);
+        _handleDrag.call(this);
     }
 
     PageView.prototype = Object.create(View.prototype);
@@ -42,7 +58,6 @@ define(function(require, exports, module) {
 
         this.add(backing);
     }
-
 
     function _createLayout() {
         this.layout = new HeaderFooter({
@@ -106,7 +121,6 @@ define(function(require, exports, module) {
         this.layout.header.add(matchModifier).add(this.matchSurface);
     }
 
-
     function _createFooter() {
         var backgroundSurface = new Surface({
             classes: ['ionic-footer-background']
@@ -147,14 +161,6 @@ define(function(require, exports, module) {
         this.layout.footer.add(this.noButtonModifier).add(this.noButtonSurface);
         this.layout.footer.add(this.yesButtonModifier).add(this.yesButtonSurface);
     }
-
-    // function _createCardView() {
-    //   this.cardView = new CardView();
-    //
-    //
-    //
-    //   this.add(this.cardModifier).add(this.cardView);
-    // }
 
     function _createBody() {
         var node = this.layout.content;
@@ -206,7 +212,47 @@ define(function(require, exports, module) {
         }.bind(this));
     }
 
+    function _handleDrag() {
+      var sync = new GenericSync({
+        'mouse': {},
+        'touch': {}
+      });
 
+      this.cardView.pipe(sync);
+
+      sync.on('update', function(data) {
+        var currentPosition = this.cardViewPos.get();
+        this.cardViewPos.set([
+          currentPosition[0] + data.delta[0],
+          currentPosition[1] + data.delta[1]
+        ]);
+      }).bind(this);
+
+      sync.on('end', function(data) {
+        var velocity = data.velocity;
+        this.cardViewPos.set([0, 0], {
+          method: 'spring',
+          period: 150,
+          velocity: velocity
+        });
+      }.bind(this));
+
+      var positionModifier = new Modifier({
+        transform: function() {
+          var currentPosition = this.cardViewPos.get();
+          return Transform.translate(currentPosition[0], currentPosition[1], 0);
+        }
+      });
+
+      var rotationModifier = new Modifier({
+        transform: function() {
+          var currentPosition = this.cardViewPos.get();
+          return Transform.rotateZ(-0.002 * currentPosition[0]);
+        }
+      });
+
+      this.add(positionModifier).add(rotationModifier);
+    }
 
     module.exports = PageView;
 });
