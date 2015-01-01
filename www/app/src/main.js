@@ -7,26 +7,14 @@ define(function(require, exports, module) {
     var Transform = require('famous/core/Transform');
     var ImageSurface = require('famous/surfaces/ImageSurface');
 
+    // creat main App View
+    var AppView = require('views/AppView');
     // create the main context
     var mainContext = Engine.createContext();
-
-    // your app here
+    // set perspective
     mainContext.setPerspective(1000);
 
-    var logo = new ImageSurface({
-        size: [200, 200],
-        content: '/content/images/famous_logo.png',
-        classes: ['backfaceVisibility']
-    });
+    var appView = new AppView();
 
-    var initialTime = Date.now();
-    var centerSpinModifier = new Modifier({
-        align: [0.5, 0.5],
-        origin: [0.5, 0.5],
-        transform: function() {
-            return Transform.rotateY(.002 * (Date.now() - initialTime));
-        }
-    });
-
-    mainContext.add(centerSpinModifier).add(logo);
+    mainContext.add(appView);
 });
