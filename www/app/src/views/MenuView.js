@@ -42,7 +42,6 @@ define(function(require, exports, module) {
             });
 
             this.stripSurfaces.push(stripView);
-            console.log(this.stripSurfaces[0]);
             var stripModifier = new StateModifier({
                 transform: Transform.translate(0, yOffset, 0)
             });

@@ -25,7 +25,10 @@ define(function(require, exports, module) {
         "scroll": ScrollSync
     });
 
-    var position = new Transitionable([0, 0]);
+    var position1 = new Transitionable([0, 0]);
+    var position2 = new Transitionable([0, 0]);
+    var position3 = new Transitionable([0, 0]);
+    var positions = [position1, position2, position3];
 
     function PageView() {
         View.apply(this, arguments);
@@ -34,8 +37,10 @@ define(function(require, exports, module) {
         _createHeader.call(this);
         _createFooter.call(this);
         _createBody.call(this);
-        _setListeners.call(this);
         _handleDrag.call(this);
+        _handleDrag1.call(this);
+        _handleDrag2.call(this);
+        _setListeners.call(this);
 
     }
 
@@ -46,7 +51,8 @@ define(function(require, exports, module) {
         headerSize: 44,
         headerWidth: window.innerWidth,
         footerSize: 74,
-        footerWithd: window.innerWidth
+        footerWithd: window.innerWidth,
+        cardOffset: 5
     };
 
     function _createBacking() {
@@ -167,7 +173,7 @@ define(function(require, exports, module) {
     }
 
     function _createBody() {
-        var node = this.layout.content;
+        this.node = this.layout.content;
 
         this.bodySurface = new Surface({
             size: [undefined, undefined],
@@ -178,17 +184,189 @@ define(function(require, exports, module) {
             transform: Transform.behind
         });
 
-        this.cardView = new CardView({
-            position: new Transitionable([0, 0])
+        this.node.add(this.bodyModifier).add(this.bodySurface);
+
+        _createCardDeck.call(this);
+    }
+
+    function _createCardDeck() {
+        this.cardViews = [];
+        this.cardModifiers = [];
+        var yOffScale = 0;
+        var xOffScale = 0;
+
+        for (var i = 0; i <= 2; i++) {
+
+            this.cardView = new CardView();
+
+            this.cardViews.push(this.cardView);
+
+            this.cardModifier = new Modifier({
+                origin: [0.5, 0.5],
+                align: [0.5, 0.5]
+            });
+
+            this.yOffsetModifier = new StateModifier({
+                transform: Transform.translate(0, 0, 0)
+            });
+
+            this.scaleModifier = new StateModifier({
+                transform: Transform.scale(1 - xOffScale, 1 - yOffScale, 1)
+            })
+
+            this.cardModifiers.push(this.yOffsetModifier);
+
+            this.node.add(this.scaleModifier)
+                //.add(this.yOffsetModifier)
+                .add(this.cardModifier)
+                .add(this.cardView);
+
+            xOffScale += 0.009;
+            yOffScale += 0.009;
+            this.cardView.backgroundSurface.content = i;
+        }
+    }
+
+    function _handleDrag() {
+
+        var sync = new GenericSync({
+            "mouse": {},
+            "touch": {},
+            "scroll": {
+                scale: .5
+            }
         });
 
-        this.cardModifier = new Modifier({
-            origin: [0.5, 0.5],
-            align: [0.5, 0.5]
+        // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
+        this.cardViews[0].backgroundSurface.pipe(sync);
+
+
+        sync.on('update', function(data) {
+            var currentPosition = position1.get();
+            position1.set([
+                currentPosition[0] + data.delta[0],
+                currentPosition[1] + data.delta[1]
+            ]);
         });
 
-        node.add(this.bodyModifier).add(this.bodySurface);
-        node.add(this.cardModifier).add(this.cardView);
+        sync.on('end', function(data) {
+            var velocity = data.velocity;
+            position1.set([0, 0], {
+                method: 'spring',
+                period: 150,
+                velocity: velocity
+            });
+        });
+
+        var positionModifier = new Modifier({
+            transform: function() {
+                var currentPosition = position1.get();
+                return Transform.translate(currentPosition[0], currentPosition[1], 0);
+            }
+        });
+
+        var rotationModifier = new Modifier({
+            transform: function() {
+                var currentPosition = position1.get();
+                return Transform.rotateZ(-0.0015 * currentPosition[0]);
+            }
+        });
+        var moveableNodes = this.cardViews[0].add(positionModifier).add(rotationModifier).add(this.cardViews[0].backgroundSurface);
+    }
+
+    function _handleDrag1() {
+
+        var sync = new GenericSync({
+            "mouse": {},
+            "touch": {},
+            "scroll": {
+                scale: .5
+            }
+        });
+
+        // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
+        this.cardViews[1].backgroundSurface.pipe(sync);
+
+
+        sync.on('update', function(data) {
+            var currentPosition = position2.get();
+            position2.set([
+                currentPosition[0] + data.delta[0],
+                currentPosition[1] + data.delta[1]
+            ]);
+        });
+
+        sync.on('end', function(data) {
+            var velocity = data.velocity;
+            position2.set([0, 0], {
+                method: 'spring',
+                period: 150,
+                velocity: velocity
+            });
+        });
+
+        var positionModifier = new Modifier({
+            transform: function() {
+                var currentPosition = position2.get();
+                return Transform.translate(currentPosition[0], currentPosition[1], 0);
+            }
+        });
+
+        var rotationModifier = new Modifier({
+            transform: function() {
+                var currentPosition = position2.get();
+                return Transform.rotateZ(-0.0015 * currentPosition[0]);
+            }
+        });
+        var moveableNodes = this.cardViews[1].add(positionModifier).add(rotationModifier).add(this.cardViews[1].backgroundSurface);
+    }
+
+
+    function _handleDrag2() {
+
+        var sync = new GenericSync({
+            "mouse": {},
+            "touch": {},
+            "scroll": {
+                scale: .5
+            }
+        });
+
+        // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
+        this.cardViews[2].backgroundSurface.pipe(sync);
+
+
+        sync.on('update', function(data) {
+            var currentPosition = position3.get();
+            position3.set([
+                currentPosition[0] + data.delta[0],
+                currentPosition[1] + data.delta[1]
+            ]);
+        });
+
+        sync.on('end', function(data) {
+            var velocity = data.velocity;
+            position3.set([0, 0], {
+                method: 'spring',
+                period: 150,
+                velocity: velocity
+            });
+        });
+
+        var positionModifier = new Modifier({
+            transform: function() {
+                var currentPosition = position3.get();
+                return Transform.translate(currentPosition[0], currentPosition[1], 0);
+            }
+        });
+
+        var rotationModifier = new Modifier({
+            transform: function() {
+                var currentPosition = position3.get();
+                return Transform.rotateZ(-0.0015 * currentPosition[0]);
+            }
+        });
+        var moveableNodes = this.cardViews[2].add(positionModifier).add(rotationModifier).add(this.cardViews[2].backgroundSurface);
     }
 
     function _setListeners() {
@@ -235,58 +413,6 @@ define(function(require, exports, module) {
         }.bind(this));
     }
 
-    function _handleDrag() {
-
-        var sync = new GenericSync({
-            "mouse": {},
-            "touch": {},
-            "scroll": {
-                scale: .5
-            }
-        });
-
-        // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
-        this.cardView.backgroundSurface.pipe(sync);
-
-        sync.on('update', function(data) {
-            var currentPosition = position.get();
-            position.set([
-                currentPosition[0] + data.delta[0],
-                currentPosition[1] + data.delta[1]
-            ]);
-        });
-
-        sync.on('end', function(data) {
-            var velocity = data.velocity;
-            position.set([0, 0], {
-                method: 'spring',
-                period: 150,
-                velocity: velocity
-            });
-        });
-
-        var positionModifier = new Modifier({
-            transform: function() {
-                var currentPosition = position.get();
-                return Transform.translate(currentPosition[0], currentPosition[1], 0);
-            }
-        });
-
-        var centerModifier = new Modifier({
-            origin: [0.5, 0.5],
-            align: [0.5, 0.5]
-        });
-
-        var rotationModifier = new Modifier({
-            transform: function() {
-                var currentPosition = position.get();
-                return Transform.rotateZ(-0.0015 * currentPosition[0]);
-            }
-        });
-
-
-        var moveableNode = this.cardView.add(positionModifier).add(rotationModifier).add(this.cardView.backgroundSurface);
-    }
 
     module.exports = PageView;
 });
