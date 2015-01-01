@@ -82,7 +82,7 @@ define(function(require, exports, module) {
 
         this.matchSurface = new ImageSurface({
             size: [44, 44],
-            content: 'img/hamburger.png'
+            content: 'img/match.png'
         });
 
         /*HEADER MODIFIERS */
@@ -185,7 +185,7 @@ define(function(require, exports, module) {
         }.bind(this));
 
         this.matchSurface.on('click', function() {
-            //this._eventOutput.emit('matchToggle');
+            this._eventOutput.emit('matchViewToggle');
         }.bind(this));
 
         this.noButtonSurface.on('click', function() {
