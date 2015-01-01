@@ -9,9 +9,10 @@ define(function(require, exports, module) {
 
     function PageView() {
         View.apply(this, arguments);
-
+        _createBacking.call(this);
         _createLayout.call(this);
         _createHeader.call(this);
+        _createFooter.call(this);
         _createBody.call(this);
         _setListeners.call(this);
     }
@@ -21,12 +22,27 @@ define(function(require, exports, module) {
 
     PageView.DEFAULT_OPTIONS = {
         headerSize: 44,
-        headerWidth: window.innerWidth
+        headerWidth: window.innerWidth,
+        footerSize: 74,
+        footerWithd: window.innerWidth
     };
+
+     function _createBacking() {
+        var backing = new Surface({
+            properties: {
+                backgroundColor: 'black',
+                boxShadow: '0 0 20px rgba(0,0,0,0.5)'
+            }
+        });
+
+        this.add(backing);
+    }
+
 
     function _createLayout() {
         this.layout = new HeaderFooter({
-            headerSize: this.options.headerSize
+            headerSize: this.options.headerSize,
+            footerSize: this.options.footerSize
         });
 
         var layoutModifier = new StateModifier({
@@ -56,14 +72,12 @@ define(function(require, exports, module) {
         this.titleSurface = new Surface({
             size: [true, 44],
             content: 'Gabriel',
-            properties: {
-                color: 'white'
-            }
+            classes: ['header-title']
         });
 
         this.matchSurface = new ImageSurface({
             size: [44, 44],
-            content: 'img/icon.png'
+            content: 'img/hamburger.png'
         });
 
         /*HEADER MODIFIERS */
@@ -74,7 +88,7 @@ define(function(require, exports, module) {
 
         var titleModifier = new StateModifier({
             origin: [0.5, 0],
-            align : [0.5, 0.5]
+            align : [0.5, 0.3]
         });
 
         var matchModifier = new StateModifier({
@@ -87,6 +101,46 @@ define(function(require, exports, module) {
         this.layout.header.add(matchModifier).add(this.matchSurface);
     }
 
+
+    function _createFooter() {
+        var backgroundSurface = new Surface({
+            classes: ['ionic-footer-background'] 
+        });
+
+        var backgroundModifier = new StateModifier({
+            transform: Transform.behind
+        });
+
+        this.layout.footer.add(backgroundModifier).add(backgroundSurface);
+
+        /*HEADER SURFACES*/
+        this.noButtonSurface = new Surface({
+            size: [window.innerWidth / 2 - window.innerWidth / 14, 44],
+            content: 'Not Interested',
+            classes: ['no-button']
+        });
+
+        this.yesButtonSurface = new Surface({
+            size: [window.innerWidth / 2 - window.innerWidth / 14, 44],
+            content: 'Interested',
+            classes: ['yes-button']
+        });
+
+        /*HEADER MODIFIERS */
+        var noButtonModifier = new StateModifier({
+            origin: [0, 0.5],
+            align : [0.05, 0.5]
+        });
+
+        var yesButtonModifier = new StateModifier({
+            origin: [1, 0.5],
+            align : [0.95, 0.5]
+        });
+
+        this.layout.footer.add(noButtonModifier).add(this.noButtonSurface);
+        this.layout.footer.add(yesButtonModifier).add(this.yesButtonSurface);
+    }
+
     function _createBody() {
         this.bodySurface = new Surface({
             size : [undefined, undefined],
@@ -96,9 +150,13 @@ define(function(require, exports, module) {
         this.layout.content.add(this.bodySurface);
     }
 
-     function _setListeners() {
+    function _setListeners() {
         this.hamburgerSurface.on('click', function() {
             this._eventOutput.emit('menuToggle');
+        }.bind(this));
+
+        this.matchSurface.on('click', function() {
+            //this._eventOutput.emit('matchToggle');
         }.bind(this));
     }
 

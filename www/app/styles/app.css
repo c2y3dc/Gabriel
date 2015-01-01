@@ -1,15 +1,50 @@
 html {
-  background: #fff;
+    background: #2D2D2D;
+    font-family: "AvenirNextLTPro-Ultlt", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-
 .backfaceVisibility {
-  -webkit-backface-visibility: visible;
-  backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
 }
-
 .ionic-blue-background {
-  background-color: rgb(63,128,233);
+    background: linear-gradient(to right, #296ad4 0%, #4e8ef7 100%);
+    border-bottom: 1px solid #4677E1;
+}
+.ionic-footer-background {
+    background: linear-gradient(to right, #5488DC 0%, #71A4F7 100%);
+    background: linear-gradient(to right, #2155aa 0%, #3e72c6 100%);
+    border-top: 1px solid #3677E1;
 }
 .main-body-background {
-  background-color: #679BEF;
+    background: linear-gradient(to right, #2155aa 0%, #3e72c6 100%);
+}
+.strip-view {
+    background-color: #444444;
+}
+.menu-titles {
+    font-family: 'Helvetica', Arial;
+    color: #ffffff;
+    font-size: 18px;
+    text-transform: 'uppercase';
+    pointer-events: 'none';
+}
+.header-title {
+    font-family: 'Helvetica', Arial;
+    color: #ffffff;
+    font-size: 18px;
+}
+.no-button {
+    color: ##2155aa;
+    border-radius: 2px;
+    text-align: center;
+    line-height: 40px;
+    background-color: white;
+}
+.yes-button {
+    border: 2px solid #A8C7FF;
+    color: #A8C7FF;
+    border-radius: 2px;
+    text-align: center;
+    line-height: 40px;
+    background-color: #3677E1;
 }
