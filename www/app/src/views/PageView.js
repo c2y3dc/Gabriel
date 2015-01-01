@@ -197,11 +197,20 @@ define(function(require, exports, module) {
         }.bind(this));
 
         this.noButtonSurface.on('touchstart', function() {
-            this.noButtonModifier.setOpacity(0.3, { duration: 100 });
+            this.noButtonModifier.setOpacity(0.5, { duration: 100 });
         }.bind(this));
 
         this.noButtonSurface.on('touchend', function() {
             this.noButtonModifier.setOpacity(1, { duration: 100 });
+            //this._eventOutput.emit('buttonToggle');
+        }.bind(this));
+
+        this.yesButtonSurface.on('touchstart', function() {
+            this.yesButtonModifier.setOpacity(0.5, { duration: 100 });
+        }.bind(this));
+
+        this.yesButtonSurface.on('touchend', function() {
+            this.yesButtonModifier.setOpacity(1, { duration: 100 });
             //this._eventOutput.emit('buttonToggle');
         }.bind(this));
     }
