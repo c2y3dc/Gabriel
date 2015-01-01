@@ -6,3 +6,10 @@ html {
   -webkit-backface-visibility: visible;
   backface-visibility: visible;
 }
+
+.ionic-blue-background {
+  background-color: rgb(63,128,233);
+}
+.main-body-background {
+  background-color: #679BEF;
+}
