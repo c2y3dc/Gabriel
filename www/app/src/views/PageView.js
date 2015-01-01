@@ -235,7 +235,7 @@ define(function(require, exports, module) {
           currentPosition[0] + data.delta[0],
           currentPosition[1] + data.delta[1]
         ]);
-      }).bind(this);
+      });
 
       sync.on('end', function(data) {
         var velocity = data.velocity;
@@ -250,14 +250,14 @@ define(function(require, exports, module) {
         transform: function() {
           var currentPosition = this.cardViewPos.get();
           return Transform.translate(currentPosition[0], currentPosition[1], 0);
-        }
+        }.bind(this)
       });
 
       var rotationModifier = new Modifier({
         transform: function() {
           var currentPosition = this.cardViewPos.get();
           return Transform.rotateZ(-0.002 * currentPosition[0]);
-        }
+        }.bind(this)
       });
 
       this.add(positionModifier).add(rotationModifier);
