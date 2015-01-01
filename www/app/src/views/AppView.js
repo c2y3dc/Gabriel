@@ -5,16 +5,19 @@ define(function(require, exports, module) {
     var StateModifier = require('famous/modifiers/StateModifier');
     var Modifier = require('famous/core/Modifier');
 
-    var MouseSync = require('famous/inputs/MouseSync');
-    var TouchSync = require('famous/inputs/TouchSync');
-    var GenericSync = require('famous/inputs/GenericSync');
-
     var Easing = require('famous/transitions/Easing');
     var Transitionable = require('famous/transitions/Transitionable');
     var SpringTransition = require('famous/transitions/SpringTransition');
     var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
+
+    var CardView = require('views/CardView');
+
     var FastClick = require('famous/inputs/FastClick');
+
+    var MouseSync = require('famous/inputs/MouseSync');
+    var TouchSync = require('famous/inputs/TouchSync');
+    var GenericSync = require('famous/inputs/GenericSync');
     
     Transitionable.registerMethod('spring', SpringTransition);
     Transitionable.registerMethod('wall', WallTransition);
@@ -31,13 +34,6 @@ define(function(require, exports, module) {
     var MatchView = require('views/MatchView');
     var PageView = require('views/PageView');
     var MenuView = require('views/MenuView');
-    var CardView = require('views/CardView');
-
-    GenericSync.register({
-        'mouse': MouseSync,
-        'touch': TouchSync
-    });
-
 
     function AppView() {
         View.apply(this, arguments);
@@ -51,8 +47,6 @@ define(function(require, exports, module) {
         _createMatchView.call(this);
         _createMenuView.call(this);
         _setListeners.call(this);
-
-        // _handleDrag.call(this);
     }
 
     AppView.prototype = Object.create(View.prototype);
@@ -150,47 +144,5 @@ define(function(require, exports, module) {
         this.matchView.on('matchViewToggle', this.toggleMatchView.bind(this));
     }
 
-    // function _handleDrag() {
-    //   var sync = new GenericSync({
-    //     'mouse': {},
-    //     'touch': {}
-    //   });
-    //
-    //   this.cardView.pipe(sync);
-    //
-    //   sync.on('update', function(data) {
-    //     var currentPosititon = this.cardViewPos.get();
-    //     this.cardViewPos.set([
-    //       currentPosition[0] + data.delta[0],
-    //       currentPosition[1] + data.delta[1],
-    //     ]);
-    //   }.bind(this));
-    //
-    //   sync.on('end', function(data) {
-    //     var velocity = data.velocity;
-    //     this.cardViewPos.set([0, 0], {
-    //       method: 'spring',
-    //       period: 150,
-    //       velocity: velocity
-    //     });
-    //   }.bind(this));
-    //
-    //   console.log('posititon', this.cardViewPos);
-    //   var positionModifier = new Modifier({
-    //     transform: function() {
-    //       var currentPosition = this.cardViewPos.get();
-    //       return Transform.translate(currentPosition[0], currentPosition[1], 0);
-    //     }.bind(this)
-    //   });
-    //
-    //   var rotationModifier = new Modifier({
-    //     transform: function() {
-    //       var currentPosition = this.cardViewPos.get();
-    //       return Transform.rotateZ(-0.002 * currentPosition[0]);
-    //     }.bind(this)
-    //   });
-    //
-    //   this.add(positionModifier).add(rotationModifier);
-    // }
     module.exports = AppView;
 });
