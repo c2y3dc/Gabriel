@@ -82,7 +82,7 @@ define(function(require, exports, module) {
 
         this.matchSurface = new ImageSurface({
             size: [44, 44],
-            content: 'img/hamburger.png'
+            content: 'img/match.png'
         });
 
         /*HEADER MODIFIERS */

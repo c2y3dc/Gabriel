@@ -14,7 +14,8 @@ define(function(require, exports, module) {
     var SpringTransition = require('famous/transitions/SpringTransition');
     var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
-
+    var FastClick = require('famous/inputs/FastClick');
+    
     Transitionable.registerMethod('spring', SpringTransition);
     Transitionable.registerMethod('wall', WallTransition);
     Transitionable.registerMethod('snap', SnapTransition);

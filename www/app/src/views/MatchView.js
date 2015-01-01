@@ -7,7 +7,7 @@ define(function(require, exports, module) {
     var HeaderFooter = require('famous/views/HeaderFooterLayout');
     var ImageSurface = require('famous/surfaces/ImageSurface');
     var FastClick = require('famous/inputs/FastClick');
-    
+
 
     function MatchView() {
         View.apply(this, arguments);
@@ -67,7 +67,7 @@ define(function(require, exports, module) {
         /*HEADER SURFACES*/
         this.backButtonSurface = new ImageSurface({
             size: [44, 44],
-            content: 'img/star.png'
+            content: 'img/back.png'
         });
 
         this.titleSurface = new Surface({
