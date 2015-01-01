@@ -21,10 +21,12 @@ define(function(require, exports, module) {
     function _createBackground() {
       this.backgroundSurface = new Surface({
         size: [this.options.width, this.options.height],
+        content: this.options.height,
         properties: {
           backgroundColor: 'white',
           boxShadow: '0 0 1px rgba(0, 0, 0, 1)',
-          borderRadius: '5px'
+          borderRadius: '6px'
+
         }
       });
 
