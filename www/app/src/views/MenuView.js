@@ -1,10 +1,9 @@
 define(function(require, exports, module) {
     var View = require('famous/core/View');
-    var Surface = require('famous/core/Surface');
     var Transform = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
     var Timer = require('famous/utilities/Timer');
-    var Easing = require('famous/transitions/Easing');
+
     var StripView = require('views/StripView');
 
     function MenuView() {
@@ -81,17 +80,25 @@ define(function(require, exports, module) {
     };
 
     function _setListeners() {
+        // Home StripView
         this.stripSurfaces[0].backgroundSurface.on('click', function() {
-            this._eventOutput.emit('menuToggle');
+            console.log('Home is clicked');
+            this._eventOutput.emit('menuOnly');
         }.bind(this));
+        // Settings StripView
          this.stripSurfaces[1].backgroundSurface.on('click', function() {
-            this._eventOutput.emit('menuToggle');
+           console.log('Settings is clicked');
+            this._eventOutput.emit('settingsOnly');
         }.bind(this));
+        // Starred StripView
           this.stripSurfaces[2].backgroundSurface.on('click', function() {
-            this._eventOutput.emit('menuToggle');
+            console.log('Starred is clicked');
+            this._eventOutput.emit('starredOnly');
         }.bind(this));
+        // Feedback StripView
            this.stripSurfaces[3].backgroundSurface.on('click', function() {
-            this._eventOutput.emit('menuToggle');
+             console.log('Feedback is clicked');
+            this._eventOutput.emit('feedbackOnly');
         }.bind(this));
     }
 
