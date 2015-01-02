@@ -197,7 +197,6 @@ define(function(require, exports, module) {
 
         for (var i = 0; i <= 2; i++) {
 
-<<<<<<< HEAD
         this.noButtonSurface.on('click', function() {
             this._eventOutput.emit('menuViewToggle');
         }.bind(this));
@@ -205,11 +204,10 @@ define(function(require, exports, module) {
         this.yesButtonSurface.on('click', function() {
             this._eventOutput.emit('settingsViewToggle');
         }.bind(this));
-=======
+
             this.cardView = new CardView();
 
             this.cardViews.push(this.cardView);
->>>>>>> f1f6b30a1b6de5f46f67900ad0f8b6ddef2a0e26
 
             this.cardModifier = new Modifier({
                 origin: [0.5, 0.5],
@@ -222,7 +220,7 @@ define(function(require, exports, module) {
 
             this.scaleModifier = new StateModifier({
                 transform: Transform.scale(1 - xOffScale, 1 - yOffScale, 1)
-            })
+            });
 
             this.cardModifiers.push(this.yOffsetModifier);
 
