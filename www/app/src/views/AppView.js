@@ -178,7 +178,7 @@ define(function(require, exports, module) {
         console.log('show full starredPage');
         this.showFullStarredPage();
         this.removeGabrielPage();
-        this.removeSettingslPage();
+        this.removeSettingsPage();
       }
       this.starredMenu = !this.starredMenu;
     };
