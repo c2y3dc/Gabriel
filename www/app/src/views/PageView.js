@@ -201,11 +201,11 @@ define(function(require, exports, module) {
         }.bind(this));
 
         this.noButtonSurface.on('click', function() {
-            this._eventOutput.emit('menuToggle');
+            this._eventOutput.emit('menuViewToggle');
         }.bind(this));
 
         this.yesButtonSurface.on('click', function() {
-            this._eventOutput.emit('menuToggle');
+            this._eventOutput.emit('settingsViewToggle');
         }.bind(this));
 
         this.noButtonSurface.on('touchstart', function() {
@@ -236,7 +236,6 @@ define(function(require, exports, module) {
     }
 
     function _handleDrag() {
-
         var sync = new GenericSync({
             "mouse": {},
             "touch": {},
