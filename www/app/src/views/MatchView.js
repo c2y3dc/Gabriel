@@ -12,15 +12,13 @@ define(function(require, exports, module) {
 
     function MatchView() {
         View.apply(this, arguments);
+
         _createBacking.call(this);
         _createLayout.call(this);
         _createHeader.call(this);
         _createBody.call(this);
 
-        _createMatchList.call(this);
-
         _setListeners.call(this);
-
     }
 
     MatchView.prototype = Object.create(View.prototype);
@@ -125,16 +123,5 @@ define(function(require, exports, module) {
         }.bind(this));
     }
 
-    function _createMatchList() {
-      var matchListView = new ScrollableView();
-
-      var matchListModifier = new StateModifier({
-        transform: Transform.inFront,
-        origin: [0.5, 0.5],
-        align: [0.5, 0.5]
-      });
-
-      this.add(matchListModifier).add(matchListView);
-    }
     module.exports = MatchView;
 });
