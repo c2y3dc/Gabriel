@@ -55,9 +55,9 @@ define(function(require, exports, module) {
     }
 
     function _createMenuHeader() {
-      var menuHeaderView = new MenuHeaderView();
+      this.menuHeaderView = new MenuHeaderView();
 
-      this.add(menuHeaderView);
+      this.add(this.menuHeaderView);
     }
 
     MenuView.prototype.resetStrips = function() {
@@ -88,6 +88,11 @@ define(function(require, exports, module) {
     };
 
     function _setListeners() {
+        // UserImageSurface
+        this.menuHeaderView.userImageSurface.on('click', function() {
+          console.log('user Image clicked');
+          this._eventOutput.emit('profileOnly');
+        }.bind(this));
         // Home StripView
         this.stripSurfaces[0].backgroundSurface.on('click', function() {
             console.log('Home is clicked');
@@ -112,3 +117,6 @@ define(function(require, exports, module) {
 
     module.exports = MenuView;
 });
+;
+;
+;

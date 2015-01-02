@@ -6,7 +6,7 @@ define(function(require, exports, module) {
   var HeaderFooter = require('famous/views/HeaderFooterLayout');
   var ImageSurface = require('famous/surfaces/ImageSurface');
 
-  function StarredView() {
+  function ProfileView() {
     View.apply(this, arguments);
 
     _createBacking.call(this);
@@ -17,10 +17,10 @@ define(function(require, exports, module) {
     _setListeners.call(this);
   }
 
-  StarredView.prototype = Object.create(View.prototype);
-  StarredView.prototype.constructor = StarredView;
+  ProfileView.prototype = Object.create(View.prototype);
+  ProfileView.prototype.constructor = ProfileView;
 
-  StarredView.DEFAULT_OPTIONS = {
+  ProfileView.DEFAULT_OPTIONS = {
     headerSize: 44,
     headerWidth: window.innerWidth
   };
@@ -68,7 +68,7 @@ define(function(require, exports, module) {
 
     this.titleSurface = new Surface({
       size: [true, 44],
-      content: 'Starred',
+      content: 'Profile',
       classes: ['header-title']
     });
 
@@ -110,5 +110,5 @@ define(function(require, exports, module) {
     }.bind(this));
   }
 
-  module.exports = StarredView;
+  module.exports = ProfileView;
 });
