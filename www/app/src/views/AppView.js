@@ -35,6 +35,7 @@ define(function(require, exports, module) {
     var PageView = require('views/PageView');
     var MenuView = require('views/MenuView');
     var SettingsView = require('views/SettingsView');
+    var StarredView = require('views/StarredView');
 
     function AppView() {
         View.apply(this, arguments);
@@ -42,7 +43,7 @@ define(function(require, exports, module) {
 
         this.gabrielMenu = true;
         this.settingsMenu = true;
-
+        this.starredMenu = true;
         this.matchViewToggle = false;
 
 
@@ -53,6 +54,7 @@ define(function(require, exports, module) {
         _createMatchView.call(this);
         _createMenuView.call(this);
         _createSettingsView.call(this);
+        _createStarredView.call(this);
 
         _setListeners.call(this);
     }
@@ -64,7 +66,7 @@ define(function(require, exports, module) {
         slideLeftX: window.innerWidth - window.innerWidth / 8,
         transition: {
             duration: 300,
-            curve: 'easeOut'
+            curve: Easing.outBack
         }
     };
 
@@ -100,6 +102,7 @@ define(function(require, exports, module) {
       this.gabrielMenu = true;
       this.showFullGabrielPage();
       this.removeSettingsPage();
+      this.removeStarredPage();
     };
 
     // SettingsView Toggle
@@ -140,6 +143,48 @@ define(function(require, exports, module) {
       this.settingsMenu = true;
       this.showFullSettingsPage();
       this.removeGabrielPage();
+      this.removeStarredPage();
+    };
+
+    // StarredView Toggle
+    AppView.prototype.moveStarredPageAside = function() {
+      this.starredModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
+    };
+
+    AppView.prototype.showFullStarredPage = function() {
+      this.starredModifier.setTransform(Transform.translate(0, 0, 0), {
+        curve: 'easeOut',
+        duration: 200
+      });
+    };
+
+    AppView.prototype.removeStarredPage = function() {
+      this.starredModifier.setTransform(Transform.translate(window.innerWidth, 0, 0), {
+        curve: 'easeOut',
+        duration: 200
+      });
+    };
+
+    AppView.prototype.toggleStarredMenu = function() {
+      console.log('settingsMenu', this.starredMenu);
+      if (this.starredMenu) {
+        console.log('moves starredPage aside');
+        this.moveStarredPageAside();
+        this.menuView.animateStrips();
+      } else {
+        console.log('show full starredPage');
+        this.showFullStarredPage();
+        this.removeGabrielPage();
+      }
+      this.starredMenu = !this.starredMenu;
+    };
+
+    AppView.prototype.showStarredPage = function() {
+      console.log('show full starredPage');
+      this.starredMenu = true;
+      this.showFullStarredPage();
+      this.removeGabrielPage();
+      this.removeSettingsPage();
     };
 
     // MatchView Toggle
@@ -216,22 +261,28 @@ define(function(require, exports, module) {
       this.add(this.settingsModifier).add(settingsModifier2).add(this.settingsView);
     }
 
+    function _createStarredView() {
+      this.starredView = new StarredView();
+
+      this.starredModifier = new StateModifier({
+        transform: Transform.translate(window.innerWidth, 0, 0)
+      });
+
+      this.add(this.starredModifier).add(this.starredView);
+    }
+
     function _setListeners() {
         this.pageView.on('menuToggle', this.toggleGabrielMenu.bind(this));
-        this.menuView.on('menuOnly', this.showGabrielPage.bind(this));
-
+        this.settingsView.on('menuToggle', this.toggleSettingsMenu.bind(this));
+        this.starredView.on('menuToggle', this.toggleStarredMenu.bind(this));
 
         this.pageView.on('matchViewToggle', this.toggleMatchView.bind(this));
         this.matchView.on('matchViewToggle', this.toggleMatchView.bind(this));
 
+        this.menuView.on('menuOnly', this.showGabrielPage.bind(this));
         this.menuView.on('settingsOnly', this.showSettingsPage.bind(this));
-
-        this.settingsView.on('menuToggle', this.toggleSettingsMenu.bind(this));
-
-        this.menuView.on('starredOnly', this.showSettingsPage.bind(this));
-
+        this.menuView.on('starredOnly', this.showStarredPage.bind(this));
         this.menuView.on('feedbackOnly', this.showSettingsPage.bind(this));
-
     }
     module.exports = AppView;
 });
