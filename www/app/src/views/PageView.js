@@ -17,6 +17,7 @@ define(function(require, exports, module) {
     var SnapTransition = require('famous/transitions/SnapTransition');
     Transitionable.registerMethod('spring', SnapTransition);
 
+    var DeckView = require('views/DeckView');
     var CardView = require('views/CardView');
 
     GenericSync.register({
@@ -36,7 +37,7 @@ define(function(require, exports, module) {
         _createHeader.call(this);
         _createFooter.call(this);
         _createBody.call(this);
-        _handleDrags.call(this);
+        // _handleDrags.call(this);
         _setListeners.call(this);
 
     }
@@ -45,6 +46,7 @@ define(function(require, exports, module) {
     PageView.prototype.constructor = PageView;
 
     PageView.DEFAULT_OPTIONS = {
+        data: undefined,
         headerSize: 44,
         headerWidth: window.innerWidth,
         footerSize: 74,
@@ -208,49 +210,61 @@ define(function(require, exports, module) {
 
         this.node.add(this.bodyModifier).add(this.bodySurface);
 
-        _createCardDeck.call(this);
+        _createDeckView.call(this);
+
+        //_createCardDeck.call(this);
     }
 
-    function _createCardDeck() {
-        this.cardViews = [];
-        this.cardModifiers = [];
-        var yOffScale = 0;
-        var xOffScale = 0;
-
-        for (var i = 0; i < 3; i++) {
-
-            this.noButtonSurface.on('click', function() {
-                this._eventOutput.emit('menuViewToggle');
-            }.bind(this));
-
-            this.yesButtonSurface.on('click', function() {
-                this._eventOutput.emit('settingsViewToggle');
-            }.bind(this));
-
-            this.cardView = new CardView();
-
-            this.cardViews.push(this.cardView);
-
-            this.cardModifier = new Modifier({
-                origin: [0.5, 0.5],
-                align: [0.5, 0.5]
-            });
-
-            this.scaleModifier = new StateModifier({
-                transform: Transform.scale(1 - xOffScale, 1 - yOffScale, 1)
-            });
-
-            this.cardModifiers.push(this.cardModifier);
-
-            this.node.add(this.scaleModifier)
-                .add(this.cardModifier)
-                .add(this.cardView);
-
-            xOffScale += 0.009;
-            yOffScale += 0.009;
-            this.cardView.backgroundSurface.content = i;
-        }
+    function _createDeckView() {
+        this.deckView = new DeckView({
+            data: this.options.data
+        });
+        this.deckModifier = new StateModifier({
+            transform: Transform.behind
+        });
+        this.node.add(this.deckModifier).add(this.deckView);
     }
+
+    // function _createCardDeck() {
+    //     this.cardViews = [];
+    //     this.cardModifiers = [];
+    //     var yOffScale = 0;
+    //     var xOffScale = 0;
+
+    //     for (var i = 0; i < 3; i++) {
+
+    //         this.noButtonSurface.on('click', function() {
+    //             this._eventOutput.emit('menuViewToggle');
+    //         }.bind(this));
+
+    //         this.yesButtonSurface.on('click', function() {
+    //             this._eventOutput.emit('settingsViewToggle');
+    //         }.bind(this));
+
+    //         this.cardView = new CardView();
+
+    //         this.cardViews.push(this.cardView);
+
+    //         this.cardModifier = new Modifier({
+    //             origin: [0.5, 0.5],
+    //             align: [0.5, 0.5]
+    //         });
+
+    //         this.scaleModifier = new StateModifier({
+    //             transform: Transform.scale(1 - xOffScale, 1 - yOffScale, 1)
+    //         });
+
+    //         this.cardModifiers.push(this.cardModifier);
+
+    //         this.node.add(this.scaleModifier)
+    //             .add(this.cardModifier)
+    //             .add(this.cardView);
+
+    //         xOffScale += 0.009;
+    //         yOffScale += 0.009;
+    //         this.cardView.backgroundSurface.content = i;
+    //     }
+    // }
 
     function _handleDrags() {
         _handleDrag.call(this);
@@ -445,7 +459,7 @@ define(function(require, exports, module) {
             this.noButtonModifier.setOpacity(1, {
                 duration: 100
             });
-            this._eventOutput.emit('swipeLeft2');
+            this.deckView._eventOutput.emit('swipeLeft');
             //this._eventOutput.emit('buttonToggle');
         }.bind(this));
 
@@ -459,7 +473,7 @@ define(function(require, exports, module) {
             this.yesButtonModifier.setOpacity(1, {
                 duration: 100
             });
-            this._eventOutput.emit('swipeRight2');
+            this.deckView._eventOutput.emit('swipeRight');
             //this._eventOutput.emit('buttonToggle');
         }.bind(this));
     }
