@@ -21,8 +21,7 @@ define(function(require, exports, module) {
 
     GenericSync.register({
         'mouse': MouseSync,
-        'touch': TouchSync,
-        "scroll": ScrollSync
+        'touch': TouchSync
     });
 
     var position1 = new Transitionable([0, 0]);
@@ -423,17 +422,18 @@ define(function(require, exports, module) {
             this._eventOutput.emit('menuToggle');
         }.bind(this));
 
+
         this.matchSurface.on('click', function() {
             this._eventOutput.emit('matchViewToggle');
         }.bind(this));
 
-        this.noButtonSurface.on('click', function() {
-            this._eventOutput.emit('menuToggle');
-        }.bind(this));
+        // this.noButtonSurface.on('click', function() {
+        //     this._eventOutput.emit('menuToggle');
+        // }.bind(this));
 
-        this.yesButtonSurface.on('click', function() {
-            this._eventOutput.emit('menuToggle');
-        }.bind(this));
+        // this.yesButtonSurface.on('click', function() {
+        //     this._eventOutput.emit('menuToggle');
+        // }.bind(this));
 
         this.noButtonSurface.on('touchstart', function() {
             this.noButtonModifier.setOpacity(0.5, {
@@ -445,6 +445,7 @@ define(function(require, exports, module) {
             this.noButtonModifier.setOpacity(1, {
                 duration: 100
             });
+            this._eventOutput.emit('swipeLeft2');
             //this._eventOutput.emit('buttonToggle');
         }.bind(this));
 
@@ -458,6 +459,7 @@ define(function(require, exports, module) {
             this.yesButtonModifier.setOpacity(1, {
                 duration: 100
             });
+            this._eventOutput.emit('swipeRight2');
             //this._eventOutput.emit('buttonToggle');
         }.bind(this));
     }
