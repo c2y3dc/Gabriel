@@ -91,7 +91,9 @@ define(function(require, exports, module) {
     function _createLayout() {
         this.layout = new HeaderFooter({
             headerSize: this.options.headerSize,
+            contentSize: undefined,
             footerSize: this.options.footerSize
+
         });
 
         var layoutModifier = new StateModifier({
