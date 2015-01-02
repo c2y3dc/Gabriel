@@ -143,7 +143,7 @@ define(function(require, exports, module) {
             align: [0.5, 0.3]
         });
 
-        var sendModifier = new StateModifier({
+        var matchModifier = new StateModifier({
             transform: Transform.inFront,
             origin: [1, 0.5],
             align: [1, 0.5]
@@ -151,7 +151,7 @@ define(function(require, exports, module) {
 
         this.layout.header.add(hamburgerModifier).add(this.hamburgerSurface);
         this.layout.header.add(titleModifier).add(this.titleSurface);
-        this.layout.header.add(sendModifier).add(this.sendSurface);
+        this.layout.header.add(matchModifier).add(this.matchSurface);
     }
 
     function _createFooter() {
