@@ -35,6 +35,8 @@ define(function(require, exports, module) {
     var PageView = require('views/PageView');
     var MenuView = require('views/MenuView');
     var SettingsView = require('views/SettingsView');
+    var StarredView = require('views/StarredView');
+    var FeedbackView = require('views/FeedbackView');
 
     function AppView() {
         View.apply(this, arguments);
@@ -42,17 +44,19 @@ define(function(require, exports, module) {
 
         this.gabrielMenu = true;
         this.settingsMenu = true;
+        this.starredMenu = true;
+        this.feedbackToggle = true;
 
         this.matchViewToggle = false;
 
-
-        // this.settingsViewSlideToggle = false;
         this.pageViewPos = 0;
 
         _createPageView.call(this);
         _createMatchView.call(this);
         _createMenuView.call(this);
         _createSettingsView.call(this);
+        _createStarredView.call(this);
+        _createFeedbackView.call(this);
 
         _setListeners.call(this);
     }
@@ -64,7 +68,7 @@ define(function(require, exports, module) {
         slideLeftX: window.innerWidth - window.innerWidth / 8,
         transition: {
             duration: 300,
-            curve: 'easeOut'
+            curve: Easing.outBack
         }
     };
 
@@ -82,7 +86,6 @@ define(function(require, exports, module) {
     };
 
     AppView.prototype.toggleGabrielMenu = function() {
-      console.log(this.gabrielMenu);
       if (this.gabrielMenu) {
         console.log('move garielPage aside');
         this.moveGabrielPageAside();
@@ -91,6 +94,8 @@ define(function(require, exports, module) {
         console.log('show full Gariel Page');
         this.showFullGabrielPage();
         this.removeSettingsPage();
+        this.removeStarredPage();
+        // this.removeFeedbackPage();
       }
       this.gabrielMenu = !this.gabrielMenu;
     };
@@ -100,6 +105,7 @@ define(function(require, exports, module) {
       this.gabrielMenu = true;
       this.showFullGabrielPage();
       this.removeSettingsPage();
+      this.removeStarredPage();
     };
 
     // SettingsView Toggle
@@ -122,7 +128,6 @@ define(function(require, exports, module) {
     };
 
     AppView.prototype.toggleSettingsMenu = function() {
-      console.log('settingsMenu', this.settingsMenu);
       if (this.settingsMenu) {
         console.log('moves settingsPage aside');
         this.moveSettingsPageAside();
@@ -131,6 +136,7 @@ define(function(require, exports, module) {
         console.log('show full settingsPage');
         this.showFullSettingsPage();
         this.removeGabrielPage();
+        this.removeStarredPage();
       }
       this.settingsMenu = !this.settingsMenu;
     };
@@ -140,6 +146,86 @@ define(function(require, exports, module) {
       this.settingsMenu = true;
       this.showFullSettingsPage();
       this.removeGabrielPage();
+      this.removeStarredPage();
+      // this.removeFeedbackPage();
+    };
+
+    // StarredView Toggle
+    AppView.prototype.moveStarredPageAside = function() {
+      this.starredModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
+    };
+
+    AppView.prototype.showFullStarredPage = function() {
+      this.starredModifier.setTransform(Transform.translate(0, 0, 0), {
+        curve: 'easeOut',
+        duration: 200
+      });
+    };
+
+    AppView.prototype.removeStarredPage = function() {
+      this.starredModifier.setTransform(Transform.translate(window.innerWidth, 0, 0), {
+        curve: 'easeOut',
+        duration: 200
+      });
+    };
+
+    AppView.prototype.toggleStarredMenu = function() {
+      if (this.starredMenu) {
+        console.log('moves starredPage aside');
+        this.moveStarredPageAside();
+        this.menuView.animateStrips();
+      } else {
+        console.log('show full starredPage');
+        this.showFullStarredPage();
+        this.removeGabrielPage();
+        this.removeSettingsPage();
+      }
+      this.starredMenu = !this.starredMenu;
+    };
+
+    AppView.prototype.showStarredPage = function() {
+      console.log('show full starredPage');
+      this.starredMenu = true;
+      this.showFullStarredPage();
+      this.removeGabrielPage();
+      this.removeSettingsPage();
+    };
+
+    // FeedbackView Toggle
+    AppView.prototype.moveFeedbackPageAside = function() {
+      this.feedbackModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
+    };
+
+    AppView.prototype.showFullFeedbackPage = function() {
+      this.feedbackModifier.setTransform(Transform.translate(0, 0, 0), {
+        curve: 'easeOut',
+        duration: 200
+      });
+    };
+
+    AppView.prototype.removeFeedbackPage = function() {
+      this.feedbackModifier.setTransform(Transform.translate(0, window.innerHeight, 0), {
+        curve: 'easeOut',
+        duration: 200
+      });
+    };
+
+    AppView.prototype.toggleFeedback = function() {
+      if (this.feedbackToggle) {
+        console.log('removes feedbackPage aside');
+        this.removeFeedbackPage();
+        this.menuView.animateStrips();
+      } else {
+        console.log('show full feedbackPage');
+        this.showFullFeedbackPage();
+      }
+      this.feedbackToggle = !this.feedbackToggle;
+    };
+
+    AppView.prototype.showFeedbackPage = function() {
+      console.log('show full feedbackPage');
+      this.feedbackToggle = true;
+      this.showFullFeedbackPage();
     };
 
     // MatchView Toggle
@@ -209,29 +295,50 @@ define(function(require, exports, module) {
         transform: Transform.translate(window.innerWidth, 0, 0)
       });
 
-      var settingsModifier2 = new StateModifier({
-        // transform: Transform.inFront
+      // var settingsModifier2 = new StateModifier({
+      //   // transform: Transform.inFront
+      // });
+
+      this.add(this.settingsModifier).add(this.settingsView);
+    }
+
+    function _createStarredView() {
+      this.starredView = new StarredView();
+
+      this.starredModifier = new StateModifier({
+        transform: Transform.translate(window.innerWidth, 0, 0)
       });
 
-      this.add(this.settingsModifier).add(settingsModifier2).add(this.settingsView);
+      this.add(this.starredModifier).add(this.starredView);
+    }
+
+    function _createFeedbackView() {
+      this.feedbackView = new FeedbackView();
+
+      this.feedbackModifier = new StateModifier({
+        transform: Transform.translate(0, window.innerHeight, 0)
+      });
+
+      var feedbackModifier2 = new StateModifier({
+        transform: Transform.inFront
+      });
+
+      this.add(this.feedbackModifier).add(feedbackModifier2).add(this.feedbackView);
     }
 
     function _setListeners() {
         this.pageView.on('menuToggle', this.toggleGabrielMenu.bind(this));
-        this.menuView.on('menuOnly', this.showGabrielPage.bind(this));
+        this.settingsView.on('menuToggle', this.toggleSettingsMenu.bind(this));
+        this.starredView.on('menuToggle', this.toggleStarredMenu.bind(this));
+        this.feedbackView.on('feedbackToggle', this.toggleFeedback.bind(this));
 
+        this.menuView.on('menuOnly', this.showGabrielPage.bind(this));
+        this.menuView.on('settingsOnly', this.showSettingsPage.bind(this));
+        this.menuView.on('starredOnly', this.showStarredPage.bind(this));
+        this.menuView.on('feedbackOnly', this.showFeedbackPage.bind(this));
 
         this.pageView.on('matchViewToggle', this.toggleMatchView.bind(this));
         this.matchView.on('matchViewToggle', this.toggleMatchView.bind(this));
-
-        this.menuView.on('settingsOnly', this.showSettingsPage.bind(this));
-
-        this.settingsView.on('menuToggle', this.toggleSettingsMenu.bind(this));
-
-        this.menuView.on('starredOnly', this.showSettingsPage.bind(this));
-
-        this.menuView.on('feedbackOnly', this.showSettingsPage.bind(this));
-
     }
     module.exports = AppView;
 });

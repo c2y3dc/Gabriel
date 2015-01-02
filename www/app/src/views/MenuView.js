@@ -5,10 +5,12 @@ define(function(require, exports, module) {
     var Timer = require('famous/utilities/Timer');
 
     var StripView = require('views/StripView');
+    var MenuHeaderView = require('views/MenuHeaderView');
 
     function MenuView() {
         View.apply(this, arguments);
 
+        _createMenuHeader.call(this);
         _createStripViews.call(this);
         _setListeners.call(this);
     }
@@ -21,7 +23,7 @@ define(function(require, exports, module) {
         angle: -0.2,
         stripWidth: 320,
         stripHeight: 54,
-        topOffset: 100,
+        topOffset: window.innerHeight * 0.3,
         stripOffset: 57,
         staggerDelay: 35,
         transition: {
@@ -52,6 +54,12 @@ define(function(require, exports, module) {
         }
     }
 
+    function _createMenuHeader() {
+      var menuHeaderView = new MenuHeaderView();
+
+      this.add(menuHeaderView);
+    }
+
     MenuView.prototype.resetStrips = function() {
         for (var i = 0; i < this.stripModifiers.length; i++) {
             var initX = -this.options.stripWidth;
@@ -73,7 +81,7 @@ define(function(require, exports, module) {
             Timer.setTimeout(function(i) {
                 var yOffset = topOffset + stripOffset * i;
 
-                this.stripModifiers[i].setTransform(
+                                  this.stripModifiers[i].setTransform(
                     Transform.translate(0, yOffset, 0), transition);
             }.bind(this, i), i * delay);
         }
