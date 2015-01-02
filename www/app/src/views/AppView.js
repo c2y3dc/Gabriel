@@ -38,7 +38,7 @@ define(function(require, exports, module) {
     var StarredView = require('views/StarredView');
     var FeedbackView = require('views/FeedbackView');
     var ProfileView = require('views/ProfileView');
-
+    
     function AppView() {
         View.apply(this, arguments);
 
@@ -47,11 +47,9 @@ define(function(require, exports, module) {
         this.settingsMenu = true;
         this.starredMenu = true;
         this.feedbackToggle = true;
-
         this.matchViewToggle = false;
-
         this.pageViewPos = 0;
-
+       
         _createPageView.call(this);
         _createMatchView.call(this);
         _createMenuView.call(this);
@@ -59,7 +57,6 @@ define(function(require, exports, module) {
         _createStarredView.call(this);
         _createProfileView.call(this);
         _createFeedbackView.call(this);
-
         _setListeners.call(this);
     }
 
@@ -301,11 +298,12 @@ define(function(require, exports, module) {
 
     // Create different views
     function _createPageView() {
-        this.pageView = new PageView();
+        this.pageView = new PageView({ data : this.options.data });
         this.pageModifier = new StateModifier();
 
         this.add(this.pageModifier).add(this.pageView);
     }
+
 
     function _createMenuView() {
         this.menuView = new MenuView({
