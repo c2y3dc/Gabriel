@@ -63,8 +63,5 @@ define(function(require, exports, module) {
         this.add(titleModifier).add(titleSurface);
     }
 
-
-
-
     module.exports = StripView;
 });

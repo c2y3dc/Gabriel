@@ -37,6 +37,7 @@ define(function(require, exports, module) {
     var SettingsView = require('views/SettingsView');
     var StarredView = require('views/StarredView');
     var FeedbackView = require('views/FeedbackView');
+    var ProfileView = require('views/ProfileView');
     
     function AppView() {
         View.apply(this, arguments);
@@ -54,6 +55,7 @@ define(function(require, exports, module) {
         _createMenuView.call(this);
         _createSettingsView.call(this);
         _createStarredView.call(this);
+        _createProfileView.call(this);
         _createFeedbackView.call(this);
         _setListeners.call(this);
     }
@@ -69,7 +71,45 @@ define(function(require, exports, module) {
         }
     };
 
-    // MenuView Toggle
+    // ProfilePage Toggle
+    AppView.prototype.moveProfilePageAside = function() {
+      this.profileModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
+    };
+
+    AppView.prototype.showFullProfilePage = function() {
+      this.profileModifier.setTransform(Transform.translate(0, 0, 0), this.options.transition);
+    };
+
+    AppView.prototype.removeProfilePage = function() {
+      this.profileModifier.setTransform(Transform.translate(window.innerHeight, 0, 0), this.options.transition);
+    };
+
+    AppView.prototype.toggleProfileMenu = function() {
+      if (this.profileMenu) {
+        console.log('move profilePage aside');
+        this.moveProfilePageAside();
+        this.menuView.animateStrips();
+      } else {
+        console.log('show full Profile Page');
+        this.showFullProfilePage();
+        this.removeGabrielPage();
+        this.removeSettingsPage();
+        this.removeStarredPage();
+        // this.removeFeedbackPage();
+      }
+      this.profileMenu = !this.profileMenu;
+    };
+
+    AppView.prototype.showProfilePage = function() {
+      console.log('show full ProfilePage');
+      this.profileMenu = true;
+      this.showFullProfilePage();
+      this.removeGabrielPage();
+      this.removeSettingsPage();
+      this.removeStarredPage();
+    };
+
+    // GabrielPage Toggle
     AppView.prototype.moveGabrielPageAside = function() {
         this.pageModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
     };
@@ -90,6 +130,7 @@ define(function(require, exports, module) {
       } else {
         console.log('show full Gariel Page');
         this.showFullGabrielPage();
+        this.removeProfilePage();
         this.removeSettingsPage();
         this.removeStarredPage();
         // this.removeFeedbackPage();
@@ -101,6 +142,7 @@ define(function(require, exports, module) {
       console.log('show full GarielPage');
       this.gabrielMenu = true;
       this.showFullGabrielPage();
+      this.removeProfilePage();
       this.removeSettingsPage();
       this.removeStarredPage();
     };
@@ -132,6 +174,7 @@ define(function(require, exports, module) {
       } else {
         console.log('show full settingsPage');
         this.showFullSettingsPage();
+        this.removeProfilePage();
         this.removeGabrielPage();
         this.removeStarredPage();
       }
@@ -142,6 +185,7 @@ define(function(require, exports, module) {
       console.log('show full settingsPage');
       this.settingsMenu = true;
       this.showFullSettingsPage();
+      this.removeProfilePage();
       this.removeGabrielPage();
       this.removeStarredPage();
       // this.removeFeedbackPage();
@@ -174,6 +218,7 @@ define(function(require, exports, module) {
       } else {
         console.log('show full starredPage');
         this.showFullStarredPage();
+        this.removeProfilePage();
         this.removeGabrielPage();
         this.removeSettingsPage();
       }
@@ -184,6 +229,7 @@ define(function(require, exports, module) {
       console.log('show full starredPage');
       this.starredMenu = true;
       this.showFullStarredPage();
+      this.removeProfilePage();
       this.removeGabrielPage();
       this.removeSettingsPage();
     };
@@ -228,16 +274,15 @@ define(function(require, exports, module) {
     // MatchView Toggle
     AppView.prototype.slideRightMatchView = function() {
         this.matchModifier.setTransform(Transform.translate(window.innerWidth, 0, 0), {
-            method: 'spring',
-            dampingRatio: 0.5,
-            period: 900
+          duration: 200,
+          curve: 'easeOut'
         });
     };
 
     AppView.prototype.slideLeftMatchView = function() {
         this.matchModifier.setTransform(Transform.translate(0, 0, 0), {
             method: 'wall',
-            dampingRatio: 1.0,
+            dampingRatio: 0.5,
             period: 500
         });
     };
@@ -293,10 +338,6 @@ define(function(require, exports, module) {
         transform: Transform.translate(window.innerWidth, 0, 0)
       });
 
-      // var settingsModifier2 = new StateModifier({
-      //   // transform: Transform.inFront
-      // });
-
       this.add(this.settingsModifier).add(this.settingsView);
     }
 
@@ -308,6 +349,20 @@ define(function(require, exports, module) {
       });
 
       this.add(this.starredModifier).add(this.starredView);
+    }
+
+    function _createProfileView() {
+      this.profileView = new ProfileView();
+
+      this.profileModifier = new StateModifier({
+        transform: Transform.translate(window.innerWidth, 0, 0)
+      });
+
+      var profileModifier2 = new StateModifier({
+        transform: Transform.inFront
+      });
+
+      this.add(this.profileModifier).add(profileModifier2).add(this.profileView);
     }
 
     function _createFeedbackView() {
@@ -324,16 +379,20 @@ define(function(require, exports, module) {
       this.add(this.feedbackModifier).add(feedbackModifier2).add(this.feedbackView);
     }
 
+
     function _setListeners() {
         this.pageView.on('menuToggle', this.toggleGabrielMenu.bind(this));
         this.settingsView.on('menuToggle', this.toggleSettingsMenu.bind(this));
         this.starredView.on('menuToggle', this.toggleStarredMenu.bind(this));
+        this.profileView.on('menuToggle', this.toggleProfileMenu.bind(this));
+
         this.feedbackView.on('feedbackToggle', this.toggleFeedback.bind(this));
 
         this.menuView.on('menuOnly', this.showGabrielPage.bind(this));
         this.menuView.on('settingsOnly', this.showSettingsPage.bind(this));
         this.menuView.on('starredOnly', this.showStarredPage.bind(this));
         this.menuView.on('feedbackOnly', this.showFeedbackPage.bind(this));
+        this.menuView.on('profileOnly', this.showProfilePage.bind(this));
 
         this.pageView.on('matchViewToggle', this.toggleMatchView.bind(this));
         this.matchView.on('matchViewToggle', this.toggleMatchView.bind(this));
