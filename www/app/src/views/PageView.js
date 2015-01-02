@@ -28,18 +28,16 @@ define(function(require, exports, module) {
     var position1 = new Transitionable([0, 0]);
     var position2 = new Transitionable([0, 0]);
     var position3 = new Transitionable([0, 0]);
-    var positions = [position1, position2, position3];
 
     function PageView() {
         View.apply(this, arguments);
+        //this.swipeToggle = false;
         _createBacking.call(this);
         _createLayout.call(this);
         _createHeader.call(this);
         _createFooter.call(this);
         _createBody.call(this);
-        _handleDrag.call(this);
-        _handleDrag1.call(this);
-        _handleDrag2.call(this);
+        _handleDrags.call(this);
         _setListeners.call(this);
 
     }
@@ -52,7 +50,32 @@ define(function(require, exports, module) {
         headerWidth: window.innerWidth,
         footerSize: 74,
         footerWithd: window.innerWidth,
-        cardOffset: 5
+        cardOffset: 5,
+        slideY: window.innerHeight * 2,
+        slideX: window.innerWidth * 2,
+        transition: {
+            duration: 500,
+            curve: 'easeOut'
+        }
+    };
+
+    PageView.prototype.toggleSwipe = function() {
+        if (this.swipeToggle) {
+            this.swipeLeft();
+        } else {
+            this.swipeRight();
+        }
+        this.swipeToggle = !this.swipeToggle;
+    };
+
+    PageView.prototype.swipeRight = function() {
+        var cardNumber = arguments[0];
+        this.cardModifiers[cardNumber].setTransform(Transform.translate(this.options.slideX, this.options.slideY, 0), this.options.transition);
+    };
+
+    PageView.prototype.swipeLeft = function() {
+        var cardNumber = arguments[0];
+        this.cardModifiers[cardNumber].setTransform(Transform.translate(-this.options.slideX, this.options.slideY, 0), this.options.transition);
     };
 
     function _createBacking() {
@@ -195,15 +218,15 @@ define(function(require, exports, module) {
         var yOffScale = 0;
         var xOffScale = 0;
 
-        for (var i = 0; i <= 2; i++) {
+        for (var i = 0; i < 3; i++) {
 
-        this.noButtonSurface.on('click', function() {
-            this._eventOutput.emit('menuViewToggle');
-        }.bind(this));
+            this.noButtonSurface.on('click', function() {
+                this._eventOutput.emit('menuViewToggle');
+            }.bind(this));
 
-        this.yesButtonSurface.on('click', function() {
-            this._eventOutput.emit('settingsViewToggle');
-        }.bind(this));
+            this.yesButtonSurface.on('click', function() {
+                this._eventOutput.emit('settingsViewToggle');
+            }.bind(this));
 
             this.cardView = new CardView();
 
@@ -214,18 +237,13 @@ define(function(require, exports, module) {
                 align: [0.5, 0.5]
             });
 
-            this.yOffsetModifier = new StateModifier({
-                transform: Transform.translate(0, 0, 0)
-            });
-
             this.scaleModifier = new StateModifier({
                 transform: Transform.scale(1 - xOffScale, 1 - yOffScale, 1)
             });
 
-            this.cardModifiers.push(this.yOffsetModifier);
+            this.cardModifiers.push(this.cardModifier);
 
             this.node.add(this.scaleModifier)
-                //.add(this.yOffsetModifier)
                 .add(this.cardModifier)
                 .add(this.cardView);
 
@@ -235,15 +253,17 @@ define(function(require, exports, module) {
         }
     }
 
+    function _handleDrags() {
+        _handleDrag.call(this);
+        _handleDrag1.call(this);
+        _handleDrag2.call(this);
+    }
+
     function _handleDrag() {
         var sync = new GenericSync({
             "mouse": {},
             "touch": {},
-            "scroll": {
-                scale: .5
-            }
         });
-
         // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
         this.cardViews[0].backgroundSurface.pipe(sync);
 
@@ -257,13 +277,20 @@ define(function(require, exports, module) {
         });
 
         sync.on('end', function(data) {
+            var currentPosition = position1.get();
             var velocity = data.velocity;
-            position1.set([0, 0], {
-                method: 'spring',
-                period: 150,
-                velocity: velocity
-            });
-        });
+            if (currentPosition[0] < -window.innerWidth / 6) {
+                this._eventOutput.emit('swipeLeft0');
+            } else if (currentPosition[0] > window.innerWidth / 6) {
+                this._eventOutput.emit('swipeRight0');
+            } else {
+                position1.set([0, 0], {
+                    method: 'spring',
+                    period: 150,
+                    velocity: velocity
+                });
+            }
+        }.bind(this));
 
         var positionModifier = new Modifier({
             transform: function() {
@@ -279,18 +306,14 @@ define(function(require, exports, module) {
             }
         });
         var moveableNodes = this.cardViews[0].add(positionModifier).add(rotationModifier).add(this.cardViews[0].backgroundSurface);
+
     }
 
     function _handleDrag1() {
-
         var sync = new GenericSync({
             "mouse": {},
             "touch": {},
-            "scroll": {
-                scale: .5
-            }
         });
-
         // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
         this.cardViews[1].backgroundSurface.pipe(sync);
 
@@ -304,13 +327,20 @@ define(function(require, exports, module) {
         });
 
         sync.on('end', function(data) {
+            var currentPosition = position2.get();
             var velocity = data.velocity;
-            position2.set([0, 0], {
-                method: 'spring',
-                period: 150,
-                velocity: velocity
-            });
-        });
+            if (currentPosition[0] < -window.innerWidth / 6) {
+                this._eventOutput.emit('swipeLeft1');
+            } else if (currentPosition[0] > window.innerWidth / 6) {
+                this._eventOutput.emit('swipeRight1');
+            } else {
+                position2.set([0, 0], {
+                    method: 'spring',
+                    period: 150,
+                    velocity: velocity
+                });
+            }
+        }.bind(this));
 
         var positionModifier = new Modifier({
             transform: function() {
@@ -334,9 +364,6 @@ define(function(require, exports, module) {
         var sync = new GenericSync({
             "mouse": {},
             "touch": {},
-            "scroll": {
-                scale: .5
-            }
         });
 
         // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
@@ -349,16 +376,23 @@ define(function(require, exports, module) {
                 currentPosition[0] + data.delta[0],
                 currentPosition[1] + data.delta[1]
             ]);
+            //console.log(currentPosition);
         });
-
         sync.on('end', function(data) {
+            var currentPosition = position3.get();
             var velocity = data.velocity;
-            position3.set([0, 0], {
-                method: 'spring',
-                period: 150,
-                velocity: velocity
-            });
-        });
+            if (currentPosition[0] < -window.innerWidth / 6) {
+                this._eventOutput.emit('swipeLeft2');
+            } else if (currentPosition[0] > window.innerWidth / 6) {
+                this._eventOutput.emit('swipeRight2');
+            } else {
+                position3.set([0, 0], {
+                    method: 'spring',
+                    period: 150,
+                    velocity: velocity
+                });
+            }
+        }.bind(this));
 
         var positionModifier = new Modifier({
             transform: function() {
@@ -377,6 +411,14 @@ define(function(require, exports, module) {
     }
 
     function _setListeners() {
+
+        this.on('swipeRight0', this.swipeRight.bind(this, 0));
+        this.on('swipeRight1', this.swipeRight.bind(this, 1));
+        this.on('swipeRight2', this.swipeRight.bind(this, 2));
+        this.on('swipeLeft0', this.swipeLeft.bind(this, 0));
+        this.on('swipeLeft1', this.swipeLeft.bind(this, 1));
+        this.on('swipeLeft2', this.swipeLeft.bind(this, 2));
+
         this.hamburgerSurface.on('click', function() {
             this._eventOutput.emit('menuToggle');
         }.bind(this));
