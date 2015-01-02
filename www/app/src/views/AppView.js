@@ -277,16 +277,15 @@ define(function(require, exports, module) {
     // MatchView Toggle
     AppView.prototype.slideRightMatchView = function() {
         this.matchModifier.setTransform(Transform.translate(window.innerWidth, 0, 0), {
-            method: 'spring',
-            dampingRatio: 0.5,
-            period: 900
+          duration: 200,
+          curve: 'easeOut'
         });
     };
 
     AppView.prototype.slideLeftMatchView = function() {
         this.matchModifier.setTransform(Transform.translate(0, 0, 0), {
             method: 'wall',
-            dampingRatio: 1.0,
+            dampingRatio: 0.5,
             period: 500
         });
     };
@@ -340,10 +339,6 @@ define(function(require, exports, module) {
       this.settingsModifier = new StateModifier({
         transform: Transform.translate(window.innerWidth, 0, 0)
       });
-
-      // var settingsModifier2 = new StateModifier({
-      //   // transform: Transform.inFront
-      // });
 
       this.add(this.settingsModifier).add(this.settingsView);
     }
