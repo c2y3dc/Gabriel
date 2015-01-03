@@ -38,10 +38,12 @@ define(function(require, exports, module) {
     var StarredView = require('views/StarredView');
     var FeedbackView = require('views/FeedbackView');
     var ProfileView = require('views/ProfileView');
+    var LandingView = require('views/LandingView');
     
     function AppView() {
         View.apply(this, arguments);
 
+        _createLandingView.call(this);
 
         this.gabrielMenu = true;
         this.settingsMenu = true;
@@ -57,6 +59,8 @@ define(function(require, exports, module) {
         _createStarredView.call(this);
         _createProfileView.call(this);
         _createFeedbackView.call(this);
+
+
         _setListeners.call(this);
     }
 
@@ -377,6 +381,15 @@ define(function(require, exports, module) {
       });
 
       this.add(this.feedbackModifier).add(feedbackModifier2).add(this.feedbackView);
+    }
+
+    function _createLandingView() {
+      this.landingView = new LandingView();
+      this.landingModifier = new StateModifier({
+        transform: Transform.translate(0,0,4)
+      })
+
+      this.add(this.landingModifier).add(this.landingView);
     }
 
 
