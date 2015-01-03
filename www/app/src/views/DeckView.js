@@ -32,7 +32,7 @@ define(function(require, exports, module) {
 
     DeckView.DEFAULT_OPTIONS = {
         size: [window.innerWidth * 0.9, window.innerHeight * 0.75],
-        data: undefined,
+        jobs: undefined,
         lightboxOpts: {
             // inOpacity: 1,
             // outOpacity: 0,
@@ -92,10 +92,10 @@ define(function(require, exports, module) {
         this.slides = [];
         this.currentIndex = 0;
 
-        for (var i = 0; i < this.options.data.length; i++) {
+        for (var i = 0; i < this.options.jobs.length; i++) {
             var slide = new SlideView({
                 size: this.options.size,
-                photoUrl: this.options.data[i]
+                job: this.options.jobs[i]
             });
 
             this.slides.push(slide);

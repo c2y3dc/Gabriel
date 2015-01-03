@@ -28,7 +28,7 @@ define(function(require, exports, module) {
         View.apply(this, arguments);
         _createBackground.call(this);
         var rootNode = _createCard.call(this);
-        _createHandle.call(this, rootNode);
+        //_createHandle.call(this, rootNode);
         //_setListeners.call(this);
 
     }
@@ -38,7 +38,7 @@ define(function(require, exports, module) {
 
     SlideView.DEFAULT_OPTIONS = {
         size: [window.innerWidth * 0.9, window.innerHeight * 0.75],
-        photoUrl: SlideData.defaultImage,
+        job: undefined,
         position: position
     };
 
@@ -79,13 +79,15 @@ define(function(require, exports, module) {
 
         sync.on('update', function(data) {
             var currentPosition = this.options.position.get();
-        
+
             this.options.position.set([
                 currentPosition[0] + data.delta[0],
                 currentPosition[1] + data.delta[1]
             ]);
             console.log(this.cardModifier);
-            this.cardModifier.setOpacity(Math.abs(window.innerWidth / currentPosition[0]) / 10, {duration : 500});
+            this.cardModifier.setOpacity(Math.abs(window.innerWidth / currentPosition[0]) / 10, {
+                duration: 500
+            });
         }.bind(this));
 
         sync.on('end', function(data) {
@@ -151,22 +153,61 @@ define(function(require, exports, module) {
         var cardSizeX = this.options.size[0] - 2 * 5;
         var cardSizeY = this.options.size[1] - 2 * 5;
         var card = new ImageSurface({
-            size: [cardSizeX, cardSizeY],
-            content: this.options.photoUrl,
+            size: [50, 50],
+            classes: ['circle-image'],
+            content: this.options.job.startup.logo_url,
             properties: {
                 zIndex: 2
-
             }
         });
 
         this.cardModifier = new StateModifier({
-            origin: [0.5, 0],
-            align: [0.5, 0],
-            transform: Transform.translate(0, 5, 2),
+            origin: [0, 0],
+            align: [0, 0],
+            transform: Transform.translate(20, 20, 2),
         });
 
-        return this.mainNode.add(this.cardModifier).add(card);
+        this.mainNode.add(this.cardModifier).add(card);
+
+        var title = new Surface({
+            size: [200, 75],
+            content: this.options.job.title,
+            properties: {
+                zIndex: 2,
+                color: 'black'
+            }
+        });
+
+        this.jobTitleModifier = new StateModifier({
+            origin: [0, 0],
+            align: [0, 0],
+            transform: Transform.translate(90, 25, 2),
+        });
+
+        this.mainNode.add(this.jobTitleModifier).add(title);
+
+         var description = new Surface({
+            size: [window.innerWidth - window.innerWidth / 5, window.innerHeight - window.innerHeight / 2],
+            content: this.options.job.description.trunc(1000),
+            properties: {
+                zIndex: 2,
+                color: 'black',
+                overflow: 'hidden',
+                fontSize: '9px'
+            }
+        });
+
+        this.descriptionModifier = new StateModifier({
+            origin: [0, 0],
+            align: [0, 0],
+            transform: Transform.translate(20, 90, 2),
+        });
+
+        this.mainNode.add(this.descriptionModifier).add(description);
+
+        return this.mainNode;
     }
+
 
     function _setListeners() {
         this.background.on('click', function() {

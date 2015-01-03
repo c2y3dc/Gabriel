@@ -30,6 +30,7 @@
     "almond": "~0.2.9",
     "famous-polyfills": "~0.3.0",
     "famous": "0.3.3",
-    "ionicons": "~2.0.0"
+    "ionicons": "~2.0.0",
+    "jquery": "~2.1.3"
   }
 }

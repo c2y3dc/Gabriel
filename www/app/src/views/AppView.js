@@ -41,8 +41,9 @@ define(function(require, exports, module) {
     
     function AppView() {
         View.apply(this, arguments);
-
-
+        ///var results = this.getOptions('jobs');
+        this.jobs = this.options.jobs
+        console.log(this.jobs[0]);
         this.gabrielMenu = true;
         this.settingsMenu = true;
         this.starredMenu = true;
@@ -64,6 +65,7 @@ define(function(require, exports, module) {
     AppView.prototype.constructor = AppView;
 
     AppView.DEFAULT_OPTIONS = {
+        jobs: undefined,
         slideLeftX: window.innerWidth - window.innerWidth / 8,
         transition: {
             duration: 300,
@@ -298,7 +300,7 @@ define(function(require, exports, module) {
 
     // Create different views
     function _createPageView() {
-        this.pageView = new PageView({ data : this.options.data });
+        this.pageView = new PageView({ jobs : this.jobs });
         this.pageModifier = new StateModifier();
 
         this.add(this.pageModifier).add(this.pageView);
