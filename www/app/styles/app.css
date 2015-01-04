@@ -61,3 +61,23 @@ html {
 .button-hover {
   background-color: red;
 }
+
+.landing-buttons {
+    background-color: #4e8ef7;
+    box-shadow: 3px;
+    border-radius: 2px;
+    text-align: center;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #ffffff;
+    padding: 4px;
+}
+
+.landing-name {
+    background-color: 'transparent';
+    text-align: center;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #ffffff;
+    font-size: 48px;
+    font-weight: 400;
+    text-shadow: 5px 5px #296ad4;
+}

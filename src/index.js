@@ -36,11 +36,14 @@ var centerSpinModifier = new Modifier({
 
 mainContext.add(centerSpinModifier).add(logo);
 
+
 OAuth.initialize('8zrAzDgK9i-ryXuI6xHqjHkNpug');
 OAuth.popup('angel_list').done(function (result) {
   result.get('/1/jobs').done(function (data) {
     console.log(data);
   }).fail(function (oops) {
-    console.log(oops);
+    console.log('oops');
   });
 });
+
+
