@@ -14,8 +14,8 @@ define(function(require, exports, module) {
         _createBacking.call(this);
         _createMenuHeader.call(this);
 
-        // _createStripViews.call(this);
-        // _setListeners.call(this);
+        _createStripViews.call(this);
+        _setListeners.call(this);
     }
 
     MenuView.prototype = Object.create(View.prototype);
@@ -27,7 +27,7 @@ define(function(require, exports, module) {
         angle: -0.2,
         stripWidth: window.innerWidth * 2,
         stripHeight: 54,
-        topOffset: window.innerHeight * 0.3,
+        topOffset: window.innerHeight * 0.44,
         stripOffset: 57,
         staggerDelay: 35,
         transition: {
@@ -73,32 +73,32 @@ define(function(require, exports, module) {
       this.add(this.menuHeaderView);
     }
 
-    MenuView.prototype.resetStrips = function() {
-        for (var i = 0; i < this.stripModifiers.length; i++) {
-            var initX = -this.options.stripWidth;
-            var initY = this.options.topOffset + this.options.stripOffset * i + this.options.stripWidth * Math.tan(-this.options.angle);
+    // MenuView.prototype.resetStrips = function() {
+    //     for (var i = 0; i < this.stripModifiers.length; i++) {
+    //         var initX = -this.options.stripWidth;
+    //         var initY = this.options.topOffset + this.options.stripOffset * i + this.options.stripWidth * Math.tan(-this.options.angle);
+    //
+    //         this.stripModifiers[i].setTransform(Transform.translate(initX, initY, 0));
+    //     }
+    // };
 
-            this.stripModifiers[i].setTransform(Transform.translate(initX, initY, 0));
-        }
-    };
-
-    MenuView.prototype.animateStrips = function() {
-        this.resetStrips();
-
-        var transition = this.options.transition;
-        var delay = this.options.staggerDelay;
-        var stripOffset = this.options.stripOffset;
-        var topOffset = this.options.topOffset;
-
-        for (var i = 0; i < this.stripModifiers.length; i++) {
-            Timer.setTimeout(function(i) {
-                var yOffset = topOffset + stripOffset * i;
-
-                                  this.stripModifiers[i].setTransform(
-                    Transform.translate(0, yOffset, 0), transition);
-            }.bind(this, i), i * delay);
-        }
-    };
+    // MenuView.prototype.animateStrips = function() {
+    //     this.resetStrips();
+    //
+    //     var transition = this.options.transition;
+    //     var delay = this.options.staggerDelay;
+    //     var stripOffset = this.options.stripOffset;
+    //     var topOffset = this.options.topOffset;
+    //
+    //     for (var i = 0; i < this.stripModifiers.length; i++) {
+    //         Timer.setTimeout(function(i) {
+    //             var yOffset = topOffset + stripOffset * i;
+    //
+    //                               this.stripModifiers[i].setTransform(
+    //                 Transform.translate(0, yOffset, 0), transition);
+    //         }.bind(this, i), i * delay);
+    //     }
+    // };
 
     function _setListeners() {
         // UserImageSurface
