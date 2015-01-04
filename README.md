@@ -1,26 +1,52 @@
-#Browserify-Seed
-> A seed project to get started with Browserify and Famo.us
+# Gabriel
 
-[![Build Status](https://travis-ci.org/Famous/browserify-seed.svg?branch=master)](https://travis-ci.org/Famous/browserify-seed)  [![Dependency Status](https://david-dm.org/famous/browserify-seed.svg)](https://david-dm.org/famous/browserify-seed) [![devDependency Status](https://david-dm.org/famous/browserify-seed/dev-status.svg)](https://david-dm.org/famous/browserify-seed#info=devDependencies)
+> Gabriel matches job-seekers with startup jobs on AngelList. Gabriel greatly simplifies the job searching process by allowing you to apply to jobs on AngelList with a simple Tinder-like user interface. 
 
----
+## Team
 
-###Installation
+  - __Product Owner__: Sarah Wesley
+  - __Scrum Master__: Ervin Chow
+  - __Development Team Members__: Alex Hawkins, Kingsten Banh
 
-```bash
-npm install -g browserify watchify # first install browserify and watchify
-git clone https://github.com/Famous/browserify-seed
-\# rm -rf .git && git init && git commit -m "Make it so" # optionally reset git history
-npm i # install dependencies
-```
+## Table of Contents
 
----
+1. [Usage](#Usage)
+1. [Requirements](#requirements)
+1. [Development](#development)
+    1. [Installing Dependencies](#installing-dependencies)
+    1. [Tasks](#tasks)
+1. [Team](#team)
+1. [Contributing](#contributing)
 
-###Development
-Run the dev server with ```npm run start-dev```
+## Usage
 
-Now the dev server should run on localhost:1337
+> Gabriel is in currently in alpha. Which means that it is still in development but it is usable and contains basic features. Use at your own risk!
 
-Run the linters with ```npm run-script lint```
+## Requirements
 
-Run All Tests with ```npm test```
+- RequireJS 2.1.15
+- Almond 0.2.9
+- Famous-polyfills 0.3.0
+- Famous 0.3.4
+- Ionicons 2.0.0
+- Grunt 0.4.4
+
+
+## Development
+
+### Installing Dependencies
+
+From within the www directory:
+
+npm install && bower install
+grunt serve
+
+
+### Roadmap
+
+View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
