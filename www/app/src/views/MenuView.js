@@ -3,6 +3,7 @@ define(function(require, exports, module) {
     var Transform = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
     var Timer = require('famous/utilities/Timer');
+  var Surface = require('famous/core/Surface');
 
     var StripView = require('views/StripView');
     var MenuHeaderView = require('views/MenuHeaderView');
@@ -10,15 +11,18 @@ define(function(require, exports, module) {
     function MenuView() {
         View.apply(this, arguments);
 
+        _createBacking.call(this);
         _createMenuHeader.call(this);
-        _createStripViews.call(this);
-        _setListeners.call(this);
+
+        // _createStripViews.call(this);
+        // _setListeners.call(this);
     }
 
     MenuView.prototype = Object.create(View.prototype);
     MenuView.prototype.constructor = MenuView;
 
     MenuView.DEFAULT_OPTIONS = {
+        headerSize: window.innerHeight * 0.44,
         stripData: {},
         angle: -0.2,
         stripWidth: window.innerWidth * 2,
@@ -31,6 +35,15 @@ define(function(require, exports, module) {
             curve: 'easeOut'
         }
     };
+
+      function _createBacking() {
+        var backing = new Surface({
+            properties: {
+                backgroundColor: 'white'
+            }
+        });
+        this.add(backing);
+    }
 
     function _createStripViews() {
         this.stripSurfaces = [];
