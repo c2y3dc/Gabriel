@@ -38,7 +38,9 @@ define(function(require, exports, module) {
     var StarredView = require('views/StarredView');
     var FeedbackView = require('views/FeedbackView');
     var ProfileView = require('views/ProfileView');
-    var LandingView = require('views/LandingView');
+
+    // var LandingView = require('views/LandingView');
+    var AboutView = require('views/AboutView');
 
     function AppView() {
         View.apply(this, arguments);
@@ -47,15 +49,17 @@ define(function(require, exports, module) {
         this.jobs = this.options.jobs
         console.log(this.jobs[0]);
 
+        // _createLandingView.call(this);
 
         this.gabrielMenu = true;
         this.settingsMenu = true;
         this.starredMenu = true;
         this.feedbackToggle = true;
         this.matchViewToggle = false;
+        this.aboutViewToggle = false;
         this.pageViewPos = 0;
 
-       // _createLandingView.call(this);
+
         _createPageView.call(this);
         _createMatchView.call(this);
         _createMenuView.call(this);
@@ -63,6 +67,7 @@ define(function(require, exports, module) {
         _createStarredView.call(this);
         _createProfileView.call(this);
         _createFeedbackView.call(this);
+        _createAboutView.call(this);
 
         _setListeners.call(this);
     }
@@ -120,7 +125,7 @@ define(function(require, exports, module) {
     // GabrielPage Toggle
     AppView.prototype.moveGabrielPageAside = function() {
         this.pageModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
-        
+
     };
 
     AppView.prototype.showFullGabrielPage = function() {
@@ -283,6 +288,43 @@ define(function(require, exports, module) {
         this.showFullFeedbackPage();
     };
 
+    // AboutView Toggle
+    // AppView.prototype.moveFeedbackPageAside = function() {
+    //   this.feedbackModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
+    // };
+
+    AppView.prototype.showFullAboutPage = function() {
+      this.aboutModifier.setTransform(Transform.translate(0, 0, 0), {
+        curve: 'easeOut',
+        duration: 200
+      });
+    };
+
+    AppView.prototype.removeAboutPage = function() {
+      this.aboutModifier.setTransform(Transform.translate(0, window.innerHeight, 0), {
+        curve: 'easeOut',
+        duration: 200
+      });
+    };
+
+    AppView.prototype.toggleAbout = function() {
+      if (this.aboutToggle) {
+        console.log('removes aboutPage aside');
+        this.removeAboutPage();
+        this.menuView.animateStrips();
+      } else {
+        console.log('show full aboutPage');
+        this.showFullAboutPage();
+      }
+      this.aboutToggle = !this.aboutToggle;
+    };
+
+    AppView.prototype.showAboutPage = function() {
+      console.log('show full aboutPage');
+      this.aboutToggle = true;
+      this.showFullAboutPage();
+    };
+
     // MatchView Toggle
     AppView.prototype.slideRightMatchView = function() {
         this.matchModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), {
@@ -325,7 +367,7 @@ define(function(require, exports, module) {
             stripData: StripData
         });
         this.menuModifier = new StateModifier({
-            transform: Transform.translate(-window.innerWidth, 0, -150)
+            transform: Transform.translate(-window.innerWidth, 0, 0)
         });
 
         this.add(this.menuModifier).add(this.menuView);
@@ -394,6 +436,20 @@ define(function(require, exports, module) {
         this.add(this.feedbackModifier).add(feedbackModifier2).add(this.feedbackView);
     }
 
+    function _createAboutView() {
+      this.aboutView = new AboutView();
+
+      this.aboutModifier = new StateModifier({
+        transform: Transform.translate(window.innerWidth, 0, 0)
+      });
+
+      var aboutModifier2 = new StateModifier({
+        transform: Transform.inFront
+      });
+
+      this.add(this.aboutModifier).add(aboutModifier2).add(this.aboutView);
+    }
+
     function _createLandingView() {
         this.landingView = new LandingView();
         this.landingModifier = new StateModifier({
@@ -411,9 +467,10 @@ define(function(require, exports, module) {
         this.profileView.on('menuToggle', this.toggleProfileMenu.bind(this));
 
         this.feedbackView.on('feedbackToggle', this.toggleFeedback.bind(this));
+        this.aboutView.on('backToMenu', this.toggleAbout.bind(this));
 
         this.menuView.on('menuOnly', this.showGabrielPage.bind(this));
-        this.menuView.on('settingsOnly', this.showSettingsPage.bind(this));
+        this.menuView.on('settingsOnly', this.showAboutPage.bind(this));
         this.menuView.on('starredOnly', this.showStarredPage.bind(this));
         this.menuView.on('feedbackOnly', this.showFeedbackPage.bind(this));
         this.menuView.on('profileOnly', this.showProfilePage.bind(this));
