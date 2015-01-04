@@ -28,7 +28,6 @@
 - Almond 0.2.9
 - Famous-polyfills 0.3.0
 - Famous 0.3.4
-- Ionicons 2.0.0
 - Grunt 0.4.4
 
 

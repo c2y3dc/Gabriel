@@ -6,6 +6,15 @@ define(function(require, exports, module) {
     var Lightbox = require('famous/views/Lightbox');
     var SlideView = require('views/SlideView');
     var Easing = require('famous/transitions/Easing');
+    var Transitionable = require('famous/transitions/Transitionable');
+    var SpringTransition = require('famous/transitions/SpringTransition');
+    var WallTransition = require('famous/transitions/WallTransition');
+    var SnapTransition = require('famous/transitions/SnapTransition');
+
+    Transitionable.registerMethod('spring', SpringTransition);
+    Transitionable.registerMethod('wall', WallTransition);
+    Transitionable.registerMethod('snap', SnapTransition);
+
 
 
     function DeckView() {
@@ -32,7 +41,7 @@ define(function(require, exports, module) {
 
     DeckView.DEFAULT_OPTIONS = {
         size: [window.innerWidth * 0.9, window.innerHeight * 0.75],
-        data: undefined,
+        jobs: undefined,
         lightboxOpts: {
             // inOpacity: 1,
             // outOpacity: 0,
@@ -67,6 +76,16 @@ define(function(require, exports, module) {
         this.showNextSlide();
     };
 
+    DeckView.prototype.flip = function() {
+        var slide = this.slides[this.currentIndex];
+        var angle = slide.options.toggle ? 0 : Math.PI;
+        slide.flipper.setAngle(angle, {
+            curve: 'easeOut',
+            duration: 1200
+        });
+        slide.options.toggle = !slide.options.toggle;
+    }
+
     DeckView.prototype.swipeRight = function() {
         var slide = this.slides[this.currentIndex];
         slide.options.position.set([500, 0], {
@@ -95,10 +114,10 @@ define(function(require, exports, module) {
         this.slides = [];
         this.currentIndex = 0;
 
-        for (var i = 0; i < this.options.data.length; i++) {
+        for (var i = 0; i < this.options.jobs.length; i++) {
             var slide = new SlideView({
                 size: this.options.size,
-                photoUrl: this.options.data[i]
+                job: this.options.jobs[i],
             });
 
             this.slides.push(slide);
@@ -109,6 +128,7 @@ define(function(require, exports, module) {
             // to maintain the correct context when called
             slide.on('swipeRight', this.swipeRight.bind(this));
             slide.on('swipeLeft', this.swipeLeft.bind(this));
+            slide.on('flip', this.flip.bind(this));
         }
 
         this.showNextSlide();

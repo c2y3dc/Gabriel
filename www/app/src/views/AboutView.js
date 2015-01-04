@@ -2,15 +2,12 @@ define(function(require, exports, module) {
     var View = require('famous/core/View');
     var Surface = require('famous/core/Surface');
     var Transform = require('famous/core/Transform');
-    var Modifier = require('famous/core/Modifier');
     var StateModifier = require('famous/modifiers/StateModifier');
     var HeaderFooter = require('famous/views/HeaderFooterLayout');
     var ImageSurface = require('famous/surfaces/ImageSurface');
     var FastClick = require('famous/inputs/FastClick');
 
-    var ScrollableView = require('views/ScrollableView');
-
-    function MatchView() {
+    function AboutView() {
         View.apply(this, arguments);
 
         _createBacking.call(this);
@@ -21,42 +18,48 @@ define(function(require, exports, module) {
         _setListeners.call(this);
     }
 
-    MatchView.prototype = Object.create(View.prototype);
-    MatchView.prototype.constructor = MatchView;
+    AboutView.prototype = Object.create(View.prototype);
+    AboutView.prototype.constructor = AboutView;
 
-    MatchView.DEFAULT_OPTIONS = {
-        headerSize: 44,
-        headerWidth: window.innerWidth,
+    AboutView.DEFAULT_OPTIONS = {
+        headerSize: window.innerHeight * 0.097,
+        headerWidth: window.innerWidth
     };
 
     function _createBacking() {
         var backing = new Surface({
             properties: {
-                backgroundColor: 'black',
-                boxShadow: '0 0 20px rgba(0,0,0,0.5)'
+                backgroundColor: 'white'
             }
         });
 
         this.add(backing);
     }
 
-
+    /**
+     * _createLayout function: create basic header footer
+     */
     function _createLayout() {
         this.layout = new HeaderFooter({
             headerSize: this.options.headerSize,
-            footerSize: this.options.footerSize
+            footerSize: this.options.headerSize
         });
 
         var layoutModifier = new StateModifier({
-            transform: Transform.translate(0,0,1)
+            transform: Transform.translate(0, 0, 0.1)
         });
 
         this.add(layoutModifier).add(this.layout);
     }
 
+    /**
+     * _createHeader function: create header of the page
+     */
     function _createHeader() {
         var backgroundSurface = new Surface({
-            classes: ['ionic-blue-background']
+            properties: {
+                backgroundColor: '#1976D2'
+            }
         });
 
         var backgroundModifier = new StateModifier({
@@ -65,63 +68,54 @@ define(function(require, exports, module) {
 
         this.layout.header.add(backgroundModifier).add(backgroundSurface);
 
-        /*HEADER SURFACES*/
-        this.backButtonSurface = new ImageSurface({
-            size: [44, 44],
+        // Header surfaces
+        this.backSurface = new ImageSurface({
+            size: [16, 16],
             content: 'img/back.png'
         });
 
         this.titleSurface = new Surface({
             size: [true, 44],
-            content: 'Matches',
-            classes: ['header-title']
+            content: 'About',
+            properties: {
+                color: 'white'
+            }
         });
 
-        /*HEADER MODIFIERS */
-        var backButtonModifier = new StateModifier({
+        // Header modifiers
+        var backModifier = new StateModifier({
             transform: Transform.inFront,
             origin: [0, 0.5],
             align: [0, 0.5]
-        });
+        })
 
         var titleModifier = new StateModifier({
             transform: Transform.inFront,
             origin: [0.5, 0],
-            align: [0.5, 0.3]
+            align: [0.5, 0.5]
         });
 
-        this.layout.header.add(backButtonModifier).add(this.backButtonSurface);
+        this.layout.header.add(backModifier).add(this.backSurface);
         this.layout.header.add(titleModifier).add(this.titleSurface);
     }
 
     function _createBody() {
         var node = this.layout.content;
 
-        this.bodySurface = new Surface({
-            size: [undefined, undefined],
-            classes: ['main-body-background']
-        });
+        this.bodySurface = new Surface();
 
         this.bodyModifier = new StateModifier({
             transform: Transform.behind
         });
 
-        var matchList = new ScrollableView();
-
-        var matchListModifier = new StateModifier({
-          origin: [0.5, 0.5],
-          align: [0.5, 0.5]
-        });
-
         node.add(this.bodyModifier).add(this.bodySurface);
-        node.add(matchListModifier).add(matchList);
     }
 
     function _setListeners() {
-        this.backButtonSurface.on('click', function() {
-            this._eventOutput.emit('matchViewToggle');
+        this.backSurface.on('click', function() {
+            this._eventOutput.emit('backToMenu');
         }.bind(this));
     }
 
-    module.exports = MatchView;
+    module.exports = AboutView;
 });

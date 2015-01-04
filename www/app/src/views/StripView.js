@@ -1,9 +1,9 @@
 define(function(require, exports, module) {
-    var View          = require('famous/core/View');
-    var Surface       = require('famous/core/Surface');
-    var Transform     = require('famous/core/Transform');
+    var View = require('famous/core/View');
+    var Surface = require('famous/core/Surface');
+    var Transform = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
-    var ImageSurface  = require('famous/surfaces/ImageSurface');
+    var ImageSurface = require('famous/surfaces/ImageSurface');
 
     function StripView() {
         View.apply(this, arguments);
@@ -17,33 +17,40 @@ define(function(require, exports, module) {
 
     StripView.DEFAULT_OPTIONS = {
         width: window.innerWidth,
-        height: 55,
-        iconSize: 32,
+        height: 50,
+        iconSize: 25,
         iconUrl: 'img/settings.png',
         title: 'Settings'
     };
 
     function _createBackground() {
         this.backgroundSurface = new Surface({
-            size: [this.options.width, this.options.height],
-            classes: ['strip-view']
+            size: [this.options.width * 0.9, this.options.height],
+            properties: {
+                backgroundColor: 'white'
+            }
         });
 
-        this.add(this.backgroundSurface);
+        var backgroundModifier = new StateModifier({
+            // places the icon in the proper location
+            transform: Transform.translate(-24, 0, 0)
+        });
+
+        this.add(backgroundModifier).add(this.backgroundSurface);
     }
 
-     function _createIcon() {
+    function _createIcon() {
         var iconSurface = new ImageSurface({
             size: [this.options.iconSize, this.options.iconSize],
-            content : this.options.iconUrl,
+            content: this.options.iconUrl,
             properties: {
-                pointerEvents : 'none'
+                pointerEvents: 'none'
             }
         });
 
         var iconModifier = new StateModifier({
             // places the icon in the proper location
-            transform: Transform.translate(24, 12, 0)
+            transform: Transform.translate(10, 12, 0)
         });
 
         this.add(iconModifier).add(iconSurface);
@@ -53,11 +60,17 @@ define(function(require, exports, module) {
         var titleSurface = new Surface({
             size: [true, true],
             content: this.options.title,
-            classes: ['menu-titles']
+            properties: {
+                color: 'black',
+                fontSize: '16px',
+                letterSpacing: '0.5px',
+                textTransform: 'uppercase',
+                fontWeight: 300
+            }
         });
 
         var titleModifier = new StateModifier({
-            transform: Transform.translate(75, 18, 0)
+            transform: Transform.translate(55, 18, 0)
         });
 
         this.add(titleModifier).add(titleSurface);
