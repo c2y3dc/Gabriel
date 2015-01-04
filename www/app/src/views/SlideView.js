@@ -73,11 +73,17 @@ define(function(require, exports, module) {
     function _createCardFront() {
         this.frontSurface = new Surface({
             size: [window.innerWidth * 0.72, window.innerHeight * 0.6],
-            content: 'front',
+            classes: ['front-card'],
+            content: '<h3>' + this.options.job.startup.name + '</h3>'
+                   + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept +'"</p></div>'
+                   + '<div class="product_desc"><p>' + this.options.job.startup.product_desc.trunc(200) + '</p></div>'
+                   + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>'
+                   + '<div><p>Min: $' + ('' + this.options.job.salary_min).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>'
+                   + '<div><p>Max: $' + ('' + this.options.job.salary_max).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>',
             properties: {
-                backgroundColor: '#FFFFF5',
-                borderRadius: '5px',
-                boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
+                backgroundColor: '#FFFFFF',
+                //borderRadius: '3px'
+                //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
             }
         });
     }
@@ -85,11 +91,12 @@ define(function(require, exports, module) {
     function _createCardBack() {
         this.backSurface = new Surface({
             size: [window.innerWidth * 0.72, window.innerHeight * 0.6],
-            content: 'back',
+            classes: ['back-card'],
+            content: '<div class="back-card-desc">' + this.options.job.description.trunc(1800) + '</div>',
             properties: {
-                backgroundColor: '#FFFFF5',
-                borderRadius: '5px',
-                boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
+                backgroundColor: '#FFFFFF',
+                borderRadius: '3px'
+                //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
             }
         });
     }
