@@ -1,6 +1,6 @@
 # Gabriel
 
-> Gabriel matches job-seekers with startup jobs on AngelList. Gabriel greatly simplifies the job searching process by allowing you to apply to jobs on AngelList with a simple Tinder-like user interface. 
+> Gabriel matches job-seekers with startup jobs on AngelList. Gabriel greatly simplifies the job searching process by allowing you to apply to jobs on AngelList with a simple Tinder-like user interface.
 
 ## Team
 
@@ -35,12 +35,35 @@
 ## Development
 
 ### Installing Dependencies
-
-From within the www directory:
-
+```
+cd www
 npm install && bower install
 grunt serve
+```
+###Add Android Device
+```
+cordova platforms add android
+cordova plugin add org.apache.cordova.device
+cordova run android -d
+```
+###Add iOS Device
+iOS instructions assume the use of Mac OS X
 
+```
+cordova platforms add ios
+cordova plugin add org.apache.cordova.device
+cordova build ios -d
+```
+
+If you encounter ios-sim was not found. Run the following
+```
+npm install -g ios-sim
+```
+
+To emulate the app as iOS app, run the following command line
+```
+cordova emulate ios
+```
 
 ### Roadmap
 
