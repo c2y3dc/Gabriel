@@ -6,6 +6,7 @@ define(function(require, exports, module) {
     var Modifier = require('famous/core/Modifier');
     var SlideData = require('data/SlideData');
     var ImageSurface = require('famous/surfaces/ImageSurface');
+    var Flipper = require("famous/views/Flipper");
 
     var ScrollSync = require("famous/inputs/ScrollSync");
     var MouseSync = require('famous/inputs/MouseSync');
@@ -26,10 +27,11 @@ define(function(require, exports, module) {
     // runs once for each new instance
     function SlideView() {
         View.apply(this, arguments);
-        _createBackground.call(this);
-        var rootNode = _createCard.call(this);
+        //_createBackground.call(this);
+        _createFlipper.call(this);
+        //var rootNode = _createCard.call(this);
         //_createHandle.call(this, rootNode);
-        //_setListeners.call(this);
+        _setListeners.call(this);
 
     }
 
@@ -37,9 +39,11 @@ define(function(require, exports, module) {
     SlideView.prototype.constructor = SlideView;
 
     SlideView.DEFAULT_OPTIONS = {
-        size: [window.innerWidth * 0.9, window.innerHeight * 0.75],
+        size: [window.innerWidth * 0.72, window.innerHeight * 0.6],
         job: undefined,
-        position: position
+        position: position,
+        angle: undefined,
+        toggle: false
     };
 
     SlideView.prototype.fadeIn = function() {
@@ -49,23 +53,45 @@ define(function(require, exports, module) {
         });
     };
 
+    function _createFlipper() {
+        this.flipper = new Flipper();
+        _createCardFront.call(this);
+        _createCardBack.call(this);
 
-    function opacitateIn(duration) {
-        opacityState.set(1, {
-            duration: duration || 0
-        })
+        this.flipper.setFront(this.frontSurface);
+        this.flipper.setBack(this.backSurface);
+
+        this.centerModifier = new Modifier({
+            align: [.5, .5],
+            origin: [.5, .5],
+            transform: Transform.translate(0, 0, 200)
+        });
+
+        this.add(this.centerModifier).add(this.flipper);
     }
 
-    function opacitateOut(duration) {
-        opacityState.set(0, {
-            duration: duration || 0
-        })
+    function _createCardFront() {
+        this.frontSurface = new Surface({
+            size: [window.innerWidth * 0.72, window.innerHeight * 0.6],
+            content: 'front',
+            properties: {
+                backgroundColor: '#FFFFF5',
+                borderRadius: '5px',
+                boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
+            }
+        });
     }
 
-    function opacityToggle(duration) {
-        var currentOpacity = opacityState.get();
-        if (currentOpacity > 0.5) opacitateIn(duration);
-        else opacitateOut(duration);
+    function _createCardBack() {
+        this.backSurface = new Surface({
+            size: [window.innerWidth * 0.72, window.innerHeight * 0.6],
+            content: 'back',
+            properties: {
+                backgroundColor: '#FFFFF5',
+                borderRadius: '5px',
+                boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
+            }
+        });
     }
 
     function _createHandle() {
@@ -132,7 +158,8 @@ define(function(require, exports, module) {
 
     function _createBackground() {
         this.rootModifier = new StateModifier({
-            size: this.options.size
+            size: this.options.size,
+            transform: Transform.inFront
         });
 
         this.mainNode = this.add(this.rootModifier);
@@ -141,7 +168,8 @@ define(function(require, exports, module) {
             // undefined size will inherit size from parent modifier
             properties: {
                 backgroundColor: '#FFFFF5',
-                boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
+                boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)',
+                background: 'transparent'
             }
         });
 
@@ -186,7 +214,7 @@ define(function(require, exports, module) {
 
         this.mainNode.add(this.jobTitleModifier).add(title);
 
-         var description = new Surface({
+        var description = new Surface({
             size: [window.innerWidth - window.innerWidth / 5, window.innerHeight - window.innerHeight / 2],
             content: this.options.job.description.trunc(1000),
             properties: {
@@ -210,10 +238,17 @@ define(function(require, exports, module) {
 
 
     function _setListeners() {
-        this.background.on('click', function() {
-            // the event output handler is used to broadcast outwards
-            this._eventOutput.emit('click');
+        this.frontSurface.on('click', function() {
+            this._eventOutput.emit('flip');
         }.bind(this));
+        this.backSurface.on('click', function() {
+            this._eventOutput.emit('flip');
+        }.bind(this));
+        // this.background.on('click', function() {
+        //     console.log('hello');
+        //     // the event output handler is used to broadcast outwards
+        //     this._eventOutput.emit('flip');
+        // }.bind(this));
     }
 
     module.exports = SlideView;
