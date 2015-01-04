@@ -27,7 +27,7 @@ define(function(require, exports, module) {
         angle: -0.2,
         stripWidth: window.innerWidth * 2,
         stripHeight: 54,
-        topOffset: window.innerHeight * 0.44,
+        topOffset: window.innerHeight * 0.47,
         stripOffset: 57,
         staggerDelay: 35,
         transition: {
@@ -130,4 +130,3 @@ define(function(require, exports, module) {
 
     module.exports = MenuView;
 });
-

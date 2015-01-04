@@ -367,7 +367,7 @@ define(function(require, exports, module) {
             stripData: StripData
         });
         this.menuModifier = new StateModifier({
-            transform: Transform.translate(-window.innerWidth, 0, -150)
+            transform: Transform.translate(-window.innerWidth, 0, 0)
         });
 
         this.add(this.menuModifier).add(this.menuView);
