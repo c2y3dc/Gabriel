@@ -29,7 +29,12 @@ define(function(require, exports, module) {
             classes: ['strip-view']
         });
 
-        this.add(this.backgroundSurface);
+        var backgroundModifier = new StateModifier({
+            // places the icon in the proper location
+            transform: Transform.translate(-24, 0, 0)
+        });
+
+        this.add(backgroundModifier).add(this.backgroundSurface);
     }
 
      function _createIcon() {
@@ -43,7 +48,7 @@ define(function(require, exports, module) {
 
         var iconModifier = new StateModifier({
             // places the icon in the proper location
-            transform: Transform.translate(24, 12, 0)
+            transform: Transform.translate(10, 12, 0)
         });
 
         this.add(iconModifier).add(iconSurface);
@@ -57,7 +62,7 @@ define(function(require, exports, module) {
         });
 
         var titleModifier = new StateModifier({
-            transform: Transform.translate(75, 18, 0)
+            transform: Transform.translate(55, 18, 0)
         });
 
         this.add(titleModifier).add(titleSurface);

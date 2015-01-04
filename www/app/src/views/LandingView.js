@@ -21,12 +21,21 @@ define(function(require, exports, module) {
     console.log('INSIDE CONSTRUCTOR',this.options);
   }
 
+  LandingView.prototype = Object.create(View.prototype);
+  LandingView.prototype.constructor = LandingView;
+
+  LandingView.DEFAULT_OPTIONS = {
+    size: [undefined,undefined],
+    angel: {}
+  };
+
+
   function _createBackground() {
     this.backgroundSurface = new ImageSurface({
       content: 'https://carrigmanblog.files.wordpress.com/2013/06/galtee-cloudscape-2.jpg'
     })
     this.rootModifier = new StateModifier ({
-      transform: Transform.behind
+      transform: Transform.translate(0,0,200)
     })
     this.root = this.add(this.rootModifier)
     this.root.add(this.backgroundSurface);
@@ -104,8 +113,6 @@ define(function(require, exports, module) {
     this.root.add(this.redirectButtonModifier).add(this.redirectButton);
   }
 
-  
-
 
   function _setListeners() {
     this.loginButton.on('click', function() {
@@ -133,14 +140,6 @@ define(function(require, exports, module) {
   }
 
   console.log(LandingView.options);
-
-  LandingView.prototype = Object.create(View.prototype);
-  LandingView.prototype.constructor = LandingView;
-
-  LandingView.DEFAULT_OPTIONS = {
-    size: [undefined,undefined],
-    angel: {}
-  };
 
   module.exports = LandingView;
 });

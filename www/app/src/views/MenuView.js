@@ -21,7 +21,7 @@ define(function(require, exports, module) {
     MenuView.DEFAULT_OPTIONS = {
         stripData: {},
         angle: -0.2,
-        stripWidth: 320,
+        stripWidth: window.innerWidth * 2,
         stripHeight: 54,
         topOffset: window.innerHeight * 0.3,
         stripOffset: 57,
@@ -117,6 +117,4 @@ define(function(require, exports, module) {
 
     module.exports = MenuView;
 });
-;
-;
-;
+

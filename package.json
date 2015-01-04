@@ -35,9 +35,9 @@
     "brfs": "^1.2.0",
     "cssify": "^0.6.0",
     "deamdify": "^0.1.1",
-    "famous": "0.3.3",
     "famous-polyfills": "^0.3.0",
     "famousify": "^0.1.5",
+    "famous": "0.3.4",
     "oauth-js": "git://github.com/oauth-io/oauth-js",
     "watchify": "^2.2.1"
   }
