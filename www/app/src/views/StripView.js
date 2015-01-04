@@ -65,7 +65,7 @@ define(function(require, exports, module) {
                 fontSize: '16px',
                 letterSpacing: '0.5px',
                 textTransform: 'uppercase',
-                fontWeight: 400
+                fontWeight: 300
             }
         });
 
