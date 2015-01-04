@@ -113,8 +113,6 @@ define(function(require, exports, module) {
     this.root.add(this.redirectButtonModifier).add(this.redirectButton);
   }
 
-  
-
 
   function _setListeners() {
     this.loginButton.on('click', function() {

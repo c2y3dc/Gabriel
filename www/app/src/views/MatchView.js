@@ -48,7 +48,7 @@ define(function(require, exports, module) {
         });
 
         var layoutModifier = new StateModifier({
-            transform: Transform.translate(0, 0, 0.1)
+            transform: Transform.translate(0,0,1)
         });
 
         this.add(layoutModifier).add(this.layout);

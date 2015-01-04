@@ -55,7 +55,7 @@ define(function(require, exports, module) {
         this.matchViewToggle = false;
         this.pageViewPos = 0;
 
-        _createLandingView.call(this);
+       // _createLandingView.call(this);
         _createPageView.call(this);
         _createMatchView.call(this);
         _createMenuView.call(this);
@@ -63,7 +63,6 @@ define(function(require, exports, module) {
         _createStarredView.call(this);
         _createProfileView.call(this);
         _createFeedbackView.call(this);
-
 
         _setListeners.call(this);
     }
@@ -90,7 +89,7 @@ define(function(require, exports, module) {
     };
 
     AppView.prototype.removeProfilePage = function() {
-        this.profileModifier.setTransform(Transform.translate(window.innerHeight, 0, 0), this.options.transition);
+        this.profileModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), this.options.transition);
     };
 
     AppView.prototype.toggleProfileMenu = function() {
@@ -121,19 +120,23 @@ define(function(require, exports, module) {
     // GabrielPage Toggle
     AppView.prototype.moveGabrielPageAside = function() {
         this.pageModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
+        
     };
 
     AppView.prototype.showFullGabrielPage = function() {
+        this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2,0,0), { duration: 0 });
         this.pageModifier.setTransform(Transform.translate(0, 0, 0), this.options.transition);
     };
 
     AppView.prototype.removeGabrielPage = function() {
-        this.pageModifier.setTransform(Transform.translate(window.innerHeight, 0, 0), this.options.transition);
+        this.menuModifier.setTransform(Transform.translate(0,0,0), { duration: 1 });
+        this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), this.options.transition);
     };
 
     AppView.prototype.toggleGabrielMenu = function() {
         if (this.gabrielMenu) {
             console.log('move garielPage aside');
+            this.menuModifier.setTransform(Transform.translate(0,0,0), { duration: 1 });
             this.moveGabrielPageAside();
             this.menuView.animateStrips();
         } else {
@@ -169,7 +172,7 @@ define(function(require, exports, module) {
     };
 
     AppView.prototype.removeSettingsPage = function() {
-        this.settingsModifier.setTransform(Transform.translate(window.innerWidth, 0, 0), {
+        this.settingsModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), {
             curve: 'easeOut',
             duration: 200
         });
@@ -213,7 +216,7 @@ define(function(require, exports, module) {
     };
 
     AppView.prototype.removeStarredPage = function() {
-        this.starredModifier.setTransform(Transform.translate(window.innerWidth, 0, 0), {
+        this.starredModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), {
             curve: 'easeOut',
             duration: 200
         });
@@ -256,7 +259,8 @@ define(function(require, exports, module) {
     };
 
     AppView.prototype.removeFeedbackPage = function() {
-        this.feedbackModifier.setTransform(Transform.translate(0, window.innerHeight, 0), {
+        this.pageModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), { duration: 0 } );
+        this.feedbackModifier.setTransform(Transform.translate(0, window.innerHeight * 2, 0), {
             curve: 'easeOut',
             duration: 200
         });
@@ -264,7 +268,6 @@ define(function(require, exports, module) {
 
     AppView.prototype.toggleFeedback = function() {
         if (this.feedbackToggle) {
-            console.log('removes feedbackPage aside');
             this.removeFeedbackPage();
             this.menuView.animateStrips();
         } else {
@@ -275,24 +278,23 @@ define(function(require, exports, module) {
     };
 
     AppView.prototype.showFeedbackPage = function() {
-        console.log('show full feedbackPage');
+        this.pageModifier.setTransform(Transform.translate(window.innerWidth, 0, 0), { duration: 0 } );
         this.feedbackToggle = true;
         this.showFullFeedbackPage();
     };
 
     // MatchView Toggle
     AppView.prototype.slideRightMatchView = function() {
-        this.matchModifier.setTransform(Transform.translate(window.innerWidth, 0, 0), {
-            duration: 200,
-            curve: 'easeOut'
+        this.matchModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), {
+            duration: 500,
+            curve: Easing.outBack
         });
     };
 
     AppView.prototype.slideLeftMatchView = function() {
         this.matchModifier.setTransform(Transform.translate(0, 0, 0), {
-            method: 'wall',
-            dampingRatio: 0.5,
-            period: 500
+           duration: 300,
+           curve: 'easeOut'
         });
     };
 
@@ -310,7 +312,9 @@ define(function(require, exports, module) {
         this.pageView = new PageView({
             jobs: this.jobs
         });
-        this.pageModifier = new StateModifier();
+        this.pageModifier = new StateModifier({
+          transform: Transform.translate(0, 0, 0.1)
+        });
 
         this.add(this.pageModifier).add(this.pageView);
     }
@@ -320,17 +324,17 @@ define(function(require, exports, module) {
         this.menuView = new MenuView({
             stripData: StripData
         });
-        var menuModifier = new StateModifier({
-            transform: Transform.behind
+        this.menuModifier = new StateModifier({
+            transform: Transform.translate(-window.innerWidth, 0, -150)
         });
 
-        this.add(menuModifier).add(this.menuView);
+        this.add(this.menuModifier).add(this.menuView);
     }
 
     function _createMatchView() {
         this.matchView = new MatchView();
         this.matchModifier = new StateModifier({
-            transform: Transform.translate(window.innerWidth, 0, 0)
+            transform: Transform.translate(window.innerWidth * 2, 0, 0)
         });
 
         var matchModifier2 = new StateModifier({
@@ -346,7 +350,7 @@ define(function(require, exports, module) {
         this.settingsView = new SettingsView();
 
         this.settingsModifier = new StateModifier({
-            transform: Transform.translate(window.innerWidth, 0, 0)
+            transform: Transform.translate(window.innerWidth * 2, 0, 0)
         });
 
         this.add(this.settingsModifier).add(this.settingsView);
@@ -356,7 +360,7 @@ define(function(require, exports, module) {
         this.starredView = new StarredView();
 
         this.starredModifier = new StateModifier({
-            transform: Transform.translate(window.innerWidth, 0, 0)
+            transform: Transform.translate(window.innerWidth * 2, 0, 0)
         });
 
         this.add(this.starredModifier).add(this.starredView);
@@ -366,7 +370,7 @@ define(function(require, exports, module) {
         this.profileView = new ProfileView();
 
         this.profileModifier = new StateModifier({
-            transform: Transform.translate(window.innerWidth, 0, 0)
+            transform: Transform.translate(window.innerWidth * 2, 0, 0)
         });
 
         var profileModifier2 = new StateModifier({
@@ -380,7 +384,7 @@ define(function(require, exports, module) {
         this.feedbackView = new FeedbackView();
 
         this.feedbackModifier = new StateModifier({
-            transform: Transform.translate(0, window.innerHeight, 0)
+            transform: Transform.translate(0, window.innerHeight * 2, 0)
         });
 
         var feedbackModifier2 = new StateModifier({
@@ -393,7 +397,7 @@ define(function(require, exports, module) {
     function _createLandingView() {
         this.landingView = new LandingView();
         this.landingModifier = new StateModifier({
-            transform: Transform.translate(0, 0, 4)
+            transform: Transform.translate(0, 0, 1)
         })
 
         this.add(this.landingModifier).add(this.landingView);

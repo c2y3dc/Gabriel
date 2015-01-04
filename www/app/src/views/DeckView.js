@@ -117,7 +117,7 @@ define(function(require, exports, module) {
         for (var i = 0; i < this.options.jobs.length; i++) {
             var slide = new SlideView({
                 size: this.options.size,
-                job: this.options.jobs[i]
+                job: this.options.jobs[i],
             });
 
             this.slides.push(slide);

@@ -72,11 +72,13 @@ html {
     font-family: "AvenirNextLTPro-Ultlt", "Helvetica Neue", Helvetica, Arial, sans-serif;
     padding: 0px 10px 10px 10px;
     border-radius: 3px;
+    z-index: 1000
 }
 .back-card {
     font-family: "AvenirNextLTPro-Ultlt", "Helvetica Neue", Helvetica, Arial, sans-serif;
     padding: 15px;
     border-radius: 3px;
+    z-index: 10000
 }
 .back-card-desc {
     font-size: 0.5em;

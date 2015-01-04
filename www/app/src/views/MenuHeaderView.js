@@ -34,7 +34,8 @@ define(function(require, exports, module) {
 
     var backgroundModifier = new StateModifier({
       origin: [0, 0],
-      align: [0, 0]
+      align: [0, 0],
+      transform: Transform.behind
     });
 
     this.add(backgroundModifier).add(this.backgroundSurface);

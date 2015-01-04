@@ -39,7 +39,7 @@ define(function(require, exports, module) {
     SlideView.prototype.constructor = SlideView;
 
     SlideView.DEFAULT_OPTIONS = {
-        size: [window.innerWidth * 0.72, window.innerHeight * 0.6],
+        size: [window.innerWidth , window.innerHeight],
         job: undefined,
         position: position,
         angle: undefined,
@@ -64,7 +64,7 @@ define(function(require, exports, module) {
         this.centerModifier = new Modifier({
             align: [.5, .5],
             origin: [.5, .5],
-            transform: Transform.translate(0, 0, 200)
+            transform: Transform.translate(0, 0, 0.9)
         });
 
         this.add(this.centerModifier).add(this.flipper);
@@ -72,7 +72,7 @@ define(function(require, exports, module) {
 
     function _createCardFront() {
         this.frontSurface = new Surface({
-            size: [window.innerWidth * 0.72, window.innerHeight * 0.6],
+            size: this.options.size,
             classes: ['front-card'],
             content: '<h3>' + this.options.job.startup.name + '</h3>'
                    + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept +'"</p></div>'
@@ -81,8 +81,7 @@ define(function(require, exports, module) {
                    + '<div><p>Min: $' + ('' + this.options.job.salary_min).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>'
                    + '<div><p>Max: $' + ('' + this.options.job.salary_max).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>',
             properties: {
-                backgroundColor: '#FFFFFF',
-                //borderRadius: '3px'
+                backgroundColor: '#FFFFFF'
                 //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
             }
         });
@@ -90,12 +89,11 @@ define(function(require, exports, module) {
 
     function _createCardBack() {
         this.backSurface = new Surface({
-            size: [window.innerWidth * 0.72, window.innerHeight * 0.6],
+            size: this.options.size,
             classes: ['back-card'],
             content: '<div class="back-card-desc">' + this.options.job.description.trunc(1800) + '</div>',
             properties: {
-                backgroundColor: '#FFFFFF',
-                borderRadius: '3px'
+                backgroundColor: '#FFFFFF'
                 //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
             }
         });

@@ -205,7 +205,7 @@ define(function(require, exports, module) {
         });
 
         this.bodyModifier = new StateModifier({
-            transform: Transform.behind
+            transform: Transform.translate(0,0,0.1)
         });
 
         this.node.add(this.bodyModifier).add(this.bodySurface);
@@ -220,7 +220,7 @@ define(function(require, exports, module) {
             jobs: this.options.jobs
         });
         this.deckModifier = new StateModifier({
-            transform: Transform.behind
+            transform: Transform.translate(0,0,0.9)
         });
         this.node.add(this.deckModifier).add(this.deckView);
     }

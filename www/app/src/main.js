@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     var JobsData = require('data/JobsData');
     // create the main context
     var mainContext = Engine.createContext();
-    mainContext.setPerspective(1000);
+    mainContext.setPerspective(2000);
 
     String.prototype.trunc = String.prototype.trunc ||
         function(n) {
