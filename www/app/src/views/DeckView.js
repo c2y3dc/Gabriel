@@ -72,6 +72,7 @@ define(function(require, exports, module) {
             period: 150,
         });
 
+        //OUR API CALL TO ARCHIVE GOES HERE
         this.showNextSlide();
     };
 
@@ -91,6 +92,8 @@ define(function(require, exports, module) {
             method: 'spring',
             period: 150,
         });
+
+        //THIS IS WHERE OUR API CALL TO CONNECT GOES
         this.showNextSlide();
     };
 

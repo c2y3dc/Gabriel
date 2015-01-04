@@ -1,5 +1,4 @@
 /* globals define */
-
 define(function(require, exports, module) {
     'use strict';
     // import dependencies
@@ -7,6 +6,7 @@ define(function(require, exports, module) {
     var Utility = require('famous/utilities/Utility');
     var AppView = require('views/AppView');
     // import SlideData
+    var OAuth = require('lib/oauth-js/dist/oauth.min.js');
     var SlideData = require('data/SlideData');
     var JobsData = require('data/JobsData');
     // create the main context
