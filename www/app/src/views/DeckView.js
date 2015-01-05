@@ -78,7 +78,7 @@ define(function(require, exports, module) {
 
     DeckView.prototype.flip = function() {
         var slide = this.slides[this.currentIndex];
-        var angle = slide.options.toggle ? 0 : Math.PI;
+        var angle = slide.options.toggle ? 0 : -Math.PI;
         slide.flipper.setAngle(angle, {
             curve: 'easeOut',
             duration: 1200

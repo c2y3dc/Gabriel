@@ -32,7 +32,7 @@ define(function(require, exports, module) {
 
   function _createBackground() {
     this.backgroundSurface = new ImageSurface({
-      content: 'https://carrigmanblog.files.wordpress.com/2013/06/galtee-cloudscape-2.jpg'
+      content: 'img/galtee-cloudscape.jpg'
     })
     this.rootModifier = new StateModifier ({
       transform: Transform.translate(0,0,200)
