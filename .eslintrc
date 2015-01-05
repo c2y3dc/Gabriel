@@ -1,7 +1,7 @@
 {
     "env": {
         "browser": true,
-        "node": true
+        "amd": true
     },
     "globals": {
         "DocumentFragment": true

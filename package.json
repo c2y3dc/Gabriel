@@ -1,44 +1,48 @@
 {
-  "name": "browserify-seed",
-  "version": "0.7.0",
-  "description": "seed for a browserified version of famous",
-  "main": "src/index.js",
-  "browserify": {
-    "transform": [
-      "famousify",
-      "cssify",
-      "brfs",
-      "deamdify"
-    ]
+  "name": "requirejs-seed",
+  "description": "A seed project used to keep track of what yo famous scaffolds....",
+  "version": "0.4.0",
+  "homepage": "https://github.com/Famous/requirejs-seed",
+  "author": {
+    "name": "Myles Borins",
+    "url": "http://github.com/Famous/"
   },
-  "scripts": {
-    "start": "npm run build && serve public/ -p 1337",
-    "start-dev": "npm run watch & serve public/ -p 1337",
-    "test": "npm run lint -s && npm run build",
-    "build": "browserify src/index.js | uglifyjs > public/bundle.js",
-    "watch": "watchify src/index.js -o public/bundle.js --debug --verbose",
-    "lint-eslint": "eslint src/",
-    "lint-jscs": "jscs src/",
-    "lint": "npm run lint-eslint && npm run lint-jscs"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Famous/requirejs-seed.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Famous/requirejs-seed/issues"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
   },
   "devDependencies": {
-    "browserify": "^7.0.0",
-    "eslint": "^0.10.0",
-    "jscs": "^1.7.3",
-    "serve": "^1.4.0",
-    "uglify-js": "^2.4.15",
-    "watchify": "^2.1.0"
+    "grunt": "~0.4.4",
+    "grunt-bower-requirejs": "^1.1.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-connect": "^0.9.0",
+    "grunt-contrib-copy": "^0.7.0",
+    "grunt-contrib-cssmin": "^0.10.0",
+    "grunt-contrib-htmlmin": "^0.3.0",
+    "grunt-contrib-requirejs": "^0.4.4",
+    "grunt-contrib-uglify": "^0.6.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-eslint": "^2.0.0",
+    "grunt-jscs": "^1.0.0",
+    "grunt-processhtml": "^0.3.3",
+    "grunt-rev": "^0.1.0",
+    "grunt-usemin": "^2.1.1",
+    "load-grunt-config": "^0.16.0",
+    "time-grunt": "^1.0.0"
   },
-  "author": "TheAlphaNerd",
-  "license": "ISC",
+  "scripts": {
+    "test": "grunt test"
+  },
   "dependencies": {
-    "brfs": "^1.2.0",
-    "cssify": "^0.6.0",
-    "deamdify": "^0.1.1",
-    "famous-polyfills": "^0.3.0",
-    "famousify": "^0.1.5",
-    "famous": "0.3.4",
-    "oauth-js": "git://github.com/oauth-io/oauth-js",
-    "watchify": "^2.2.1"
+    "famous": "^0.3.4",
+    "jquery": "^2.1.3"
   }
 }
