@@ -121,6 +121,13 @@ define(function(require, exports, module) {
             OAuth.initialize('8zrAzDgK9i-ryXuI6xHqjHkNpug');
             OAuth.popup('angel_list').done(function(result) {
                 this.options.angel = result;
+                result.get('/1/me').done(function(data) {
+                    this.options.userData = data;
+                    console.log(this.options.userData);
+                }.bind(this)).fail(function(oops) {
+                    console.log('unable to get user data');
+                }.bind(this));
+
                 result.get('/1/jobs').done(function(data) {
                     this.options.initialData = data;
                     this._eventOutput.emit('loaded');
@@ -131,9 +138,8 @@ define(function(require, exports, module) {
                         duration: 1000
                     });
                 }.bind(this)).fail(function(oops) {
-                    console.log('oops');
+                    console.log('unable to get job data');
                 }.bind(this));
-
             }.bind(this));
 
         }.bind(this));

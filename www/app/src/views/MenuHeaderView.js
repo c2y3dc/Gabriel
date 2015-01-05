@@ -20,6 +20,7 @@ define(function(require, exports, module) {
     MenuHeaderView.prototype.constructor = MenuHeaderView;
 
     MenuHeaderView.DEFAULT_OPTIONS = {
+        user: {},
         width: window.innerWidth,
         height: window.innerHeight * 0.44,
         bullet: ' • ',
@@ -70,7 +71,7 @@ define(function(require, exports, module) {
     function _createUserImage() {
         this.userImageSurface = new ImageSurface({
             size: [this.options.userImageSize, this.options.userImageSize],
-            content: this.options.userImageUrl,
+            content: this.options.user.image,
             properties: {
                 backgroundColor: 'white',
                 borderRadius: this.options.userImageSize / 2 + 'px'
@@ -90,7 +91,7 @@ define(function(require, exports, module) {
     function _createUserName() {
         var userNameSurface = new Surface({
             size: [true, true],
-            content: this.options.userName,
+            content: this.options.user.name || 'Team Gabriel',
             properties: {
                 color: 'white',
                 textAlign: 'center',
@@ -113,7 +114,7 @@ define(function(require, exports, module) {
     function _createUserTagLine() {
         var userTagLineSurface = new Surface({
             size: [this.options.width * 0.9, true],
-            content: this.options.userJob + this.options.bullet + this.options.userLocation,
+            content: this.options.userJob + this.options.bullet + this.options.user.locations[0].display_name,
             properties: {
                 color: 'white',
                 textAlign: 'center',
@@ -134,7 +135,7 @@ define(function(require, exports, module) {
     function _createUserBio() {
         var userBioSurface = new Surface({
             size: [this.options.width * 0.95, true],
-            content: this.options.userBio,
+            content: this.options.user.bio,
             properties: {
                 color: 'white',
                 textAlign: 'center',
