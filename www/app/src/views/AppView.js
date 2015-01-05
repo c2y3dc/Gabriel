@@ -85,6 +85,7 @@ define(function(require, exports, module) {
 
     // GabrielPage Toggle
     AppView.prototype.showFullGabrielPage = function() {
+        // this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0));
         this.pageModifier.setTransform(Transform.translate(0, 0, 0), this.options.transition);
     };
 
@@ -95,6 +96,8 @@ define(function(require, exports, module) {
     AppView.prototype.toggleGabrielPage = function() {
         if (this.gabrielMenu) {
             console.log('remove garielPage page');
+
+            // this.menuModifier.setTransform(Transform.translate(0, 0, 0));
             this.removeGabrielPage();
             this.showFullMenuPage();
         } else {
@@ -402,10 +405,6 @@ define(function(require, exports, module) {
         this.aboutModifier = new StateModifier({
             transform: Transform.translate(window.innerWidth, 0, 0)
         });
-
-        // var aboutModifier2 = new StateModifier({
-        //   transform: Transform.inFront
-        // });
 
         this.add(this.aboutModifier).add(this.aboutView);
     }

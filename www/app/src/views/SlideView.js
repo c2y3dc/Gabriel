@@ -52,7 +52,8 @@ define(function(require, exports, module) {
         job: undefined,
         position: position,
         angle: undefined,
-        toggle: false
+        toggle: false,
+        jobDescription: 'No description provided'
     };
 
     SlideView.prototype.fadeIn = function() {
@@ -143,7 +144,7 @@ define(function(require, exports, module) {
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card'],
-            content: '<div class="back-card-desc">' + this.options.job.description.trunc(1800) + '</div>',
+            content: '<div class="back-card-desc">' + truncate(this.options.job.description, 1800) + '</div>',
             properties: {
                 backgroundColor: '#FFFFFF'
                     //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
