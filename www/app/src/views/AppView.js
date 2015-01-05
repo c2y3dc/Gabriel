@@ -63,7 +63,7 @@ define(function(require, exports, module) {
             _createProfileView.call(this);
             _createFeedbackView.call(this);
             _setListeners.call(this);
-           
+
         }.bind(this));
     }
 
@@ -91,7 +91,7 @@ define(function(require, exports, module) {
     // };
 
     AppView.prototype.showFullGabrielPage = function() {
-        this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2,0,0));
+        // this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2,0,0));
         this.pageModifier.setTransform(Transform.translate(0, 0, 0), this.options.transition);
     };
 
@@ -102,8 +102,9 @@ define(function(require, exports, module) {
     AppView.prototype.toggleGabrielPage = function() {
         if (this.gabrielMenu) {
             console.log('remove garielPage page');
-            this.menuModifier.setTransform(Transform.translate(0,0,0));
+            // this.menuModifier.setTransform(Transform.translate(0,0,0));
             this.removeGabrielPage();
+            this.showFullMenuPage();
             // this.menuView.animateStrips();
         } else {
             console.log('show full Gariel Page');
@@ -124,6 +125,50 @@ define(function(require, exports, module) {
         // this.removeSettingsPage();
         // this.removeSharingPage();
     };
+
+    // GabrielPage Toggle
+    AppView.prototype.moveMenuPageAside = function() {
+      this.pageModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
+    };
+
+    // AppView.prototype.moveMenuPageAside = function() {
+    //     this.pageModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
+    // };
+
+    AppView.prototype.showFullMenuPage = function() {
+      this.menuModifier.setTransform(Transform.translate(0,0,0));
+    };
+
+    AppView.prototype.removeMenuPage = function() {
+      this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), this.options.transition);
+    };
+
+    AppView.prototype.toggleMenuPage = function() {
+      if (this.gabrielMenu) {
+        console.log('remove garielPage page');
+        // this.menuModifier.setTransform(Transform.translate(0,0,0));
+        this.removeMenuPage();
+        // this.menuView.animateStrips();
+      } else {
+        console.log('show full Gariel Page');
+        this.showFullMenuPage();
+        // this.removeProfilePage();
+        // this.removeSettingsPage();
+        // this.removeSharingPage();
+        // this.removeFeedbackPage();
+      }
+      this.gabrielMenu = !this.gabrielMenu;
+    };
+
+    AppView.prototype.showMenuPage = function() {
+      console.log('show full GarielPage');
+      this.gabrielMenu = true;
+      this.showFullMenuPage();
+      // this.removeProfilePage();
+      // this.removeSettingsPage();
+      // this.removeSharingPage();
+    };
+
 
     // AppView.prototype.toggleStarredMenu = function() {
     //     if (this.starredMenu) {
