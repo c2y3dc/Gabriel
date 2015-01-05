@@ -41,7 +41,7 @@ define(function(require, exports, module) {
 
     function _createIcon() {
         var iconSurface = new ImageSurface({
-            size: [this.options.iconSize,this.options.iconSize],
+            size: [this.options.iconSize, this.options.iconSize],
             content: this.options.iconUrl,
             properties: {
                 pointerEvents: 'none'
