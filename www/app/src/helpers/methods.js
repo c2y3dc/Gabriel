@@ -1,5 +1,5 @@
 function truncate(str, n) {
-    if (str)
+    if (str && str.length > 0)
         return str.length > n ? str.substr(0, n - 1) + '&hellip;' : str;
     else
         return 'No Description'

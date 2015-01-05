@@ -3,7 +3,6 @@ define(function(require, exports, module) {
     'use strict';
     // import dependencies
     var Engine = require('famous/core/Engine');
-    var Utility = require('famous/utilities/Utility');
     var AppView = require('views/AppView');
     var OAuth = require('lib/oauth-js/dist/oauth.min.js');
     require('helpers/methods');
