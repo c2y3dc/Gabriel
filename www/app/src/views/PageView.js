@@ -154,7 +154,7 @@ define(function(require, exports, module) {
 
         var matchModifier = new StateModifier({
             // transform: Transform.inFront,
-            transform: Transform.translate(-this.options.width * 0.087, this.options.headerSize * 0.45, 200),
+            transform: Transform.translate(-this.options.width * 0.087, this.options.headerSize * 0.18, 100),
             origin: [1, 0],
             align: [1, 0.5]
         });
@@ -473,7 +473,8 @@ define(function(require, exports, module) {
 
 
         this.matchSurface.on('click', function() {
-            this._eventOutput.emit('matchViewToggle');
+            console.log('matchView is clicked');
+            this._eventOutput.emit('matchOnly');
         }.bind(this));
 
         // this.noButtonSurface.on('click', function() {

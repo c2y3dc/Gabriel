@@ -109,7 +109,7 @@ define(function(require, exports, module) {
         } else {
             console.log('show full Gariel Page');
             this.showFullGabrielPage();
-            // this.removeProfilePage();
+            // this.removeProfilePage() ;
             // this.removeSettingsPage();
             // this.removeSharingPage();
             // this.removeFeedbackPage();
@@ -356,29 +356,31 @@ define(function(require, exports, module) {
     // };
     //
     //
-    // // MatchView Toggle
-    // AppView.prototype.slideRightMatchView = function() {
-    //     this.matchModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), {
-    //         duration: 500,
-    //         curve: Easing.outBack
-    //     });
-    // };
-    //
-    // AppView.prototype.slideLeftMatchView = function() {
-    //     this.matchModifier.setTransform(Transform.translate(0, 0, 0), {
-    //        duration: 300,
-    //        curve: 'easeOut'
-    //     });
-    // };
-    //
-    // AppView.prototype.toggleMatchView = function() {
-    //     if (this.matchViewToggle) {
-    //         this.slideRightMatchView();
-    //     } else {
-    //         this.slideLeftMatchView();
-    //     }
-    //     this.matchViewToggle = !this.matchViewToggle;
-    // };
+    // MatchView Toggle
+    AppView.prototype.removeMatchView = function() {
+        this.matchModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), {
+            duration: 500,
+            curve: Easing.outBack
+        });
+    };
+
+    AppView.prototype.showFullMatchView = function() {
+        this.matchModifier.setTransform(Transform.translate(0, 0, 0), {
+           duration: 300,
+           curve: 'easeOut'
+        });
+    };
+
+    AppView.prototype.toggleMatchView = function() {
+        if (this.matchViewToggle) {
+            this.removeMatchView();
+            this.showGabrielPage();
+        } else {
+            this.showFullMatchView();
+            // this.removeGabrielPage();
+        }
+        this.matchViewToggle = !this.matchViewToggle;
+    };
 
 
     // Create different views
@@ -510,8 +512,8 @@ define(function(require, exports, module) {
         // this.menuView.on('sharingOnly', this.showSharingPage.bind(this));
         // this.menuView.on('ratingOnly', this.showRatingPage.bind(this));
 
-        // this.pageView.on('matchViewToggle', this.toggleMatchView.bind(this));
-        // this.matchView.on('matchViewToggle', this.toggleMatchView.bind(this));
+        this.pageView.on('matchOnly', this.toggleMatchView.bind(this));
+        this.matchView.on('showGabrielPage', this.toggleMatchView.bind(this));
     }
 
     module.exports = AppView;

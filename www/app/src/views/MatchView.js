@@ -25,21 +25,25 @@ define(function(require, exports, module) {
     MatchView.prototype.constructor = MatchView;
 
     MatchView.DEFAULT_OPTIONS = {
-        headerSize: 44,
-        headerWidth: window.innerWidth,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        headerSize: window.innerHeight * 0.097,
+        footerSize: window.innerHeight * 0.167,
     };
 
     function _createBacking() {
-        var backing = new Surface({
+        var backingSurface = new Surface({
             properties: {
-                backgroundColor: 'black',
-                boxShadow: '0 0 20px rgba(0,0,0,0.5)'
+                backgroundColor: 'rgb(253, 253, 253)'
             }
         });
 
-        this.add(backing);
-    }
+        var backingModifier = new StateModifier({
+            transform: Transform.translate(0, 0, 100)
+        });
 
+        this.add(backingModifier).add(backingSurface);
+    }
 
     function _createLayout() {
         this.layout = new HeaderFooter({
@@ -48,7 +52,7 @@ define(function(require, exports, module) {
         });
 
         var layoutModifier = new StateModifier({
-            transform: Transform.translate(0,0,1)
+            transform: Transform.translate(0, 0, 1)
         });
 
         this.add(layoutModifier).add(this.layout);
@@ -56,38 +60,43 @@ define(function(require, exports, module) {
 
     function _createHeader() {
         var backgroundSurface = new Surface({
-            classes: ['ionic-blue-background']
+            properties: {
+                backgroundColor: '#1976D2'
+            }
         });
 
         var backgroundModifier = new StateModifier({
-            transform: Transform.inFront
+            transform: Transform.translate(0, this.options.headerSize * 0.2, 102),
         });
 
         this.layout.header.add(backgroundModifier).add(backgroundSurface);
 
         /*HEADER SURFACES*/
         this.backButtonSurface = new ImageSurface({
-            size: [44, 44],
-            content: 'img/back.png'
+            size: [20, 20],
+            content: 'img/back.svg'
         });
 
         this.titleSurface = new Surface({
             size: [true, 44],
             content: 'Matches',
-            classes: ['header-title']
+            properties: {
+                fontSize: '18px',
+                color: 'white'
+            }
         });
 
         /*HEADER MODIFIERS */
         var backButtonModifier = new StateModifier({
-            transform: Transform.inFront,
-            origin: [0, 0.5],
+            transform: Transform.translate(this.options.width * 0.07, this.options.headerSize * 0.18, 102),
+            origin: [0, 0],
             align: [0, 0.5]
         });
 
         var titleModifier = new StateModifier({
-            transform: Transform.inFront,
-            origin: [0.5, 0],
-            align: [0.5, 0.3]
+            transform: Transform.translate(this.options.width * 0.215, this.options.headerSize * 0.18, 102),
+            origin: [0, 0],
+            align: [0, 0.5]
         });
 
         this.layout.header.add(backButtonModifier).add(this.backButtonSurface);
@@ -99,7 +108,9 @@ define(function(require, exports, module) {
 
         this.bodySurface = new Surface({
             size: [undefined, undefined],
-            classes: ['main-body-background']
+            properties: {
+              backgroundColor: '#2D2D2D'
+            }
         });
 
         this.bodyModifier = new StateModifier({
@@ -109,8 +120,9 @@ define(function(require, exports, module) {
         var matchList = new ScrollableView();
 
         var matchListModifier = new StateModifier({
-          origin: [0.5, 0.5],
-          align: [0.5, 0.5]
+            transform: Transform.translate(0, this.options.height * 0.018, 101),
+            origin: [0.5, 0.5],
+            align: [0.5, 0.5]
         });
 
         node.add(this.bodyModifier).add(this.bodySurface);
@@ -119,7 +131,7 @@ define(function(require, exports, module) {
 
     function _setListeners() {
         this.backButtonSurface.on('click', function() {
-            this._eventOutput.emit('matchViewToggle');
+            this._eventOutput.emit('showGabrielPage');
         }.bind(this));
     }
 

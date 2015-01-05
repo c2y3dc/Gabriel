@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="32px" height="34px" viewBox="0 0 32 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+    <title>Back</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Match-Page" sketch:type="MSArtboardGroup" transform="translate(-35.000000, -49.000000)" fill="#FFFFFF">
+            <path d="M42.6862915,64 L67,64 L67,68 L42.6862915,68 L54.8284271,80.1421356 L52,82.9705627 L35.0294373,66 L36.4436508,64.5857864 L52,49.0294373 L54.8284271,51.8578644 L42.6862915,64 Z" id="Back" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>
