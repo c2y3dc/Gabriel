@@ -45,18 +45,22 @@ define(function(require, exports, module) {
         size: [window.innerWidth * 0.9, window.innerHeight * 0.687],
         jobs: undefined,
         lightboxOpts: {
+            inTransform: Transform.translate(300, 0, 0),
+            outTransform: Transform.translate(-500, 0, 0),
+            inTransition: { duration: 500, curve: Easing.outBack },
+            outTransition: { duration: 350, curve: Easing.inQuad }
             // inOpacity: 1,
             // outOpacity: 0,
             // inTransform: Transform.translate(window.innerWidth, 0, 0),
             // outTransform: Transform.translate(-window.innerWidth * 2, 0, 0),
-            inTransition: {
-                duration: 0,
-                curve: 'easeOut'
-            },
-            outTransition: {
-                duration: 0,
-                curve: Easing.inCubic
-            }
+            // inTransition: {
+            //     duration: 0,
+            //     curve: 'easeOut'
+            // },
+            // outTransition: {
+            //     duration: 0,
+            //     curve: Easing.inCubic
+            // }
         }
     };
 
