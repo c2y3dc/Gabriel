@@ -71,8 +71,9 @@ define(function(require, exports, module) {
     AppView.prototype.constructor = AppView;
 
     AppView.DEFAULT_OPTIONS = {
-        angel: undefined,
-        initialData: undefined,
+        userData: {},
+        angel: {},
+        initialData: {},
         slideLeftX: window.innerWidth - window.innerWidth / 8,
         transition: {
             duration: 300,
@@ -350,7 +351,8 @@ define(function(require, exports, module) {
 
     function _createMenuView() {
         this.menuView = new MenuView({
-            stripData: StripData
+            stripData: StripData,
+            userData : this.landingView.options.userData
         });
         this.menuModifier = new StateModifier({
             transform: Transform.translate(-window.innerWidth, 0, 0)

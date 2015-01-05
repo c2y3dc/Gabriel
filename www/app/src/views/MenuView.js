@@ -22,6 +22,7 @@ define(function(require, exports, module) {
     MenuView.prototype.constructor = MenuView;
 
     MenuView.DEFAULT_OPTIONS = {
+        userData: {},
         headerSize: window.innerHeight * 0.44,
         stripData: {},
         angle: -0.2,
@@ -68,7 +69,9 @@ define(function(require, exports, module) {
     }
 
     function _createMenuHeader() {
-        this.menuHeaderView = new MenuHeaderView();
+        this.menuHeaderView = new MenuHeaderView({
+            user: this.options.userData
+        });
 
         this.add(this.menuHeaderView);
     }
