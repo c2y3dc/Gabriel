@@ -116,7 +116,19 @@ define(function(require, exports, module) {
       transform: Transform.behind
     });
 
+    var teamBackgroundSurface = new ImageSurface({
+      size: [this.options.width, this.options.height * 0.242],
+      content: 'img/teamGabriel.png'
+    })
+
+    var teamBackgroundModifier = new StateModifier({
+      transform: Transform.translate(0, this.options.height * 0.0213, 102),
+      origin: [0.5, 0],
+      align: [0.5, 0]
+    })
+
     node.add(this.bodyModifier).add(this.bodySurface);
+    node.add(teamBackgroundModifier).add(teamBackgroundSurface);
   }
 
   function _setListeners() {
