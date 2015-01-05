@@ -3,7 +3,7 @@ define(function(require, exports, module) {
     var Transform = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
     var Timer = require('famous/utilities/Timer');
-  var Surface = require('famous/core/Surface');
+    var Surface = require('famous/core/Surface');
 
     var StripView = require('views/StripView');
     var MenuHeaderView = require('views/MenuHeaderView');
@@ -36,7 +36,7 @@ define(function(require, exports, module) {
         }
     };
 
-      function _createBacking() {
+    function _createBacking() {
         var backing = new Surface({
             properties: {
                 backgroundColor: 'white'
@@ -68,9 +68,9 @@ define(function(require, exports, module) {
     }
 
     function _createMenuHeader() {
-      this.menuHeaderView = new MenuHeaderView();
+        this.menuHeaderView = new MenuHeaderView();
 
-      this.add(this.menuHeaderView);
+        this.add(this.menuHeaderView);
     }
 
     // MenuView.prototype.resetStrips = function() {
@@ -101,32 +101,31 @@ define(function(require, exports, module) {
     // };
 
     function _setListeners() {
-        // UserImageSurface
+        // Menu surface
         this.menuHeaderView.userImageSurface.on('click', function() {
-          console.log('user Image clicked');
-          this._eventOutput.emit('profileOnly');
+            this._eventOutput.emit('gabrielOnly');
         }.bind(this));
         // Home StripView
         this.stripSurfaces[0].backgroundSurface.on('click', function() {
-            console.log('Home is clicked');
-            this._eventOutput.emit('menuOnly');
+            console.log('home is clicked');
+            this._eventOutput.emit('gabrielOnly');
+        }.bind(this));
+        // About StripView
+        this.stripSurfaces[1].backgroundSurface.on('click', function() {
+            this._eventOutput.emit('aboutOnly');
         }.bind(this));
         // Settings StripView
-         this.stripSurfaces[1].backgroundSurface.on('click', function() {
-           console.log('Settings is clicked');
+        this.stripSurfaces[2].backgroundSurface.on('click', function() {
             this._eventOutput.emit('settingsOnly');
         }.bind(this));
-        // Starred StripView
-          this.stripSurfaces[2].backgroundSurface.on('click', function() {
-            console.log('Starred is clicked');
-            this._eventOutput.emit('starredOnly');
+        // Share Gabriel StripView
+        this.stripSurfaces[3].backgroundSurface.on('click', function() {
+            this._eventOutput.emit('sharingOnly');
         }.bind(this));
-        // Feedback StripView
-           this.stripSurfaces[3].backgroundSurface.on('click', function() {
-             console.log('Feedback is clicked');
-            this._eventOutput.emit('feedbackOnly');
+        // Rate Our App StripView
+        this.stripSurfaces[3].backgroundSurface.on('click', function() {
+            this._eventOutput.emit('rateOnly');
         }.bind(this));
     }
-
     module.exports = MenuView;
 });
