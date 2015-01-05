@@ -19,7 +19,6 @@ define(function(require, exports, module) {
 
     function DeckView() {
         View.apply(this, arguments);
-
         this.rootModifier = new StateModifier({
             size: this.options.size,
             transform: Transform.translate(0, this.options.height * 0.0264, 0),
@@ -40,6 +39,7 @@ define(function(require, exports, module) {
     DeckView.prototype.constructor = DeckView;
 
     DeckView.DEFAULT_OPTIONS = {
+        initialData: {},
         height: window.innerHeight,
         width: window.innerWidth,
         size: [window.innerWidth * 0.9, window.innerHeight * 0.687],
@@ -80,7 +80,7 @@ define(function(require, exports, module) {
 
     DeckView.prototype.flip = function() {
         var slide = this.slides[this.currentIndex];
-        var angle = slide.options.toggle ? 0 : Math.PI;
+        var angle = slide.options.toggle ? 0 : -Math.PI;
         slide.flipper.setAngle(angle, {
             curve: 'easeOut',
             duration: 1200
@@ -116,12 +116,12 @@ define(function(require, exports, module) {
         this.slides = [];
         this.currentIndex = 0;
 
-        for (var i = 0; i < this.options.jobs.length; i++) {
+        for (var i = 0; i < this.options.initialData.jobs.length; i++) {
             var slide = new SlideView({
                 size: this.options.size,
-                job: this.options.jobs[i],
+                job: this.options.initialData.jobs[i],
             });
-
+            
             this.slides.push(slide);
 
             // adding click listener

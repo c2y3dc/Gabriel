@@ -39,44 +39,40 @@ define(function(require, exports, module) {
     var FeedbackView = require('views/FeedbackView');
     var ProfileView = require('views/ProfileView');
 
-    // var LandingView = require('views/LandingView');
+    var LandingView = require('views/LandingView');
     var AboutView = require('views/AboutView');
 
     function AppView() {
         View.apply(this, arguments);
 
-        ///var results = this.getOptions('jobs');
-        this.jobs = this.options.jobs
-        console.log(this.jobs[0]);
-
-        // _createLandingView.call(this);
-
-        this.gabrielMenu = true;
-        this.settingsMenu = true;
-        this.starredMenu = true;
-        this.feedbackToggle = true;
-        this.matchViewToggle = false;
-        this.aboutViewToggle = false;
-        this.pageViewPos = 0;
-
-
-        _createPageView.call(this);
-        _createMatchView.call(this);
-        _createMenuView.call(this);
-        _createSettingsView.call(this);
-        // _createSharingView.call(this);
-        _createProfileView.call(this);
-        _createFeedbackView.call(this);
-        _createAboutView.call(this);
-
-        _setListeners.call(this);
+        _createLandingView.call(this);
+        this.landingView.on('loaded', function() {
+            ///var results = this.getOptions('jobs');
+            this.angel = this.landingView.options.angel;
+            this.gabrielMenu = true;
+            this.settingsMenu = true;
+            this.starredMenu = true;
+            this.feedbackToggle = true;
+            this.matchViewToggle = false;
+            this.pageViewPos = 0;
+            _createPageView.call(this);
+            _createMatchView.call(this);
+            _createMenuView.call(this);
+            _createSettingsView.call(this);
+            //_createStarredView.call(this);
+            _createProfileView.call(this);
+            _createFeedbackView.call(this);
+            _setListeners.call(this);
+           
+        }.bind(this));
     }
 
     AppView.prototype = Object.create(View.prototype);
     AppView.prototype.constructor = AppView;
 
     AppView.DEFAULT_OPTIONS = {
-        jobs: undefined,
+        angel: undefined,
+        initialData: undefined,
         slideLeftX: window.innerWidth - window.innerWidth / 8,
         transition: {
             duration: 300,
@@ -85,6 +81,10 @@ define(function(require, exports, module) {
     };
 
     // GabrielPage Toggle
+    AppView.prototype.moveGabrielPageAside = function() {
+        this.pageModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
+    };
+
     // AppView.prototype.moveGabrielPageAside = function() {
     //     this.pageModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
     // };
@@ -95,7 +95,6 @@ define(function(require, exports, module) {
     };
 
     AppView.prototype.removeGabrielPage = function() {
-        // this.menuModifier.setTransform(Transform.translate(0,0,0), { duration: 100 });
         this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), this.options.transition);
     };
 
@@ -124,6 +123,30 @@ define(function(require, exports, module) {
         // this.removeSettingsPage();
         // this.removeSharingPage();
     };
+
+    // AppView.prototype.toggleStarredMenu = function() {
+    //     if (this.starredMenu) {
+    //         console.log('moves starredPage aside');
+    //         this.moveStarredPageAside();
+    //         this.menuView.animateStrips();
+    //     } else {
+    //         console.log('show full starredPage');
+    //         this.showFullStarredPage();
+    //         this.removeProfilePage();
+    //         this.removeGabrielPage();
+    //         this.removeSettingsPage();
+    //     }
+    //     this.starredMenu = !this.starredMenu;
+    // };
+
+    // AppView.prototype.showStarredPage = function() {
+    //     console.log('show full starredPage');
+    //     this.starredMenu = true;
+    //     this.showFullStarredPage();
+    //     this.removeProfilePage();
+    //     this.removeGabrielPage();
+    //     this.removeSettingsPage();
+    // };
 
     // AboutView Toggle
     // AppView.prototype.moveFeedbackPageAside = function() {
@@ -311,13 +334,14 @@ define(function(require, exports, module) {
     //     this.matchViewToggle = !this.matchViewToggle;
     // };
 
+
     // Create different views
     function _createPageView() {
         this.pageView = new PageView({
-            jobs: this.jobs
+            initialData: this.landingView.options.initialData
         });
         this.pageModifier = new StateModifier({
-          transform: Transform.translate(0, 0, 0.1)
+            transform: Transform.translate(0, 0, 0.1)
         });
 
         this.add(this.pageModifier).add(this.pageView);
@@ -419,6 +443,8 @@ define(function(require, exports, module) {
         })
 
         this.add(this.landingModifier).add(this.landingView);
+        this.options.angel = this.landingView.options.results
+        this.options.initialData = this.landingView.options.initialData
     }
 
 
@@ -440,5 +466,6 @@ define(function(require, exports, module) {
         // this.pageView.on('matchViewToggle', this.toggleMatchView.bind(this));
         // this.matchView.on('matchViewToggle', this.toggleMatchView.bind(this));
     }
+
     module.exports = AppView;
 });
