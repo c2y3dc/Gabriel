@@ -71,7 +71,7 @@ define(function(require, exports, module) {
     function _createUserImage() {
         this.userImageSurface = new ImageSurface({
             size: [this.options.userImageSize, this.options.userImageSize],
-            content: this.options.user.image,
+            content: this.options.user.image || this.options.userImageUrl,
             properties: {
                 backgroundColor: 'white',
                 borderRadius: this.options.userImageSize / 2 + 'px'
@@ -114,7 +114,7 @@ define(function(require, exports, module) {
     function _createUserTagLine() {
         var userTagLineSurface = new Surface({
             size: [this.options.width * 0.9, true],
-            content: this.options.userJob + this.options.bullet + this.options.user.locations[0].display_name,
+            content: this.options.userJob + this.options.bullet + this.options.user.locations[0].display_name || this.options.userJob + this.options.bullet + this.options.userLocation,
             properties: {
                 color: 'white',
                 textAlign: 'center',
@@ -135,7 +135,7 @@ define(function(require, exports, module) {
     function _createUserBio() {
         var userBioSurface = new Surface({
             size: [this.options.width * 0.95, true],
-            content: this.options.user.bio,
+            content: this.options.user.bio || this.options.userBio,
             properties: {
                 color: 'white',
                 textAlign: 'center',
