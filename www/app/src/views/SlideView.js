@@ -52,7 +52,8 @@ define(function(require, exports, module) {
         job: undefined,
         position: position,
         angle: undefined,
-        toggle: false
+        toggle: false,
+        jobDescription: 'No description provided'
     };
 
     SlideView.prototype.fadeIn = function() {
@@ -85,7 +86,14 @@ define(function(require, exports, module) {
         this.frontSurface = new Surface({
             size: this.options.size,
             classes: ['front-card'],
-            content: '<h3>' + this.options.job.startup.name + '</h3>' + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept + '"</p></div>' + '<div class="product_desc"><p>' + this.options.job.startup.product_desc + '</p></div>' + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>' + '<div><p>Min: $' + ('' + this.options.job.salary_min).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>' + '<div><p>Max: $' + ('' + this.options.job.salary_max).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>',
+            content: '<h3>' + this.options.job.startup.name + '</h3>' 
+                    + '<div class="high-concept"><p>"' 
+                    + this.options.job.startup.high_concept 
+                    + '"</p></div>' + '<div class="product_desc"><p>' 
+                    + this.options.job.startup.product_desc + '</p></div>' 
+                    + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>' 
+                    + '<div><p>$' + ('' + this.options.job.salary_min).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") 
+                    + ' — $' + ('' + this.options.job.salary_max).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>',
             properties: {
                 backgroundColor: '#FFFFFF'
                     //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
@@ -110,7 +118,7 @@ define(function(require, exports, module) {
         this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
 
         this.companyBackgroundModifier = new StateModifier({
-            transform: Transform.translate(0,0,0.9)
+            transform: Transform.translate(0,-100,0.9)
         });
 
         this.companyBackgroundSurface = new ImageSurface({
@@ -126,7 +134,7 @@ define(function(require, exports, module) {
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card'],
-            content: '<div class="back-card-desc">' + this.options.job.description.trunc(1800) + '</div>',
+            content: '<div class="back-card-desc">' + (this.options.job.description.trunc(1800) || this.options.jobDescription) + '</div>',
             properties: {
                 backgroundColor: '#FFFFFF'
                     //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
