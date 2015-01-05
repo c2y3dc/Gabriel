@@ -8,11 +8,10 @@ require.config({
         requirejs: '../lib/requirejs/require',
         almond: '../lib/almond/almond',
         ionicons: '../lib/ionicons/fonts/*',
-        jquery: '../lib/jquery/dist/jquery',
-        'oauth-js': '../lib/oauth-js/dist/oauth.min'
+        jquery: '../lib/jquery/dist/jquery'
     },
     packages: [
 
     ]
 });
-require(['main']);
+require(['../lib/oauth-js/dist/oauth.min.js', 'main']);
