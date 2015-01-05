@@ -119,16 +119,34 @@ define(function(require, exports, module) {
     var teamBackgroundSurface = new ImageSurface({
       size: [this.options.width, this.options.height * 0.242],
       content: 'img/teamGabriel.png'
-    })
+    });
 
     var teamBackgroundModifier = new StateModifier({
       transform: Transform.translate(0, this.options.height * 0.0213, 102),
       origin: [0.5, 0],
       align: [0.5, 0]
+    });
+
+    var teamLogoSurface = new ImageSurface({
+      size: [this.options.width * 0.234, this.options.width * 0.234],
+      // content: 'img/account.png',
+      properties: {
+        backgroundColor: '#04B9E6',
+        borderRadius: '2px',
+        border: '3px solid #FFFFFF',
+        boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.30)'
+      }
     })
+
+    var teamLogoModifier = new StateModifier({
+      transform: Transform.translate(this.options.width * 0.075, this.options.height * 0.22, 102),
+      origin: [0, 0],
+      align: [0, 0]
+    });
 
     node.add(this.bodyModifier).add(this.bodySurface);
     node.add(teamBackgroundModifier).add(teamBackgroundSurface);
+    node.add(teamLogoModifier).add(teamLogoSurface);
   }
 
   function _setListeners() {
