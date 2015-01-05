@@ -9,6 +9,7 @@ define(function(require, exports, module) {
         View.apply(this, arguments);
 
         _createBackground.call(this);
+        // _createMenu.call(this);
         _createUserImage.call(this);
         _createUserName.call(this);
         _createUserTagLine.call(this);
@@ -32,6 +33,7 @@ define(function(require, exports, module) {
         fund and host the largest startup conference in the world'
     };
 
+    // Create dark blue background
     function _createBackground() {
         this.backgroundSurface = new Surface({
             size: [this.options.width, this.options.height],
@@ -48,6 +50,23 @@ define(function(require, exports, module) {
         this.add(backgroundModifier).add(this.backgroundSurface);
     }
 
+    // Create menu toggle
+    function _createMenu() {
+        this.menuSurface = new ImageSurface({
+            size: [20, 20],
+            content: 'img/menu.svg'
+        });
+
+        var menuModifier = new StateModifier({
+            transform: Transform.translate(this.options.width * 0.05, this.options.height * 0.044, 0),
+            origin: [0, 0],
+            align: [0, 0]
+        })
+
+        this.add(menuModifier).add(this.menuSurface);
+    }
+
+    // Create user image circle
     function _createUserImage() {
         this.userImageSurface = new ImageSurface({
             size: [this.options.userImageSize, this.options.userImageSize],
@@ -67,6 +86,7 @@ define(function(require, exports, module) {
         this.add(userImageModifier).add(this.userImageSurface);
     }
 
+    // Create username
     function _createUserName() {
         var userNameSurface = new Surface({
             size: [true, true],
@@ -89,6 +109,7 @@ define(function(require, exports, module) {
         this.add(userNameModifier).add(userNameSurface);
     }
 
+    // Create user job title and location
     function _createUserTagLine() {
         var userTagLineSurface = new Surface({
             size: [this.options.width * 0.9, true],
@@ -109,6 +130,7 @@ define(function(require, exports, module) {
         this.add(userTagLineModifier).add(userTagLineSurface);
     }
 
+    // Create user short bio
     function _createUserBio() {
         var userBioSurface = new Surface({
             size: [this.options.width * 0.95, true],

@@ -22,9 +22,9 @@ define(function(require, exports, module) {
 
         this.rootModifier = new StateModifier({
             size: this.options.size,
-            origin: [0.5, 0.5],
-            align: [0.5, 0.5],
-            transform: Transform.inFront
+            transform: Transform.translate(0, this.options.height * 0.0264, 0),
+            origin: [0.5, 0],
+            align: [0.5, 0]
         });
 
         this.mainNode = this.add(this.rootModifier);
@@ -40,7 +40,9 @@ define(function(require, exports, module) {
     DeckView.prototype.constructor = DeckView;
 
     DeckView.DEFAULT_OPTIONS = {
-        size: [window.innerWidth * 0.9, window.innerHeight * 0.75],
+        height: window.innerHeight,
+        width: window.innerWidth,
+        size: [window.innerWidth * 0.9, window.innerHeight * 0.687],
         jobs: undefined,
         lightboxOpts: {
             // inOpacity: 1,

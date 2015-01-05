@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="30px" height="29px" viewBox="0 0 30 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+    <title>matches</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Home-Page" sketch:type="MSArtboardGroup" transform="translate(-573.000000, -52.000000)" fill="#FFFFFF">
+            <g id="Header" sketch:type="MSLayerGroup">
+                <g id="matches" transform="translate(588.500000, 66.500000) rotate(-45.000000) translate(-588.500000, -66.500000) translate(572.000000, 56.000000)" sketch:type="MSShapeGroup">
+                    <path d="M9.6,11.6666667 L22.4,11.6666667 L22.4,8.33333333 L9.6,8.33333333 L9.6,11.6666667 L9.6,11.6666667 Z M3.04,10 C3.04,6.16666667 5.92,3.16666667 9.6,3.16666667 L14.4,3.16666667 L14.4,1.13686838e-13 L9.6,1.13686838e-13 C4.32,1.13686838e-13 2.27373675e-13,4.5 2.27373675e-13,10 C2.27373675e-13,15.5 4.32,20 9.6,20 L14.4,20 L14.4,16.8333333 L9.6,16.8333333 C5.92,16.8333333 3.04,13.8333333 3.04,10 L3.04,10 Z M22.4,1.13686838e-13 L17.6,1.13686838e-13 L17.6,3.16666667 L22.4,3.16666667 C26.08,3.16666667 28.96,6.16666667 28.96,10 C28.96,13.8333333 26.08,16.8333333 22.4,16.8333333 L17.6,16.8333333 L17.6,20 L22.4,20 C27.68,20 32,15.5 32,10 C32,4.5 27.68,1.13686838e-13 22.4,1.13686838e-13 L22.4,1.13686838e-13 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

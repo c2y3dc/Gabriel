@@ -18,7 +18,7 @@ define(function(require, exports, module) {
     StripView.DEFAULT_OPTIONS = {
         width: window.innerWidth,
         height: 50,
-        iconSize: 25,
+        iconSize: 22,
         iconUrl: 'img/settings.png',
         title: 'Settings'
     };
@@ -33,7 +33,7 @@ define(function(require, exports, module) {
 
         var backgroundModifier = new StateModifier({
             // places the icon in the proper location
-            transform: Transform.translate(-24, 0, 0)
+            transform: Transform.translate(0, 0, 0)
         });
 
         this.add(backgroundModifier).add(this.backgroundSurface);
@@ -41,7 +41,7 @@ define(function(require, exports, module) {
 
     function _createIcon() {
         var iconSurface = new ImageSurface({
-            size: [this.options.iconSize, this.options.iconSize],
+            size: [this.options.iconSize,this.options.iconSize],
             content: this.options.iconUrl,
             properties: {
                 pointerEvents: 'none'
@@ -50,7 +50,7 @@ define(function(require, exports, module) {
 
         var iconModifier = new StateModifier({
             // places the icon in the proper location
-            transform: Transform.translate(10, 12, 0)
+            transform: Transform.translate(this.options.width * 0.05, 12, 0)
         });
 
         this.add(iconModifier).add(iconSurface);
@@ -70,7 +70,7 @@ define(function(require, exports, module) {
         });
 
         var titleModifier = new StateModifier({
-            transform: Transform.translate(55, 18, 0)
+            transform: Transform.translate(this.options.width * 0.18, 15, 0)
         });
 
         this.add(titleModifier).add(titleSurface);

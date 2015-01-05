@@ -39,7 +39,9 @@ define(function(require, exports, module) {
     SlideView.prototype.constructor = SlideView;
 
     SlideView.DEFAULT_OPTIONS = {
-        size: [window.innerWidth , window.innerHeight],
+        width: window.innerWidth,
+        height: window.innerHeight,
+        size: [window.innerWidth * 0.9, window.innerHeight * 0.687],
         job: undefined,
         position: position,
         angle: undefined,
@@ -82,9 +84,23 @@ define(function(require, exports, module) {
                    + '<div><p>Max: $' + ('' + this.options.job.salary_max).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>',
             properties: {
                 backgroundColor: '#FFFFFF'
-                //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
             }
         });
+        _createCompanyBackground.call(this);
+    }
+
+    function _createCompanyBackground() {
+                this.companyBackgroundSurface = new ImageSurface({
+            size: [this.options.width * 0.9, this.options.height * 0.222],
+            content: 'img/companybg.png'
+        });
+
+        var companyBackgroundModifier = new StateModifier({
+            // transform: Transform.inFront,
+            origin: [0.5, 0],
+            align: [0.5, 0]
+        });
+        this.add(companyBackgroundModifier).add(this.companyBackgroundSurface);
     }
 
     function _createCardBack() {
@@ -94,7 +110,7 @@ define(function(require, exports, module) {
             content: '<div class="back-card-desc">' + this.options.job.description.trunc(1800) + '</div>',
             properties: {
                 backgroundColor: '#FFFFFF'
-                //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
+                    //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
             }
         });
     }
