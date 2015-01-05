@@ -63,7 +63,7 @@ define(function(require, exports, module) {
             _createProfileView.call(this);
             _createFeedbackView.call(this);
             _setListeners.call(this);
-           
+
         }.bind(this));
     }
 
@@ -91,7 +91,7 @@ define(function(require, exports, module) {
     // };
 
     AppView.prototype.showFullGabrielPage = function() {
-        this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2,0,0));
+        this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0));
         this.pageModifier.setTransform(Transform.translate(0, 0, 0), this.options.transition);
     };
 
@@ -102,7 +102,7 @@ define(function(require, exports, module) {
     AppView.prototype.toggleGabrielPage = function() {
         if (this.gabrielMenu) {
             console.log('remove garielPage page');
-            this.menuModifier.setTransform(Transform.translate(0,0,0));
+            this.menuModifier.setTransform(Transform.translate(0, 0, 0));
             this.removeGabrielPage();
             // this.menuView.animateStrips();
         } else {
@@ -352,7 +352,7 @@ define(function(require, exports, module) {
     function _createMenuView() {
         this.menuView = new MenuView({
             stripData: StripData,
-            userData : this.landingView.options.userData
+            userData: this.landingView.options.userData
         });
         this.menuModifier = new StateModifier({
             transform: Transform.translate(-window.innerWidth, 0, 0)
@@ -425,17 +425,17 @@ define(function(require, exports, module) {
     }
 
     function _createAboutView() {
-      this.aboutView = new AboutView();
+        this.aboutView = new AboutView();
 
-      this.aboutModifier = new StateModifier({
-        transform: Transform.translate(window.innerWidth, 0, 0)
-      });
+        this.aboutModifier = new StateModifier({
+            transform: Transform.translate(window.innerWidth, 0, 0)
+        });
 
-      var aboutModifier2 = new StateModifier({
-        transform: Transform.inFront
-      });
+        var aboutModifier2 = new StateModifier({
+            transform: Transform.inFront
+        });
 
-      this.add(this.aboutModifier).add(aboutModifier2).add(this.aboutView);
+        this.add(this.aboutModifier).add(aboutModifier2).add(this.aboutView);
     }
 
     function _createLandingView() {
