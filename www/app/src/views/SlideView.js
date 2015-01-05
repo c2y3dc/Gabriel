@@ -108,21 +108,18 @@ define(function(require, exports, module) {
         });
 
         this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
-        //_createCompanyBackground.call(this);
-    }
 
-    function _createCompanyBackground() {
+        this.companyBackgroundModifier = new StateModifier({
+            transform: Transform.translate(0,0,0.9)
+        });
+
         this.companyBackgroundSurface = new ImageSurface({
             size: [this.options.width * 0.9, this.options.height * 0.222],
             content: 'img/companybg.png'
         });
 
-        var companyBackgroundModifier = new StateModifier({
-            // transform: Transform.inFront,
-            origin: [0.5, 0],
-            align: [0.5, 0]
-        });
-        this.add(companyBackgroundModifier).add(this.companyBackgroundSurface);
+        this.frontNode.add(this.companyBackgroundModifier).add(this.companyBackgroundSurface);
+       
     }
 
     function _createCardBack() {
