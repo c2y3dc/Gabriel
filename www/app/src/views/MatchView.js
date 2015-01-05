@@ -109,7 +109,7 @@ define(function(require, exports, module) {
         this.bodySurface = new Surface({
             size: [undefined, undefined],
             properties: {
-              backgroundColor: '#2D2D2D'
+              backgroundColor: 'rgba(253, 253, 253, 1)'
             }
         });
 
