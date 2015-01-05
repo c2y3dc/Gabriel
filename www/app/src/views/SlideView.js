@@ -46,7 +46,9 @@ define(function(require, exports, module) {
     SlideView.prototype.constructor = SlideView;
 
     SlideView.DEFAULT_OPTIONS = {
-        size: [window.innerWidth, window.innerHeight],
+        width: window.innerWidth,
+        height: window.innerHeight,
+        size: [window.innerWidth * 0.9, window.innerHeight * 0.687],
         job: undefined,
         position: position,
         angle: undefined,
@@ -106,6 +108,21 @@ define(function(require, exports, module) {
         });
 
         this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
+        //_createCompanyBackground.call(this);
+    }
+
+    function _createCompanyBackground() {
+        this.companyBackgroundSurface = new ImageSurface({
+            size: [this.options.width * 0.9, this.options.height * 0.222],
+            content: 'img/companybg.png'
+        });
+
+        var companyBackgroundModifier = new StateModifier({
+            // transform: Transform.inFront,
+            origin: [0.5, 0],
+            align: [0.5, 0]
+        });
+        this.add(companyBackgroundModifier).add(this.companyBackgroundSurface);
     }
 
     function _createCardBack() {

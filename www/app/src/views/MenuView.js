@@ -3,6 +3,7 @@ define(function(require, exports, module) {
     var Transform = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
     var Timer = require('famous/utilities/Timer');
+    var Surface = require('famous/core/Surface');
 
     var StripView = require('views/StripView');
     var MenuHeaderView = require('views/MenuHeaderView');
@@ -10,7 +11,9 @@ define(function(require, exports, module) {
     function MenuView() {
         View.apply(this, arguments);
 
+        _createBacking.call(this);
         _createMenuHeader.call(this);
+
         _createStripViews.call(this);
         _setListeners.call(this);
     }
@@ -19,11 +22,12 @@ define(function(require, exports, module) {
     MenuView.prototype.constructor = MenuView;
 
     MenuView.DEFAULT_OPTIONS = {
+        headerSize: window.innerHeight * 0.44,
         stripData: {},
         angle: -0.2,
         stripWidth: window.innerWidth * 2,
         stripHeight: 54,
-        topOffset: window.innerHeight * 0.3,
+        topOffset: window.innerHeight * 0.47,
         stripOffset: 57,
         staggerDelay: 35,
         transition: {
@@ -31,6 +35,15 @@ define(function(require, exports, module) {
             curve: 'easeOut'
         }
     };
+
+    function _createBacking() {
+        var backing = new Surface({
+            properties: {
+                backgroundColor: 'white'
+            }
+        });
+        this.add(backing);
+    }
 
     function _createStripViews() {
         this.stripSurfaces = [];
@@ -55,66 +68,64 @@ define(function(require, exports, module) {
     }
 
     function _createMenuHeader() {
-      this.menuHeaderView = new MenuHeaderView();
+        this.menuHeaderView = new MenuHeaderView();
 
-      this.add(this.menuHeaderView);
+        this.add(this.menuHeaderView);
     }
 
-    MenuView.prototype.resetStrips = function() {
-        for (var i = 0; i < this.stripModifiers.length; i++) {
-            var initX = -this.options.stripWidth;
-            var initY = this.options.topOffset + this.options.stripOffset * i + this.options.stripWidth * Math.tan(-this.options.angle);
+    // MenuView.prototype.resetStrips = function() {
+    //     for (var i = 0; i < this.stripModifiers.length; i++) {
+    //         var initX = -this.options.stripWidth;
+    //         var initY = this.options.topOffset + this.options.stripOffset * i + this.options.stripWidth * Math.tan(-this.options.angle);
+    //
+    //         this.stripModifiers[i].setTransform(Transform.translate(initX, initY, 0));
+    //     }
+    // };
 
-            this.stripModifiers[i].setTransform(Transform.translate(initX, initY, 0));
-        }
-    };
-
-    MenuView.prototype.animateStrips = function() {
-        this.resetStrips();
-
-        var transition = this.options.transition;
-        var delay = this.options.staggerDelay;
-        var stripOffset = this.options.stripOffset;
-        var topOffset = this.options.topOffset;
-
-        for (var i = 0; i < this.stripModifiers.length; i++) {
-            Timer.setTimeout(function(i) {
-                var yOffset = topOffset + stripOffset * i;
-
-                                  this.stripModifiers[i].setTransform(
-                    Transform.translate(0, yOffset, 0), transition);
-            }.bind(this, i), i * delay);
-        }
-    };
+    // MenuView.prototype.animateStrips = function() {
+    //     this.resetStrips();
+    //
+    //     var transition = this.options.transition;
+    //     var delay = this.options.staggerDelay;
+    //     var stripOffset = this.options.stripOffset;
+    //     var topOffset = this.options.topOffset;
+    //
+    //     for (var i = 0; i < this.stripModifiers.length; i++) {
+    //         Timer.setTimeout(function(i) {
+    //             var yOffset = topOffset + stripOffset * i;
+    //
+    //                               this.stripModifiers[i].setTransform(
+    //                 Transform.translate(0, yOffset, 0), transition);
+    //         }.bind(this, i), i * delay);
+    //     }
+    // };
 
     function _setListeners() {
-        // UserImageSurface
+        // Menu surface
         this.menuHeaderView.userImageSurface.on('click', function() {
-          console.log('user Image clicked');
-          this._eventOutput.emit('profileOnly');
+            this._eventOutput.emit('gabrielOnly');
         }.bind(this));
         // Home StripView
         this.stripSurfaces[0].backgroundSurface.on('click', function() {
-            console.log('Home is clicked');
-            this._eventOutput.emit('menuOnly');
+            console.log('home is clicked');
+            this._eventOutput.emit('gabrielOnly');
+        }.bind(this));
+        // About StripView
+        this.stripSurfaces[1].backgroundSurface.on('click', function() {
+            this._eventOutput.emit('aboutOnly');
         }.bind(this));
         // Settings StripView
-         this.stripSurfaces[1].backgroundSurface.on('click', function() {
-           console.log('Settings is clicked');
+        this.stripSurfaces[2].backgroundSurface.on('click', function() {
             this._eventOutput.emit('settingsOnly');
         }.bind(this));
-        // Starred StripView
-          this.stripSurfaces[2].backgroundSurface.on('click', function() {
-            console.log('Starred is clicked');
-            this._eventOutput.emit('starredOnly');
+        // Share Gabriel StripView
+        this.stripSurfaces[3].backgroundSurface.on('click', function() {
+            this._eventOutput.emit('sharingOnly');
         }.bind(this));
-        // Feedback StripView
-           this.stripSurfaces[3].backgroundSurface.on('click', function() {
-             console.log('Feedback is clicked');
-            this._eventOutput.emit('feedbackOnly');
+        // Rate Our App StripView
+        this.stripSurfaces[3].backgroundSurface.on('click', function() {
+            this._eventOutput.emit('rateOnly');
         }.bind(this));
     }
-
     module.exports = MenuView;
 });
-
