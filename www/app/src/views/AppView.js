@@ -43,35 +43,35 @@ define(function(require, exports, module) {
     function AppView() {
         View.apply(this, arguments);
 
-        ///var results = this.getOptions('jobs');
-        this.jobs = this.options.jobs
-        console.log(this.jobs[0]);
-
-
-        this.gabrielMenu = true;
-        this.settingsMenu = true;
-        this.starredMenu = true;
-        this.feedbackToggle = true;
-        this.matchViewToggle = false;
-        this.pageViewPos = 0;
-
-        //_createLandingView.call(this);
-        _createPageView.call(this);
-        _createMatchView.call(this);
-        _createMenuView.call(this);
-        _createSettingsView.call(this);
-        _createStarredView.call(this);
-        _createProfileView.call(this);
-        _createFeedbackView.call(this);
-
-        _setListeners.call(this);
+        _createLandingView.call(this);
+        this.landingView.on('loaded', function() {
+            ///var results = this.getOptions('jobs');
+            this.angel = this.landingView.options.angel;
+            this.gabrielMenu = true;
+            this.settingsMenu = true;
+            this.starredMenu = true;
+            this.feedbackToggle = true;
+            this.matchViewToggle = false;
+            this.pageViewPos = 0;
+            _createPageView.call(this);
+            _createMatchView.call(this);
+            _createMenuView.call(this);
+            _createSettingsView.call(this);
+            _createStarredView.call(this);
+            _createProfileView.call(this);
+            _createFeedbackView.call(this);
+            _setListeners.call(this);
+            console.log('APPVIEW', this.landingView.options.initialData);
+           
+        }.bind(this));
     }
 
     AppView.prototype = Object.create(View.prototype);
     AppView.prototype.constructor = AppView;
 
     AppView.DEFAULT_OPTIONS = {
-        jobs: undefined,
+        angel: undefined,
+        initialData: undefined,
         slideLeftX: window.innerWidth - window.innerWidth / 8,
         transition: {
             duration: 300,
@@ -120,23 +120,29 @@ define(function(require, exports, module) {
     // GabrielPage Toggle
     AppView.prototype.moveGabrielPageAside = function() {
         this.pageModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
-        
+
     };
 
     AppView.prototype.showFullGabrielPage = function() {
-        this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2,0,0), { duration: 0 });
+        this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0), {
+            duration: 0
+        });
         this.pageModifier.setTransform(Transform.translate(0, 0, 0), this.options.transition);
     };
 
     AppView.prototype.removeGabrielPage = function() {
-        this.menuModifier.setTransform(Transform.translate(0,0,0), { duration: 1 });
+        this.menuModifier.setTransform(Transform.translate(0, 0, 0), {
+            duration: 1
+        });
         this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), this.options.transition);
     };
 
     AppView.prototype.toggleGabrielMenu = function() {
         if (this.gabrielMenu) {
             console.log('move garielPage aside');
-            this.menuModifier.setTransform(Transform.translate(0,0,0), { duration: 1 });
+            this.menuModifier.setTransform(Transform.translate(0, 0, 0), {
+                duration: 1
+            });
             this.moveGabrielPageAside();
             this.menuView.animateStrips();
         } else {
@@ -259,7 +265,9 @@ define(function(require, exports, module) {
     };
 
     AppView.prototype.removeFeedbackPage = function() {
-        this.pageModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), { duration: 0 } );
+        this.pageModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), {
+            duration: 0
+        });
         this.feedbackModifier.setTransform(Transform.translate(0, window.innerHeight * 2, 0), {
             curve: 'easeOut',
             duration: 200
@@ -278,7 +286,9 @@ define(function(require, exports, module) {
     };
 
     AppView.prototype.showFeedbackPage = function() {
-        this.pageModifier.setTransform(Transform.translate(window.innerWidth, 0, 0), { duration: 0 } );
+        this.pageModifier.setTransform(Transform.translate(window.innerWidth, 0, 0), {
+            duration: 0
+        });
         this.feedbackToggle = true;
         this.showFullFeedbackPage();
     };
@@ -293,8 +303,8 @@ define(function(require, exports, module) {
 
     AppView.prototype.slideLeftMatchView = function() {
         this.matchModifier.setTransform(Transform.translate(0, 0, 0), {
-           duration: 300,
-           curve: 'easeOut'
+            duration: 300,
+            curve: 'easeOut'
         });
     };
 
@@ -310,10 +320,10 @@ define(function(require, exports, module) {
     // Create different views
     function _createPageView() {
         this.pageView = new PageView({
-            jobs: this.jobs
+            initialData: this.landingView.options.initialData
         });
         this.pageModifier = new StateModifier({
-          transform: Transform.translate(0, 0, 0.1)
+            transform: Transform.translate(0, 0, 0.1)
         });
 
         this.add(this.pageModifier).add(this.pageView);
@@ -401,6 +411,8 @@ define(function(require, exports, module) {
         })
 
         this.add(this.landingModifier).add(this.landingView);
+        this.options.angel = this.landingView.options.results
+        this.options.initialData = this.landingView.options.initialData
     }
 
 
@@ -421,5 +433,6 @@ define(function(require, exports, module) {
         this.pageView.on('matchViewToggle', this.toggleMatchView.bind(this));
         this.matchView.on('matchViewToggle', this.toggleMatchView.bind(this));
     }
+
     module.exports = AppView;
 });

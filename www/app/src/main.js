@@ -13,10 +13,13 @@ define(function(require, exports, module) {
     var mainContext = Engine.createContext();
     mainContext.setPerspective(2000);
 
-    String.prototype.trunc = String.prototype.trunc ||
-        function(n) {
+    String.prototype.trunc = function(n) {
+        if (this != null)
             return this.length > n ? this.substr(0, n - 1) + '&hellip;' : this;
-        };
+        else
+            return 'No Description'
+
+    }
 
     var url = 'http://api.angel.co/1/jobs';
     //var introUrl = 'http://api.angel.co/1/intros'

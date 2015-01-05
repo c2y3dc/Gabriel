@@ -19,7 +19,6 @@ define(function(require, exports, module) {
 
     function DeckView() {
         View.apply(this, arguments);
-
         this.rootModifier = new StateModifier({
             size: this.options.size,
             origin: [0.5, 0.5],
@@ -41,7 +40,7 @@ define(function(require, exports, module) {
 
     DeckView.DEFAULT_OPTIONS = {
         size: [window.innerWidth * 0.9, window.innerHeight * 0.75],
-        jobs: undefined,
+        initialData: {},
         lightboxOpts: {
             // inOpacity: 1,
             // outOpacity: 0,
@@ -114,12 +113,12 @@ define(function(require, exports, module) {
         this.slides = [];
         this.currentIndex = 0;
 
-        for (var i = 0; i < this.options.jobs.length; i++) {
+        for (var i = 0; i < this.options.initialData.jobs.length; i++) {
             var slide = new SlideView({
                 size: this.options.size,
-                job: this.options.jobs[i],
+                job: this.options.initialData.jobs[i],
             });
-
+            
             this.slides.push(slide);
 
             // adding click listener

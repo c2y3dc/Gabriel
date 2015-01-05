@@ -46,7 +46,7 @@ define(function(require, exports, module) {
     PageView.prototype.constructor = PageView;
 
     PageView.DEFAULT_OPTIONS = {
-        jobs: undefined,
+        initialData: {},
         headerSize: 44,
         headerWidth: window.innerWidth,
         footerSize: 74,
@@ -217,7 +217,7 @@ define(function(require, exports, module) {
 
     function _createDeckView() {
         this.deckView = new DeckView({
-            jobs: this.options.jobs
+            initialData: this.options.initialData
         });
         this.deckModifier = new StateModifier({
             transform: Transform.translate(0,0,0.9)

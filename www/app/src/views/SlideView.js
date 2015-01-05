@@ -83,7 +83,7 @@ define(function(require, exports, module) {
         this.frontSurface = new Surface({
             size: this.options.size,
             classes: ['front-card'],
-            content: '<h3>' + this.options.job.startup.name + '</h3>' + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept + '"</p></div>' + '<div class="product_desc"><p>' + this.options.job.startup.product_desc.trunc(200) + '</p></div>' + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>' + '<div><p>Min: $' + ('' + this.options.job.salary_min).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>' + '<div><p>Max: $' + ('' + this.options.job.salary_max).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>',
+            content: '<h3>' + this.options.job.startup.name + '</h3>' + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept + '"</p></div>' + '<div class="product_desc"><p>' + this.options.job.startup.product_desc + '</p></div>' + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>' + '<div><p>Min: $' + ('' + this.options.job.salary_min).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>' + '<div><p>Max: $' + ('' + this.options.job.salary_max).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>',
             properties: {
                 backgroundColor: '#FFFFFF'
                     //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
@@ -92,7 +92,7 @@ define(function(require, exports, module) {
 
         this.frontNode.add(this.frontSurface);
 
-        this.flipButton = new Surface({
+        this.flipForwardButton = new Surface({
             size: [45, 45],
             content: 'flip',
             properties: {
@@ -105,7 +105,7 @@ define(function(require, exports, module) {
             transform: Transform.translate(window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 - window.innerHeight / 5, 0.9)
         });
 
-        this.frontNode.add(this.flipModifier).add(this.flipButton);
+        this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
     }
 
     function _createCardBack() {
@@ -264,7 +264,7 @@ define(function(require, exports, module) {
 
 
     function _setListeners() {
-        this.flipButton.on('click', function() {
+        this.flipForwardButton.on('click', function() {
             this._eventOutput.emit('flip');
         }.bind(this));
         this.backSurface.on('click', function() {
