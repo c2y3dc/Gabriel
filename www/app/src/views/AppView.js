@@ -56,6 +56,7 @@ define(function(require, exports, module) {
             this.feedbackToggle = true;
             this.matchViewToggle = false;
             this.pageViewPos = 0;
+
             _createPageView.call(this);
             _createMatchView.call(this);
             _createMenuView.call(this);
@@ -111,137 +112,95 @@ define(function(require, exports, module) {
 
     // MenuPage Toggle
     AppView.prototype.showFullMenuPage = function() {
-      this.menuModifier.setTransform(Transform.translate(0,0,0));
+        this.menuModifier.setTransform(Transform.translate(0, 0, 0));
     };
 
     AppView.prototype.removeMenuPage = function() {
-      this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), this.options.transition);
+        this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), this.options.transition);
     };
 
     AppView.prototype.toggleMenuPage = function() {
-      if (this.gabrielMenu) {
-        console.log('remove garielPage page');
-        this.removeMenuPage();
-      } else {
-        console.log('show full Gariel Page');
-        this.showFullMenuPage();
-      }
-      this.gabrielMenu = !this.gabrielMenu;
+        if (this.gabrielMenu) {
+            console.log('remove garielPage page');
+            this.removeMenuPage();
+        } else {
+            console.log('show full Gariel Page');
+            this.showFullMenuPage();
+        }
+        this.gabrielMenu = !this.gabrielMenu;
     };
 
     AppView.prototype.showMenuPage = function() {
-      console.log('show full GarielPage');
-      this.gabrielMenu = true;
-      this.showFullMenuPage();
+        console.log('show full GarielPage');
+        this.gabrielMenu = true;
+        this.showFullMenuPage();
     };
 
-
-    // AppView.prototype.toggleStarredMenu = function() {
-    //     if (this.starredMenu) {
-    //         console.log('moves starredPage aside');
-    //         this.moveStarredPageAside();
-    //         this.menuView.animateStrips();
-    //     } else {
-    //         console.log('show full starredPage');
-    //         this.showFullStarredPage();
-    //         this.removeProfilePage();
-    //         this.removeGabrielPage();
-    //         this.removeSettingsPage();
-    //     }
-    //     this.starredMenu = !this.starredMenu;
-    // };
-
-    // AppView.prototype.showStarredPage = function() {
-    //     console.log('show full starredPage');
-    //     this.starredMenu = true;
-    //     this.showFullStarredPage();
-    //     this.removeProfilePage();
-    //     this.removeGabrielPage();
-    //     this.removeSettingsPage();
-    // };
-
-    // AboutView Toggle
-    // AppView.prototype.moveFeedbackPageAside = function() {
-    //   this.feedbackModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
-    // };
-
     AppView.prototype.showFullAboutPage = function() {
-      this.aboutModifier.setTransform(Transform.translate(0, 0, 0), {
-        curve: 'easeOut',
-        duration: 200
-      });
+        this.aboutModifier.setTransform(Transform.translate(0, 0, 0), {
+            curve: 'easeOut',
+            duration: 200
+        });
     };
 
     AppView.prototype.removeAboutPage = function() {
-      this.aboutModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), {
-        curve: 'easeOut',
-        duration: 200
-      });
+        this.aboutModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), {
+            curve: 'easeOut',
+            duration: 200
+        });
     };
 
     AppView.prototype.toggleAboutPage = function() {
-      if (this.aboutToggle) {
-        console.log('removes aboutPage aside');
-        this.removeAboutPage();
-        this.showMenuPage();
-        // this.menuView.animateStrips();
-      } else {
-        console.log('show full aboutPage');
-        this.showFullAboutPage();
-      }
-      this.aboutMenu = !this.aboutMenu;
+        if (this.aboutToggle) {
+            console.log('removes aboutPage aside');
+            this.removeAboutPage();
+            this.showMenuPage();
+            // this.menuView.animateStrips();
+        } else {
+            console.log('show full aboutPage');
+            this.showFullAboutPage();
+        }
+        this.aboutMenu = !this.aboutMenu;
     };
 
     AppView.prototype.showAboutPage = function() {
-      console.log('show full aboutPage');
-      this.aboutToggle = true;
-      this.showFullAboutPage();
+        console.log('show full aboutPage');
+        this.aboutToggle = true;
+        this.showFullAboutPage();
     };
 
-    // // SettingsView Toggle
-    // AppView.prototype.moveSettingsPageAside = function() {
-    //     this.settingsModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
-    // };
-    //
-    // AppView.prototype.showFullSettingsPage = function() {
-    //     this.settingsModifier.setTransform(Transform.translate(0, 0, 0), {
-    //         curve: 'easeOut',
-    //         duration: 200
-    //     });
-    // };
-    //
-    // AppView.prototype.removeSettingsPage = function() {
-    //     this.settingsModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), {
-    //         curve: 'easeOut',
-    //         duration: 200
-    //     });
-    // };
-    //
-    // AppView.prototype.toggleSettingsMenu = function() {
-    //     if (this.settingsMenu) {
-    //         console.log('moves settingsPage aside');
-    //         this.moveSettingsPageAside();
-    //         this.menuView.animateStrips();
-    //     } else {
-    //         console.log('show full settingsPage');
-    //         this.showFullSettingsPage();
-    //         this.removeProfilePage();
-    //         this.removeGabrielPage();
-    //         this.removeSharingPage();
-    //     }
-    //     this.settingsMenu = !this.settingsMenu;
-    // };
-    //
-    // AppView.prototype.showSettingsPage = function() {
-    //     console.log('show full settingsPage');
-    //     this.settingsMenu = true;
-    //     this.showFullSettingsPage();
-    //     this.removeProfilePage();
-    //     this.removeGabrielPage();
-    //     this.removeSharingPage();
-    //     // this.removeFeedbackPage();
-    // };
-    //
+    // SettingsView Toggle
+    AppView.prototype.showFullSettingsPage = function() {
+        this.settingsModifier.setTransform(Transform.translate(0, 0, 0), {
+            curve: 'easeOut',
+            duration: 200
+        });
+    };
+
+    AppView.prototype.removeSettingsPage = function() {
+        this.settingsModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), {
+            curve: 'easeOut',
+            duration: 200
+        });
+    };
+
+    AppView.prototype.toggleSettingsPage = function() {
+        if (this.settingsMenu) {
+            console.log('moves settingsPage aside');
+            this.removeSettingsPage();
+        } else {
+            console.log('show full settingsPage');
+            this.showFullSettingsPage();
+        }
+        this.settingsMenu = !this.settingsMenu;
+    };
+
+    AppView.prototype.showSettingsPage = function() {
+        console.log('show full settingsPage');
+        this.settingsMenu = true;
+        this.showFullSettingsPage();
+    };
+
     // // Share Gabriel View Toggle
     // AppView.prototype.moveSharingPageAside = function() {
     //     this.starredModifier.setTransform(Transform.translate(this.options.slideLeftX, 0, 0), this.options.transition);
@@ -332,8 +291,8 @@ define(function(require, exports, module) {
 
     AppView.prototype.showFullMatchView = function() {
         this.matchModifier.setTransform(Transform.translate(0, 0, 0), {
-           duration: 300,
-           curve: 'easeOut'
+            duration: 300,
+            curve: 'easeOut'
         });
     };
 
@@ -365,7 +324,7 @@ define(function(require, exports, module) {
     function _createMenuView() {
         this.menuView = new MenuView({
             stripData: StripData,
-            userData : this.landingView.options.userData
+            userData: this.landingView.options.userData
         });
         this.menuModifier = new StateModifier({
             transform: Transform.translate(-window.innerWidth, 0, 0)
@@ -438,17 +397,17 @@ define(function(require, exports, module) {
     }
 
     function _createAboutView() {
-      this.aboutView = new AboutView();
+        this.aboutView = new AboutView();
 
-      this.aboutModifier = new StateModifier({
-        transform: Transform.translate(window.innerWidth, 0, 0)
-      });
+        this.aboutModifier = new StateModifier({
+            transform: Transform.translate(window.innerWidth, 0, 0)
+        });
 
-      // var aboutModifier2 = new StateModifier({
-      //   transform: Transform.inFront
-      // });
+        // var aboutModifier2 = new StateModifier({
+        //   transform: Transform.inFront
+        // });
 
-      this.add(this.aboutModifier).add(this.aboutView);
+        this.add(this.aboutModifier).add(this.aboutView);
     }
 
     function _createLandingView() {
@@ -466,6 +425,7 @@ define(function(require, exports, module) {
     function _setListeners() {
         this.pageView.on('menuToggle', this.toggleGabrielPage.bind(this));
         this.aboutView.on('menuToggle', this.toggleAboutPage.bind(this));
+        this.settingsView.on('menuToggle', this.toggleSettingsPage.bind(this));
         // this.starredView.on('menuToggle', this.toggleSharingMenu.bind(this));
         // this.profileView.on('menuToggle', this.toggleProfileMenu.bind(this));
 
@@ -474,7 +434,7 @@ define(function(require, exports, module) {
 
         this.menuView.on('gabrielOnly', this.showGabrielPage.bind(this));
         this.menuView.on('aboutOnly', this.showAboutPage.bind(this));
-        // this.menuView.on('settingsOnly', this.showSettingsPage.bind(this));
+        this.menuView.on('settingsOnly', this.showSettingsPage.bind(this));
         // this.menuView.on('sharingOnly', this.showSharingPage.bind(this));
         // this.menuView.on('ratingOnly', this.showRatingPage.bind(this));
 

@@ -8,7 +8,6 @@ define(function(require, exports, module) {
   var ImageSurface = require('famous/surfaces/ImageSurface');
   var FastClick = require('famous/inputs/FastClick');
 
-  var SequentialLayoutView = require('views/SequentialLayoutView');
 
   function SettingsView() {
     View.apply(this, arguments);
@@ -25,21 +24,25 @@ define(function(require, exports, module) {
   SettingsView.prototype.constructor = SettingsView;
 
   SettingsView.DEFAULT_OPTIONS = {
-    headerSize: 44,
-    headerWidth: window.innerWidth,
+    width: window.innerWidth,
+    height: window.innerHeight,
+    headerSize: window.innerHeight * 0.097,
+    footerSize: window.innerHeight * 0.167,
   };
 
   function _createBacking() {
-    var backing = new Surface({
+    var backingSurface = new Surface({
       properties: {
-        backgroundColor: 'black',
-        boxShadow: '0 0 20px rgba(0,0,0,0.5)'
+        backgroundColor: 'rgb(253, 253, 253)'
       }
     });
 
-    this.add(backing);
-  }
+    var backingModifier = new StateModifier({
+      transform: Transform.translate(0, 0, 100)
+    });
 
+    this.add(backingModifier).add(backingSurface);
+  }
 
   function _createLayout() {
     this.layout = new HeaderFooter({
@@ -48,7 +51,7 @@ define(function(require, exports, module) {
     });
 
     var layoutModifier = new StateModifier({
-      transform: Transform.translate(0, 0, 0.1)
+      transform: Transform.translate(0, 0, 1)
     });
 
     this.add(layoutModifier).add(this.layout);
@@ -56,41 +59,46 @@ define(function(require, exports, module) {
 
   function _createHeader() {
     var backgroundSurface = new Surface({
-      classes: ['ionic-blue-background']
+      properties: {
+        backgroundColor: '#1976D2'
+      }
     });
 
     var backgroundModifier = new StateModifier({
-      transform: Transform.inFront
+      transform: Transform.translate(0, this.options.headerSize * 0.2, 102),
     });
 
     this.layout.header.add(backgroundModifier).add(backgroundSurface);
 
     /*HEADER SURFACES*/
-    this.hamburgerSurface = new ImageSurface({
-      size: [44, 44],
-      content: 'img/hamburger.png'
+    this.backButtonSurface = new ImageSurface({
+      size: [20, 20],
+      content: 'img/back.svg'
     });
 
     this.titleSurface = new Surface({
       size: [true, 44],
       content: 'Settings',
-      classes: ['header-title']
+      properties: {
+        fontSize: '18px',
+        color: 'white'
+      }
     });
 
     /*HEADER MODIFIERS */
-    var hamburgerModifier = new StateModifier({
-      transform: Transform.inFront,
-      origin: [0, 0.5],
+    var backButtonModifier = new StateModifier({
+      transform: Transform.translate(this.options.width * 0.07, this.options.headerSize * 0.18, 102),
+      origin: [0, 0],
       align: [0, 0.5]
     });
 
     var titleModifier = new StateModifier({
-      transform: Transform.inFront,
-      origin: [0.5, 0],
-      align: [0.5, 0.3]
+      transform: Transform.translate(this.options.width * 0.215, this.options.headerSize * 0.18, 102),
+      origin: [0, 0],
+      align: [0, 0.5]
     });
 
-    this.layout.header.add(hamburgerModifier).add(this.hamburgerSurface);
+    this.layout.header.add(backButtonModifier).add(this.backButtonSurface);
     this.layout.header.add(titleModifier).add(this.titleSurface);
   }
 
@@ -99,26 +107,21 @@ define(function(require, exports, module) {
 
     this.bodySurface = new Surface({
       size: [undefined, undefined],
-      classes: ['main-body-background']
+      properties: {
+        backgroundColor: 'rgb(253, 253, 253)'
+      }
     });
 
     this.bodyModifier = new StateModifier({
       transform: Transform.behind
     });
 
-    var settingsList = new SequentialLayoutView();
-
-    var settingsListModifier = new StateModifier({
-      origin: [0.5, 0.5],
-      align: [0.5, 0.5]
-    });
-
     node.add(this.bodyModifier).add(this.bodySurface);
-    node.add(settingsListModifier).add(settingsList);
   }
 
   function _setListeners() {
-    this.hamburgerSurface.on('click', function() {
+    this.backButtonSurface.on('click', function() {
+      console.log('settingPage back button is clicked');
       this._eventOutput.emit('menuToggle');
     }.bind(this));
   }
