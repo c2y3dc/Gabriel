@@ -10,7 +10,7 @@ define(function(require, exports, module) {
     var SpringTransition = require('famous/transitions/SpringTransition');
     var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
-
+    var ImageSurface = require('famous/surfaces/ImageSurface');
     Transitionable.registerMethod('spring', SpringTransition);
     Transitionable.registerMethod('wall', WallTransition);
     Transitionable.registerMethod('snap', SnapTransition);
@@ -47,8 +47,14 @@ define(function(require, exports, module) {
         lightboxOpts: {
             inTransform: Transform.translate(300, 0, 0),
             outTransform: Transform.translate(-500, 0, 0),
-            inTransition: { duration: 500, curve: Easing.outBack },
-            outTransition: { duration: 350, curve: Easing.inQuad }
+            inTransition: {
+                duration: 500,
+                curve: Easing.outBack
+            },
+            outTransition: {
+                duration: 350,
+                curve: Easing.inQuad
+            }
             // inOpacity: 1,
             // outOpacity: 0,
             // inTransform: Transform.translate(window.innerWidth, 0, 0),
@@ -124,8 +130,9 @@ define(function(require, exports, module) {
             var slide = new SlideView({
                 size: this.options.size,
                 job: this.options.initialData.jobs[i],
+                logo_url: this.options.initialData.jobs[i].startup.logo_url
             });
-            
+
             this.slides.push(slide);
 
             // adding click listener
@@ -135,7 +142,27 @@ define(function(require, exports, module) {
             slide.on('swipeRight', this.swipeRight.bind(this));
             slide.on('swipeLeft', this.swipeLeft.bind(this));
             slide.on('flip', this.flip.bind(this));
+
+            slide.companyLogoSurface = new ImageSurface({
+                size: [this.options.width * 0.1875, this.options.width * 0.1875],
+                content: this.options.initialData.jobs[i].startup.logo_url,
+                properties: {
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '2px',
+                    border: '3px solid #FFFFFF',
+                    boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.30)'
+                }
+            });
+
+            slide.companyLogoModifier = new StateModifier({
+                transform: Transform.translate(-this.options.width * 0.3, -this.options.height * 0.105, 1.9)
+            });
+
+            slide.add(slide.companyLogoModifier).add(slide.companyLogoSurface);
+
         }
+
+
 
         this.showNextSlide();
     }

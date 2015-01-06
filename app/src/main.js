@@ -1,14 +1,15 @@
 /* globals define */
 'use strict'
 define(function(require, exports, module) {
+    require('oauth-js');
     function start() {
         console.log("start that app")
-        // import dependencies
+            // import dependencies
         var Engine = require('famous/core/Engine')
         var AppView = require('views/AppView')
 
         require('helpers/methods')
-        // create the main context
+            // create the main context
         var mainContext = Engine.createContext()
         mainContext.setPerspective(2000)
 
@@ -19,5 +20,5 @@ define(function(require, exports, module) {
     if (window.cordova)
         document.addEventListener('deviceready', start, false)
     else
-        document.addEventListener('DOMContentLoaded', start)
-})
+        start();
+});

@@ -53,7 +53,8 @@ define(function(require, exports, module) {
         position: position,
         angle: undefined,
         toggle: false,
-        jobDescription: 'No description provided'
+        jobDescription: 'No description provided',
+        logo_url: undefined
     };
 
     SlideView.prototype.fadeIn = function() {
@@ -118,25 +119,25 @@ define(function(require, exports, module) {
           transform: Transform.translate(0, -this.options.height * 0.23, 0.9)
         });
 
-        this.companyLogoSurface = new ImageSurface({
-          size: [this.options.width * 0.1875, this.options.width * 0.1875],
-          content: this.options.job.startup.logo_url,
-          properties: {
-            backgroundColor: '#FFFFFF',
-            borderRadius: '2px',
-            border: '3px solid #FFFFFF',
-            boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.30)'
-          }
-        });
+        // this.companyLogoSurface = new Surface({
+        //   size: [this.options.width * 0.1875, this.options.width * 0.1875],
+        //   content: '<div id="logo-url"></div>',
+        //   properties: {
+        //     backgroundColor: '#FFFFFF',
+        //     borderRadius: '2px',
+        //     border: '3px solid #FFFFFF',
+        //     boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.30)'
+        //   }
+        // });
 
-        this.companyLogoModifier = new StateModifier({
-          transform: Transform.translate(-this.options.width * 0.3, -this.options.height * 0.105, 1.9)
-        });
+        // this.companyLogoModifier = new StateModifier({
+        //   transform: Transform.translate(-this.options.width * 0.3, -this.options.height * 0.105, 1.9)
+        // });
 
         this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
         this.frontNode.add(this.companyBackgroundModifier).add(this.companyBackgroundSurface);
         // this.frontNode.add(jobTitleModifier).add(jobTitleSurface);
-        this.frontNode.add(this.companyLogoModifier).add(this.companyLogoSurface);
+        //this.frontNode.add(this.companyLogoModifier).add(this.companyLogoSurface);
         // this.frontNode.add(jobLocationModifier).add(jobLocationSurface);
     }
 
