@@ -168,10 +168,6 @@ define(function(require, exports, module) {
                 currentPosition[0] + data.delta[0],
                 currentPosition[1] + data.delta[1]
             ]);
-            //console.log(this.cardModifier);
-            this.cardModifier.setOpacity(Math.abs(window.innerWidth / currentPosition[0]) / 10, {
-                duration: 500
-            });
         }.bind(this));
 
         sync.on('end', function(data) {
