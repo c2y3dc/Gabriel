@@ -55,33 +55,21 @@ define(function(require, exports, module) {
                 duration: 350,
                 curve: Easing.inQuad
             }
-            // inOpacity: 1,
-            // outOpacity: 0,
-            // inTransform: Transform.translate(window.innerWidth, 0, 0),
-            // outTransform: Transform.translate(-window.innerWidth * 2, 0, 0),
-            // inTransition: {
-            //     duration: 0,
-            //     curve: 'easeOut'
-            // },
-            // outTransition: {
-            //     duration: 0,
-            //     curve: Easing.inCubic
-            // }
         }
     };
 
     DeckView.prototype.showCurrentSlide = function() {
         var slide = this.slides[this.currentIndex];
         this.lightbox.show(slide);
-        // this.lightbox.show(slide, function() {
-        //     slide.fadeIn();
-        // }.bind(this));
     };
+
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
+        this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
+        this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
         slide.options.position.set([-500, 0], {
             method: 'spring',
-            period: 150,
+            period: 450,
         });
 
         //OUR API CALL TO ARCHIVE GOES HERE
@@ -100,18 +88,19 @@ define(function(require, exports, module) {
 
     DeckView.prototype.swipeRight = function() {
         var slide = this.slides[this.currentIndex];
+        this.lightbox.options.outTransform = Transform.translate(500, 0, 0);
+        this.lightbox.options.inTransform = Transform.translate(-300, 0, 0);
         slide.options.position.set([500, 0], {
             method: 'spring',
-            period: 150,
+            period: 450,
         });
-
         //THIS IS WHERE OUR API CALL TO CONNECT GOES
         this.showNextSlide();
     };
 
     DeckView.prototype.showNextSlide = function() {
         this.currentIndex++;
-        if (this.currentIndex === this.slides.length) this.currentIndex = 0;
+        if (this.currentIndex === Object.keys(this.slides).length) this.currentIndex = 0;
         this.slides[this.currentIndex].options.position.set([0, 0]);
         var slide = this.slides[this.currentIndex];
         this.lightbox.show(slide);
@@ -123,9 +112,9 @@ define(function(require, exports, module) {
     }
 
     function _createSlides() {
-        this.slides = [];
+        this.slides = {};
         this.currentIndex = 0;
-
+        console.log(this.options.initialData.jobs.length);
         for (var i = 0; i < this.options.initialData.jobs.length; i++) {
             var slide = new SlideView({
                 size: this.options.size,
@@ -133,8 +122,7 @@ define(function(require, exports, module) {
                 logo_url: this.options.initialData.jobs[i].startup.logo_url
             });
 
-            this.slides.push(slide);
-
+            this.slides[i] = slide;
             // adding click listener
             // on click, calling .showNextSlide()
             // note that we're binding showNextSlide to the slideshow
@@ -143,26 +131,7 @@ define(function(require, exports, module) {
             slide.on('swipeLeft', this.swipeLeft.bind(this));
             slide.on('flip', this.flip.bind(this));
 
-            slide.companyLogoSurface = new ImageSurface({
-                size: [this.options.width * 0.1875, this.options.width * 0.1875],
-                content: this.options.initialData.jobs[i].startup.logo_url,
-                properties: {
-                    backgroundColor: '#FFFFFF',
-                    borderRadius: '2px',
-                    border: '3px solid #FFFFFF',
-                    boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.30)'
-                }
-            });
-
-            slide.companyLogoModifier = new StateModifier({
-                transform: Transform.translate(-this.options.width * 0.3, -this.options.height * 0.105, 1.9)
-            });
-
-            slide.add(slide.companyLogoModifier).add(slide.companyLogoSurface);
-
         }
-
-
 
         this.showNextSlide();
     }

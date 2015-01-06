@@ -4,17 +4,12 @@ define(function(require, exports, module) {
     var Transform = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
     var Modifier = require('famous/core/Modifier');
-
     var Easing = require('famous/transitions/Easing');
     var Transitionable = require('famous/transitions/Transitionable');
     var SpringTransition = require('famous/transitions/SpringTransition');
     var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
-
-    var CardView = require('views/CardView');
-
     var FastClick = require('famous/inputs/FastClick');
-
     var MouseSync = require('famous/inputs/MouseSync');
     var TouchSync = require('famous/inputs/TouchSync');
     var GenericSync = require('famous/inputs/GenericSync');
@@ -22,13 +17,6 @@ define(function(require, exports, module) {
     Transitionable.registerMethod('spring', SpringTransition);
     Transitionable.registerMethod('wall', WallTransition);
     Transitionable.registerMethod('snap', SnapTransition);
-
-    var posititon = new Transitionable([0, 0]);
-
-    GenericSync.register({
-        'mouse': MouseSync,
-        'touch': TouchSync
-    });
 
     var StripData = require('data/StripData');
     var MatchView = require('views/MatchView');
