@@ -72,9 +72,8 @@ define(function(require, exports, module) {
     };
 
     // GabrielPage Toggle
-    AppView.prototype.showFullGabrielPage = function() {
-        // this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0));
-        this.pageModifier.setTransform(Transform.translate(0, 0, 0), this.options.transition);
+    AppView.prototype.showFullGabrielPage = function(callback) {
+        this.pageModifier.setTransform(Transform.translate(0, 0, 0), this.options.transition, callback);
     };
 
     AppView.prototype.removeGabrielPage = function() {
@@ -98,7 +97,9 @@ define(function(require, exports, module) {
     AppView.prototype.showGabrielPage = function() {
         console.log('show full GarielPage');
         this.gabrielMenu = true;
-        this.showFullGabrielPage();
+        this.showFullGabrielPage(function(){
+            this.menuModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), this.options.transition);
+        }.bind(this));
     };
 
     // MenuPage Toggle
