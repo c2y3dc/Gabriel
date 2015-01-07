@@ -136,6 +136,7 @@ define(function(require, exports, module) {
             slide.on('swipeLeft', this.swipeLeft.bind(this));
             slide.on('flip', this.flip.bind(this));
         }
+        console.log('SLIDES ARRAY', this.slides);
 
         this.showNextSlide();
     }

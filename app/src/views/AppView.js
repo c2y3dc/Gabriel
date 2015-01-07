@@ -1,4 +1,5 @@
 define(function(require, exports, module) {
+    var Utility = require('famous/utilities/Utility');
     var View = require('famous/core/View');
     var Surface = require('famous/core/Surface');
     var Transform = require('famous/core/Transform');
@@ -327,7 +328,8 @@ define(function(require, exports, module) {
     function _createMenuView() {
         this.menuView = new MenuView({
             stripData: StripData,
-            userData: this.landingView.options.userData
+            userData: this.landingView.options.userData,
+            landingView: this.landingView
         });
         this.menuModifier = new StateModifier({
             transform: Transform.translate(-window.innerWidth, 0, 0)

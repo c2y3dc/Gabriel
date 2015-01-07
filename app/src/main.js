@@ -6,6 +6,7 @@ define(function(require, exports, module) {
         // import dependencies
         var Engine = require('famous/core/Engine')
         var AppView = require('views/AppView')
+        var Utility = require('famous/utilities/Utility');
 
         require('helpers/methods')
         // create the main context
@@ -18,6 +19,8 @@ define(function(require, exports, module) {
 
     if (window.cordova)
         document.addEventListener('deviceready', start, false)
-    else
-        document.addEventListener('DOMContentLoaded', start)
+    else{
+        require('../lib/oauth-js/dist/oauth.min');
+        start();
+    }
 })
