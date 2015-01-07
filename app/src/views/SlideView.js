@@ -83,11 +83,7 @@ define(function(require, exports, module) {
         this.frontSurface = new Surface({
             size: this.options.size,
             classes: ['front-card'],
-            content: '<h3>' + this.options.job.startup.name + '</h3>' 
-                    + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept + '"</p></div>' 
-                    + '<div class="product_desc"><p>' + truncate(this.options.job.startup.product_desc, 100) + '</p></div>' 
-                    + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>' 
-                    + '<div><p>$' + format(this.options.job.salary_min) + ' - $' + format(this.options.job.salary_max) + '</p></div>',
+            content: '<h3>' + this.options.job.startup.name + '</h3>' + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept + '"</p></div>' + '<div class="product_desc"><p>' + truncate(this.options.job.startup.product_desc, 100) + '</p></div>' + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>' + '<div><p>$' + format(this.options.job.salary_min) + ' - $' + format(this.options.job.salary_max) + '</p></div>',
             properties: {
                 backgroundColor: '#FFFFFF'
                     //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
@@ -177,11 +173,6 @@ define(function(require, exports, module) {
         sync.on('end', function(data) {
             var currentPosition = this.options.position.get();
             var velocity = data.velocity;
-            // position.set([0, 0], {
-            //     method: 'spring',
-            //     period: 150,
-            //     velocity: velocity
-            // });
             if (currentPosition[0] < -window.innerWidth / 6) {
                 // this._eventOutput.emit('swipeLeft0');
                 this._eventOutput.emit('swipeLeft');
@@ -191,7 +182,7 @@ define(function(require, exports, module) {
             } else {
                 this.options.position.set([0, 0], {
                     method: 'spring',
-                    period: 150,
+                    period: 250,
                     velocity: velocity
                 });
             }
@@ -299,10 +290,14 @@ define(function(require, exports, module) {
 
     function _setListeners() {
         this.flipForwardButton.on('click', function() {
-            this._eventOutput.emit('flip');
+            if (!this.options.toggle) {
+                this._eventOutput.emit('flip');
+            }
         }.bind(this));
         this.backSurface.on('click', function() {
-            this._eventOutput.emit('flip');
+            if (this.options.toggle) {
+                this._eventOutput.emit('flip');
+            }
         }.bind(this));
     }
 

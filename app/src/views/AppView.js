@@ -71,18 +71,21 @@ define(function(require, exports, module) {
         initialData: {},
         slideLeftX: window.innerWidth - window.innerWidth / 8,
         transition: {
-            duration: 300,
-            curve: Easing.easingOut
+            duration: 500,
+            curve: 'easeOut'
         }
     };
 
     // GabrielPage Toggle
     AppView.prototype.showFullGabrielPage = function(callback) {
-        this.pageModifier.setTransform(Transform.translate(0, 0, 0), this.options.transition, callback);
+        this.pageModifier.setTransform(Transform.translate(0, 0, 0.9), this.options.transition, callback);
     };
 
     AppView.prototype.removeGabrielPage = function() {
-        this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), this.options.transition);
+        this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), {
+            duration: 600,
+            curve: 'easeOut'
+        });
     };
 
     AppView.prototype.toggleGabrielPage = function() {
@@ -103,7 +106,7 @@ define(function(require, exports, module) {
         console.log('show full GarielPage');
         this.gabrielMenu = true;
         this.showFullGabrielPage(function() {
-            this.menuModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), this.options.transition);
+            this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, -100), this.options.transition);
         }.bind(this));
     };
 
