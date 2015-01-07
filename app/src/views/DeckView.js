@@ -187,6 +187,7 @@ define(function(require, exports, module) {
                this.options.slideArrived = !this.options.slideArrived;
             }.bind(this));
         }
+        console.log('SLIDES ARRAY', this.slides);
 
         this.showNextSlide();
     }

@@ -14,6 +14,7 @@ define(function(require, exports, module) {
         _createUserName.call(this);
         _createUserTagLine.call(this);
         _createUserBio.call(this);
+        _setListeners.call(this);
     }
 
     MenuHeaderView.prototype = Object.create(View.prototype);
@@ -31,7 +32,8 @@ define(function(require, exports, module) {
         userLocation: 'San Francisco, CA',
         userBio: 'I am an angel investor in over 60 startups,\
         including Uber.com(first round).I have a $10m angel\
-        fund and host the largest startup conference in the world'
+        fund and host the largest startup conference in the world',
+        landingView: undefined,
     };
 
     // Create dark blue background
@@ -153,5 +155,30 @@ define(function(require, exports, module) {
 
         this.add(userBioModifier).add(userBioSurface);
     }
+
+    //THIS NEEDS TO TRANSLATE THE LANDING VIEW FORWARD BUT I DON'T KNOW HOW
+
+    function _setListeners() {
+        console.log('Im listening')
+        this.userImageSurface.on('click', function() {
+            console.log('Im clicked');
+            if(window.cordova){
+                window.cookies.clear(function() {
+                    console.log('Cookies cleared!');
+                });
+            }else{
+                window.open('https://www.angel.co/logout');
+                
+            }
+            this.options.landingView.rootModifier.setTransform(Transform.translate(0, 0, 10000), {
+                        duration: 1000
+                    });
+            console.log("LANDING", this.options.landingView);
+        }.bind(this));
+        //console.log('this OPTIONS after and outside popup', this.options);
+        
+    }
+
+
     module.exports = MenuHeaderView;
 });
