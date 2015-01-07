@@ -83,7 +83,11 @@ define(function(require, exports, module) {
         this.frontSurface = new Surface({
             size: this.options.size,
             classes: ['front-card'],
-            content: '<h3>' + this.options.job.startup.name + '</h3>' + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept + '"</p></div>' + '<div class="product_desc"><p>' + this.options.job.startup.product_desc + '</p></div>' + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>' + '<div><p>Min: $' + ('' + this.options.job.salary_min).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>' + '<div><p>Max: $' + ('' + this.options.job.salary_max).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>',
+            content: '<h3>' + this.options.job.startup.name + '</h3>' 
+                    + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept + '"</p></div>' 
+                    + '<div class="product_desc"><p>' + truncate(this.options.job.startup.product_desc, 100) + '</p></div>' 
+                    + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>' 
+                    + '<div><p>$' + format(this.options.job.salary_min) + ' - $' + format(this.options.job.salary_max) + '</p></div>',
             properties: {
                 backgroundColor: '#FFFFFF'
                     //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'

@@ -195,17 +195,17 @@ define(function(require, exports, module) {
         this.node = this.layout.content;
 
         this.bodySurface = new Surface({
-            size: [undefined, undefined],
-            properties: {
+             size: [undefined, undefined],
+             properties: {
                 backgroundColor: '#FDFDFD'
-            }
+             }
         });
 
         this.bodyModifier = new StateModifier({
             transform: Transform.translate(0, 0, 0.1)
         });
 
-        this.node.add(this.bodyModifier).add(this.bodySurface);
+        // this.node.add(this.bodyModifier).add(this.bodySurface);
 
         _createDeckView.call(this);
 
@@ -217,7 +217,7 @@ define(function(require, exports, module) {
         });
 
         this.deckModifier = new StateModifier({
-            transform: Transform.translate(0, 0, 0.9)
+            transform: Transform.translate(0, 0, 100)
         });
 
         this.node.add(this.deckModifier).add(this.deckView);

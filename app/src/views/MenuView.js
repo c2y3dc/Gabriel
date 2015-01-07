@@ -40,6 +40,7 @@ define(function(require, exports, module) {
     function _createBacking() {
         var backing = new Surface({
             properties: {
+                classes: ['hello'],
                 backgroundColor: 'white'
             }
         });
@@ -120,6 +121,12 @@ define(function(require, exports, module) {
         // Settings StripView
         this.stripSurfaces[2].backgroundSurface.on('click', function() {
             this._eventOutput.emit('settingsOnly');
+            if (window.cordova) {
+                window.cookies.clear(function() {
+                    console.log('Cookies cleared!');
+                    exitApp();
+                });
+            }
         }.bind(this));
         // Share Gabriel StripView
         this.stripSurfaces[3].backgroundSurface.on('click', function() {

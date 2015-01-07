@@ -30,6 +30,11 @@ define(function(require, exports, module) {
     var LandingView = require('views/LandingView');
     var AboutView = require('views/AboutView');
 
+    GenericSync.register({
+        'mouse': MouseSync,
+        'touch': TouchSync
+    });
+
     function AppView() {
         View.apply(this, arguments);
 
@@ -97,7 +102,7 @@ define(function(require, exports, module) {
     AppView.prototype.showGabrielPage = function() {
         console.log('show full GarielPage');
         this.gabrielMenu = true;
-        this.showFullGabrielPage(function(){
+        this.showFullGabrielPage(function() {
             this.menuModifier.setTransform(Transform.translate(window.innerWidth * 2, 0, 0), this.options.transition);
         }.bind(this));
     };

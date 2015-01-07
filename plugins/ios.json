@@ -5,19 +5,13 @@
     },
     "config_munge": {
         "files": {
-            "framework": {
-                "parents": {
-                    "CoreGraphics.framework": [
-                        {
-                            "xml": "false",
-                            "count": 1
-                        }
-                    ]
-                }
-            },
             "config.xml": {
                 "parents": {
                     "/*": [
+                        {
+                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
+                            "count": 1
+                        },
                         {
                             "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
                             "count": 1
@@ -27,7 +21,17 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
+                            "xml": "<feature name=\"Cookies\"><param name=\"ios-package\" value=\"CDVCookies\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "framework": {
+                "parents": {
+                    "CoreGraphics.framework": [
+                        {
+                            "xml": "false",
                             "count": 1
                         }
                     ]
@@ -36,10 +40,13 @@
         }
     },
     "installed_plugins": {
+        "org.apache.cordova.console": {
+            "PACKAGE_NAME": "com.famous.hr101.gabriel"
+        },
         "com.oauthio.plugins.oauthio": {
             "PACKAGE_NAME": "com.famous.hr101.gabriel"
         },
-        "org.apache.cordova.console": {
+        "com.bez4pieci.cookies": {
             "PACKAGE_NAME": "com.famous.hr101.gabriel"
         }
     },

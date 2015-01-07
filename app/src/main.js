@@ -1,7 +1,6 @@
 /* globals define */
 'use strict'
 define(function(require, exports, module) {
-    require('oauth-js');
     function start() {
         console.log("start that app")
             // import dependencies
@@ -18,7 +17,11 @@ define(function(require, exports, module) {
     }
 
     if (window.cordova)
-        document.addEventListener('deviceready', start, false)
-    else
-        start();
+        document.addEventListener('deviceready', start, false);
+    else{
+        document.addEventListener('DOMContentLoaded', start)
+        //require('../lib/oauth-js/dist/oauth.min.js');
+        //start();    
+    }
+      
 });
