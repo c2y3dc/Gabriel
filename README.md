@@ -1,56 +1,119 @@
-#requirejs seed
-> A seed project used to keep track of what yo famous scaffolds....
+# Gabriel
 
-[![Build Status](https://travis-ci.org/Famous/requirejs-seed.svg?branch=master)](https://travis-ci.org/Famous/requirejs-seed) [![Dependency Status](https://david-dm.org/Famous/requirejs-seed.svg)](https://david-dm.org/Famous/requirejs-seed) [![devDependency Status](https://david-dm.org/Famous/requirejs-seed/dev-status.svg)](https://david-dm.org/Famous/requirejs-seed#info=devDependencies)
+> Gabriel matches job-seekers with startup jobs on AngelList. Gabriel greatly simplifies the job searching process by allowing you to apply to jobs on AngelList with a simple Tinder-like user interface.
 
-##Dependencies
-It is actually quite simple really
+## Team
 
-First make sure you have node.js installed... without that nothing works!  You can either install it with your favorite package manager or with [the installer](http://nodejs.org/download) found on [nodejs.org](http://nodejs.org).
+  - __Product Owner__: Sarah Wesley
+  - __Scrum Master__: Ervin Chow
+  - __Development Team Members__: Alex Hawkins, Kingsten Banh
 
-This project relies on grunt-cli, and bower to do all the heavy lifting for you
+## Table of Contents
 
-```
-npm install -g grunt-cli bower
-```
+1. [Usage](#Usage)
+1. [Requirements](#requirements)
+1. [Development](#development)
+    1. [Installing Dependencies](#installing-dependencies)
+    1. [Tasks](#tasks)
+1. [Team](#team)
+1. [Contributing](#contributing)
 
-##Getting Started
+## Usage
+
+> Gabriel is in currently in alpha. Which means that it is still in development but it is usable and contains basic features. Use at your own risk!
+
+## Requirements
+
+- RequireJS 2.1.15
+- Almond 0.2.9
+- Famous-polyfills 0.3.0
+- Famous 0.3.4
+- Grunt 0.4.4
+
+## Development
+
+### Installing Dependencies
+###### If no WWW folder
 
 ```
 npm install && bower install
+grunt -f
+```
+######ELSE
+```
+cd www
+npm install && bower install
+grunt serve
+
+```
+Make sure the bottom of main.js looks like this when serving to a browser
+```
+if (window.cordova)
+    document.addEventListener('deviceready', start, false);
+else{
+    //document.addEventListener('DOMContentLoaded', start)
+    require('../lib/oauth-js/dist/oauth.min.js');
+    start();  
+}
+````
+
+###Add Android Device
+```
+cordova platforms add android
+cordova plugin add org.apache.cordova.device
+cordova plugin add org.apache.cordova.console
+cordova plugin add https://github.com/oauth-io/oauth-phonegap
+cordova run android -d
+```
+###Add iOS Device
+iOS instructions assume the use of Mac OS X
+
+```
+cordova platform add ios
+cordova plugin add org.apache.cordova.device
+cordova plugin add org.apache.cordova.console
+cordova plugin add https://github.com/oauth-io/oauth-phonegap
+cordova build ios -d
 ```
 
-That's it!!!
+If you encounter ios-sim was not found. Run the following
+```
+npm install -g ios-sim
+```
 
-##Running the Development Server
+To emulate the app as an iOS app, run the following command line
+```
+cordova emulate ios
+```
 
-Simply run ```grunt serve``` and you will start a local development server and open Chrome.  Watch tasks will be running, and your browser will be automatically refreshed whenever a file in the repo changes.
+####To build and run on an iPhone
+```
+cordova run ios -d
+```
 
-You can run serve with ```--port=9001``` to manually pick the port that the server will run on
+####To rebuild for iPhone after changes have been made
+```
+grunt -f
+cordova run ios -d
+```
 
-*This option is currently borked...*
-You can also change the port livereload is running on with the option ```--livereload=8675309```
-*... if you think you can fix it check out the [issue on github](https://github.com/FamousTools/generator-famous/issues/22)*
+####Note about deploying to mobile
+Make sure the bottom of main.js looks like this when deploying to mobile
+```
+if (window.cordova)
+    document.addEventListener('deviceready', start, false);
+else{
+    document.addEventListener('DOMContentLoaded', start)
+    //require('../lib/oauth-js/dist/oauth.min.js');
+    //start();  
+}
+```
 
-If you would like to have your server be accessible to other devices on your local machine use the option ```--hostname=0.0.0.0```
+### Roadmap
 
-If you don't like your browser being opened for use a ```--no-open``` flag to disable the feature
+View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
 
-##Production
-
-If you would like to compile your project for distribution simply run the command ```grunt``` to build ```dist/``` which will be a deployment ready version of your app.  Preprocessing will be applied to html, all js will be concatenated and minified.  All js / css assets will also have their name prepended with a hash for cache busting.
-
-##Why are styles so strict?
-
-While the default style guidelines are fairly strict, we are doing so with reason.  Famo.us is not only a framework for creating cutting edge web application, but a community project that we are all going to contribute to in the hopes of making the web better.  We truly believe that having consistent style within the community will make it easier for individuals to jump between different Famo.us modules without having to waste valuable time on processing style.
-
-While our Package Manager (which is currently in development) will enforce our style guide if you would like to publish a module, feel free to disable eslint or jscs as you see fit.  If you want to disable linting you will need to comment out lines 18 - 19 in ```grunt/aliases.js```
 
 ## Contributing
-All contributions are welcome! The simplest way to show your support for this project is to **"star" it**.
 
-##License
-ISC
-
-## Release History
- * 2014-12-19   v0.1.0   Generated by the [Yeoman Generator](https://github.com/FamousTools/generator-famous) for [Famo.us](http://famo.us)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
