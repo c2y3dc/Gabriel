@@ -20,6 +20,14 @@ function salaryFormat(n, m) {
     }
 }
 
+function equityFormat(min, max) {
+  if (min, max) {
+    return min + '% - ' + max + '% Equity';
+  } else {
+    return '';
+  }
+}
+
 function exitApp() {
     if (navigator.app && navigator.app.exitApp) {
         navigator.app.exitApp();
