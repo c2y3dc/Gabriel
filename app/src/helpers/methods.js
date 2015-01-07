@@ -1,4 +1,5 @@
 function truncate(str, n) {
+  console.log('this runs');
     if (str && str.length > 0)
         return str.length > n ? str.substr(0, n - 1) + '&hellip;' : str;
     else
@@ -6,12 +7,13 @@ function truncate(str, n) {
 }
 
 
-function format(n) {
-    if (n) {
+function salaryFormat(n, m) {
+    if (n && m) {
         with(Math) {
             var base = floor(log(abs(n)) / log(1000));
             var suffix = 'kmb' [base - 1];
-            return suffix ? String(n / pow(1000, base)).substring(0, 3) + suffix : '' + n;
+            var salaryConnect = '$' + String(n / pow(1000, base)).substring(0, 3) + ' - $' + String(m / pow(1000, base)).substring(0, 3) + suffix;
+            return suffix ? salaryConnect : '$' + n + ' - $' + m;
         }
     } else {
         return 'Unknown';
