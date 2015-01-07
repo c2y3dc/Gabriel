@@ -1,11 +1,20 @@
 function truncate(str, n) {
-  console.log('this runs');
+    console.log('this runs');
     if (str && str.length > 0)
         return str.length > n ? str.substr(0, n - 1) + '&hellip;' : str;
     else
         return 'No Description'
 }
 
+function jobTypeFormat(str) {
+  var lower = str.toLowerCase();
+  if (str === 'full-time') {
+    lower = 'full time'
+  }
+  return lower.replace(/(^| )(\w)/g, function(x) {
+    return x.toUpperCase();
+  });
+}
 
 function salaryFormat(n, m) {
     if (n && m) {
@@ -21,11 +30,11 @@ function salaryFormat(n, m) {
 }
 
 function equityFormat(min, max) {
-  if (min, max) {
-    return min + '% - ' + max + '% Equity';
-  } else {
-    return '';
-  }
+    if (min, max) {
+        return min + '% - ' + max + '% Equity';
+    } else {
+        return '';
+    }
 }
 
 function exitApp() {
