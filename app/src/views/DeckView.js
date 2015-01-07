@@ -39,6 +39,7 @@ define(function(require, exports, module) {
     DeckView.prototype.constructor = DeckView;
 
     DeckView.DEFAULT_OPTIONS = {
+        slideArrived: true,
         initialData: {},
         height: window.innerHeight,
         width: window.innerWidth,
@@ -73,7 +74,9 @@ define(function(require, exports, module) {
         });
 
         //OUR API CALL TO ARCHIVE GOES HERE
-        this.showNextSlide();
+        this.showNextSlide(function() {
+            this.options.slideArrived = true
+        }.bind(this));
     };
 
     DeckView.prototype.flip = function() {
@@ -95,15 +98,17 @@ define(function(require, exports, module) {
             period: 450,
         });
         //THIS IS WHERE OUR API CALL TO CONNECT GOES
-        this.showNextSlide();
+        this.showNextSlide(function() {
+            this.options.slideArrived = true;
+        }.bind(this));
     };
 
-    DeckView.prototype.showNextSlide = function() {
+    DeckView.prototype.showNextSlide = function(callback) {
         this.currentIndex++;
         if (this.currentIndex === Object.keys(this.slides).length) this.currentIndex = 0;
         this.slides[this.currentIndex].options.position.set([0, 0]);
         var slide = this.slides[this.currentIndex];
-        this.lightbox.show(slide);
+        this.lightbox.show(slide, callback);
     };
 
     function _createLightbox() {

@@ -308,7 +308,8 @@ define(function(require, exports, module) {
     // Create different views
     function _createPageView() {
         this.pageView = new PageView({
-            initialData: this.landingView.options.initialData
+            initialData: this.landingView.options.initialData,
+            angel: this.options.angel
         });
         this.pageModifier = new StateModifier({
             transform: Transform.translate(0, 0, 0.1)

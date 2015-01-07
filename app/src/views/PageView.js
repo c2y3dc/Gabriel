@@ -195,18 +195,15 @@ define(function(require, exports, module) {
         this.node = this.layout.content;
 
         this.bodySurface = new Surface({
-             size: [undefined, undefined],
-             properties: {
+            size: [undefined, undefined],
+            properties: {
                 backgroundColor: '#FDFDFD'
-             }
+            }
         });
-
         this.bodyModifier = new StateModifier({
             transform: Transform.translate(0, 0, 0.1)
         });
-
         // this.node.add(this.bodyModifier).add(this.bodySurface);
-
         _createDeckView.call(this);
 
     }
@@ -229,7 +226,6 @@ define(function(require, exports, module) {
             this._eventOutput.emit('menuToggle');
         }.bind(this));
 
-
         this.matchSurface.on('click', function() {
             console.log('matchView is clicked');
             this._eventOutput.emit('matchOnly');
@@ -237,30 +233,35 @@ define(function(require, exports, module) {
 
         this.archiveSurface.on('touchstart', function() {
             this.archiveModifier.setOpacity(0.5, {
-                duration: 100
+                duration: 10
             });
         }.bind(this));
 
         this.archiveSurface.on('touchend', function() {
             this.archiveModifier.setOpacity(1, {
-                duration: 100
+                duration: 10
             });
-            this.deckView._eventOutput.emit('swipeLeft');
+            if (this.deckView.options.slideArrived) {
+                this.deckView.options.slideArrived = false;
+                this.deckView._eventOutput.emit('swipeLeft');
+            }
             //this._eventOutput.emit('buttonToggle');
         }.bind(this));
 
         this.interestedSurface.on('touchstart', function() {
             this.interestedModifier.setOpacity(0.5, {
-                duration: 100
+                duration: 10
             });
         }.bind(this));
 
         this.interestedSurface.on('touchend', function() {
             this.interestedModifier.setOpacity(1, {
-                duration: 100
+                duration: 10
             });
-            this.deckView._eventOutput.emit('swipeRight');
-            //this._eventOutput.emit('buttonToggle');
+            if (this.deckView.options.slideArrived) {
+                this.deckView.options.slideArrived = false;
+                this.deckView._eventOutput.emit('swipeRight');
+            }
         }.bind(this));
     }
 
