@@ -38,7 +38,7 @@ define(function(require, exports, module) {
         width: window.innerWidth,
         height: window.innerHeight,
         jobs: undefined,
-        headerSize: window.innerHeight * 0.097,
+        headerSize: window.innerHeight * 0.1127,
         headerWidth: window.innerWidth,
         footerSize: window.innerHeight * 0.167,
         footerWidth: window.innerWidth,
@@ -111,9 +111,9 @@ define(function(require, exports, module) {
         });
 
         var titleModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.215, this.options.headerSize * 0.18, 100),
-            origin: [0, 0],
-            align: [0, 0.5]
+            transform: Transform.translate(0, this.options.headerSize * 0.18, 100),
+            origin: [0.5, 0],
+            align: [0.5, 0.5]
         });
 
         var matchModifier = new StateModifier({
