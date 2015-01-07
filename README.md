@@ -62,6 +62,7 @@ else{
 cordova platform add android
 cordova plugin add org.apache.cordova.device
 cordova plugin add org.apache.cordova.console
+cordova plugin add org.apache.cordova.inappbrowser
 cordova plugin add https://github.com/oauth-io/oauth-phonegap
 cordova plugin add https://github.com/bez4pieci/Phonegap-Cookies-Plugin.git
 cordova run android -d
@@ -73,6 +74,7 @@ iOS instructions assume the use of Mac OS X
 cordova platform add ios
 cordova plugin add org.apache.cordova.device
 cordova plugin add org.apache.cordova.console
+cordova plugin add org.apache.cordova.inappbrowser
 cordova plugin add https://github.com/oauth-io/oauth-phonegap
 cordova plugin add https://github.com/bez4pieci/Phonegap-Cookies-Plugin.git
 cordova build ios -d
