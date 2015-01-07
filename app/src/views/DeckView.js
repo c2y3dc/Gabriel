@@ -70,7 +70,7 @@ define(function(require, exports, module) {
         this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
         slide.options.position.set([-500, 0], {
             method: 'spring',
-            period: 600,
+            period: 450,
         });
 
         //OUR API CALL TO ARCHIVE GOES HERE
@@ -85,7 +85,7 @@ define(function(require, exports, module) {
         this.lightbox.options.inTransform = Transform.translate(-300, 0, 0);
         slide.options.position.set([500, 0], {
             method: 'spring',
-            period: 600,
+            period: 450,
         });
         //THIS IS WHERE OUR API CALL TO CONNECT GOES
         this.showNextSlide(function() {

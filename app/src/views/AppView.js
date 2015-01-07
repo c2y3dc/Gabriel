@@ -83,7 +83,7 @@ define(function(require, exports, module) {
 
     AppView.prototype.removeGabrielPage = function() {
         this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), {
-            duration: 600,
+            duration: 450,
             curve: 'easeOut'
         });
     };

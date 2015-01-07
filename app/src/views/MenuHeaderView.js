@@ -114,7 +114,7 @@ define(function(require, exports, module) {
     function _createUserTagLine() {
         var userTagLineSurface = new Surface({
             size: [this.options.width * 0.9, true],
-            content: this.options.userJob + this.options.bullet + this.options.user.locations[0].display_name || this.options.userJob + this.options.bullet + this.options.userLocation,
+            content: this.options.userJob + this.options.bullet + (this.options.user.locations[0].display_name ||  this.options.userLocation),
             properties: {
                 color: 'white',
                 textAlign: 'center',
@@ -139,7 +139,7 @@ define(function(require, exports, module) {
             properties: {
                 color: 'white',
                 textAlign: 'center',
-                fontWeight: 100,
+                fontWeight: 300,
                 fontSize: '12px',
                 letterSpacing: '0.5px'
             }

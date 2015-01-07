@@ -144,7 +144,7 @@ define(function(require, exports, module) {
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card'],
-            content: '<div class="back-card-desc">' + truncate(this.options.job.description, 1800) + '</div>',
+            content: '<div class="back-card-desc">' + truncate(this.options.job.description, 1500) + '</div>',
             properties: {
                 backgroundColor: '#FFFFFF'
                     //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
@@ -182,7 +182,7 @@ define(function(require, exports, module) {
             } else {
                 this.options.position.set([0, 0], {
                     method: 'spring',
-                    period: 250,
+                    period: 150,
                     velocity: velocity
                 });
             }
@@ -267,7 +267,7 @@ define(function(require, exports, module) {
 
         var description = new Surface({
             size: [window.innerWidth - window.innerWidth / 5, window.innerHeight - window.innerHeight / 2],
-            content: (this.options.job.description.trunc(1000) || 'no description'),
+            content: (this.options.job.description.trunc(800) || 'no description'),
             properties: {
                 zIndex: 2,
                 color: 'black',
