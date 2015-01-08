@@ -17,11 +17,14 @@ define(function(require, exports, module) {
         mainContext.add(appView);
     }
 
-    if (window.cordova)
-
+    if (window.cordova){
+        
         document.addEventListener('deviceready', start, false);
+    }
+
 
     else{
+
 
         //UNCOMMENT THE LINE BELOW WHEN RUNNING ON MOBILE DEVICES
         // document.addEventListener('DOMContentLoaded', start)

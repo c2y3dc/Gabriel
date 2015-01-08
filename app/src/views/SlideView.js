@@ -32,14 +32,14 @@ define(function(require, exports, module) {
             transform: Transform.translate(0, 0, 0.9)
         });
 
-        this.cardModifier = new StateModifier({
+        this.slideModifier = new StateModifier({
             align: [.5, .5],
             origin: [.5, .5],
             transform: Transform.translate(0, 0, 0.9)
         });
 
         this.mainNode = this.add(this.rootModifier);
-        this.cardNode = this.mainNode.add(this.cardModifier);
+        this.cardNode = this.mainNode.add(this.slideModifier);
         //_createBackground.call(this);
         _createFlipper.call(this);
         //var rootNode = _createCard.call(this);
@@ -71,34 +71,34 @@ define(function(require, exports, module) {
 
     SlideView.prototype.fadeIn = function() {
         this.shadowBox.setProperties({ pointerEvents: 'auto' });
-        this.cardModifier.setTransform(
+        this.slideModifier.setTransform(
             Transform.translate(0, 10, 350),
-            { duration : 750, curve: Easing.easeIn }
+            { duration : 400, curve: 'linear' }
         );
-        this.cardModifier.setTransform(
+        this.slideModifier.setTransform(
             Transform.translate(0, 10, 200),
-            { duration : 750, curve: Easing.easeOut }
+            { duration : 400, curve: 'linear' }
         );
         this.shadowModifier.setOpacity(0.85, {
             duration: 1500,
             curve: 'easeOut'
         });
+        this.backSurfaceModifier.setSize([undefined, undefined]);
     };
 
     SlideView.prototype.fadeOut = function() {
         this.shadowBox.setProperties({ pointerEvents: 'none' });
-        this.cardModifier.setTransform(
-            Transform.translate(0, 0, 300),
-            { duration : 750, curve: Easing.easeInOut }
+        this.slideModifier.setTransform(
+            Transform.translate(0, 0, 350),
+            { duration : 400, curve: 'linear' }
         );
-        this.cardModifier.setTransform(
+        this.slideModifier.setTransform(
             Transform.translate(0, 0, 1.5),
-            { duration : 750, curve: Easing.easeOut }
+            { duration : 400, curve: 'linear' }
         );
-        this.shadowModifier.setOpacity(0, {
-            duration: 1500,
-            curve: 'easeOut'
-        });
+        this.shadowModifier.setOpacity(0);
+        this.backSurfaceModifier.setSize(this.options.size);
+        
     };
 
     function _createFlipper() {
@@ -108,7 +108,7 @@ define(function(require, exports, module) {
         _createCardBack.call(this);
 
         this.flipper.setFront(this.frontNode);
-        this.flipper.setBack(this.backSurface);
+        this.flipper.setBack(this.backNode);
 
         this.cardNode.add(this.flipper);
     }
@@ -198,10 +198,15 @@ define(function(require, exports, module) {
 
     function _createCardBack() {
         this.backSurface = new Surface({
-            size: this.options.size,
             classes: ['back-card'],
             content: '<div class="back-card-desc">' + truncate(this.options.job.description, 1500) + '</div>'
         });
+
+        this.backSurfaceModifier = new Modifier({
+            size: this.options.size
+        });
+
+        this.backNode = this.cardNode.add(this.backSurfaceModifier).add(this.backSurface);
     }
 
     function _createHandle() {
@@ -362,6 +367,11 @@ define(function(require, exports, module) {
         this.backSurface.on('click', function() {
             if (this.options.toggle) {
                 this._eventOutput.emit('flip');
+            }
+        }.bind(this));
+        this.backSurface.on('touchstart', function() {
+            if (this.options.toggle) {
+                this.shadowModifier.setOpacity(0);
             }
         }.bind(this));
     }
