@@ -17,9 +17,12 @@ define(function(require, exports, module) {
     var SnapTransition = require('famous/transitions/SnapTransition');
     Transitionable.registerMethod('spring', SnapTransition);
 
+    require('helpers/methods');
+
 
     // runs once for each new instance
     function SlideView() {
+        // this.helperMethod = new Helper();
         View.apply(this, arguments);
         this.options.position = new Transitionable([0, 0]);
         this.rootModifier = new StateModifier({
@@ -50,7 +53,12 @@ define(function(require, exports, module) {
         angle: undefined,
         toggle: false,
         jobDescription: 'No description provided',
-        logo_url: undefined
+        logo_url: undefined,
+        skills: 'JavaScript, HTML, CSS, MongoDB, Famo.us, AngularJS, Sass',
+        startup_location: 'San Francisco, CA',
+        salary_min: '100k',
+        salary_max: '150k',
+        job_type: 'Full Time'
     };
 
     SlideView.prototype.fadeIn = function() {
@@ -83,11 +91,20 @@ define(function(require, exports, module) {
         this.frontSurface = new Surface({
             size: this.options.size,
             classes: ['front-card'],
-            content: '<h3>' + this.options.job.startup.name + '</h3>' + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept + '"</p></div>' + '<div class="product_desc"><p>' + truncate(this.options.job.startup.product_desc, 100) + '</p></div>' + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>' + '<div><p>$' + format(this.options.job.salary_min) + ' - $' + format(this.options.job.salary_max) + '</p></div>',
-            properties: {
-                backgroundColor: '#FFFFFF'
-                    //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
-            }
+            content: [
+            '<img class="logo_url" src="', this.options.job.startup.logo_url, '">',
+                '<p class="startup_name">', this.options.job.startup.name, '</p>',
+                '<p class="high_concept">', truncate(this.options.job.startup.high_concept, 140), '</p>',
+                '<div class="card_header">',
+                  '<p class="job_title">', capitalizeFirst(this.options.job.title), '</p>',
+                '</div>',
+                '<p class="skills">', '<span class="secondary-text">Tech Stack</span><br>', this.options.skills, '</p>',
+                '<p class="compensation">', '<span class="secondary-text">Compensation</span><br>',
+                  capitalizeFirst(this.options.job.job_type), '<br>',
+                  salaryFormat(this.options.job.salary_min, this.options.job.salary_max), '<br>',
+                  equityFormat(this.options.job.equity_min, this.options.job.equity_max),
+                '</p>'
+            ].join('')
         });
 
         this.frontNode.add(this.frontSurface);
@@ -97,7 +114,9 @@ define(function(require, exports, module) {
             content: 'flip',
             properties: {
                 backgroundColor: 'blue',
-                color: 'white'
+                color: 'white',
+                borderRadius: '50%',
+                textAlign: 'center'
             }
         });
 
@@ -144,11 +163,7 @@ define(function(require, exports, module) {
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card'],
-            content: '<div class="back-card-desc">' + truncate(this.options.job.description, 1500) + '</div>',
-            properties: {
-                backgroundColor: '#FFFFFF'
-                    //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
-            }
+            content: '<div class="back-card-desc">' + truncate(this.options.job.description, 1500) + '</div>'
         });
     }
 
@@ -204,9 +219,6 @@ define(function(require, exports, module) {
 
         this.add(positionModifier).add(rotationModifier).add(this.mainNode);
     }
-
-
-
 
     function _createBackground() {
         this.rootModifier = new StateModifier({
