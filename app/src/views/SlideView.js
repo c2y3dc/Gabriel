@@ -7,6 +7,7 @@ define(function(require, exports, module) {
     var SlideData = require('data/SlideData');
     var ImageSurface = require('famous/surfaces/ImageSurface');
     var Flipper = require("famous/views/Flipper");
+    var Easing = require('famous/transitions/Easing');
 
     var ScrollSync = require("famous/inputs/ScrollSync");
     var MouseSync = require('famous/inputs/MouseSync');
@@ -17,27 +18,33 @@ define(function(require, exports, module) {
     var SnapTransition = require('famous/transitions/SnapTransition');
     Transitionable.registerMethod('spring', SnapTransition);
 
-    GenericSync.register({
-        'mouse': MouseSync,
-        'touch': TouchSync
-    });
+    require('helpers/methods');
 
-    var position = new Transitionable([0, 0]);
 
     // runs once for each new instance
     function SlideView() {
+        // this.helperMethod = new Helper();
         View.apply(this, arguments);
+        this.options.position = new Transitionable([0, 0]);
         this.rootModifier = new StateModifier({
             align: [.5, .5],
             origin: [.5, .5],
             transform: Transform.translate(0, 0, 0.9)
         });
 
+        this.cardModifier = new StateModifier({
+            align: [.5, .5],
+            origin: [.5, .5],
+            transform: Transform.translate(0, 0, 0.9)
+        });
+
         this.mainNode = this.add(this.rootModifier);
+        this.cardNode = this.mainNode.add(this.cardModifier);
         //_createBackground.call(this);
         _createFlipper.call(this);
         //var rootNode = _createCard.call(this);
-        //_createHandle.call(this, rootNode);
+        _createHandle.call(this);
+        _createShadowBox.call(this);
         _setListeners.call(this);
 
     }
@@ -49,16 +56,47 @@ define(function(require, exports, module) {
         width: window.innerWidth,
         height: window.innerHeight,
         size: [window.innerWidth * 0.9, window.innerHeight * 0.687],
-        job: undefined,
-        position: position,
+        job: {},
+        position: undefined,
         angle: undefined,
         toggle: false,
-        jobDescription: 'No description provided'
+        jobDescription: 'No description provided',
+        logo_url: undefined,
+        skills: 'JavaScript, HTML, CSS, MongoDB, Famo.us, AngularJS, Sass',
+        startup_location: 'San Francisco, CA',
+        salary_min: '100k',
+        salary_max: '150k',
+        job_type: 'Full Time'
     };
 
     SlideView.prototype.fadeIn = function() {
-        this.cardModifier.setOpacity(1, {
-            duration: 100,
+        this.shadowBox.setProperties({ pointerEvents: 'auto' });
+        this.cardModifier.setTransform(
+            Transform.translate(0, 10, 350),
+            { duration : 750, curve: Easing.easeIn }
+        );
+        this.cardModifier.setTransform(
+            Transform.translate(0, 10, 200),
+            { duration : 750, curve: Easing.easeOut }
+        );
+        this.shadowModifier.setOpacity(0.85, {
+            duration: 1500,
+            curve: 'easeOut'
+        });
+    };
+
+    SlideView.prototype.fadeOut = function() {
+        this.shadowBox.setProperties({ pointerEvents: 'none' });
+        this.cardModifier.setTransform(
+            Transform.translate(0, 0, 300),
+            { duration : 750, curve: Easing.easeInOut }
+        );
+        this.cardModifier.setTransform(
+            Transform.translate(0, 0, 1.5),
+            { duration : 750, curve: Easing.easeOut }
+        );
+        this.shadowModifier.setOpacity(0, {
+            duration: 1500,
             curve: 'easeOut'
         });
     };
@@ -72,8 +110,7 @@ define(function(require, exports, module) {
         this.flipper.setFront(this.frontNode);
         this.flipper.setBack(this.backSurface);
 
-
-        this.mainNode.add(this.flipper);
+        this.cardNode.add(this.flipper);
     }
 
     function _createCardFront() {
@@ -81,26 +118,38 @@ define(function(require, exports, module) {
         this.frontSurfaceModifier = new StateModifier({
             transform: Transform.translate(0, 0, 0.9)
         });
-        this.frontNode = this.mainNode.add(this.frontSurfaceModifier);
+
+        this.frontNode = this.cardNode.add(this.frontSurfaceModifier);
 
         this.frontSurface = new Surface({
             size: this.options.size,
             classes: ['front-card'],
-            // content: '<h3>' + this.options.job.startup.name + '</h3>' + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept + '"</p></div>' + '<div class="product_desc"><p>' + this.options.job.startup.product_desc + '</p></div>' + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>' + '<div><p>Min: $' + ('' + this.options.job.salary_min).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>' + '<div><p>Max: $' + ('' + this.options.job.salary_max).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>',
-            properties: {
-                backgroundColor: '#FFFFFF'
-                    //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
-            }
+            content: [
+            '<img class="logo_url" src="', this.options.job.startup.logo_url, '">',
+                '<p class="startup_name">', this.options.job.startup.name, '</p>',
+                '<p class="high_concept">', truncate(this.options.job.startup.high_concept, 140), '</p>',
+                '<div class="card_header">',
+                  '<p class="job_title">', capitalizeFirst(this.options.job.title), '</p>',
+                '</div>',
+                '<p class="skills">', '<span class="secondary-text">Tech Stack</span><br>', this.options.skills, '</p>',
+                '<p class="compensation">', '<span class="secondary-text">Compensation</span><br>',
+                  capitalizeFirst(this.options.job.job_type), '<br>',
+                  salaryFormat(this.options.job.salary_min, this.options.job.salary_max), '<br>',
+                  equityFormat(this.options.job.equity_min, this.options.job.equity_max),
+                '</p>'
+            ].join('')
         });
 
         this.frontNode.add(this.frontSurface);
 
         this.flipForwardButton = new Surface({
-            size: [45, 45],
+            size: [30, 20],
             content: 'flip',
             properties: {
                 backgroundColor: 'blue',
-                color: 'white'
+                color: 'white',
+                borderRadius: '50%',
+                textAlign: 'center'
             }
         });
 
@@ -108,47 +157,46 @@ define(function(require, exports, module) {
             transform: Transform.translate(window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 - window.innerHeight / 5, 0.9)
         });
 
-
-        this.companyBackgroundSurface = new ImageSurface({
-          size: [this.options.width * 0.9, this.options.height * 0.222],
-          content: 'img/companybg.png'
-        });
-
-        this.companyBackgroundModifier = new StateModifier({
-          transform: Transform.translate(0, -this.options.height * 0.23, 0.9)
-        });
-
-        this.companyLogoSurface = new ImageSurface({
-          size: [this.options.width * 0.1875, this.options.width * 0.1875],
-          content: this.options.job.startup.logo_url,
-          properties: {
-            backgroundColor: '#FFFFFF',
-            borderRadius: '2px',
-            border: '3px solid #FFFFFF',
-            boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.30)'
-          }
-        });
-
-        this.companyLogoModifier = new StateModifier({
-          transform: Transform.translate(-this.options.width * 0.3, -this.options.height * 0.105, 1.9)
-        });
-
         this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
-        this.frontNode.add(this.companyBackgroundModifier).add(this.companyBackgroundSurface);
-        // this.frontNode.add(jobTitleModifier).add(jobTitleSurface);
-        this.frontNode.add(this.companyLogoModifier).add(this.companyLogoSurface);
-        // this.frontNode.add(jobLocationModifier).add(jobLocationSurface);
+
+
+        // this.companyBackgroundSurface = new ImageSurface({
+        //   size: [this.options.width * 0.9, this.options.height * 0.222],
+        //   content: 'img/companybg.png'
+        // });
+
+        // this.companyBackgroundModifier = new StateModifier({
+        //   transform: Transform.translate(0, -this.options.height * 0.23, 0.9)
+        // });
+
+        //this.frontNode.add(this.companyBackgroundModifier).add(this.companyBackgroundSurface);
+
+        // this.companyLogoSurface = new ImageSurface({
+        //   size: [this.options.width * 0.1875, this.options.width * 0.1875],
+        //   content: this.options.logo_url,
+        //   properties: {
+        //     backgroundColor: '#FFFFFF',
+        //     borderRadius: '2px',
+        //     border: '3px solid #FFFFFF',
+        //     boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.30)'
+        //   }
+        // });
+
+        // this.companyLogoModifier = new StateModifier({
+        //   transform: Transform.translate(this.options.width * 0.32, -this.options.height * 0.27, 0.8)
+        // });
+
+
+        // //this.frontNode.add(jobTitleModifier).add(jobTitleSurface);
+        // this.frontNode.add(this.companyLogoModifier).add(this.companyLogoSurface);
+        //this.frontNode.add(jobLocationModifier).add(jobLocationSurface);
     }
 
     function _createCardBack() {
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card'],
-            content: '<div class="back-card-desc">' + truncate(this.options.job.description, 1800) + '</div>',
-            properties: {
-                backgroundColor: '#FFFFFF'
-                    //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
-            }
+            content: '<div class="back-card-desc">' + truncate(this.options.job.description, 1500) + '</div>'
         });
     }
 
@@ -158,8 +206,8 @@ define(function(require, exports, module) {
             "touch": {},
         });
         // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
-        arguments[0]._object.pipe(sync);
-
+        this.frontSurface.pipe(sync);
+        this.backSurface.pipe(sync);
 
         sync.on('update', function(data) {
             var currentPosition = this.options.position.get();
@@ -168,20 +216,11 @@ define(function(require, exports, module) {
                 currentPosition[0] + data.delta[0],
                 currentPosition[1] + data.delta[1]
             ]);
-            console.log(this.cardModifier);
-            this.cardModifier.setOpacity(Math.abs(window.innerWidth / currentPosition[0]) / 10, {
-                duration: 500
-            });
         }.bind(this));
 
         sync.on('end', function(data) {
             var currentPosition = this.options.position.get();
             var velocity = data.velocity;
-            // position.set([0, 0], {
-            //     method: 'spring',
-            //     period: 150,
-            //     velocity: velocity
-            // });
             if (currentPosition[0] < -window.innerWidth / 6) {
                 // this._eventOutput.emit('swipeLeft0');
                 this._eventOutput.emit('swipeLeft');
@@ -200,7 +239,7 @@ define(function(require, exports, module) {
         var positionModifier = new Modifier({
             transform: function() {
                 var currentPosition = this.options.position.get();
-                return Transform.translate(currentPosition[0], currentPosition[1], 0);
+                return Transform.translate(currentPosition[0], currentPosition[1], 0.9);
             }.bind(this)
         });
 
@@ -211,7 +250,7 @@ define(function(require, exports, module) {
             }.bind(this)
         });
 
-        this.add(positionModifier).add(rotationModifier).add(arguments[0]);
+        this.add(positionModifier).add(rotationModifier).add(this.mainNode);
     }
 
     function _createBackground() {
@@ -232,7 +271,6 @@ define(function(require, exports, module) {
         });
 
         this.mainNode.add(this.background);
-
     }
 
     function _createCard() {
@@ -274,7 +312,7 @@ define(function(require, exports, module) {
 
         var description = new Surface({
             size: [window.innerWidth - window.innerWidth / 5, window.innerHeight - window.innerHeight / 2],
-            content: this.options.job.description.trunc(1000),
+            content: (this.options.job.description.trunc(800) || 'no description'),
             properties: {
                 zIndex: 2,
                 color: 'black',
@@ -294,20 +332,43 @@ define(function(require, exports, module) {
         return this.mainNode;
     }
 
+    function _createShadowBox() {
+        this.shadowBox = new Surface({
+            size: [window.innerWidth, window.innerHeight],
+            properties: {
+                backgroundColor: 'gray',
+                pointerEvents: 'none'
+            }
+        })
+        this.shadowModifier = new StateModifier({
+            opacity: 0,
+            transform: Transform.translate(0, 0, -10),
+        });
+
+        this.mainNode.add(this.shadowModifier).add(this.shadowBox);
+    }
+
 
     function _setListeners() {
         this.flipForwardButton.on('click', function() {
-            this._eventOutput.emit('flip');
+            if (!this.options.toggle) {
+                this._eventOutput.emit('flip');
+            }
         }.bind(this));
         this.backSurface.on('click', function() {
-            this._eventOutput.emit('flip');
+            console.log('clicked')
+            this.shadowModifier.setOpacity(0);  
+            if (this.options.toggle) {
+                this._eventOutput.emit('flip');
+                this.shadowModifier.setOpacity(0);
+            }
         }.bind(this));
-        // this.background.on('click', function() {
-        //     console.log('hello');
-        //     // the event output handler is used to broadcast outwards
-        //     this._eventOutput.emit('flip');
-        // }.bind(this));
+        this.backSurface.on('touchstart', function() {
+            console.log('sensed it');
+            this.shadowModifier.setOpacity(0);
+        }.bind(this));
     }
 
     module.exports = SlideView;
+
 });

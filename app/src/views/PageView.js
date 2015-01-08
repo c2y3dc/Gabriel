@@ -18,28 +18,15 @@ define(function(require, exports, module) {
     Transitionable.registerMethod('spring', SnapTransition);
 
     var DeckView = require('views/DeckView');
-    var CardView = require('views/CardView');
-
-    GenericSync.register({
-        'mouse': MouseSync,
-        'touch': TouchSync
-    });
-
-    var position1 = new Transitionable([0, 0]);
-    var position2 = new Transitionable([0, 0]);
-    var position3 = new Transitionable([0, 0]);
 
     function PageView() {
         View.apply(this, arguments);
-        //this.swipeToggle = false;
         _createBacking.call(this);
         _createLayout.call(this);
         _createHeader.call(this);
         _createFooter.call(this);
         _createBody.call(this);
-        //_handleDrags.call(this);
         _setListeners.call(this);
-
     }
 
     PageView.prototype = Object.create(View.prototype);
@@ -51,36 +38,14 @@ define(function(require, exports, module) {
         width: window.innerWidth,
         height: window.innerHeight,
         jobs: undefined,
-        headerSize: window.innerHeight * 0.097,
+        headerSize: window.innerHeight * 0.1127,
         headerWidth: window.innerWidth,
         footerSize: window.innerHeight * 0.167,
         footerWidth: window.innerWidth,
-        cardOffset: 5,
-        slideY: window.innerHeight * 2,
-        slideX: window.innerWidth * 2,
         transition: {
             duration: 500,
             curve: 'easeOut'
         }
-    };
-
-    PageView.prototype.toggleSwipe = function() {
-        if (this.swipeToggle) {
-            this.swipeLeft();
-        } else {
-            this.swipeRight();
-        }
-        this.swipeToggle = !this.swipeToggle;
-    };
-
-    PageView.prototype.swipeRight = function() {
-        var cardNumber = arguments[0];
-        this.cardModifiers[cardNumber].setTransform(Transform.translate(this.options.slideX, this.options.slideY, 0), this.options.transition);
-    };
-
-    PageView.prototype.swipeLeft = function() {
-        var cardNumber = arguments[0];
-        this.cardModifiers[cardNumber].setTransform(Transform.translate(-this.options.slideX, this.options.slideY, 0), this.options.transition);
     };
 
     function _createBacking() {
@@ -89,7 +54,6 @@ define(function(require, exports, module) {
                 backgroundColor: 'white'
             }
         });
-
         this.add(backing);
     }
 
@@ -147,9 +111,9 @@ define(function(require, exports, module) {
         });
 
         var titleModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.215, this.options.headerSize * 0.18, 100),
-            origin: [0, 0],
-            align: [0, 0.5]
+            transform: Transform.translate(0, this.options.headerSize * 0.18, 100),
+            origin: [0.5, 0],
+            align: [0.5, 0.5]
         });
 
         var matchModifier = new StateModifier({
@@ -212,13 +176,13 @@ define(function(require, exports, module) {
 
         /*HEADER MODIFIERS */
         this.archiveModifier = new Modifier({
-            opacity: 1,
+            transform: Transform.translate(0, this.options.height * 0.016, 0),
             origin: [0, 0.5],
             align: [0.05, 0.5]
         });
 
         this.interestedModifier = new Modifier({
-            opacity: 1,
+            transform: Transform.translate(0, this.options.height * 0.016, 0),
             origin: [1, 0.5],
             align: [0.95, 0.5]
         });
@@ -236,16 +200,12 @@ define(function(require, exports, module) {
                 backgroundColor: '#FDFDFD'
             }
         });
-
         this.bodyModifier = new StateModifier({
             transform: Transform.translate(0, 0, 0.1)
         });
-
-        this.node.add(this.bodyModifier).add(this.bodySurface);
-
+        // this.node.add(this.bodyModifier).add(this.bodySurface);
         _createDeckView.call(this);
 
-        //_createCardDeck.call(this);
     }
 
     function _createDeckView() {
@@ -254,266 +214,56 @@ define(function(require, exports, module) {
         });
 
         this.deckModifier = new StateModifier({
-            transform: Transform.translate(0, 0, 0.9)
+            transform: Transform.translate(0, 0, 100)
         });
 
         this.node.add(this.deckModifier).add(this.deckView);
     }
 
-    function _createCardDeck() {
-        this.cardViews = [];
-        this.cardModifiers = [];
-        var yOffScale = 0;
-        var xOffScale = 0;
-
-        for (var i = 0; i < 3; i++) {
-
-            this.noButtonSurface.on('click', function() {
-                this._eventOutput.emit('menuViewToggle');
-            }.bind(this));
-
-            this.yesButtonSurface.on('click', function() {
-                this._eventOutput.emit('settingsViewToggle');
-            }.bind(this));
-
-            this.cardView = new CardView();
-
-            this.cardViews.push(this.cardView);
-
-            this.cardModifier = new Modifier({
-                origin: [0.5, 0.5],
-                align: [0.5, 0.5]
-            });
-
-            this.scaleModifier = new StateModifier({
-                transform: Transform.scale(1 - xOffScale, 1 - yOffScale, 1)
-            });
-
-            this.cardModifiers.push(this.cardModifier);
-
-            this.node.add(this.scaleModifier)
-                .add(this.cardModifier)
-                .add(this.cardView);
-
-            xOffScale += 0.009;
-            yOffScale += 0.009;
-            this.cardView.backgroundSurface.content = i;
-        }
-    }
-
-    function _handleDrags() {
-        _handleDrag.call(this);
-        _handleDrag1.call(this);
-        _handleDrag2.call(this);
-    }
-
-    function _handleDrag() {
-        var sync = new GenericSync({
-            "mouse": {},
-            "touch": {},
-        });
-        // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
-        this.cardViews[0].backgroundSurface.pipe(sync);
-
-
-        sync.on('update', function(data) {
-            var currentPosition = position1.get();
-            position1.set([
-                currentPosition[0] + data.delta[0],
-                currentPosition[1] + data.delta[1]
-            ]);
-        });
-
-        sync.on('end', function(data) {
-            var currentPosition = position1.get();
-            var velocity = data.velocity;
-            if (currentPosition[0] < -window.innerWidth / 6) {
-                this._eventOutput.emit('swipeLeft0');
-            } else if (currentPosition[0] > window.innerWidth / 6) {
-                this._eventOutput.emit('swipeRight0');
-            } else {
-                position1.set([0, 0], {
-                    method: 'spring',
-                    period: 150,
-                    velocity: velocity
-                });
-            }
-        }.bind(this));
-
-        var positionModifier = new Modifier({
-            transform: function() {
-                var currentPosition = position1.get();
-                return Transform.translate(currentPosition[0], currentPosition[1], 0);
-            }
-        });
-
-        var rotationModifier = new Modifier({
-            transform: function() {
-                var currentPosition = position1.get();
-                return Transform.rotateZ(-0.0015 * currentPosition[0]);
-            }
-        });
-        var moveableNodes = this.cardViews[0].add(positionModifier).add(rotationModifier).add(this.cardViews[0].backgroundSurface);
-
-    }
-
-    function _handleDrag1() {
-        var sync = new GenericSync({
-            "mouse": {},
-            "touch": {},
-        });
-        // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
-        this.cardViews[1].backgroundSurface.pipe(sync);
-
-
-        sync.on('update', function(data) {
-            var currentPosition = position2.get();
-            position2.set([
-                currentPosition[0] + data.delta[0],
-                currentPosition[1] + data.delta[1]
-            ]);
-        });
-
-        sync.on('end', function(data) {
-            var currentPosition = position2.get();
-            var velocity = data.velocity;
-            if (currentPosition[0] < -window.innerWidth / 6) {
-                this._eventOutput.emit('swipeLeft1');
-            } else if (currentPosition[0] > window.innerWidth / 6) {
-                this._eventOutput.emit('swipeRight1');
-            } else {
-                position2.set([0, 0], {
-                    method: 'spring',
-                    period: 150,
-                    velocity: velocity
-                });
-            }
-        }.bind(this));
-
-        var positionModifier = new Modifier({
-            transform: function() {
-                var currentPosition = position2.get();
-                return Transform.translate(currentPosition[0], currentPosition[1], 0);
-            }
-        });
-
-        var rotationModifier = new Modifier({
-            transform: function() {
-                var currentPosition = position2.get();
-                return Transform.rotateZ(-0.0015 * currentPosition[0]);
-            }
-        });
-        var moveableNodes = this.cardViews[1].add(positionModifier).add(rotationModifier).add(this.cardViews[1].backgroundSurface);
-    }
-
-
-    function _handleDrag2() {
-
-        var sync = new GenericSync({
-            "mouse": {},
-            "touch": {},
-        });
-
-        // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
-        this.cardViews[2].backgroundSurface.pipe(sync);
-
-
-        sync.on('update', function(data) {
-            var currentPosition = position3.get();
-            position3.set([
-                currentPosition[0] + data.delta[0],
-                currentPosition[1] + data.delta[1]
-            ]);
-            //console.log(currentPosition);
-        });
-        sync.on('end', function(data) {
-            var currentPosition = position3.get();
-            var velocity = data.velocity;
-            if (currentPosition[0] < -window.innerWidth / 6) {
-                this._eventOutput.emit('swipeLeft2');
-            } else if (currentPosition[0] > window.innerWidth / 6) {
-                this._eventOutput.emit('swipeRight2');
-            } else {
-                position3.set([0, 0], {
-                    method: 'spring',
-                    period: 150,
-                    velocity: velocity
-                });
-            }
-        }.bind(this));
-
-        var positionModifier = new Modifier({
-            transform: function() {
-                var currentPosition = position3.get();
-                return Transform.translate(currentPosition[0], currentPosition[1], 0);
-            }
-        });
-
-        var rotationModifier = new Modifier({
-            transform: function() {
-                var currentPosition = position3.get();
-                return Transform.rotateZ(-0.0015 * currentPosition[0]);
-            }
-        });
-        var moveableNodes = this.cardViews[2].add(positionModifier).add(rotationModifier).add(this.cardViews[2].backgroundSurface);
-    }
-
     function _setListeners() {
-
-        this.on('swipeRight0', this.swipeRight.bind(this, 0));
-        this.on('swipeRight1', this.swipeRight.bind(this, 1));
-        this.on('swipeRight2', this.swipeRight.bind(this, 2));
-        this.on('swipeLeft0', this.swipeLeft.bind(this, 0));
-        this.on('swipeLeft1', this.swipeLeft.bind(this, 1));
-        this.on('swipeLeft2', this.swipeLeft.bind(this, 2));
 
         this.menuSurface.on('click', function() {
             this._eventOutput.emit('menuToggle');
         }.bind(this));
-
 
         this.matchSurface.on('click', function() {
             console.log('matchView is clicked');
             this._eventOutput.emit('matchOnly');
         }.bind(this));
 
-        // this.noButtonSurface.on('click', function() {
-        //     this._eventOutput.emit('menuToggle');
-        // }.bind(this));
-
-        // this.yesButtonSurface.on('click', function() {
-        //     this._eventOutput.emit('menuToggle');
-        // }.bind(this));
-
         this.archiveSurface.on('touchstart', function() {
             this.archiveModifier.setOpacity(0.5, {
-                duration: 100
+                duration: 10
             });
         }.bind(this));
 
         this.archiveSurface.on('touchend', function() {
             this.archiveModifier.setOpacity(1, {
-                duration: 100
+                duration: 10
             });
-            this.deckView._eventOutput.emit('swipeLeft');
+            if (this.deckView.options.slideArrived) {
+                this.deckView.options.slideArrived = false;
+                this.deckView._eventOutput.emit('swipeLeft');
+            }
             //this._eventOutput.emit('buttonToggle');
         }.bind(this));
 
         this.interestedSurface.on('touchstart', function() {
             this.interestedModifier.setOpacity(0.5, {
-                duration: 100
+                duration: 10
             });
         }.bind(this));
 
         this.interestedSurface.on('touchend', function() {
             this.interestedModifier.setOpacity(1, {
-                duration: 100
+                duration: 10
             });
-            this.deckView._eventOutput.emit('swipeRight');
-            //this._eventOutput.emit('buttonToggle');
+            if (this.deckView.options.slideArrived) {
+                this.deckView.options.slideArrived = false;
+                this.deckView._eventOutput.emit('swipeRight');
+            }
         }.bind(this));
     }
-
 
     module.exports = PageView;
 });

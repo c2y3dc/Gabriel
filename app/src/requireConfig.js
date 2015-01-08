@@ -7,5 +7,6 @@ require.config({
         // 'oauth-js': '../lib/oauth-js/dist/oauth.min',
         jquery: '../lib/jquery/dist/jquery.min'
     }
+
 });
 require(['main']);

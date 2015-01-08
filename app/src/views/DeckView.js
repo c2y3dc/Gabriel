@@ -10,7 +10,7 @@ define(function(require, exports, module) {
     var SpringTransition = require('famous/transitions/SpringTransition');
     var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
-
+    var ImageSurface = require('famous/surfaces/ImageSurface');
     Transitionable.registerMethod('spring', SpringTransition);
     Transitionable.registerMethod('wall', WallTransition);
     Transitionable.registerMethod('snap', SnapTransition);
@@ -21,7 +21,7 @@ define(function(require, exports, module) {
         View.apply(this, arguments);
         this.rootModifier = new StateModifier({
             size: this.options.size,
-            transform: Transform.translate(0, this.options.height * 0.0264, 0),
+            transform: Transform.translate(0, this.options.height * 0.0444, 0),
             origin: [0.5, 0],
             align: [0.5, 0]
         });
@@ -39,76 +39,131 @@ define(function(require, exports, module) {
     DeckView.prototype.constructor = DeckView;
 
     DeckView.DEFAULT_OPTIONS = {
+        slideArrived: true,
         initialData: {},
         height: window.innerHeight,
         width: window.innerWidth,
-        size: [window.innerWidth * 0.9, window.innerHeight * 0.687],
+        size: [window.innerWidth * 0.858, window.innerHeight * 0.688],
         jobs: undefined,
         lightboxOpts: {
             inTransform: Transform.translate(300, 0, 0),
             outTransform: Transform.translate(-500, 0, 0),
-            inTransition: { duration: 500, curve: Easing.outBack },
-            outTransition: { duration: 350, curve: Easing.inQuad }
-            // inOpacity: 1,
-            // outOpacity: 0,
-            // inTransform: Transform.translate(window.innerWidth, 0, 0),
-            // outTransform: Transform.translate(-window.innerWidth * 2, 0, 0),
-            // inTransition: {
-            //     duration: 0,
-            //     curve: 'easeOut'
-            // },
-            // outTransition: {
-            //     duration: 0,
-            //     curve: Easing.inCubic
-            // }
+            inTransition: {
+                duration: 500,
+                curve: Easing.outBack
+            },
+            outTransition: {
+                duration: 350,
+                curve: Easing.inQuad
+            }
         }
     };
 
     DeckView.prototype.showCurrentSlide = function() {
         var slide = this.slides[this.currentIndex];
         this.lightbox.show(slide);
-        // this.lightbox.show(slide, function() {
-        //     slide.fadeIn();
-        // }.bind(this));
     };
+
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
+        slide.shadowModifier.setOpacity(0);
+        this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
+        this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
         slide.options.position.set([-500, 0], {
             method: 'spring',
-            period: 150,
+            period: 450,
         });
 
         //OUR API CALL TO ARCHIVE GOES HERE
-        this.showNextSlide();
+
+        //Saves current startup's id
+        var sid = this.slides[this.currentIndex].options.job.startup.id;
+        
+        //UNFOLLOWS POST REQ
+        console.log("startup_id", sid);
+        ANGEL.del('/1/follows', {
+            data: {
+                type: 'startup',
+                id: sid }
+            }).done(function(data) {
+                console.log(data, "you've unfollowed " + data.followed.name);
+            }.bind(this)).fail(function(oops) {
+                console.log('not yet followed / unable to unfollow');
+            }.bind(this));
+
+        this.showNextSlide(function() {
+            this.options.slideArrived = true
+        }.bind(this));
+    };
+
+    DeckView.prototype.swipeRight = function() {
+        var slide = this.slides[this.currentIndex];
+        slide.shadowModifier.setOpacity(0);
+        this.lightbox.options.outTransform = Transform.translate(500, 0, 0);
+        this.lightbox.options.inTransform = Transform.translate(-300, 0, 0);
+        slide.options.position.set([500, 0], {
+            method: 'spring',
+            period: 450,
+        });
+        //THIS IS WHERE OUR API CALL TO CONNECT GOES
+
+        //Saves current startup's id
+        var sid = this.slides[this.currentIndex].options.job.startup.id;
+
+        //FOLLOWS POST REQ
+        console.log("startup_id", sid);
+        ANGEL.post('/1/follows', {
+            data: {
+                type: 'startup',
+                id: sid }
+            }).done(function(data) {
+                console.log(data, "you've followed " + data.followed.name);
+            }.bind(this)).fail(function(oops) {
+                console.log('already following / unable to follow');
+            }.bind(this));
+        // !!! DO NOT DELETE - WORKING POST REQUEST AWAITING ANGELLIST API TEAM RESPONSE!!!
+        // this.options.angel.post('/1/intros', {
+        //     data: {
+        //         startup_id: sid }
+        //     }).done(function(data) {
+        //         console.log(data);
+        //     }.bind(this)).fail(function(oops) {
+        //         console.log('unable to post');
+        //     }.bind(this));
+        //this._eventOutput.emit('buttonToggle');
+
+        this.showNextSlide(function() {
+            this.options.slideArrived = true;
+            this.options.okToFlip = true;
+        }.bind(this));
     };
 
     DeckView.prototype.flip = function() {
         var slide = this.slides[this.currentIndex];
         var angle = slide.options.toggle ? 0 : -Math.PI;
+        if(!slide.options.toggle){
+            slide.fadeIn();
+            console.log('fadein called')
+        }else{
+            slide.fadeOut();
+            console.log('fadeout called')
+
+        }
         slide.flipper.setAngle(angle, {
-            curve: 'easeOut',
-            duration: 1200
-        });
-        slide.options.toggle = !slide.options.toggle;
+            curve: Easing.inOutQuad,
+            duration: 1000,
+            period: 1000
+        }, function() {
+            slide.options.toggle = !slide.options.toggle;
+        }.bind(this));
     }
 
-    DeckView.prototype.swipeRight = function() {
-        var slide = this.slides[this.currentIndex];
-        slide.options.position.set([500, 0], {
-            method: 'spring',
-            period: 150,
-        });
-
-        //THIS IS WHERE OUR API CALL TO CONNECT GOES
-        this.showNextSlide();
-    };
-
-    DeckView.prototype.showNextSlide = function() {
+    DeckView.prototype.showNextSlide = function(callback) {
         this.currentIndex++;
-        if (this.currentIndex === this.slides.length) this.currentIndex = 0;
+        if (this.currentIndex === Object.keys(this.slides).length) this.currentIndex = 0;
         this.slides[this.currentIndex].options.position.set([0, 0]);
         var slide = this.slides[this.currentIndex];
-        this.lightbox.show(slide);
+        this.lightbox.show(slide, callback);
     };
 
     function _createLightbox() {
@@ -117,17 +172,17 @@ define(function(require, exports, module) {
     }
 
     function _createSlides() {
-        this.slides = [];
+        this.slides = {};
         this.currentIndex = 0;
-
+        console.log(this.options.initialData.jobs.length);
         for (var i = 0; i < this.options.initialData.jobs.length; i++) {
             var slide = new SlideView({
                 size: this.options.size,
                 job: this.options.initialData.jobs[i],
+                logo_url: this.options.initialData.jobs[i].startup.logo_url
             });
-            
-            this.slides.push(slide);
 
+            this.slides[i] = slide;
             // adding click listener
             // on click, calling .showNextSlide()
             // note that we're binding showNextSlide to the slideshow
@@ -135,6 +190,12 @@ define(function(require, exports, module) {
             slide.on('swipeRight', this.swipeRight.bind(this));
             slide.on('swipeLeft', this.swipeLeft.bind(this));
             slide.on('flip', this.flip.bind(this));
+            slide.on('touchstart', function() {
+                this.options.slideArrived = !this.options.slideArrived;
+            }.bind(this));
+            slide.on('touchend', function() {
+               this.options.slideArrived = !this.options.slideArrived;
+            }.bind(this));
         }
         console.log('SLIDES ARRAY', this.slides);
 

@@ -3,19 +3,20 @@
 define(function(require, exports, module) {
     function start() {
         console.log("start that app")
-        // import dependencies
+            // import dependencies
         var Engine = require('famous/core/Engine')
         var AppView = require('views/AppView')
         var Utility = require('famous/utilities/Utility');
 
         require('helpers/methods')
-        // create the main context
+            // create the main context
         var mainContext = Engine.createContext()
         mainContext.setPerspective(2000)
 
-        var appView = new AppView()
-        mainContext.add(appView)
+        var appView = new AppView();
+        mainContext.add(appView);
     }
+
 
     if (window.cordova)
         document.addEventListener('deviceready', start, false)
@@ -24,3 +25,4 @@ define(function(require, exports, module) {
         start();
     }
 })
+
