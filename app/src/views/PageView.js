@@ -176,13 +176,13 @@ define(function(require, exports, module) {
 
         /*HEADER MODIFIERS */
         this.archiveModifier = new Modifier({
-            opacity: 1,
+            transform: Transform.translate(0, this.options.height * 0.016, 0),
             origin: [0, 0.5],
             align: [0.05, 0.5]
         });
 
         this.interestedModifier = new Modifier({
-            opacity: 1,
+            transform: Transform.translate(0, this.options.height * 0.016, 0),
             origin: [1, 0.5],
             align: [0.95, 0.5]
         });

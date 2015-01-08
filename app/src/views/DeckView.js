@@ -148,8 +148,6 @@ define(function(require, exports, module) {
         }.bind(this));
     }
 
-
-
     DeckView.prototype.showNextSlide = function(callback) {
         this.currentIndex++;
         if (this.currentIndex === Object.keys(this.slides).length) this.currentIndex = 0;
