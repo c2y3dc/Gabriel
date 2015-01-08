@@ -4,17 +4,12 @@ define(function(require, exports, module) {
     var Transform = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
     var Modifier = require('famous/core/Modifier');
-
     var Easing = require('famous/transitions/Easing');
     var Transitionable = require('famous/transitions/Transitionable');
     var SpringTransition = require('famous/transitions/SpringTransition');
     var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
-
-    var CardView = require('views/CardView');
-
     var FastClick = require('famous/inputs/FastClick');
-
     var MouseSync = require('famous/inputs/MouseSync');
     var TouchSync = require('famous/inputs/TouchSync');
     var GenericSync = require('famous/inputs/GenericSync');
@@ -22,13 +17,6 @@ define(function(require, exports, module) {
     Transitionable.registerMethod('spring', SpringTransition);
     Transitionable.registerMethod('wall', WallTransition);
     Transitionable.registerMethod('snap', SnapTransition);
-
-    var posititon = new Transitionable([0, 0]);
-
-    GenericSync.register({
-        'mouse': MouseSync,
-        'touch': TouchSync
-    });
 
     var StripData = require('data/StripData');
     var MatchView = require('views/MatchView');
@@ -41,6 +29,11 @@ define(function(require, exports, module) {
 
     var LandingView = require('views/LandingView');
     var AboutView = require('views/AboutView');
+
+    GenericSync.register({
+        'mouse': MouseSync,
+        'touch': TouchSync
+    });
 
     function AppView() {
         View.apply(this, arguments);
@@ -78,19 +71,21 @@ define(function(require, exports, module) {
         initialData: {},
         slideLeftX: window.innerWidth - window.innerWidth / 8,
         transition: {
-            duration: 300,
-            curve: Easing.easingOut
+            duration: 500,
+            curve: 'easeOut'
         }
     };
 
     // GabrielPage Toggle
-    AppView.prototype.showFullGabrielPage = function() {
-        // this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0));
-        this.pageModifier.setTransform(Transform.translate(0, 0, 0), this.options.transition);
+    AppView.prototype.showFullGabrielPage = function(callback) {
+        this.pageModifier.setTransform(Transform.translate(0, 0, 0.9), this.options.transition, callback);
     };
 
     AppView.prototype.removeGabrielPage = function() {
-        this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), this.options.transition);
+        this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), {
+            duration: 450,
+            curve: 'easeOut'
+        });
     };
 
     AppView.prototype.toggleGabrielPage = function() {
@@ -110,7 +105,9 @@ define(function(require, exports, module) {
     AppView.prototype.showGabrielPage = function() {
         console.log('show full GarielPage');
         this.gabrielMenu = true;
-        this.showFullGabrielPage();
+        this.showFullGabrielPage(function() {
+            this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, -100), this.options.transition);
+        }.bind(this));
     };
 
     // MenuPage Toggle
@@ -314,7 +311,8 @@ define(function(require, exports, module) {
     // Create different views
     function _createPageView() {
         this.pageView = new PageView({
-            initialData: this.landingView.options.initialData
+            initialData: this.landingView.options.initialData,
+            angel: this.options.angel
         });
         this.pageModifier = new StateModifier({
             transform: Transform.translate(0, 0, 0.1)

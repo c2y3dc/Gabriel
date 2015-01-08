@@ -17,27 +17,23 @@ define(function(require, exports, module) {
     var SnapTransition = require('famous/transitions/SnapTransition');
     Transitionable.registerMethod('spring', SnapTransition);
 
-    GenericSync.register({
-        'mouse': MouseSync,
-        'touch': TouchSync
-    });
-
-    var position = new Transitionable([0, 0]);
 
     // runs once for each new instance
     function SlideView() {
         View.apply(this, arguments);
+        this.options.position = new Transitionable([0, 0]);
         this.rootModifier = new StateModifier({
             align: [.5, .5],
             origin: [.5, .5],
             transform: Transform.translate(0, 0, 0.9)
         });
 
+
         this.mainNode = this.add(this.rootModifier);
         //_createBackground.call(this);
         _createFlipper.call(this);
         //var rootNode = _createCard.call(this);
-        //_createHandle.call(this, rootNode);
+        _createHandle.call(this);
         _setListeners.call(this);
 
     }
@@ -49,11 +45,12 @@ define(function(require, exports, module) {
         width: window.innerWidth,
         height: window.innerHeight,
         size: [window.innerWidth * 0.9, window.innerHeight * 0.687],
-        job: undefined,
-        position: position,
+        job: {},
+        position: undefined,
         angle: undefined,
         toggle: false,
-        jobDescription: 'No description provided'
+        jobDescription: 'No description provided',
+        logo_url: undefined
     };
 
     SlideView.prototype.fadeIn = function() {
@@ -72,7 +69,6 @@ define(function(require, exports, module) {
         this.flipper.setFront(this.frontNode);
         this.flipper.setBack(this.backSurface);
 
-
         this.mainNode.add(this.flipper);
     }
 
@@ -81,12 +77,13 @@ define(function(require, exports, module) {
         this.frontSurfaceModifier = new StateModifier({
             transform: Transform.translate(0, 0, 0.9)
         });
+
         this.frontNode = this.mainNode.add(this.frontSurfaceModifier);
 
         this.frontSurface = new Surface({
             size: this.options.size,
             classes: ['front-card'],
-            // content: '<h3>' + this.options.job.startup.name + '</h3>' + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept + '"</p></div>' + '<div class="product_desc"><p>' + this.options.job.startup.product_desc + '</p></div>' + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>' + '<div><p>Min: $' + ('' + this.options.job.salary_min).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>' + '<div><p>Max: $' + ('' + this.options.job.salary_max).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</p></div>',
+            content: '<h3>' + this.options.job.startup.name + '</h3>' + '<div class="high-concept"><p>"' + this.options.job.startup.high_concept + '"</p></div>' + '<div class="product_desc"><p>' + truncate(this.options.job.startup.product_desc, 100) + '</p></div>' + '<div class="front-card-title"><h5>' + this.options.job.title + '</h5></div>' + '<div><p>$' + format(this.options.job.salary_min) + ' - $' + format(this.options.job.salary_max) + '</p></div>',
             properties: {
                 backgroundColor: '#FFFFFF'
                     //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
@@ -108,43 +105,46 @@ define(function(require, exports, module) {
             transform: Transform.translate(window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 - window.innerHeight / 5, 0.9)
         });
 
-
-        this.companyBackgroundSurface = new ImageSurface({
-          size: [this.options.width * 0.9, this.options.height * 0.222],
-          content: 'img/companybg.png'
-        });
-
-        this.companyBackgroundModifier = new StateModifier({
-          transform: Transform.translate(0, -this.options.height * 0.23, 0.9)
-        });
-
-        this.companyLogoSurface = new ImageSurface({
-          size: [this.options.width * 0.1875, this.options.width * 0.1875],
-          content: this.options.job.startup.logo_url,
-          properties: {
-            backgroundColor: '#FFFFFF',
-            borderRadius: '2px',
-            border: '3px solid #FFFFFF',
-            boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.30)'
-          }
-        });
-
-        this.companyLogoModifier = new StateModifier({
-          transform: Transform.translate(-this.options.width * 0.3, -this.options.height * 0.105, 1.9)
-        });
-
         this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
-        this.frontNode.add(this.companyBackgroundModifier).add(this.companyBackgroundSurface);
-        // this.frontNode.add(jobTitleModifier).add(jobTitleSurface);
-        this.frontNode.add(this.companyLogoModifier).add(this.companyLogoSurface);
-        // this.frontNode.add(jobLocationModifier).add(jobLocationSurface);
+
+
+        // this.companyBackgroundSurface = new ImageSurface({
+        //   size: [this.options.width * 0.9, this.options.height * 0.222],
+        //   content: 'img/companybg.png'
+        // });
+
+        // this.companyBackgroundModifier = new StateModifier({
+        //   transform: Transform.translate(0, -this.options.height * 0.23, 0.9)
+        // });
+
+        //this.frontNode.add(this.companyBackgroundModifier).add(this.companyBackgroundSurface);
+
+        // this.companyLogoSurface = new ImageSurface({
+        //   size: [this.options.width * 0.1875, this.options.width * 0.1875],
+        //   content: this.options.logo_url,
+        //   properties: {
+        //     backgroundColor: '#FFFFFF',
+        //     borderRadius: '2px',
+        //     border: '3px solid #FFFFFF',
+        //     boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.30)'
+        //   }
+        // });
+
+        // this.companyLogoModifier = new StateModifier({
+        //   transform: Transform.translate(this.options.width * 0.32, -this.options.height * 0.27, 0.8)
+        // });
+
+
+        // //this.frontNode.add(jobTitleModifier).add(jobTitleSurface);
+        // this.frontNode.add(this.companyLogoModifier).add(this.companyLogoSurface);
+        //this.frontNode.add(jobLocationModifier).add(jobLocationSurface);
     }
 
     function _createCardBack() {
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card'],
-            content: '<div class="back-card-desc">' + truncate(this.options.job.description, 1800) + '</div>',
+            content: '<div class="back-card-desc">' + truncate(this.options.job.description, 1500) + '</div>',
             properties: {
                 backgroundColor: '#FFFFFF'
                     //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)'
@@ -158,8 +158,8 @@ define(function(require, exports, module) {
             "touch": {},
         });
         // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
-        arguments[0]._object.pipe(sync);
-
+        this.frontSurface.pipe(sync);
+        this.backSurface.pipe(sync);
 
         sync.on('update', function(data) {
             var currentPosition = this.options.position.get();
@@ -168,20 +168,11 @@ define(function(require, exports, module) {
                 currentPosition[0] + data.delta[0],
                 currentPosition[1] + data.delta[1]
             ]);
-            console.log(this.cardModifier);
-            this.cardModifier.setOpacity(Math.abs(window.innerWidth / currentPosition[0]) / 10, {
-                duration: 500
-            });
         }.bind(this));
 
         sync.on('end', function(data) {
             var currentPosition = this.options.position.get();
             var velocity = data.velocity;
-            // position.set([0, 0], {
-            //     method: 'spring',
-            //     period: 150,
-            //     velocity: velocity
-            // });
             if (currentPosition[0] < -window.innerWidth / 6) {
                 // this._eventOutput.emit('swipeLeft0');
                 this._eventOutput.emit('swipeLeft');
@@ -200,7 +191,7 @@ define(function(require, exports, module) {
         var positionModifier = new Modifier({
             transform: function() {
                 var currentPosition = this.options.position.get();
-                return Transform.translate(currentPosition[0], currentPosition[1], 0);
+                return Transform.translate(currentPosition[0], currentPosition[1], 0.9);
             }.bind(this)
         });
 
@@ -211,8 +202,11 @@ define(function(require, exports, module) {
             }.bind(this)
         });
 
-        this.add(positionModifier).add(rotationModifier).add(arguments[0]);
+        this.add(positionModifier).add(rotationModifier).add(this.mainNode);
     }
+
+
+
 
     function _createBackground() {
         this.rootModifier = new StateModifier({
@@ -232,7 +226,6 @@ define(function(require, exports, module) {
         });
 
         this.mainNode.add(this.background);
-
     }
 
     function _createCard() {
@@ -274,7 +267,7 @@ define(function(require, exports, module) {
 
         var description = new Surface({
             size: [window.innerWidth - window.innerWidth / 5, window.innerHeight - window.innerHeight / 2],
-            content: this.options.job.description.trunc(1000),
+            content: (this.options.job.description.trunc(800) || 'no description'),
             properties: {
                 zIndex: 2,
                 color: 'black',
@@ -297,16 +290,15 @@ define(function(require, exports, module) {
 
     function _setListeners() {
         this.flipForwardButton.on('click', function() {
-            this._eventOutput.emit('flip');
+            if (!this.options.toggle) {
+                this._eventOutput.emit('flip');
+            }
         }.bind(this));
         this.backSurface.on('click', function() {
-            this._eventOutput.emit('flip');
+            if (this.options.toggle) {
+                this._eventOutput.emit('flip');
+            }
         }.bind(this));
-        // this.background.on('click', function() {
-        //     console.log('hello');
-        //     // the event output handler is used to broadcast outwards
-        //     this._eventOutput.emit('flip');
-        // }.bind(this));
     }
 
     module.exports = SlideView;
