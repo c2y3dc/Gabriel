@@ -139,10 +139,18 @@ define(function(require, exports, module) {
     DeckView.prototype.flip = function() {
         var slide = this.slides[this.currentIndex];
         var angle = slide.options.toggle ? 0 : -Math.PI;
+        if(!slide.options.toggle){
+            slide.fadeIn();
+            console.log('fadein called')
+        }else{
+            slide.fadeOut();
+            console.log('fadeout called')
+
+        }
         slide.flipper.setAngle(angle, {
-            curve: Easing.outBack,
-            duration: 550,
-            period: 250
+            curve: Easing.inOutQuad,
+            duration: 1500,
+            period: 1500
         }, function() {
             slide.options.toggle = !slide.options.toggle;
         }.bind(this));
