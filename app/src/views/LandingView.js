@@ -121,6 +121,7 @@ define(function(require, exports, module) {
             OAuth.initialize('8zrAzDgK9i-ryXuI6xHqjHkNpug');
             OAuth.popup('angel_list').done(function(result) {
                 this.options.angel = result;
+                ANGEL = result;
                 result.get('/1/me').done(function(data) {
                     this.options.userData = data;
                     console.log(this.options.userData);

@@ -74,6 +74,22 @@ define(function(require, exports, module) {
         });
 
         //OUR API CALL TO ARCHIVE GOES HERE
+
+        //Saves current startup's id
+        var sid = this.slides[this.currentIndex].options.job.startup.id;
+        
+        //UNFOLLOWS POST REQ
+        console.log("startup_id", sid);
+        ANGEL.del('/1/follows', {
+            data: {
+                type: 'startup',
+                id: sid }
+            }).done(function(data) {
+                console.log(data, "you've unfollowed " + data.followed.name);
+            }.bind(this)).fail(function(oops) {
+                console.log('not yet followed / unable to unfollow');
+            }.bind(this));
+
         this.showNextSlide(function() {
             this.options.slideArrived = true
         }.bind(this));
@@ -88,6 +104,32 @@ define(function(require, exports, module) {
             period: 450,
         });
         //THIS IS WHERE OUR API CALL TO CONNECT GOES
+
+        //Saves current startup's id
+        var sid = this.slides[this.currentIndex].options.job.startup.id;
+
+        //FOLLOWS POST REQ
+        console.log("startup_id", sid);
+        ANGEL.post('/1/follows', {
+            data: {
+                type: 'startup',
+                id: sid }
+            }).done(function(data) {
+                console.log(data, "you've followed " + data.followed.name);
+            }.bind(this)).fail(function(oops) {
+                console.log('already following / unable to follow');
+            }.bind(this));
+        // !!! DO NOT DELETE - WORKING POST REQUEST AWAITING ANGELLIST API TEAM RESPONSE!!!
+        // this.options.angel.post('/1/intros', {
+        //     data: {
+        //         startup_id: sid }
+        //     }).done(function(data) {
+        //         console.log(data);
+        //     }.bind(this)).fail(function(oops) {
+        //         console.log('unable to post');
+        //     }.bind(this));
+        //this._eventOutput.emit('buttonToggle');
+
         this.showNextSlide(function() {
             this.options.slideArrived = true;
             this.options.okToFlip = true;
