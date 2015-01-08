@@ -83,7 +83,7 @@ define(function(require, exports, module) {
             duration: 1500,
             curve: 'easeOut'
         });
-        this.backSurfaceModifier.setSize([undefined, undefined]);
+        this.backSurfaceModifier.setSize([window.innerWidth, window.innerHeight]);
     };
 
     SlideView.prototype.fadeOut = function() {
@@ -96,7 +96,7 @@ define(function(require, exports, module) {
             Transform.translate(0, 0, 1.5),
             { duration : 400, curve: 'linear' }
         );
-        this.shadowModifier.setOpacity(0);
+
         this.backSurfaceModifier.setSize(this.options.size);
         
     };
@@ -283,10 +283,7 @@ define(function(require, exports, module) {
     }
 
     function _createCard() {
-        var cardSizeX = this.options.size[0] - 2 * 5;
-        var cardSizeY = this.options.size[1] - 2 * 5;
         var card = new ImageSurface({
-            size: [50, 50],
             classes: ['circle-image'],
             content: this.options.job.startup.logo_url,
             properties: {
@@ -320,7 +317,6 @@ define(function(require, exports, module) {
         this.mainNode.add(this.jobTitleModifier).add(title);
 
         var description = new Surface({
-            size: [window.innerWidth - window.innerWidth / 5, window.innerHeight - window.innerHeight / 2],
             content: (this.options.job.description.trunc(800) || 'no description'),
             properties: {
                 zIndex: 2,
