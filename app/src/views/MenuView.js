@@ -34,7 +34,8 @@ define(function(require, exports, module) {
         transition: {
             duration: 400,
             curve: 'easeOut'
-        }
+        },
+        landingView: undefined
     };
 
     function _createBacking() {
@@ -71,7 +72,8 @@ define(function(require, exports, module) {
 
     function _createMenuHeader() {
         this.menuHeaderView = new MenuHeaderView({
-            user: this.options.userData
+            user: this.options.userData,
+            landingView: this.options.landingView
         });
 
         this.add(this.menuHeaderView);
@@ -106,9 +108,9 @@ define(function(require, exports, module) {
 
     function _setListeners() {
         // Menu surface
-        this.menuHeaderView.userImageSurface.on('click', function() {
-            this._eventOutput.emit('gabrielOnly');
-        }.bind(this));
+        // this.menuHeaderView.userImageSurface.on('click', function() {
+        //     this._eventOutput.emit('gabrielOnly');
+        // }.bind(this));
         // Home StripView
         this.stripSurfaces[0].backgroundSurface.on('click', function() {
             console.log('home is clicked');

@@ -7,6 +7,7 @@ define(function(require, exports, module) {
     var SlideData = require('data/SlideData');
     var ImageSurface = require('famous/surfaces/ImageSurface');
     var Flipper = require("famous/views/Flipper");
+    var Easing = require('famous/transitions/Easing');
 
     var ScrollSync = require("famous/inputs/ScrollSync");
     var MouseSync = require('famous/inputs/MouseSync');
@@ -31,12 +32,19 @@ define(function(require, exports, module) {
             transform: Transform.translate(0, 0, 0.9)
         });
 
+        this.cardModifier = new StateModifier({
+            align: [.5, .5],
+            origin: [.5, .5],
+            transform: Transform.translate(0, 0, 0.9)
+        });
 
         this.mainNode = this.add(this.rootModifier);
+        this.cardNode = this.mainNode.add(this.cardModifier);
         //_createBackground.call(this);
         _createFlipper.call(this);
         //var rootNode = _createCard.call(this);
         _createHandle.call(this);
+        _createShadowBox.call(this);
         _setListeners.call(this);
 
     }
@@ -62,8 +70,33 @@ define(function(require, exports, module) {
     };
 
     SlideView.prototype.fadeIn = function() {
-        this.cardModifier.setOpacity(1, {
-            duration: 100,
+        this.shadowBox.setProperties({ pointerEvents: 'auto' });
+        this.cardModifier.setTransform(
+            Transform.translate(0, 10, 350),
+            { duration : 750, curve: Easing.easeIn }
+        );
+        this.cardModifier.setTransform(
+            Transform.translate(0, 10, 200),
+            { duration : 750, curve: Easing.easeOut }
+        );
+        this.shadowModifier.setOpacity(0.85, {
+            duration: 1500,
+            curve: 'easeOut'
+        });
+    };
+
+    SlideView.prototype.fadeOut = function() {
+        this.shadowBox.setProperties({ pointerEvents: 'none' });
+        this.cardModifier.setTransform(
+            Transform.translate(0, 0, 300),
+            { duration : 750, curve: Easing.easeInOut }
+        );
+        this.cardModifier.setTransform(
+            Transform.translate(0, 0, 1.5),
+            { duration : 750, curve: Easing.easeOut }
+        );
+        this.shadowModifier.setOpacity(0, {
+            duration: 1500,
             curve: 'easeOut'
         });
     };
@@ -77,7 +110,7 @@ define(function(require, exports, module) {
         this.flipper.setFront(this.frontNode);
         this.flipper.setBack(this.backSurface);
 
-        this.mainNode.add(this.flipper);
+        this.cardNode.add(this.flipper);
     }
 
     function _createCardFront() {
@@ -86,7 +119,7 @@ define(function(require, exports, module) {
             transform: Transform.translate(0, 0, 0.9)
         });
 
-        this.frontNode = this.mainNode.add(this.frontSurfaceModifier);
+        this.frontNode = this.cardNode.add(this.frontSurfaceModifier);
 
         this.frontSurface = new Surface({
             size: this.options.size,
@@ -110,7 +143,7 @@ define(function(require, exports, module) {
         this.frontNode.add(this.frontSurface);
 
         this.flipForwardButton = new Surface({
-            size: [45, 45],
+            size: [30, 20],
             content: 'flip',
             properties: {
                 backgroundColor: 'blue',
@@ -299,6 +332,22 @@ define(function(require, exports, module) {
         return this.mainNode;
     }
 
+    function _createShadowBox() {
+        this.shadowBox = new Surface({
+            size: [window.innerWidth, window.innerHeight],
+            properties: {
+                backgroundColor: 'gray',
+                pointerEvents: 'none'
+            }
+        })
+        this.shadowModifier = new StateModifier({
+            opacity: 0,
+            transform: Transform.translate(0, 0, -10),
+        });
+
+        this.mainNode.add(this.shadowModifier).add(this.shadowBox);
+    }
+
 
     function _setListeners() {
         this.flipForwardButton.on('click', function() {
@@ -307,11 +356,19 @@ define(function(require, exports, module) {
             }
         }.bind(this));
         this.backSurface.on('click', function() {
+            console.log('clicked')
+            this.shadowModifier.setOpacity(0);  
             if (this.options.toggle) {
                 this._eventOutput.emit('flip');
+                this.shadowModifier.setOpacity(0);
             }
+        }.bind(this));
+        this.backSurface.on('touchstart', function() {
+            console.log('sensed it');
+            this.shadowModifier.setOpacity(0);
         }.bind(this));
     }
 
     module.exports = SlideView;
+
 });

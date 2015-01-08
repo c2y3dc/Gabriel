@@ -66,6 +66,7 @@ define(function(require, exports, module) {
 
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
+        slide.shadowModifier.setOpacity(0);
         this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
         slide.options.position.set([-500, 0], {
@@ -97,6 +98,7 @@ define(function(require, exports, module) {
 
     DeckView.prototype.swipeRight = function() {
         var slide = this.slides[this.currentIndex];
+        slide.shadowModifier.setOpacity(0);
         this.lightbox.options.outTransform = Transform.translate(500, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(-300, 0, 0);
         slide.options.position.set([500, 0], {
@@ -139,10 +141,18 @@ define(function(require, exports, module) {
     DeckView.prototype.flip = function() {
         var slide = this.slides[this.currentIndex];
         var angle = slide.options.toggle ? 0 : -Math.PI;
+        if(!slide.options.toggle){
+            slide.fadeIn();
+            console.log('fadein called')
+        }else{
+            slide.fadeOut();
+            console.log('fadeout called')
+
+        }
         slide.flipper.setAngle(angle, {
-            curve: Easing.outBack,
-            duration: 550,
-            period: 250
+            curve: Easing.inOutQuad,
+            duration: 1000,
+            period: 1000
         }, function() {
             slide.options.toggle = !slide.options.toggle;
         }.bind(this));
@@ -187,6 +197,7 @@ define(function(require, exports, module) {
                this.options.slideArrived = !this.options.slideArrived;
             }.bind(this));
         }
+        console.log('SLIDES ARRAY', this.slides);
 
         this.showNextSlide();
     }

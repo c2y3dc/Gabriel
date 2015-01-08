@@ -4,6 +4,7 @@ define(function(require, exports, module) {
     var Transform = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
     var ImageSurface = require('famous/surfaces/ImageSurface');
+    var Utility = require('famous/utilities/Utility');
 
 
     function LandingView() {
@@ -137,7 +138,7 @@ define(function(require, exports, module) {
                     this.rootModifier.setOpacity(0, {
                         duration: 1000
                     });
-                    this.rootModifier.setTransform(Transform.translate(0, 0, -10000), {
+                    this.rootModifier.setTransform(Transform.translate(-window.innerWidth*2, 0, 0), {
                         duration: 1000
                     });
                 }.bind(this)).fail(function(oops) {

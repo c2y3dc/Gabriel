@@ -45,19 +45,23 @@
     },
     "installed_plugins": {
         "org.apache.cordova.device": {
-            "PACKAGE_NAME": "com.famous.hr101.gabriel"
+
+            "PACKAGE_NAME": "com.famous.hr109.gabriel"
         },
         "org.apache.cordova.console": {
-            "PACKAGE_NAME": "com.famous.hr101.gabriel"
+            "PACKAGE_NAME": "com.famous.hr109.gabriel"
+        },
+        "org.apache.cordova.inappbrowser": {
+            "PACKAGE_NAME": "com.famous.hr109.gabriel"
         },
         "org.apache.cordova.inappbrowser": {
             "PACKAGE_NAME": "com.famous.hr101.gabriel"
         },
         "com.oauthio.plugins.oauthio": {
-            "PACKAGE_NAME": "com.famous.hr101.gabriel"
+            "PACKAGE_NAME": "com.famous.hr109.gabriel"
         },
         "com.bez4pieci.cookies": {
-            "PACKAGE_NAME": "com.famous.hr101.gabriel"
+            "PACKAGE_NAME": "com.famous.hr109.gabriel"
         }
     },
     "dependent_plugins": {}

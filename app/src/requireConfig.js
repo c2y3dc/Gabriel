@@ -11,5 +11,6 @@ require.config({
     packages: [
 
     ]
+
 });
 require(['main']);
