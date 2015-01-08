@@ -32,14 +32,14 @@ define(function(require, exports, module) {
             transform: Transform.translate(0, 0, 0.9)
         });
 
-        this.slideModifier = new StateModifier({
+        this.cardModifier = new StateModifier({
             align: [.5, .5],
             origin: [.5, .5],
             transform: Transform.translate(0, 0, 0.9)
         });
 
         this.mainNode = this.add(this.rootModifier);
-        this.cardNode = this.mainNode.add(this.slideModifier);
+        this.cardNode = this.mainNode.add(this.cardModifier);
         //_createBackground.call(this);
         _createFlipper.call(this);
         //var rootNode = _createCard.call(this);
@@ -71,34 +71,34 @@ define(function(require, exports, module) {
 
     SlideView.prototype.fadeIn = function() {
         this.shadowBox.setProperties({ pointerEvents: 'auto' });
-        this.slideModifier.setTransform(
+        this.cardModifier.setTransform(
             Transform.translate(0, 10, 350),
-            { duration : 400, curve: 'linear' }
+            { duration : 750, curve: Easing.easeIn }
         );
-        this.slideModifier.setTransform(
+        this.cardModifier.setTransform(
             Transform.translate(0, 10, 200),
-            { duration : 400, curve: 'linear' }
+            { duration : 750, curve: Easing.easeOut }
         );
         this.shadowModifier.setOpacity(0.85, {
             duration: 1500,
             curve: 'easeOut'
         });
-        this.backSurfaceModifier.setSize([window.innerWidth, window.innerHeight]);
     };
 
     SlideView.prototype.fadeOut = function() {
         this.shadowBox.setProperties({ pointerEvents: 'none' });
-        this.slideModifier.setTransform(
-            Transform.translate(0, 0, 350),
-            { duration : 400, curve: 'linear' }
+        this.cardModifier.setTransform(
+            Transform.translate(0, 0, 300),
+            { duration : 750, curve: Easing.easeInOut }
         );
-        this.slideModifier.setTransform(
+        this.cardModifier.setTransform(
             Transform.translate(0, 0, 1.5),
-            { duration : 400, curve: 'linear' }
+            { duration : 750, curve: Easing.easeOut }
         );
-
-        this.backSurfaceModifier.setSize(this.options.size);
-        
+        this.shadowModifier.setOpacity(0, {
+            duration: 1500,
+            curve: 'easeOut'
+        });
     };
 
     function _createFlipper() {
@@ -108,7 +108,7 @@ define(function(require, exports, module) {
         _createCardBack.call(this);
 
         this.flipper.setFront(this.frontNode);
-        this.flipper.setBack(this.backNode);
+        this.flipper.setBack(this.backSurface);
 
         this.cardNode.add(this.flipper);
     }
@@ -148,12 +148,8 @@ define(function(require, exports, module) {
             properties: {
                 backgroundColor: 'blue',
                 color: 'white',
-<<<<<<< HEAD
                 borderRadius: '50%',
                 textAlign: 'center'
-=======
-                textAlign: 'center',
->>>>>>> working prettyflip with shadow box fade
             }
         });
 
@@ -198,15 +194,10 @@ define(function(require, exports, module) {
 
     function _createCardBack() {
         this.backSurface = new Surface({
+            size: this.options.size,
             classes: ['back-card'],
             content: '<div class="back-card-desc">' + truncate(this.options.job.description, 1500) + '</div>'
         });
-
-        this.backSurfaceModifier = new Modifier({
-            size: this.options.size
-        });
-
-        this.backNode = this.cardNode.add(this.backSurfaceModifier).add(this.backSurface);
     }
 
     function _createHandle() {
@@ -283,7 +274,10 @@ define(function(require, exports, module) {
     }
 
     function _createCard() {
+        var cardSizeX = this.options.size[0] - 2 * 5;
+        var cardSizeY = this.options.size[1] - 2 * 5;
         var card = new ImageSurface({
+            size: [50, 50],
             classes: ['circle-image'],
             content: this.options.job.startup.logo_url,
             properties: {
@@ -317,6 +311,7 @@ define(function(require, exports, module) {
         this.mainNode.add(this.jobTitleModifier).add(title);
 
         var description = new Surface({
+            size: [window.innerWidth - window.innerWidth / 5, window.innerHeight - window.innerHeight / 2],
             content: (this.options.job.description.trunc(800) || 'no description'),
             properties: {
                 zIndex: 2,
@@ -361,14 +356,16 @@ define(function(require, exports, module) {
             }
         }.bind(this));
         this.backSurface.on('click', function() {
+            console.log('clicked')
+            this.shadowModifier.setOpacity(0);  
             if (this.options.toggle) {
                 this._eventOutput.emit('flip');
+                this.shadowModifier.setOpacity(0);
             }
         }.bind(this));
         this.backSurface.on('touchstart', function() {
-            if (this.options.toggle) {
-                this.shadowModifier.setOpacity(0);
-            }
+            console.log('sensed it');
+            this.shadowModifier.setOpacity(0);
         }.bind(this));
     }
 
