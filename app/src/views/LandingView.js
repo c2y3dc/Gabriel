@@ -166,8 +166,9 @@ define(function(require, exports, module) {
             OAuth.popup('angel_list').done(function(result) {
                 this.options.angel = result;
                 ANGEL = result;
-                result.get('/1/me').done(function(data) {
+                result.get('/1/me'+'?scope=talent').done(function(data) {
                     this.options.userData = data;
+                    ME = data;
                     console.log(this.options.userData);
                 }.bind(this)).fail(function(oops) {
                     console.log('unable to get user data');

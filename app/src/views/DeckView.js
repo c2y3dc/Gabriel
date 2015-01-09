@@ -79,17 +79,32 @@ define(function(require, exports, module) {
         //Saves current startup's id
         var sid = this.slides[this.currentIndex].options.job.startup.id;
         
-        //UNFOLLOWS POST REQ
+        // //Archive POST REQ
         console.log("startup_id", sid);
-        ANGEL.del('/1/follows', {
+
+            ANGEL.post('/1/talent/pairing', {
             data: {
-                type: 'startup',
-                id: sid }
+                startup_id: sid,
+                user_id: ME.id,
+                user_note: "",
+                user_interested: 0
+            }
             }).done(function(data) {
-                console.log(data, "you've unfollowed " + data.followed.name);
+                console.log(data, "you've sent archived " + data.followed.name);
             }.bind(this)).fail(function(oops) {
-                console.log('not yet followed / unable to unfollow');
+                console.log("already archived / unable to archive");
             }.bind(this));
+
+        //UNFOLLOWS POST REQ
+        // ANGEL.del('/1/follows', {
+        //     data: {
+        //         type: 'startup',
+        //         id: sid }
+        //     }).done(function(data) {
+        //         console.log(data, "you've unfollowed " + data.followed.name);
+        //     }.bind(this)).fail(function(oops) {
+        //         console.log('not yet followed / unable to unfollow');
+        //     }.bind(this));
 
         this.showNextSlide(function() {
             this.options.slideArrived = true
@@ -110,17 +125,32 @@ define(function(require, exports, module) {
         //Saves current startup's id
         var sid = this.slides[this.currentIndex].options.job.startup.id;
 
-        //FOLLOWS POST REQ
         console.log("startup_id", sid);
-        ANGEL.post('/1/follows', {
+        
+        // //Interested POST REQ
+            ANGEL.post('/1/talent/pairing', {
             data: {
-                type: 'startup',
-                id: sid }
+                startup_id: sid,
+                user_id: ME.id,
+                user_note: "",
+                user_interested: 1
+            }
             }).done(function(data) {
-                console.log(data, "you've followed " + data.followed.name);
+                console.log(data, "you've sent an intro to " + data.followed.name);
             }.bind(this)).fail(function(oops) {
-                console.log('already following / unable to follow');
+                console.log("already intro'd / unable to intro");
             }.bind(this));
+
+        //FOLLOWS POST REQ
+        // ANGEL.post('/1/follows', {
+        //     data: {
+        //         type: 'startup',
+        //         id: sid }
+        //     }).done(function(data) {
+        //         console.log(data, "you've followed " + data.followed.name);
+        //     }.bind(this)).fail(function(oops) {
+        //         console.log('already following / unable to follow');
+        //     }.bind(this));
         // !!! DO NOT DELETE - WORKING POST REQUEST AWAITING ANGELLIST API TEAM RESPONSE!!!
         // this.options.angel.post('/1/intros', {
         //     data: {
