@@ -86,13 +86,12 @@ define(function(require, exports, module) {
             data: {
                 startup_id: sid,
                 user_id: ME.id,
-                user_note: "",
-                user_interested: 0
+                user_interested: 1
             }
             }).done(function(data) {
-                console.log(data, "you've archived " + data.followed.name);
+                console.log("Archive doneRes", data);
             }.bind(this)).fail(function(oops) {
-                console.log("already archived / unable to archive");
+                console.log("already archive'd / unable to archive", oops);
             }.bind(this));
 
         //UNFOLLOWS POST REQ
@@ -136,9 +135,9 @@ define(function(require, exports, module) {
                 user_interested: 1
             }
             }).done(function(data) {
-                console.log(data);
+                console.log("Intro doneRes", data);
             }.bind(this)).fail(function(oops) {
-                console.log("already intro'd / unable to intro");
+                console.log("already intro'd / unable to intro", oops);
             }.bind(this));
 
         //FOLLOWS POST REQ
