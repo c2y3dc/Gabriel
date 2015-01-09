@@ -109,15 +109,17 @@ define(function(require, exports, module) {
 
     function _createLoginButton() {
         this.loginButton = new Surface({
-            size: [this.options.width * 0.4063, this.options.height * 0.08],
-            content: 'ANGEL LIST',
+            size: [this.options.width * 0.525, this.options.height * 0.08],
+            content: 'SIGN IN WITH ANGEL LIST',
             properties: {
-              fontSize: this.options.width * 0.04 + 'px',
-                color: '#9E9E9E',
-                border: '1px solid #9E9E9E',
+                fontSize: this.options.width * 0.0325 + 'px',
+                color: '#34C9AB',
+                border: '1px solid #34C9AB',
                 borderRadius: '4px',
                 textAlign: 'center',
-                lineHeight: this.options.height * 0.08 + 'px'
+                letterSpacing: this.options.width * 0.002 + 'px',
+                lineHeight: this.options.height * 0.08 + 'px',
+                fontWeight: 600
             }
         })
         this.loginButtonModifier = new StateModifier({
@@ -125,18 +127,7 @@ define(function(require, exports, module) {
             align: [0.5, 0.70],
         });
 
-        // this.angelIcon = new ImageSurface({
-        //     size: [25, 25],
-        //     content: 'img/angel.svg'
-        // });
-        //
-        // this.angelIconModifier = new StateModifier({
-        //     transform: Transform.translate(0, 0, 0),
-        //     origin: [0, 0],
-        //     align: [0.28, 0.7]
-        // });
         this.root.add(this.loginButtonModifier).add(this.loginButton);
-        // this.add(this.angelIconModifier).add(this.angelIcon);
     }
 
     // function _createRedirectButton() {
@@ -176,11 +167,11 @@ define(function(require, exports, module) {
                 result.get('/1/jobs').done(function(data) {
                     this.options.initialData = data;
                     this._eventOutput.emit('loaded');
-                    this.rootModifier.setOpacity(0, {
-                        duration: 1000
-                    });
+                    // this.rootModifier.setOpacity(0, {
+                    //     duration: 1000
+                    // });
                     this.rootModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0), {
-                        duration: 1000
+                        duration: 500
                     });
                 }.bind(this)).fail(function(oops) {
                     console.log('unable to get job data');

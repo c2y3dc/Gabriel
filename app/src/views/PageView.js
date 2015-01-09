@@ -21,11 +21,13 @@ define(function(require, exports, module) {
 
     function PageView() {
         View.apply(this, arguments);
+
         _createBacking.call(this);
         _createLayout.call(this);
         _createHeader.call(this);
         _createFooter.call(this);
         _createBody.call(this);
+
         _setListeners.call(this);
     }
 
@@ -73,7 +75,8 @@ define(function(require, exports, module) {
     function _createHeader() {
         var backgroundSurface = new Surface({
             properties: {
-                backgroundColor: '#1976D2'
+                backgroundColor: '#F9F9F9',
+                borderBottom: '1px solid rgba(0, 0, 0, 0.15)'
             }
         });
 
@@ -86,15 +89,16 @@ define(function(require, exports, module) {
         /*HEADER SURFACES*/
         this.menuSurface = new ImageSurface({
             size: [20, 20],
-            content: 'img/menu.svg'
+            content: 'img/profile.svg'
         });
 
         this.titleSurface = new Surface({
             size: [true, 44],
-            content: 'Gabriel',
+            content: 'DISCOVERY',
             properties: {
-                fontSize: '18px',
-                color: 'white'
+                fontSize: this.options.width * 0.042 + 'px',
+                color: 'rgba(0, 0, 0, 0.75)',
+                fontWeight: 600
             }
         });
 
@@ -111,7 +115,7 @@ define(function(require, exports, module) {
         });
 
         var titleModifier = new StateModifier({
-            transform: Transform.translate(0, this.options.headerSize * 0.18, 100),
+            transform: Transform.translate(0, this.options.headerSize * 0.25, 100),
             origin: [0.5, 0],
             align: [0.5, 0.5]
         });
@@ -131,7 +135,7 @@ define(function(require, exports, module) {
     function _createFooter() {
         var backgroundSurface = new Surface({
             properties: {
-                backgroundColor: '#FDFDFD'
+                // backgroundColor: '#FDFDFD'
             }
         });
 
@@ -143,34 +147,35 @@ define(function(require, exports, module) {
 
         /*HEADER SURFACES*/
         this.archiveSurface = new Surface({
-            size: [this.options.width * 0.406, this.options.height * 0.0722],
+            size: [this.options.width * 0.4141, this.options.height * 0.085],
             content: 'Archive',
             properties: {
                 textTransform: 'uppercase',
                 textAlign: 'center',
-                backgroundColor: '#B6B6B6',
-                boxShadow: '0 px 2 px 4 px 0 px rgba(0, 0, 0, 0.30)',
-                borderRadius: '2px',
+                borderRadius: '4px',
+                border: '2px solid #8F8F8F',
                 fontSize: '14px',
-                color: '#FFFFFF',
+                color: '#8F8F8F',
                 letterSpacing: '1px',
-                lineHeight: this.options.height * 0.0722 + 'px'
+                fontWeight: 600,
+                lineHeight: this.options.height * 0.079 + 'px'
             }
         });
 
         this.interestedSurface = new Surface({
-            size: [window.innerWidth / 2 - window.innerWidth / 14, 44],
+            size: [this.options.width * 0.4141, this.options.height * 0.085],
             content: 'Interested',
             properties: {
                 textTransform: 'uppercase',
                 textAlign: 'center',
-                backgroundColor: '#2196F3',
-                boxShadow: '0 px 2 px 4 px 0 px rgba(0, 0, 0, 0.30)',
-                borderRadius: '2px',
+                backgroundColor: '#34C9AB',
+                border: '2px solid #34C9AB',
+                borderRadius: '4px',
                 fontSize: '14px',
                 color: '#FFFFFF',
                 letterSpacing: '1px',
-                lineHeight: this.options.height * 0.0722 + 'px'
+                fontWeight: 600,
+                lineHeight: this.options.height * 0.079 + 'px'
             }
         });
 
