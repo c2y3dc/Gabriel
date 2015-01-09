@@ -168,7 +168,7 @@ define(function(require, exports, module) {
         });
 
         this.flipModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.395, this.options.height * 0, 0.9)
+            transform: Transform.translate(this.options.width * 0.393, this.options.height * 0, 0.9)
         });
 
         this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
