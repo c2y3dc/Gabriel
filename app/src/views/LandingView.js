@@ -26,7 +26,8 @@ define(function(require, exports, module) {
     LandingView.prototype.constructor = LandingView;
 
     LandingView.DEFAULT_OPTIONS = {
-        size: [undefined, undefined],
+        width: window.innerWidth,
+        height: window.innerHeight,
         angel: {},
         initialData: {}
     };
@@ -66,16 +67,16 @@ define(function(require, exports, module) {
 
     function _createName() {
         this.name = new Surface({
-            size: [window.innerWidth / 2, window.innerHeight / 6],
+            size: [this.options.width / 2, this.options.height / 6],
             content: 'GABRIEL',
             properties: {
-              textAlign: 'center',
-              fontFamily: 'Josefin Sans, Helvetica Neue, Helvetica, Arial, sans-serif',
-              color: '#9E9E9E',
-              fontSize: window.innerWidth * 0.17 + 'px',
-              /* margin-left: 25px; */
-              letterSpacing: '2px',
-              fontWeight: 100
+                textAlign: 'center',
+                fontFamily: 'Josefin Sans, Helvetica Neue, Helvetica, Arial, sans-serif',
+                color: '#9E9E9E',
+                fontSize: this.options.width * 0.17 + 'px',
+                /* margin-left: 25px; */
+                letterSpacing: '2px',
+                fontWeight: 100
             }
         })
         this.nameModifier = new StateModifier({
@@ -86,41 +87,56 @@ define(function(require, exports, module) {
     }
 
     function _createTagLine() {
-      this.tagLine = new Surface({
-        size: [true, window.innerHeight * 0.1],
-        content: 'FINDING JOBS MADE EASY',
-        properties: {
-          textAlign: 'center',
-          fontFamily: 'Josefin Sans, Helvetica Neue, Helvetica, Arial, sans-serif',
-          color: '#9E9E9E',
-          fontSize: window.innerWidth * 0.04 + 'px',
-          fontWeight: 300
-        }
-      })
-      this.tagLineModifier = new StateModifier({
-        transform: Transform.translate(window.innerWidth * 0.11, window.innerHeight * 0.01, 0),
-        origin: [0, 0],
-        align: [0, 0.5]
-      })
+        this.tagLine = new Surface({
+            size: [true, this.options.height * 0.1],
+            content: 'FINDING JOBS MADE EASY',
+            properties: {
+                textAlign: 'center',
+                fontFamily: 'Josefin Sans, Helvetica Neue, Helvetica, Arial, sans-serif',
+                color: '#9E9E9E',
+                fontSize: this.options.width * 0.04 + 'px',
+                fontWeight: 300
+            }
+        })
+        this.tagLineModifier = new StateModifier({
+            transform: Transform.translate(this.options.width * 0.11, this.options.height * 0.01, 0),
+            origin: [0, 0],
+            align: [0, 0.5]
+        })
 
-      this.root.add(this.tagLineModifier).add(this.tagLine);
+        this.root.add(this.tagLineModifier).add(this.tagLine);
     }
 
     function _createLoginButton() {
         this.loginButton = new Surface({
-            size: [window.innerWidth / 5, window.innerHeight / 25],
-            content: 'Sign In',
-            classes: ['landing-buttons', 'login-button']
-
+            size: [this.options.width * 0.4063, this.options.height * 0.08],
+            content: 'ANGEL LIST',
+            properties: {
+              fontSize: this.options.width * 0.04 + 'px',
+                color: '#9E9E9E',
+                border: '1px solid #9E9E9E',
+                borderRadius: '4px',
+                textAlign: 'center',
+                lineHeight: this.options.height * 0.08 + 'px'
+            }
         })
-
         this.loginButtonModifier = new StateModifier({
             origin: [0.5, 0.5],
-            align: [0.5, 0.75],
-            transform: Transform.inFront
+            align: [0.5, 0.70],
         });
 
+        // this.angelIcon = new ImageSurface({
+        //     size: [25, 25],
+        //     content: 'img/angel.svg'
+        // });
+        //
+        // this.angelIconModifier = new StateModifier({
+        //     transform: Transform.translate(0, 0, 0),
+        //     origin: [0, 0],
+        //     align: [0.28, 0.7]
+        // });
         this.root.add(this.loginButtonModifier).add(this.loginButton);
+        // this.add(this.angelIconModifier).add(this.angelIcon);
     }
 
     // function _createRedirectButton() {
@@ -163,7 +179,7 @@ define(function(require, exports, module) {
                     this.rootModifier.setOpacity(0, {
                         duration: 1000
                     });
-                    this.rootModifier.setTransform(Transform.translate(-window.innerWidth*2, 0, 0), {
+                    this.rootModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0), {
                         duration: 1000
                     });
                 }.bind(this)).fail(function(oops) {
