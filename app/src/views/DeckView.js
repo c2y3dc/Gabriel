@@ -90,7 +90,7 @@ define(function(require, exports, module) {
                 user_interested: 0
             }
             }).done(function(data) {
-                console.log(data, "you've sent archived " + data.followed.name);
+                console.log(data, "you've archived " + data.followed.name);
             }.bind(this)).fail(function(oops) {
                 console.log("already archived / unable to archive");
             }.bind(this));
@@ -136,7 +136,7 @@ define(function(require, exports, module) {
                 user_interested: 1
             }
             }).done(function(data) {
-                console.log(data, "you've sent an intro to " + data.followed.name);
+                console.log(data);
             }.bind(this)).fail(function(oops) {
                 console.log("already intro'd / unable to intro");
             }.bind(this));
