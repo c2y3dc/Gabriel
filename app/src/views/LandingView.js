@@ -159,6 +159,7 @@ define(function(require, exports, module) {
                 ANGEL = result;
                 result.get('/1/me').done(function(data) {
                     this.options.userData = data;
+                    ME = data;
                     console.log(this.options.userData);
                 }.bind(this)).fail(function(oops) {
                     console.log('unable to get user data');

@@ -26,6 +26,13 @@ define(function(require, exports, module) {
         // this.helperMethod = new Helper();
         View.apply(this, arguments);
         this.options.position = new Transitionable([0, 0]);
+
+        this.zoomModifier = new Modifier({
+            align: [.5, .5],
+            origin: [.5, .5],
+            size: [window.innerWidth * 0.9, window.innerHeight * 0.687]
+        });
+
         this.rootModifier = new StateModifier({
             align: [.5, .5],
             origin: [.5, .5],
@@ -39,12 +46,12 @@ define(function(require, exports, module) {
         });
 
         this.mainNode = this.add(this.rootModifier);
-        this.cardNode = this.mainNode.add(this.cardModifier);
+        this.cardNode = this.mainNode.add(this.zoomModifier).add(this.cardModifier);
         //_createBackground.call(this);
         _createFlipper.call(this);
         //var rootNode = _createCard.call(this);
         _createHandle.call(this);
-        _createShadowBox.call(this);
+
         _setListeners.call(this);
 
     }
@@ -70,47 +77,40 @@ define(function(require, exports, module) {
     };
 
     SlideView.prototype.fadeIn = function() {
-        this.shadowBox.setProperties({
-            pointerEvents: 'auto'
-        });
+        
+        
         this.cardModifier.setTransform(
-            Transform.translate(0, 10, 350), {
-                duration: 750,
-                curve: Easing.easeIn
-            }
-        );
-        this.cardModifier.setTransform(
-            Transform.translate(0, 10, 200), {
-                duration: 750,
-                curve: Easing.easeOut
-            }
-        );
-        this.shadowModifier.setOpacity(0.85, {
-            duration: 1500,
-            curve: 'easeOut'
-        });
-    };
-
-    SlideView.prototype.fadeOut = function() {
-        this.shadowBox.setProperties({
-            pointerEvents: 'none'
-        });
-        this.cardModifier.setTransform(
-            Transform.translate(0, 0, 300), {
-                duration: 750,
-                curve: Easing.easeInOut
+            Transform.translate(0, 0, 350), {
+                duration: 600,
+                curve: Easing.easeOut    
             }
         );
         this.cardModifier.setTransform(
             Transform.translate(0, 0, 1.5), {
-                duration: 750,
+                duration: 600,
+                curve: Easing.easeIn
+            }
+        );
+        
+
+    };
+
+
+    SlideView.prototype.fadeOut = function() {
+        
+        this.cardModifier.setTransform(
+            Transform.translate(0, 0, 350), {
+                duration: 600,
                 curve: Easing.easeOut
             }
         );
-        this.shadowModifier.setOpacity(0, {
-            duration: 1500,
-            curve: 'easeOut'
-        });
+        this.cardModifier.setTransform(
+            Transform.translate(0, 0, 1.5), {
+                duration: 600,
+                curve: Easing.easeIn
+            }
+        );
+        
     };
 
     function _createFlipper() {
@@ -346,21 +346,21 @@ define(function(require, exports, module) {
         return this.mainNode;
     }
 
-    function _createShadowBox() {
-        this.shadowBox = new Surface({
-            size: [window.innerWidth, window.innerHeight],
-            properties: {
-                backgroundColor: 'gray',
-                pointerEvents: 'none'
-            }
-        })
-        this.shadowModifier = new StateModifier({
-            opacity: 0,
-            transform: Transform.translate(0, 0, -10),
-        });
+    // function _createShadowBox() {
+    //     this.shadowBox = new Surface({
+    //         size: [window.innerWidth, window.innerHeight],
+    //         properties: {
+    //             backgroundColor: 'gray',
+    //             pointerEvents: 'none'
+    //         }
+    //     })
+    //     this.shadowModifier = new StateModifier({
+    //         opacity: 0,
+    //         transform: Transform.translate(0, 0, -10),
+    //     });
 
-        this.mainNode.add(this.shadowModifier).add(this.shadowBox);
-    }
+    //     this.mainNode.add(this.shadowModifier).add(this.shadowBox);
+    // }
 
 
     function _setListeners() {
@@ -371,16 +371,11 @@ define(function(require, exports, module) {
         }.bind(this));
         this.backSurface.on('click', function() {
             console.log('clicked')
-            this.shadowModifier.setOpacity(0);
             if (this.options.toggle) {
                 this._eventOutput.emit('flip');
-                this.shadowModifier.setOpacity(0);
             }
         }.bind(this));
-        this.backSurface.on('touchstart', function() {
-            console.log('sensed it');
-            this.shadowModifier.setOpacity(0);
-        }.bind(this));
+        
     }
 
     module.exports = SlideView;

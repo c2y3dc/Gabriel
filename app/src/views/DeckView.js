@@ -66,7 +66,6 @@ define(function(require, exports, module) {
 
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
-        slide.shadowModifier.setOpacity(0);
         this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
         slide.options.position.set([-500, 0], {
@@ -78,18 +77,32 @@ define(function(require, exports, module) {
 
         //Saves current startup's id
         var sid = this.slides[this.currentIndex].options.job.startup.id;
+        
+        // //Archive POST REQ
+        console.log("startup_id", sid);
+
+            ANGEL.post('/1/talent/pairing', {
+            data: {
+                startup_id: sid,
+                user_id: ME.id,
+                user_interested: 1
+            }
+            }).done(function(data) {
+                console.log("Archive doneRes", data);
+            }.bind(this)).fail(function(oops) {
+                console.log("already archive'd / unable to archive", oops);
+            }.bind(this));
 
         //UNFOLLOWS POST REQ
-        console.log("startup_id", sid);
-        ANGEL.del('/1/follows', {
-            data: {
-                type: 'startup',
-                id: sid }
-            }).done(function(data) {
-                console.log(data, "you've unfollowed " + data.followed.name);
-            }.bind(this)).fail(function(oops) {
-                console.log('not yet followed / unable to unfollow');
-            }.bind(this));
+        // ANGEL.del('/1/follows', {
+        //     data: {
+        //         type: 'startup',
+        //         id: sid }
+        //     }).done(function(data) {
+        //         console.log(data, "you've unfollowed " + data.followed.name);
+        //     }.bind(this)).fail(function(oops) {
+        //         console.log('not yet followed / unable to unfollow');
+        //     }.bind(this));
 
         this.showNextSlide(function() {
             this.options.slideArrived = true
@@ -98,7 +111,6 @@ define(function(require, exports, module) {
 
     DeckView.prototype.swipeRight = function() {
         var slide = this.slides[this.currentIndex];
-        slide.shadowModifier.setOpacity(0);
         this.lightbox.options.outTransform = Transform.translate(500, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(-300, 0, 0);
         slide.options.position.set([500, 0], {
@@ -110,17 +122,32 @@ define(function(require, exports, module) {
         //Saves current startup's id
         var sid = this.slides[this.currentIndex].options.job.startup.id;
 
-        //FOLLOWS POST REQ
         console.log("startup_id", sid);
-        ANGEL.post('/1/follows', {
+        
+        // //Interested POST REQ
+            ANGEL.post('/1/talent/pairing', {
             data: {
-                type: 'startup',
-                id: sid }
+                startup_id: sid,
+                user_id: ME.id,
+                user_note: "",
+                user_interested: 1
+            }
             }).done(function(data) {
-                console.log(data, "you've followed " + data.followed.name);
+                console.log("Intro doneRes", data);
             }.bind(this)).fail(function(oops) {
-                console.log('already following / unable to follow');
+                console.log("already intro'd / unable to intro", oops);
             }.bind(this));
+
+        //FOLLOWS POST REQ
+        // ANGEL.post('/1/follows', {
+        //     data: {
+        //         type: 'startup',
+        //         id: sid }
+        //     }).done(function(data) {
+        //         console.log(data, "you've followed " + data.followed.name);
+        //     }.bind(this)).fail(function(oops) {
+        //         console.log('already following / unable to follow');
+        //     }.bind(this));
         // !!! DO NOT DELETE - WORKING POST REQUEST AWAITING ANGELLIST API TEAM RESPONSE!!!
         // this.options.angel.post('/1/intros', {
         //     data: {
@@ -141,18 +168,44 @@ define(function(require, exports, module) {
     DeckView.prototype.flip = function() {
         var slide = this.slides[this.currentIndex];
         var angle = slide.options.toggle ? 0 : -Math.PI;
+        
+        //disables click/touch during flip animation:
+        slide.frontSurface.setProperties({
+            pointerEvents: 'none'
+        });
+        slide.backSurface.setProperties({
+            pointerEvents: 'none'
+        });
+        slide.flipForwardButton.setProperties({
+            pointerEvents: 'none'
+        });
+
+        //adds click/touch back in after animation:
+        setTimeout(function(){
+            slide.frontSurface.setProperties({
+            pointerEvents: 'auto'
+        });
+        slide.backSurface.setProperties({
+            pointerEvents: 'auto'
+        });
+        slide.flipForwardButton.setProperties({
+            pointerEvents: 'auto'
+        });
+        }.bind(this), 1100)
+
         if(!slide.options.toggle){
             slide.fadeIn();
             console.log('fadein called')
+            
         }else{
             slide.fadeOut();
             console.log('fadeout called')
 
         }
         slide.flipper.setAngle(angle, {
-            curve: Easing.inOutQuad,
-            duration: 1000,
-            period: 1000
+            curve: Easing.linear,
+            duration: 1200,
+            period: 1200
         }, function() {
             slide.options.toggle = !slide.options.toggle;
         }.bind(this));
