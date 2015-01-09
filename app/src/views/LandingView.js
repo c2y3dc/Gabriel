@@ -13,8 +13,9 @@ define(function(require, exports, module) {
 
         _createBackground.call(this);
         _createLoginButton.call(this);
-        _createRedirectButton.call(this);
+        // _createRedirectButton.call(this);
         _createName.call(this);
+        _createTagLine.call(this);
         // _createWings.call(this);
 
         _setListeners.call(this);
@@ -30,16 +31,13 @@ define(function(require, exports, module) {
         initialData: {}
     };
 
-
     function _createBackground() {
-        this.backgroundSurface = new ImageSurface({
-            properties: {
-              backgroundColor: '#BBDEFB'
-            }
-        })
+        this.backgroundSurface = new ImageSurface({});
+
         this.rootModifier = new StateModifier({
             transform: Transform.translate(0, 0, 200)
-        })
+        });
+
         this.root = this.add(this.rootModifier)
         this.root.add(this.backgroundSurface);
     }
@@ -68,17 +66,44 @@ define(function(require, exports, module) {
 
     function _createName() {
         this.name = new Surface({
-            size: [window.innerWidth / 1.5, window.innerHeight / 3],
+            size: [window.innerWidth / 2, window.innerHeight / 6],
             content: 'GABRIEL',
-            classes: ['landing-name']
+            properties: {
+              textAlign: 'center',
+              fontFamily: 'Josefin Sans, Helvetica Neue, Helvetica, Arial, sans-serif',
+              color: '#9E9E9E',
+              fontSize: window.innerWidth * 0.17 + 'px',
+              /* margin-left: 25px; */
+              letterSpacing: '2px',
+              fontWeight: 100
+            }
         })
         this.nameModifier = new StateModifier({
-            origin: [0.5, 0.5],
-            align: [0.5, 0.40],
-            transform: Transform.inFront
+            origin: [0, 0.5],
+            align: [0.1, 0.5],
         })
-
         this.root.add(this.nameModifier).add(this.name);
+    }
+
+    function _createTagLine() {
+      this.tagLine = new Surface({
+        size: [true, window.innerHeight * 0.1],
+        content: 'FINDING JOBS MADE EASY',
+        properties: {
+          textAlign: 'center',
+          fontFamily: 'Josefin Sans, Helvetica Neue, Helvetica, Arial, sans-serif',
+          color: '#9E9E9E',
+          fontSize: window.innerWidth * 0.04 + 'px',
+          fontWeight: 300
+        }
+      })
+      this.tagLineModifier = new StateModifier({
+        transform: Transform.translate(window.innerWidth * 0.11, window.innerHeight * 0.01, 0),
+        origin: [0, 0],
+        align: [0, 0.5]
+      })
+
+      this.root.add(this.tagLineModifier).add(this.tagLine);
     }
 
     function _createLoginButton() {
@@ -98,23 +123,23 @@ define(function(require, exports, module) {
         this.root.add(this.loginButtonModifier).add(this.loginButton);
     }
 
-    function _createRedirectButton() {
-        //console.log('CORRECT THIS',this);
-        this.redirectButton = new Surface({
-            content: 'Get Started with Angel List',
-            classes: ['landing-buttons', 'redirect-button']
-
-        })
-
-        this.redirectButtonModifier = new StateModifier({
-            size: [window.innerWidth / 1.8, window.innerHeight / 25],
-            origin: [0.5, 0.5],
-            align: [0.5, 0.85],
-            transform: Transform.inFront
-        });
-
-        this.root.add(this.redirectButtonModifier).add(this.redirectButton);
-    }
+    // function _createRedirectButton() {
+    //     //console.log('CORRECT THIS',this);
+    //     this.redirectButton = new Surface({
+    //         content: 'Get Started with Angel List',
+    //         classes: ['landing-buttons', 'redirect-button']
+    //
+    //     })
+    //
+    //     this.redirectButtonModifier = new StateModifier({
+    //         size: [window.innerWidth / 1.8, window.innerHeight / 25],
+    //         origin: [0.5, 0.5],
+    //         align: [0.5, 0.85],
+    //         transform: Transform.inFront
+    //     });
+    //
+    //     this.root.add(this.redirectButtonModifier).add(this.redirectButton);
+    // }
 
 
     function _setListeners() {
