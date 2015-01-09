@@ -70,14 +70,20 @@ define(function(require, exports, module) {
     };
 
     SlideView.prototype.fadeIn = function() {
-        this.shadowBox.setProperties({ pointerEvents: 'auto' });
+        this.shadowBox.setProperties({
+            pointerEvents: 'auto'
+        });
         this.cardModifier.setTransform(
-            Transform.translate(0, 10, 350),
-            { duration : 750, curve: Easing.easeIn }
+            Transform.translate(0, 10, 350), {
+                duration: 750,
+                curve: Easing.easeIn
+            }
         );
         this.cardModifier.setTransform(
-            Transform.translate(0, 10, 200),
-            { duration : 750, curve: Easing.easeOut }
+            Transform.translate(0, 10, 200), {
+                duration: 750,
+                curve: Easing.easeOut
+            }
         );
         this.shadowModifier.setOpacity(0.85, {
             duration: 1500,
@@ -86,14 +92,20 @@ define(function(require, exports, module) {
     };
 
     SlideView.prototype.fadeOut = function() {
-        this.shadowBox.setProperties({ pointerEvents: 'none' });
+        this.shadowBox.setProperties({
+            pointerEvents: 'none'
+        });
         this.cardModifier.setTransform(
-            Transform.translate(0, 0, 300),
-            { duration : 750, curve: Easing.easeInOut }
+            Transform.translate(0, 0, 300), {
+                duration: 750,
+                curve: Easing.easeInOut
+            }
         );
         this.cardModifier.setTransform(
-            Transform.translate(0, 0, 1.5),
-            { duration : 750, curve: Easing.easeOut }
+            Transform.translate(0, 0, 1.5), {
+                duration: 750,
+                curve: Easing.easeOut
+            }
         );
         this.shadowModifier.setOpacity(0, {
             duration: 1500,
@@ -125,36 +137,38 @@ define(function(require, exports, module) {
             size: this.options.size,
             classes: ['front-card'],
             content: [
-            '<img class="logo_url" src="', this.options.job.startup.logo_url, '">',
-                '<p class="startup_name">', this.options.job.startup.name, '</p>',
-                '<p class="high_concept">', truncate(this.options.job.startup.high_concept, 140), '</p>',
                 '<div class="card_header">',
-                  '<p class="job_title">', capitalizeFirst(this.options.job.title), '</p>',
+                  '<img class="logo_url" src="', this.options.job.startup.logo_url, '">',
+                  '<p class="startup_name">', this.options.job.startup.name, '</p>',
+                  '<p class="high_concept">', truncate(this.options.job.startup.high_concept, 120), '</p>',
                 '</div>',
-                '<p class="skills">', '<span class="secondary-text">Tech Stack</span><br>', this.options.skills, '</p>',
-                '<p class="compensation">', '<span class="secondary-text">Compensation</span><br>',
+                '<div class="divider">', '</div>',
+                '<div class="jobInfo">',
+                  '<p class="job_title">', capitalizeFirst(this.options.job.title), '</p>',
+                  '<p class="skills">', '<span class="secondary-text">Tech Stack</span><br>', this.options.skills, '</p>',
+                '</div>',
+                '<div class="compensation">',
+                  '<p>', '<span class="secondary-text">Compensation</span><br>',
                   capitalizeFirst(this.options.job.job_type), '<br>',
                   salaryFormat(this.options.job.salary_min, this.options.job.salary_max), '<br>',
                   equityFormat(this.options.job.equity_min, this.options.job.equity_max),
-                '</p>'
+                  '</p>',
+                '</div>'
             ].join('')
         });
 
         this.frontNode.add(this.frontSurface);
 
-        this.flipForwardButton = new Surface({
-            size: [30, 20],
-            content: 'flip',
-            properties: {
-                backgroundColor: 'blue',
-                color: 'white',
-                borderRadius: '50%',
-                textAlign: 'center'
-            }
+        this.flipForwardButton = new ImageSurface({
+            size: [this.options.width * 0.07, this.options.width * 0.12],
+            content: 'img/flip.svg'
+            // properties: {
+            //   border: '1px solid rgba(255, 255, 255, 0.85)'
+            // }
         });
 
         this.flipModifier = new StateModifier({
-            transform: Transform.translate(window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 - window.innerHeight / 5, 0.9)
+            transform: Transform.translate(this.options.width * 0.395, this.options.height * 0, 0.9)
         });
 
         this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
@@ -357,7 +371,7 @@ define(function(require, exports, module) {
         }.bind(this));
         this.backSurface.on('click', function() {
             console.log('clicked')
-            this.shadowModifier.setOpacity(0);  
+            this.shadowModifier.setOpacity(0);
             if (this.options.toggle) {
                 this._eventOutput.emit('flip');
                 this.shadowModifier.setOpacity(0);
