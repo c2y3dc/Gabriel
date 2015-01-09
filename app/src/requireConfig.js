@@ -5,7 +5,7 @@ require.config({
         requirejs: '../lib/requirejs/require',
         almond: '../lib/almond/almond',
         // 'oauth-js': '../lib/oauth-js/dist/oauth.min',
-        jquery: '../lib/jquery/dist/jquery.min'
+        // jquery: '../lib/jquery/dist/jquery.min'
     }
 
 });
