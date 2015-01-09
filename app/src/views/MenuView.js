@@ -14,7 +14,7 @@ define(function(require, exports, module) {
         _createBacking.call(this);
         _createMenuHeader.call(this);
 
-        _createStripViews.call(this);
+        // _createStripViews.call(this);
         _setListeners.call(this);
     }
 
@@ -112,32 +112,32 @@ define(function(require, exports, module) {
         //     this._eventOutput.emit('gabrielOnly');
         // }.bind(this));
         // Home StripView
-        this.stripSurfaces[0].backgroundSurface.on('click', function() {
-            console.log('home is clicked');
-            this._eventOutput.emit('gabrielOnly');
-        }.bind(this));
-        // About StripView
-        this.stripSurfaces[1].backgroundSurface.on('click', function() {
-            this._eventOutput.emit('aboutOnly');
-        }.bind(this));
-        // Settings StripView
-        this.stripSurfaces[2].backgroundSurface.on('click', function() {
-            this._eventOutput.emit('settingsOnly');
-            if (window.cordova) {
-                window.cookies.clear(function() {
-                    console.log('Cookies cleared!');
-                    exitApp();
-                });
-            }
-        }.bind(this));
-        // Share Gabriel StripView
-        this.stripSurfaces[3].backgroundSurface.on('click', function() {
-            this._eventOutput.emit('sharingOnly');
-        }.bind(this));
-        // Rate Our App StripView
-        this.stripSurfaces[3].backgroundSurface.on('click', function() {
-            this._eventOutput.emit('rateOnly');
-        }.bind(this));
+        // this.stripSurfaces[0].backgroundSurface.on('click', function() {
+        //     console.log('home is clicked');
+        //     this._eventOutput.emit('gabrielOnly');
+        // }.bind(this));
+        // // About StripView
+        // this.stripSurfaces[1].backgroundSurface.on('click', function() {
+        //     this._eventOutput.emit('aboutOnly');
+        // }.bind(this));
+        // // Settings StripView
+        // this.stripSurfaces[2].backgroundSurface.on('click', function() {
+        //     this._eventOutput.emit('settingsOnly');
+        //     if (window.cordova) {
+        //         window.cookies.clear(function() {
+        //             console.log('Cookies cleared!');
+        //             exitApp();
+        //         });
+        //     }
+        // }.bind(this));
+        // // Share Gabriel StripView
+        // this.stripSurfaces[3].backgroundSurface.on('click', function() {
+        //     this._eventOutput.emit('sharingOnly');
+        // }.bind(this));
+        // // Rate Our App StripView
+        // this.stripSurfaces[3].backgroundSurface.on('click', function() {
+        //     this._eventOutput.emit('rateOnly');
+        // }.bind(this));
     }
     module.exports = MenuView;
 });

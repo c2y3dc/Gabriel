@@ -23,7 +23,7 @@ define(function(require, exports, module) {
     MenuHeaderView.DEFAULT_OPTIONS = {
         user: {},
         width: window.innerWidth,
-        height: window.innerHeight * 0.44,
+        height: window.innerHeight,
         bullet: ' • ',
         userImageSize: window.innerHeight * 0.158,
         userImageUrl: 'img/profilePic.png',
@@ -168,7 +168,7 @@ define(function(require, exports, module) {
                 });
             }else{
                 window.open('https://www.angel.co/logout');
-                
+
             }
             this.options.landingView.rootModifier.setTransform(Transform.translate(0, 0, 10000), {
                         duration: 1000
@@ -176,7 +176,7 @@ define(function(require, exports, module) {
             console.log("LANDING", this.options.landingView);
         }.bind(this));
         //console.log('this OPTIONS after and outside popup', this.options);
-        
+
     }
 
 
