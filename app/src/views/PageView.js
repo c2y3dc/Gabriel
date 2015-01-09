@@ -76,7 +76,7 @@ define(function(require, exports, module) {
         var backgroundSurface = new Surface({
             properties: {
                 backgroundColor: '#F9F9F9',
-                borderBottom: '1px solid #F9F9F9'
+                borderBottom: '1px solid rgba(0, 0, 0, 0.15)'
             }
         });
 
@@ -94,12 +94,11 @@ define(function(require, exports, module) {
 
         this.titleSurface = new Surface({
             size: [true, 44],
-            content: 'GABRIEL',
+            content: 'DISCOVERY',
             properties: {
-                fontSize: this.options.width * 0.058 + 'px',
-                color: '#34C9AB',
-                fontWeight: 400,
-
+                fontSize: this.options.width * 0.042 + 'px',
+                color: 'rgba(0, 0, 0, 0.75)',
+                fontWeight: 600
             }
         });
 
@@ -136,7 +135,7 @@ define(function(require, exports, module) {
     function _createFooter() {
         var backgroundSurface = new Surface({
             properties: {
-                backgroundColor: '#FDFDFD'
+                // backgroundColor: '#FDFDFD'
             }
         });
 

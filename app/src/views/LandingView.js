@@ -109,7 +109,7 @@ define(function(require, exports, module) {
 
     function _createLoginButton() {
         this.loginButton = new Surface({
-            size: [this.options.width * 0.5, this.options.height * 0.08],
+            size: [this.options.width * 0.525, this.options.height * 0.08],
             content: 'SIGN IN WITH ANGEL LIST',
             properties: {
                 fontSize: this.options.width * 0.0325 + 'px',
@@ -117,6 +117,7 @@ define(function(require, exports, module) {
                 border: '1px solid #34C9AB',
                 borderRadius: '4px',
                 textAlign: 'center',
+                letterSpacing: this.options.width * 0.002 + 'px',
                 lineHeight: this.options.height * 0.08 + 'px',
                 fontWeight: 600
             }
