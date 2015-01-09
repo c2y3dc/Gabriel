@@ -78,7 +78,7 @@ define(function(require, exports, module) {
 
         //Saves current startup's id
         var sid = this.slides[this.currentIndex].options.job.startup.id;
-        
+
         //UNFOLLOWS POST REQ
         console.log("startup_id", sid);
         ANGEL.del('/1/follows', {
@@ -197,7 +197,7 @@ define(function(require, exports, module) {
                this.options.slideArrived = !this.options.slideArrived;
             }.bind(this));
         }
-        console.log('SLIDES ARRAY', this.slides);
+        // console.log('SLIDES ARRAY', this.slides);
 
         this.showNextSlide();
     }

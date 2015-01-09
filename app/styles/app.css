@@ -6,7 +6,7 @@ div {
 }
 html {
   background: #2D2D2D;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
 }
 .famous-root {
@@ -74,7 +74,7 @@ html {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 0px 10px 10px 10px;
   border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.125);
   z-index: 1000;
   background-color: rgba(255, 255, 255, 0.95);
   /* box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.50); */
@@ -83,7 +83,7 @@ html {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 15px;
   border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.125);
   background-color: rgba(255, 255, 255, 0.95);
   z-index: 10000;
   /* box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.50); */
@@ -102,31 +102,90 @@ html {
 /* LANDING PAGE CSS */
 
 .landing-buttons {
-  background-color: #4e8ef7;
-  box-shadow: 3px;
-  border-radius: 2px;
-  text-align: center;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #ffffff;
-  padding: 4px;
+  /* background-color: #4e8ef7; */
+  /* box-shadow: 3px; */
+/*   border-radius: 2px;
+text-align: center;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+color: #ffffff;
+padding: 4px; */
 }
 .landing-name {
-  background-color: 'transparent';
-  text-align: center;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #ffffff;
-  font-size: 48px;
-  font-weight: 400;
-  text-shadow: 5px 5px #296ad4;
+  /* background-color: 'transparent'; */
+  /* text-align: center;
+  font-family: 'Josefin Sans',"Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #9E9E9E;
+  font-size: 64px;
+  margin-left: 25px;
+  letter-spacing: 2px;
+  font-weight: 100; */
 }
-
+.landing-tagLine {
+/*   text-align: center;
+font-family: 'Josefin Sans',"Helvetica Neue", Helvetica, Arial, sans-serif;
+color: #999999;
+font-size: 16px;
+letter-spacing: 1px;
+font-weight: 300; */
+}
 /* Card Styles */
+.card_header {
+  display: block;
+}
 .logo_url {
-  width: 80px;
-  height: 80px;
-  margin: 15px 0 10px 5px;
-  border-radius: 40px;
-  border: 2px solid rgba(145, 150, 180, 0.85);
+  position: relative;
+  width: 25%;
+  height: 25%;
+  margin: 12.5px 0 10px 2.5px;
+  border-radius: 12.5%;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.startup_name {
+  font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: absolute;
+  width: 50%;
+  top: 0%;
+  left: 32.5%;
+  font-size: 17px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, .85);
+}
+.high_concept {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: #9E9E9E;
+  position: absolute;
+  top: 6%;
+  left: 32.5%;
+  width: 65%;
+}
+.divider {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  width: 100%;
+  position: absolute;
+  right: 0%;
+  top: 23.5%;
+}
+.job_title, .skills {
+  width: 90%;
+}
+.job_title {
+  font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 20px;
+  font-weight: 600;
+  position: absolute;
+  top: 22.5%;
+}
+.skills {
+  position: absolute;
+  top: 40%;
+  height: 20%;
+}
+.compensation {
+  position: absolute;
+  top: 65%;
 }
 .skills, .compensation {
   color: #000;
@@ -134,10 +193,6 @@ html {
   line-height: 20px;
   letter-spacing: 0.25px;
   font-size: 14px;
-}
-.high_concept {
-  font-size: 12px;
-  font-weight: 200;
 }
 .secondary-text {
   color: rgba(0, 0, 0, .35);
@@ -147,9 +202,5 @@ html {
   line-height: 20px;
   text-transform: uppercase;
 }
-.startup_name, .startup_location {
-  font-size: 14px;
-  font-weight: 200;
-  line-height: 12px;
-}
 .
+/* Landing Page */

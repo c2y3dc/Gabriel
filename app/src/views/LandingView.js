@@ -13,8 +13,9 @@ define(function(require, exports, module) {
 
         _createBackground.call(this);
         _createLoginButton.call(this);
-        _createRedirectButton.call(this);
+        // _createRedirectButton.call(this);
         _createName.call(this);
+        _createTagLine.call(this);
         // _createWings.call(this);
 
         _setListeners.call(this);
@@ -25,21 +26,19 @@ define(function(require, exports, module) {
     LandingView.prototype.constructor = LandingView;
 
     LandingView.DEFAULT_OPTIONS = {
-        size: [undefined, undefined],
+        width: window.innerWidth,
+        height: window.innerHeight,
         angel: {},
         initialData: {}
     };
 
-
     function _createBackground() {
-        this.backgroundSurface = new ImageSurface({
-            properties: {
-              backgroundColor: '#BBDEFB'
-            }
-        })
+        this.backgroundSurface = new ImageSurface({});
+
         this.rootModifier = new StateModifier({
             transform: Transform.translate(0, 0, 200)
-        })
+        });
+
         this.root = this.add(this.rootModifier)
         this.root.add(this.backgroundSurface);
     }
@@ -68,53 +67,86 @@ define(function(require, exports, module) {
 
     function _createName() {
         this.name = new Surface({
-            size: [window.innerWidth / 1.5, window.innerHeight / 3],
+            size: [this.options.width / 2, this.options.height / 6],
             content: 'GABRIEL',
-            classes: ['landing-name']
+            properties: {
+                textAlign: 'center',
+                fontFamily: 'Josefin Sans, Helvetica Neue, Helvetica, Arial, sans-serif',
+                color: '#9E9E9E',
+                fontSize: this.options.width * 0.17 + 'px',
+                /* margin-left: 25px; */
+                letterSpacing: '2px',
+                fontWeight: 100
+            }
         })
         this.nameModifier = new StateModifier({
-            origin: [0.5, 0.5],
-            align: [0.5, 0.40],
-            transform: Transform.inFront
+            origin: [0, 0.5],
+            align: [0.1, 0.5],
+        })
+        this.root.add(this.nameModifier).add(this.name);
+    }
+
+    function _createTagLine() {
+        this.tagLine = new Surface({
+            size: [true, this.options.height * 0.1],
+            content: 'FINDING JOBS MADE EASY',
+            properties: {
+                textAlign: 'center',
+                fontFamily: 'Josefin Sans, Helvetica Neue, Helvetica, Arial, sans-serif',
+                color: '#9E9E9E',
+                fontSize: this.options.width * 0.04 + 'px',
+                fontWeight: 300
+            }
+        })
+        this.tagLineModifier = new StateModifier({
+            transform: Transform.translate(this.options.width * 0.11, this.options.height * 0.01, 0),
+            origin: [0, 0],
+            align: [0, 0.5]
         })
 
-        this.root.add(this.nameModifier).add(this.name);
+        this.root.add(this.tagLineModifier).add(this.tagLine);
     }
 
     function _createLoginButton() {
         this.loginButton = new Surface({
-            size: [window.innerWidth / 5, window.innerHeight / 25],
-            content: 'Sign In',
-            classes: ['landing-buttons', 'login-button']
-
+            size: [this.options.width * 0.525, this.options.height * 0.08],
+            content: 'SIGN IN WITH ANGEL LIST',
+            properties: {
+                fontSize: this.options.width * 0.0325 + 'px',
+                color: '#34C9AB',
+                border: '1px solid #34C9AB',
+                borderRadius: '4px',
+                textAlign: 'center',
+                letterSpacing: this.options.width * 0.002 + 'px',
+                lineHeight: this.options.height * 0.08 + 'px',
+                fontWeight: 600
+            }
         })
-
         this.loginButtonModifier = new StateModifier({
             origin: [0.5, 0.5],
-            align: [0.5, 0.75],
-            transform: Transform.inFront
+            align: [0.5, 0.70],
         });
 
         this.root.add(this.loginButtonModifier).add(this.loginButton);
     }
 
-    function _createRedirectButton() {
-        //console.log('CORRECT THIS',this);
-        this.redirectButton = new Surface({
-            content: 'Get Started with Angel List',
-            classes: ['landing-buttons', 'redirect-button']
-
-        })
-
-        this.redirectButtonModifier = new StateModifier({
-            size: [window.innerWidth / 1.8, window.innerHeight / 25],
-            origin: [0.5, 0.5],
-            align: [0.5, 0.85],
-            transform: Transform.inFront
-        });
-
-        this.root.add(this.redirectButtonModifier).add(this.redirectButton);
-    }
+    // function _createRedirectButton() {
+    //     //console.log('CORRECT THIS',this);
+    //     this.redirectButton = new Surface({
+    //         content: 'Get Started with Angel List',
+    //         classes: ['landing-buttons', 'redirect-button']
+    //
+    //     })
+    //
+    //     this.redirectButtonModifier = new StateModifier({
+    //         size: [window.innerWidth / 1.8, window.innerHeight / 25],
+    //         origin: [0.5, 0.5],
+    //         align: [0.5, 0.85],
+    //         transform: Transform.inFront
+    //     });
+    //
+    //     this.root.add(this.redirectButtonModifier).add(this.redirectButton);
+    // }
 
 
     function _setListeners() {
@@ -135,11 +167,11 @@ define(function(require, exports, module) {
                 result.get('/1/jobs').done(function(data) {
                     this.options.initialData = data;
                     this._eventOutput.emit('loaded');
-                    this.rootModifier.setOpacity(0, {
-                        duration: 1000
-                    });
-                    this.rootModifier.setTransform(Transform.translate(-window.innerWidth*2, 0, 0), {
-                        duration: 1000
+                    // this.rootModifier.setOpacity(0, {
+                    //     duration: 1000
+                    // });
+                    this.rootModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0), {
+                        duration: 500
                     });
                 }.bind(this)).fail(function(oops) {
                     console.log('unable to get job data');
