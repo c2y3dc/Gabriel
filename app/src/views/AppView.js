@@ -29,6 +29,7 @@ define(function(require, exports, module) {
     var ProfileView = require('views/ProfileView');
 
     var LandingView = require('views/LandingView');
+    var LoadingView = require('views/LoadingView');
     var AboutView = require('views/AboutView');
 
     GenericSync.register({
@@ -40,8 +41,15 @@ define(function(require, exports, module) {
         View.apply(this, arguments);
 
         _createLandingView.call(this);
+
+        this.landingView.on('loggedin', function() {
+            console.log('logged in');
+            _addLoadingView.call(this);
+        }.bind(this));
+
         this.landingView.on('loaded', function() {
             ///var results = this.getOptions('jobs');
+            _removeLoadingView.call(this);
             this.angel = this.landingView.options.angel;
             this.gabrielMenu = true;
             this.settingsMenu = true;
@@ -308,7 +316,16 @@ define(function(require, exports, module) {
         this.matchViewToggle = !this.matchViewToggle;
     };
 
-
+    function _addLoadingView() {
+        this.loadingView = new LoadingView();
+        this.loadingModifier = new StateModifier({
+            transform: Transform.translate(0, 0, 201)
+        });
+        this.add(this.loadingModifier).add(this.loadingView);
+    }
+    function _removeLoadingView() {
+        this.loadingModifier.setTransform(Transform.translate(window.innerWidth * 4, 0, 201), { duration: 0 });
+    }
     // Create different views
     function _createPageView() {
         this.pageView = new PageView({

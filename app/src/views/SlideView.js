@@ -228,7 +228,7 @@ define(function(require, exports, module) {
 
         sync.on('update', function(data) {
             var currentPosition = this.options.position.get();
-
+            console.log(data.delta[0]);
             this.options.position.set([
                 currentPosition[0] + data.delta[0],
                 currentPosition[1] + data.delta[1]
