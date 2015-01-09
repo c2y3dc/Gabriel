@@ -37,6 +37,7 @@ define(function(require, exports, module) {
             origin: [.5, .5],
             transform: Transform.translate(0, 0, 0.9)
         });
+        console.log(this.options.skills);
 
         this.mainNode = this.add(this.rootModifier);
         this.cardNode = this.mainNode.add(this.cardModifier);
@@ -62,7 +63,8 @@ define(function(require, exports, module) {
         toggle: false,
         jobDescription: 'No description provided',
         logo_url: undefined,
-        skills: 'JavaScript, HTML, CSS, MongoDB, Famo.us, AngularJS, Sass',
+        skills: [],
+        location: [],
         startup_location: 'San Francisco, CA',
         salary_min: '100k',
         salary_max: '150k',
@@ -144,8 +146,9 @@ define(function(require, exports, module) {
                 '</div>',
                 '<div class="divider">', '</div>',
                 '<div class="jobInfo">',
-                  '<p class="job_title">', capitalizeFirst(this.options.job.title), '</p>',
-                  '<p class="skills">', '<span class="secondary-text">Tech Stack</span><br>', this.options.skills, '</p>',
+                  '<p class="job_title">', capitalizeFirst(this.options.job.title), '<span class="job-location">', (this.options.location.slice(0,1).join('') || ''), '</p>',
+                '</div>',,'</span></p>',
+                  '<p class="skills">', '<span class="secondary-text">Tech Stack</span><br>', (this.options.skills.slice(0,5).join(', ') || 'No Skills Provided'), '</p>',
                 '</div>',
                 '<div class="compensation">',
                   '<p>', '<span class="secondary-text">Compensation</span><br>',

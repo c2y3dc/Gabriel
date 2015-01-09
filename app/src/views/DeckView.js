@@ -141,31 +141,6 @@ define(function(require, exports, module) {
     DeckView.prototype.flip = function() {
         var slide = this.slides[this.currentIndex];
         var angle = slide.options.toggle ? 0 : -Math.PI;
-        
-        //disables click/touch during flip animation:
-        slide.frontSurface.setProperties({
-            pointerEvents: 'none'
-        });
-        slide.backSurface.setProperties({
-            pointerEvents: 'none'
-        });
-        slide.flipForwardButton.setProperties({
-            pointerEvents: 'none'
-        });
-
-        //adds click/touch back in after animation:
-        setTimeout(function(){
-            slide.frontSurface.setProperties({
-            pointerEvents: 'auto'
-        });
-        slide.backSurface.setProperties({
-            pointerEvents: 'auto'
-        });
-        slide.flipForwardButton.setProperties({
-            pointerEvents: 'auto'
-        });
-        }.bind(this), 1100)
-
         if(!slide.options.toggle){
             slide.fadeIn();
             console.log('fadein called')
@@ -199,13 +174,28 @@ define(function(require, exports, module) {
     function _createSlides() {
         this.slides = {};
         this.currentIndex = 0;
-        console.log(this.options.initialData.jobs.length);
         for (var i = 0; i < this.options.initialData.jobs.length; i++) {
+            var tags = this.options.initialData.jobs[i].tags;
+            var skills = [];
+            var location = [];
+
+            tags.forEach(function(element){
+                if(element.tag_type === "SkillTag"){
+                    skills.push(element.display_name);
+                }
+                if(element.tag_type === "LocationTag"){
+                    location.push(element.display_name);
+                }
+            });
+
             var slide = new SlideView({
                 size: this.options.size,
                 job: this.options.initialData.jobs[i],
-                logo_url: this.options.initialData.jobs[i].startup.logo_url
+                logo_url: this.options.initialData.jobs[i].startup.logo_url,
+                skills: skills,
+                location: location
             });
+           
 
             this.slides[i] = slide;
             // adding click listener
