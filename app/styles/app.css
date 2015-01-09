@@ -6,7 +6,7 @@ div {
 }
 html {
   background: #2D2D2D;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
 }
 .famous-root {
@@ -111,15 +111,23 @@ html {
   padding: 4px;
 }
 .landing-name {
-  background-color: 'transparent';
-  text-align: center;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #ffffff;
-  font-size: 48px;
-  font-weight: 400;
-  text-shadow: 5px 5px #296ad4;
+  /* background-color: 'transparent'; */
+  /* text-align: center;
+  font-family: 'Josefin Sans',"Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #9E9E9E;
+  font-size: 64px;
+  margin-left: 25px;
+  letter-spacing: 2px;
+  font-weight: 100; */
 }
-
+.landing-tagLine {
+/*   text-align: center;
+font-family: 'Josefin Sans',"Helvetica Neue", Helvetica, Arial, sans-serif;
+color: #999999;
+font-size: 16px;
+letter-spacing: 1px;
+font-weight: 300; */
+}
 /* Card Styles */
 .logo_url {
   width: 80px;
@@ -153,3 +161,7 @@ html {
   line-height: 12px;
 }
 .
+/* Landing Page */
+.angel_list {
+  margin-right: 10px;
+}
