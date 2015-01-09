@@ -1,6 +1,6 @@
 function truncate(str, n) {
     if (str && str.length > 0)
-        return str.length > n ? str.substr(0, n - 1) + '&hellip;' : str;
+        return str.length > n ? str.substr(0, n - 1) : str;
     else
         return 'No Description'
 }
