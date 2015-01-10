@@ -53,7 +53,7 @@ define(function(require, exports, module) {
     function _createBacking() {
         var backing = new Surface({
             properties: {
-                backgroundColor: 'white'
+                backgroundColor: '#FDFDFD'
             }
         });
         this.add(backing);

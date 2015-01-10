@@ -42,7 +42,7 @@ define(function(require, exports, module) {
         var backing = new Surface({
             properties: {
                 classes: ['hello'],
-                backgroundColor: 'white'
+                backgroundColor: '#F4F4F4'
             }
         });
         this.add(backing);
@@ -108,7 +108,8 @@ define(function(require, exports, module) {
 
     function _setListeners() {
         // Menu surface
-        // this.menuHeaderView.userImageSurface.on('click', function() {
+        // this.menuHeaderView.cancelSurface.on('click', function() {
+        //     console.log('im clicked');
         //     this._eventOutput.emit('gabrielOnly');
         // }.bind(this));
         // Home StripView
