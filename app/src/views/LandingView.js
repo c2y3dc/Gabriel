@@ -157,7 +157,7 @@ define(function(require, exports, module) {
             OAuth.popup('angel_list', {
                 cache: true
             }).done(function(result) {
-
+                //this event triggers splash page:
                 this._eventOutput.emit('loggedin')
 
                 this.options.angel = result;
