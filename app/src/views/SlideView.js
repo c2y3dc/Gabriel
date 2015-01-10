@@ -74,15 +74,16 @@ define(function(require, exports, module) {
             pointerEvents: 'auto'
         });
         this.cardModifier.setTransform(
-            Transform.translate(0, 10, 350), {
-                duration: 750,
-                curve: Easing.easeIn
+
+            Transform.translate(0, 0, 350), {
+                duration: 200,
+                curve: Easing.easeOut    
             }
         );
         this.cardModifier.setTransform(
-            Transform.translate(0, 10, 200), {
-                duration: 750,
-                curve: Easing.easeOut
+            Transform.translate(0, 0, 1.5), {
+                duration: 200,
+                curve: Easing.easeIn
             }
         );
         this.shadowModifier.setOpacity(0.85, {
@@ -96,15 +97,15 @@ define(function(require, exports, module) {
             pointerEvents: 'none'
         });
         this.cardModifier.setTransform(
-            Transform.translate(0, 0, 300), {
-                duration: 750,
-                curve: Easing.easeInOut
+            Transform.translate(0, 0, 350), {
+                duration: 200,
+                curve: Easing.easeOut
             }
         );
         this.cardModifier.setTransform(
             Transform.translate(0, 0, 1.5), {
-                duration: 750,
-                curve: Easing.easeOut
+                duration: 200,
+                curve: Easing.easeIn
             }
         );
         this.shadowModifier.setOpacity(0, {

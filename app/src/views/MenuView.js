@@ -108,10 +108,10 @@ define(function(require, exports, module) {
 
     function _setListeners() {
         // Menu surface
-        // this.menuHeaderView.cancelSurface.on('click', function() {
-        //     console.log('im clicked');
-        //     this._eventOutput.emit('gabrielOnly');
-        // }.bind(this));
+        this.menuHeaderView.cancelSurface.on('click', function() {
+            console.log('im clicked');
+            this._eventOutput.emit('gabrielOnly');
+        }.bind(this));
         // Home StripView
         // this.stripSurfaces[0].backgroundSurface.on('click', function() {
         //     console.log('home is clicked');
