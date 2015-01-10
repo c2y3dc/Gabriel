@@ -83,13 +83,13 @@ define(function(require, exports, module) {
         
         this.cardModifier.setTransform(
             Transform.translate(0, 0, 350), {
-                duration: 600,
+                duration: 200,
                 curve: Easing.easeOut    
             }
         );
         this.cardModifier.setTransform(
             Transform.translate(0, 0, 1.5), {
-                duration: 600,
+                duration: 200,
                 curve: Easing.easeIn
             }
         );
