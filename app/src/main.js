@@ -27,11 +27,8 @@ define(function(require, exports, module) {
         document.addEventListener('DOMContentLoaded', start)
 
         // COMMENT OUT BOTH LINES BELOW WHEN RUNNING ON MOBILE DEVICES
-        // require('../lib/oauth-js/dist/oauth.min.js');
-        // require('jquery');
-        // start();
-
+         // require('../lib/oauth-js/dist/oauth.min.js');
+         // start();
     }
 
 });
-

@@ -53,7 +53,7 @@ define(function(require, exports, module) {
     function _createBacking() {
         var backing = new Surface({
             properties: {
-                backgroundColor: 'white'
+                backgroundColor: '#FDFDFD'
             }
         });
         this.add(backing);
@@ -76,6 +76,7 @@ define(function(require, exports, module) {
         var backgroundSurface = new Surface({
             properties: {
                 backgroundColor: '#F9F9F9',
+                opacity: 0.95,
                 borderBottom: '1px solid rgba(0, 0, 0, 0.15)'
             }
         });
@@ -87,7 +88,7 @@ define(function(require, exports, module) {
         this.layout.header.add(backgroundModifier).add(backgroundSurface);
 
         /*HEADER SURFACES*/
-        this.menuSurface = new ImageSurface({
+        this.profileSurface = new ImageSurface({
             size: [20, 20],
             content: 'img/profile.svg'
         });
@@ -102,13 +103,13 @@ define(function(require, exports, module) {
             }
         });
 
-        this.matchSurface = new ImageSurface({
-            size: [25, 18],
-            content: 'img/matches.svg'
-        });
+        // this.matchSurface = new ImageSurface({
+        //     size: [25, 18],
+        //     content: 'img/matches.svg'
+        // });
 
         /*HEADER MODIFIERS */
-        var menuModifier = new StateModifier({
+        var profileModifier = new StateModifier({
             transform: Transform.translate(this.options.width * 0.07, this.options.headerSize * 0.18, 100),
             origin: [0, 0],
             align: [0, 0.5]
@@ -120,16 +121,16 @@ define(function(require, exports, module) {
             align: [0.5, 0.5]
         });
 
-        var matchModifier = new StateModifier({
-            // transform: Transform.inFront,
-            transform: Transform.translate(-this.options.width * 0.087, this.options.headerSize * 0.18, 100),
-            origin: [1, 0],
-            align: [1, 0.5]
-        });
+        // var matchModifier = new StateModifier({
+        //     // transform: Transform.inFront,
+        //     transform: Transform.translate(-this.options.width * 0.087, this.options.headerSize * 0.18, 100),
+        //     origin: [1, 0],
+        //     align: [1, 0.5]
+        // });
 
-        this.layout.header.add(menuModifier).add(this.menuSurface);
+        this.layout.header.add(profileModifier).add(this.profileSurface);
         this.layout.header.add(titleModifier).add(this.titleSurface);
-        this.layout.header.add(matchModifier).add(this.matchSurface);
+        // this.layout.header.add(matchModifier).add(this.matchSurface);
     }
 
     function _createFooter() {
@@ -227,14 +228,14 @@ define(function(require, exports, module) {
 
     function _setListeners() {
 
-        this.menuSurface.on('click', function() {
+        this.profileSurface.on('click', function() {
             this._eventOutput.emit('menuToggle');
         }.bind(this));
 
-        this.matchSurface.on('click', function() {
-            console.log('matchView is clicked');
-            this._eventOutput.emit('matchOnly');
-        }.bind(this));
+        // this.matchSurface.on('click', function() {
+        //     console.log('matchView is clicked');
+        //     this._eventOutput.emit('matchOnly');
+        // }.bind(this));
 
         this.archiveSurface.on('touchstart', function() {
             this.archiveModifier.setOpacity(0.5, {

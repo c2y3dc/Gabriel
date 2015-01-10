@@ -9,11 +9,15 @@ define(function(require, exports, module) {
         View.apply(this, arguments);
 
         _createBackground.call(this);
-        // _createMenu.call(this);
+        _createCancelButton.call(this);
         _createUserImage.call(this);
         _createUserName.call(this);
-        _createUserTagLine.call(this);
+        _createLocationPin.call(this);
+        _createUserLocation.call(this);
         _createUserBio.call(this);
+        _createBuiltWithFamous.call(this);
+        _createLogoutButton.call(this);
+
         _setListeners.call(this);
     }
 
@@ -23,16 +27,14 @@ define(function(require, exports, module) {
     MenuHeaderView.DEFAULT_OPTIONS = {
         user: {},
         width: window.innerWidth,
-        height: window.innerHeight * 0.44,
+        height: window.innerHeight,
         bullet: ' • ',
-        userImageSize: window.innerHeight * 0.158,
+        userImageSize: window.innerWidth * 0.28125,
         userImageUrl: 'img/profilePic.png',
         userName: 'Team Gabriel',
         userJob: 'Software Engineer',
-        userLocation: 'San Francisco, CA',
-        userBio: 'I am an angel investor in over 60 startups,\
-        including Uber.com(first round).I have a $10m angel\
-        fund and host the largest startup conference in the world',
+        userLocation: 'No location provided',
+        userBio: 'No information provided',
         landingView: undefined,
     };
 
@@ -41,7 +43,7 @@ define(function(require, exports, module) {
         this.backgroundSurface = new Surface({
             size: [this.options.width, this.options.height],
             properties: {
-                backgroundColor: '#1976D2'
+                backgroundColor: 'white'
             }
         });
 
@@ -54,36 +56,36 @@ define(function(require, exports, module) {
     }
 
     // Create menu toggle
-    function _createMenu() {
-        this.menuSurface = new ImageSurface({
-            size: [20, 20],
-            content: 'img/menu.svg'
+    function _createCancelButton() {
+        this.cancelSurface = new ImageSurface({
+            size: [22, 22],
+            content: 'img/cancel.svg'
         });
 
         var menuModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.05, this.options.height * 0.044, 0),
+            transform: Transform.translate(this.options.width * 0.05, this.options.height * 0.05, 1),
             origin: [0, 0],
             align: [0, 0]
         })
 
-        this.add(menuModifier).add(this.menuSurface);
+        this.add(menuModifier).add(this.cancelSurface);
     }
 
     // Create user image circle
     function _createUserImage() {
         this.userImageSurface = new ImageSurface({
             size: [this.options.userImageSize, this.options.userImageSize],
-            content: this.options.user.image || this.options.userImageUrl,
+            content: this.options.user.image,
             properties: {
                 backgroundColor: 'white',
-                borderRadius: this.options.userImageSize / 2 + 'px'
+                borderRadius: this.options.userImageSize + 'px'
             }
         });
 
         var userImageModifier = new StateModifier({
-            transform: Transform.translate((this.options.width - this.options.userImageSize) * 0.5, this.options.height * 0.066, 0),
-            origin: [0, 0],
-            align: [0, 0]
+            transform: Transform.translate(0, this.options.height * 0.1496, 0),
+            origin: [0.5, 0],
+            align: [0.5, 0]
         });
 
         this.add(userImageModifier).add(this.userImageSurface);
@@ -93,18 +95,19 @@ define(function(require, exports, module) {
     function _createUserName() {
         var userNameSurface = new Surface({
             size: [true, true],
-            content: this.options.user.name || 'Team Gabriel',
+            content: this.options.user.name,
             properties: {
-                color: 'white',
+                color: 'black',
                 textAlign: 'center',
                 textTransform: 'uppercase',
-                letterSpacing: '1.5px',
-                fontSize: '22px'
+                letterSpacing: '1px',
+                fontSize: this.options.width * 0.06 + 'px',
+                fontWeight: 600
             }
         });
 
         var userNameModifier = new StateModifier({
-            transform: Transform.translate(this.options.width / 2, this.options.height * 0.52, 0),
+            transform: Transform.translate(this.options.width / 2, this.options.height * 0.3477, 0),
             origin: [0.5, 0.5],
             align: [0, 0]
         });
@@ -112,73 +115,127 @@ define(function(require, exports, module) {
         this.add(userNameModifier).add(userNameSurface);
     }
 
+    function _createLocationPin() {
+        this.locationPinSurface = new ImageSurface({
+            size: [true, true],
+            content: 'img/pin.svg'
+        });
+
+        this.locationPinModifier = new StateModifier({
+            origin: [0.5, 0.5],
+            align: [0.341, 0.395]
+        });
+
+        this.add(this.locationPinModifier).add(this.locationPinSurface);
+    }
+
     // Create user job title and location
-    function _createUserTagLine() {
-        var userTagLineSurface = new Surface({
+    function _createUserLocation() {
+        var userLocation = new Surface({
             size: [this.options.width * 0.9, true],
-            content: this.options.userJob + this.options.bullet + (this.options.user.locations[0].display_name ||  this.options.userLocation),
+            content: this.options.user.locations[0].display_name || this.options.userLocation,
             properties: {
-                color: 'white',
+                color: '#9E9E9E',
                 textAlign: 'center',
-                fontSize: '15px'
+                fontSize: this.options.width * 0.04 + 'px',
+                fontWeight: 300,
+                textTransform: 'uppercase'
             }
         });
 
-        var userTagLineModifier = new StateModifier({
-            transform: Transform.translate(this.options.width / 2, this.options.height * 0.62, 0),
+        var userLocationModifier = new StateModifier({
             origin: [0.5, 0.5],
-            align: [0, 0]
+            align: [0.53, 0.4]
         })
 
-        this.add(userTagLineModifier).add(userTagLineSurface);
+        this.add(userLocationModifier).add(userLocation);
     }
 
     // Create user short bio
     function _createUserBio() {
         var userBioSurface = new Surface({
-            size: [this.options.width * 0.95, true],
+            size: [this.options.width * 0.80, true],
             content: this.options.user.bio || this.options.userBio,
             properties: {
-                color: 'white',
+                color: '#9E9E9E',
                 textAlign: 'center',
-                fontWeight: 300,
-                fontSize: '12px',
-                letterSpacing: '0.5px'
+                fontWeight: 400,
+                fontSize: this.options.width * 0.045 + 'px',
             }
         });
 
         var userBioModifier = new StateModifier({
-            transform: Transform.translate(this.options.width / 2, this.options.height * 0.82, 0),
+            transform: Transform.translate(0, this.options.height * 0.478, 0),
             origin: [0.5, 0.5],
-            align: [0, 0]
+            align: [0.5, 0]
         })
 
         this.add(userBioModifier).add(userBioSurface);
     }
 
+    function _createBuiltWithFamous() {
+        this.famousSurface = new Surface({
+            size: [true, true],
+            content: 'GABRIEL built with Famo.us',
+            properties: {
+                fontSize: this.options.width * 0.035 + 'px',
+                color: '#9F9F9F',
+                fontWeight: 600
+            }
+        });
+
+        this.famousModifier = new StateModifier({
+            origin: [0.5, 0.5],
+            align: [0.5, 0.84]
+        })
+
+        this.add(this.famousModifier).add(this.famousSurface);
+    }
+
+    function _createLogoutButton() {
+        this.logoutButton = new Surface({
+            size: [this.options.width * 0.25, this.options.height * 0.044],
+            content: 'SIGN OUT',
+            properties: {
+                fontSize: this.options.width * 0.0325 + 'px',
+                color: '#34C9AB',
+                border: '1px solid #34C9AB',
+                borderRadius: '4px',
+                textAlign: 'center',
+                letterSpacing: this.options.width * 0.002 + 'px',
+                lineHeight: this.options.height * 0.044 + 'px',
+                fontWeight: 600
+            }
+        })
+        this.logoutButtonModifier = new StateModifier({
+            origin: [0.5, 0.5],
+            align: [0.5, 0.924],
+        });
+
+        this.add(this.logoutButtonModifier).add(this.logoutButton);
+    }
+
     //THIS NEEDS TO TRANSLATE THE LANDING VIEW FORWARD BUT I DON'T KNOW HOW
 
     function _setListeners() {
-        console.log('Im listening')
-        this.userImageSurface.on('click', function() {
-            console.log('Im clicked');
-            if(window.cordova){
-                // window.cookies.clear(function() {
-                //     console.log('Cookies cleared!');
-                // });
+
+      this.cancelSurface.on('click', function() {
+        console.log('im clicked');
+        this._eventOutput.emit('gabrielOnly');
+      });
+        this.logoutButton.on('click', function() {
+            if (window.cordova) {
                 OAuth.clearCache();
-            }else{
-                // window.open('https://www.angel.co/logout');
-                // OAuth.clearCache();
-                
+            } else {
+                window.open('https://www.angel.co/logout');
             }
-            this.options.landingView.rootModifier.setTransform(Transform.translate(0, 0, 10000), {
-                        duration: 1000
-                    });
+            this.options.landingView.rootModifier.setTransform(Transform.translate(0, 0, 1000), {
+                duration: 1000
+            });
             console.log("LANDING", this.options.landingView);
         }.bind(this));
         //console.log('this OPTIONS after and outside popup', this.options);
-        
+
     }
 
 
