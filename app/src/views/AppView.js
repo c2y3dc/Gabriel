@@ -323,6 +323,7 @@ define(function(require, exports, module) {
         });
         this.add(this.loadingModifier).add(this.loadingView);
     }
+    
     function _removeLoadingView() {
         this.loadingModifier.setTransform(Transform.translate(window.innerWidth * 4, 0, 201), { duration: 0 });
     }
