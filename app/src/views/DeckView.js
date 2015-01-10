@@ -167,6 +167,8 @@ define(function(require, exports, module) {
 
     DeckView.prototype.flip = function() {
 
+        var slide = this.slides[this.currentIndex];
+        var angle = slide.options.toggle ? 0 : -Math.PI;
         //disables click/touch during flip animation:
         slide.frontSurface.setProperties({
             pointerEvents: 'none'
@@ -181,15 +183,15 @@ define(function(require, exports, module) {
         //adds click/touch back in after animation:
         setTimeout(function(){
             slide.frontSurface.setProperties({
-            pointerEvents: 'auto'
-        });
-        slide.backSurface.setProperties({
-            pointerEvents: 'auto'
-        });
-        slide.flipForwardButton.setProperties({
-            pointerEvents: 'auto'
-        });
-        }.bind(this), 500)
+                pointerEvents: 'auto'
+            });
+            slide.backSurface.setProperties({
+                pointerEvents: 'auto'
+            });
+            slide.flipForwardButton.setProperties({
+                pointerEvents: 'auto'
+            });
+        }.bind(this), 500);
 
         if(!slide.options.toggle){
             slide.fadeIn();
@@ -197,18 +199,8 @@ define(function(require, exports, module) {
         }else{
             slide.fadeOut();
             console.log('fadeout called')
-
-        var slide = this.slides[this.currentIndex];
-        var angle = slide.options.toggle ? 0 : -Math.PI;
-        if(!slide.options.toggle){
-            slide.fadeIn();
-            console.log('fadein called')
-            
-        }else{
-            slide.fadeOut();
-            console.log('fadeout called')
-
         }
+
         slide.flipper.setAngle(angle, {
             curve: Easing.linear,
             duration: 400,
