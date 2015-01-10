@@ -7,6 +7,7 @@ define(function(require, exports, module) {
     var SlideData = require('data/SlideData');
     var ImageSurface = require('famous/surfaces/ImageSurface');
     var Flipper = require("famous/views/Flipper");
+    var Scrollview = require("famous/views/Scrollview");
     var Easing = require('famous/transitions/Easing');
 
     var ScrollSync = require("famous/inputs/ScrollSync");
@@ -210,11 +211,35 @@ define(function(require, exports, module) {
     }
 
     function _createCardBack() {
+
+            var content = '';
+
+        descParser = function() {
+            var textString = this.options.job.description.slice();
+            var spaceCount = 0;
+            var lastIndex = 0;
+            for (var i=0; i<textString.length; i++){
+                if (spaceCount > 5) {
+                    var paragraph = '<p>' + textString.slice(lastIndex, i) + '</p>';
+                    content = content + paragraph;
+                    spaceCount = 0;
+                }else if (i === textString.length-1){
+                    var paragraph = '<p>' + textString.slice(lastIndex) + '</p>';
+                    content = content + paragraph;
+                }else if (textString[i] === ' ') {
+                    spaceCount++;
+                }
+            }
+        }
+
+        descParser.call(this);
+
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card'],
-            content: '<div class="back-card-desc">' + truncate(this.options.job.description, 1500) + '</div>'
+            content: '<div class="back-card-desc">' + content + '</div>'
         });
+        console.log(this.options.job);
     }
 
     function _createHandle() {
