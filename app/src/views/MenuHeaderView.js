@@ -155,7 +155,7 @@ define(function(require, exports, module) {
     function _createUserBio() {
         var userBioSurface = new Surface({
             size: [this.options.width * 0.80, true],
-            content: this.options.user.what_i_do || this.options.userBio,
+            content: this.options.user.bio || this.options.userBio,
             properties: {
                 color: '#9E9E9E',
                 textAlign: 'center',
@@ -218,22 +218,22 @@ define(function(require, exports, module) {
     //THIS NEEDS TO TRANSLATE THE LANDING VIEW FORWARD BUT I DON'T KNOW HOW
 
     function _setListeners() {
+
       this.cancelSurface.on('click', function() {
         console.log('im clicked');
         this._eventOutput.emit('gabrielOnly');
       });
         this.logoutButton.on('click', function() {
             if (window.cordova) {
-                window.cookies.clear(function() {
-                    console.log('Cookies cleared!');
-                });
+                OAuth.clearCache();
             } else {
                 window.open('https://www.angel.co/logout');
             }
-            this.options.landingView.rootModifier.setTransform(Transform.translate(0, 0, 1000), {
-                duration: 1000
-            });
+            
             console.log("LANDING", this.options.landingView);
+            this.options.landingView.setTransform(function(){
+                return Transform.translate(0,0,0);
+            }, {duration:400});
         }.bind(this));
         //console.log('this OPTIONS after and outside popup', this.options);
 

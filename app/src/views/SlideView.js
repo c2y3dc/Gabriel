@@ -83,13 +83,13 @@ define(function(require, exports, module) {
         
         this.cardModifier.setTransform(
             Transform.translate(0, 0, 350), {
-                duration: 600,
+                duration: 200,
                 curve: Easing.easeOut    
             }
         );
         this.cardModifier.setTransform(
             Transform.translate(0, 0, 1.5), {
-                duration: 600,
+                duration: 200,
                 curve: Easing.easeIn
             }
         );
@@ -102,13 +102,13 @@ define(function(require, exports, module) {
         
         this.cardModifier.setTransform(
             Transform.translate(0, 0, 350), {
-                duration: 600,
+                duration: 200,
                 curve: Easing.easeOut
             }
         );
         this.cardModifier.setTransform(
             Transform.translate(0, 0, 1.5), {
-                duration: 600,
+                duration: 200,
                 curve: Easing.easeIn
             }
         );
@@ -367,6 +367,11 @@ define(function(require, exports, module) {
 
 
     function _setListeners() {
+        this.frontSurface.on('click', function() {
+            if (!this.options.toggle) {
+                this._eventOutput.emit('flip');
+            }
+        }.bind(this));
         this.flipForwardButton.on('click', function() {
             if (!this.options.toggle) {
                 this._eventOutput.emit('flip');
