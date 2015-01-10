@@ -29,8 +29,6 @@ define(function(require, exports, module) {
         // COMMENT OUT BOTH LINES BELOW WHEN RUNNING ON MOBILE DEVICES
          require('../lib/oauth-js/dist/oauth.min.js');
          start();
-
     }
 
 });
-

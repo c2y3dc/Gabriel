@@ -141,7 +141,7 @@ define(function(require, exports, module) {
             content: [
                 '<div class="card_header">',
                   '<img class="logo_url" src="', this.options.job.startup.logo_url, '">',
-                  '<p class="startup_name">', this.options.job.startup.name, '</p>',
+                  '<p class="startup_name">', truncate(this.options.job.startup.name, 15), '</p>',
                   '<p class="high_concept">', truncate(this.options.job.startup.high_concept, 120), '</p>',
                 '</div>',
                 '<div class="divider">', '</div>',
@@ -171,7 +171,7 @@ define(function(require, exports, module) {
         });
 
         this.flipModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.395, this.options.height * 0, 0.9)
+            transform: Transform.translate(this.options.width * 0.393, this.options.height * 0, 0.9)
         });
 
         this.frontNode.add(this.flipModifier).add(this.flipForwardButton);

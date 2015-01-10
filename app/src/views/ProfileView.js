@@ -51,7 +51,7 @@ define(function(require, exports, module) {
 
     function _createHeader() {
         var backgroundSurface = new Surface({
-            classes: ['ionic-blue-background']
+            // classes: ['ionic-blue-background']
         });
 
         var backgroundModifier = new StateModifier({

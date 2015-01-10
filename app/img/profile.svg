@@ -8,13 +8,13 @@
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
         <g id="Oval-48-+-male80" sketch:type="MSLayerGroup" transform="translate(1.000000, 1.000000)">
-            <circle id="Oval-48" stroke="#000000" stroke-width="2" sketch:type="MSShapeGroup" cx="22" cy="22" r="22"></circle>
+            <circle id="Oval-48" stroke="#34C9AB" stroke-width="2" sketch:type="MSShapeGroup" cx="22" cy="22" r="22"></circle>
             <g id="male80">
                 <mask id="mask-2" sketch:name="Mask" fill="white">
                     <use xlink:href="#path-1"></use>
                 </mask>
                 <use id="Mask" sketch:type="MSShapeGroup" xlink:href="#path-1"></use>
-                <g mask="url(#mask-2)" id="Shape" fill="#000000" sketch:type="MSShapeGroup">
+                <g mask="url(#mask-2)" id="Shape" fill="#34C9AB" sketch:type="MSShapeGroup">
                     <g transform="translate(3.942031, 7.844262)">
                         <path d="M23.199951,25.3382274 C22.2819599,25.1913103 22.261036,22.6523759 22.261036,22.6523759 C22.261036,22.6523759 24.9582162,19.966441 25.546076,16.3546528 C27.1274021,16.3546528 28.1041792,12.5148466 26.522604,11.1638609 C26.5886967,9.74171353 28.5552868,0 18.5989522,0 C8.64261756,0 10.6092907,9.74171353 10.6751343,11.1638609 C9.09364215,12.5148466 10.0702532,16.3546528 11.6516623,16.3546528 C12.239439,19.966441 14.9367022,22.6523759 14.9367022,22.6523759 C14.9367022,22.6523759 14.9157784,25.1913103 13.9978703,25.3382274 C11.0411351,25.8114691 0,30.7101808 0,36.0819672 L18.5989522,36.0819672 L37.1979043,36.0819672 C37.1979043,30.7101808 26.1567692,25.8114691 23.199951,25.3382274 L23.199951,25.3382274 Z"></path>
                     </g>
