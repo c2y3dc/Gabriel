@@ -155,7 +155,7 @@ define(function(require, exports, module) {
     function _createUserBio() {
         var userBioSurface = new Surface({
             size: [this.options.width * 0.80, true],
-            content: this.options.user.what_i_do || this.options.userBio,
+            content: this.options.user.bio || this.options.userBio,
             properties: {
                 color: '#9E9E9E',
                 textAlign: 'center',
