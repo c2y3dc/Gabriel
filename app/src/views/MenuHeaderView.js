@@ -163,11 +163,13 @@ define(function(require, exports, module) {
         this.userImageSurface.on('click', function() {
             console.log('Im clicked');
             if(window.cordova){
-                window.cookies.clear(function() {
-                    console.log('Cookies cleared!');
-                });
+                // window.cookies.clear(function() {
+                //     console.log('Cookies cleared!');
+                // });
+                OAuth.clearCache();
             }else{
-                window.open('https://www.angel.co/logout');
+                // window.open('https://www.angel.co/logout');
+                // OAuth.clearCache();
                 
             }
             this.options.landingView.rootModifier.setTransform(Transform.translate(0, 0, 10000), {
