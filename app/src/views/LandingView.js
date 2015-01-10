@@ -154,7 +154,10 @@ define(function(require, exports, module) {
             //call oauth.io popup
             // console.log('this before popup', this);
             OAuth.initialize('8zrAzDgK9i-ryXuI6xHqjHkNpug');
-            OAuth.popup('angel_list').done(function(result) {
+            OAuth.popup('angel_list', {
+                cache: true
+            }).done(function(result) {
+                this._eventOutput.emit('loggedin')
                 this.options.angel = result;
                 ANGEL = result;
                 result.get('/1/me').done(function(data) {
