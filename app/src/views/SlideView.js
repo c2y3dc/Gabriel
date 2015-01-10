@@ -367,6 +367,11 @@ define(function(require, exports, module) {
 
 
     function _setListeners() {
+        this.frontSurface.on('click', function() {
+            if (!this.options.toggle) {
+                this._eventOutput.emit('flip');
+            }
+        }.bind(this));
         this.flipForwardButton.on('click', function() {
             if (!this.options.toggle) {
                 this._eventOutput.emit('flip');

@@ -218,15 +218,14 @@ define(function(require, exports, module) {
     //THIS NEEDS TO TRANSLATE THE LANDING VIEW FORWARD BUT I DON'T KNOW HOW
 
     function _setListeners() {
+
       this.cancelSurface.on('click', function() {
         console.log('im clicked');
         this._eventOutput.emit('gabrielOnly');
       });
         this.logoutButton.on('click', function() {
             if (window.cordova) {
-                window.cookies.clear(function() {
-                    console.log('Cookies cleared!');
-                });
+                OAuth.clearCache();
             } else {
                 window.open('https://www.angel.co/logout');
             }
