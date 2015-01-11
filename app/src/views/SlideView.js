@@ -79,27 +79,6 @@ define(function(require, exports, module) {
     };
 
     SlideView.prototype.fadeIn = function() {
-        
-        
-        this.cardModifier.setTransform(
-            Transform.translate(0, 0, 350), {
-                duration: 200,
-                curve: Easing.easeOut    
-            }
-        );
-        this.cardModifier.setTransform(
-            Transform.translate(0, 0, 1.5), {
-                duration: 200,
-                curve: Easing.easeIn
-            }
-        );
-        
-
-    };
-
-
-    SlideView.prototype.fadeOut = function() {
-        
         this.cardModifier.setTransform(
             Transform.translate(0, 0, 350), {
                 duration: 200,
@@ -112,11 +91,24 @@ define(function(require, exports, module) {
                 curve: Easing.easeIn
             }
         );
-        
+    };
+
+    SlideView.prototype.fadeOut = function() {
+        this.cardModifier.setTransform(
+            Transform.translate(0, 0, 350), {
+                duration: 200,
+                curve: Easing.easeOut
+            }
+        );
+        this.cardModifier.setTransform(
+            Transform.translate(0, 0, 1.5), {
+                duration: 200,
+                curve: Easing.easeIn
+            }
+        );
     };
 
     function _createFlipper() {
-
         this.flipper = new Flipper();
         _createCardFront.call(this);
         _createCardBack.call(this);
@@ -128,7 +120,6 @@ define(function(require, exports, module) {
     }
 
     function _createCardFront() {
-
         this.frontSurfaceModifier = new StateModifier({
             transform: Transform.translate(0, 0, 0.9)
         });
@@ -140,22 +131,22 @@ define(function(require, exports, module) {
             classes: ['front-card'],
             content: [
                 '<div class="card_header">',
-                  '<img class="logo_url" src="', this.options.job.startup.logo_url, '">',
-                  '<p class="startup_name">', truncate(this.options.job.startup.name, 15), '</p>',
-                  '<p class="high_concept">', truncate(this.options.job.startup.high_concept, 120), '</p>',
+                '<img class="logo_url" src="', this.options.job.startup.logo_url, '">',
+                '<p class="startup_name">', truncate(this.options.job.startup.name, 15), '</p>',
+                '<p class="high_concept">', truncate(this.options.job.startup.high_concept, 120), '</p>',
                 '</div>',
                 '<div class="divider">', '</div>',
                 '<div class="jobInfo">',
-                  '<p class="job_title">', capitalizeFirst(this.options.job.title), '<span class="job-location">', (this.options.location.slice(0,1).join('') || ''), '</p>',
-                '</div>',,'</span></p>',
-                  '<p class="skills">', '<span class="secondary-text">Tech Stack</span><br>', (this.options.skills.slice(0,5).join(', ') || 'No Skills Provided'), '</p>',
+                '<p class="job_title">', capitalizeFirst(this.options.job.title), '<span class="job-location">', (this.options.location.slice(0, 1).join('') || ''), '</p>',
+                '</div>', , '</span></p>',
+                '<p class="skills">', '<span class="secondary-text">Tech Stack</span><br>', (this.options.skills.slice(0, 5).join(', ') || 'No Skills Provided'), '</p>',
                 '</div>',
                 '<div class="compensation">',
-                  '<p>', '<span class="secondary-text">Compensation</span><br>',
-                  capitalizeFirst(this.options.job.job_type), '<br>',
-                  salaryFormat(this.options.job.salary_min, this.options.job.salary_max), '<br>',
-                  equityFormat(this.options.job.equity_min, this.options.job.equity_max),
-                  '</p>',
+                '<p>', '<span class="secondary-text">Compensation</span><br>',
+                capitalizeFirst(this.options.job.job_type), '<br>',
+                salaryFormat(this.options.job.salary_min, this.options.job.salary_max), '<br>',
+                equityFormat(this.options.job.equity_min, this.options.job.equity_max),
+                '</p>',
                 '</div>'
             ].join('')
         });
@@ -165,9 +156,6 @@ define(function(require, exports, module) {
         this.flipForwardButton = new ImageSurface({
             size: [this.options.width * 0.07, this.options.width * 0.12],
             content: 'img/flip.svg'
-            // properties: {
-            //   border: '1px solid rgba(255, 255, 255, 0.85)'
-            // }
         });
 
         this.flipModifier = new StateModifier({
@@ -175,38 +163,6 @@ define(function(require, exports, module) {
         });
 
         this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
-
-
-        // this.companyBackgroundSurface = new ImageSurface({
-        //   size: [this.options.width * 0.9, this.options.height * 0.222],
-        //   content: 'img/companybg.png'
-        // });
-
-        // this.companyBackgroundModifier = new StateModifier({
-        //   transform: Transform.translate(0, -this.options.height * 0.23, 0.9)
-        // });
-
-        //this.frontNode.add(this.companyBackgroundModifier).add(this.companyBackgroundSurface);
-
-        // this.companyLogoSurface = new ImageSurface({
-        //   size: [this.options.width * 0.1875, this.options.width * 0.1875],
-        //   content: this.options.logo_url,
-        //   properties: {
-        //     backgroundColor: '#FFFFFF',
-        //     borderRadius: '2px',
-        //     border: '3px solid #FFFFFF',
-        //     boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.30)'
-        //   }
-        // });
-
-        // this.companyLogoModifier = new StateModifier({
-        //   transform: Transform.translate(this.options.width * 0.32, -this.options.height * 0.27, 0.8)
-        // });
-
-
-        // //this.frontNode.add(jobTitleModifier).add(jobTitleSurface);
-        // this.frontNode.add(this.companyLogoModifier).add(this.companyLogoSurface);
-        //this.frontNode.add(jobLocationModifier).add(jobLocationSurface);
     }
 
     function _createCardBack() {
@@ -239,10 +195,8 @@ define(function(require, exports, module) {
             var currentPosition = this.options.position.get();
             var velocity = data.velocity;
             if (currentPosition[0] < -window.innerWidth / 6) {
-                // this._eventOutput.emit('swipeLeft0');
                 this._eventOutput.emit('swipeLeft');
             } else if (currentPosition[0] > window.innerWidth / 6) {
-                //this._eventOutput.emit('swipeRight0');
                 this._eventOutput.emit('swipeRight');
             } else {
                 this.options.position.set([0, 0], {
@@ -286,7 +240,6 @@ define(function(require, exports, module) {
                 background: 'transparent'
             }
         });
-
         this.mainNode.add(this.background);
     }
 
@@ -349,23 +302,6 @@ define(function(require, exports, module) {
         return this.mainNode;
     }
 
-    // function _createShadowBox() {
-    //     this.shadowBox = new Surface({
-    //         size: [window.innerWidth, window.innerHeight],
-    //         properties: {
-    //             backgroundColor: 'gray',
-    //             pointerEvents: 'none'
-    //         }
-    //     })
-    //     this.shadowModifier = new StateModifier({
-    //         opacity: 0,
-    //         transform: Transform.translate(0, 0, -10),
-    //     });
-
-    //     this.mainNode.add(this.shadowModifier).add(this.shadowBox);
-    // }
-
-
     function _setListeners() {
         this.frontSurface.on('click', function() {
             if (!this.options.toggle) {
@@ -383,9 +319,6 @@ define(function(require, exports, module) {
                 this._eventOutput.emit('flip');
             }
         }.bind(this));
-        
     }
-
     module.exports = SlideView;
-
 });

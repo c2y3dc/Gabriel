@@ -6,8 +6,8 @@ define(function(require, exports, module) {
     var StateModifier = require('famous/modifiers/StateModifier');
     var HeaderFooter = require('famous/views/HeaderFooterLayout');
     var ImageSurface = require('famous/surfaces/ImageSurface');
-    var FastClick = require('famous/inputs/FastClick');
 
+    var FastClick = require('famous/inputs/FastClick');
     var ScrollSync = require("famous/inputs/ScrollSync");
     var MouseSync = require('famous/inputs/MouseSync');
     var TouchSync = require('famous/inputs/TouchSync');
@@ -103,11 +103,6 @@ define(function(require, exports, module) {
             }
         });
 
-        // this.matchSurface = new ImageSurface({
-        //     size: [25, 18],
-        //     content: 'img/matches.svg'
-        // });
-
         /*HEADER MODIFIERS */
         var profileModifier = new StateModifier({
             transform: Transform.translate(this.options.width * 0.07, this.options.headerSize * 0.18, 100),
@@ -121,16 +116,8 @@ define(function(require, exports, module) {
             align: [0.5, 0.5]
         });
 
-        // var matchModifier = new StateModifier({
-        //     // transform: Transform.inFront,
-        //     transform: Transform.translate(-this.options.width * 0.087, this.options.headerSize * 0.18, 100),
-        //     origin: [1, 0],
-        //     align: [1, 0.5]
-        // });
-
         this.layout.header.add(profileModifier).add(this.profileSurface);
         this.layout.header.add(titleModifier).add(this.titleSurface);
-        // this.layout.header.add(matchModifier).add(this.matchSurface);
     }
 
     function _createFooter() {
@@ -209,7 +196,6 @@ define(function(require, exports, module) {
         this.bodyModifier = new StateModifier({
             transform: Transform.translate(0, 0, 0.1)
         });
-        // this.node.add(this.bodyModifier).add(this.bodySurface);
         _createDeckView.call(this);
 
     }
@@ -232,11 +218,6 @@ define(function(require, exports, module) {
             this._eventOutput.emit('menuToggle');
         }.bind(this));
 
-        // this.matchSurface.on('click', function() {
-        //     console.log('matchView is clicked');
-        //     this._eventOutput.emit('matchOnly');
-        // }.bind(this));
-
         this.archiveSurface.on('touchstart', function() {
             this.archiveModifier.setOpacity(0.5, {
                 duration: 10
@@ -251,7 +232,6 @@ define(function(require, exports, module) {
                 this.deckView.options.slideArrived = false;
                 this.deckView._eventOutput.emit('swipeLeft');
             }
-            //this._eventOutput.emit('buttonToggle');
         }.bind(this));
 
         this.interestedSurface.on('touchstart', function() {
