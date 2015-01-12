@@ -128,7 +128,7 @@ define(function(require, exports, module) {
     }
 
     function _createCardFront() {
-
+        console.log(this.options.job.title.length);
         this.frontSurfaceModifier = new StateModifier({
             transform: Transform.translate(0, 0, 0.9)
         });
@@ -138,6 +138,9 @@ define(function(require, exports, module) {
         this.frontSurface = new Surface({
             size: this.options.size,
             classes: ['front-card'],
+            properties: {
+                fontSize: fontReSize(this.options.job.title.length)
+            },
             content: [
                 '<div class="card_header">',
                 '<img class="logo_url" src="', this.options.job.startup.logo_url, '">',
@@ -145,12 +148,11 @@ define(function(require, exports, module) {
                 '<p class="high_concept">', truncate(this.options.job.startup.high_concept, 120), '</p>',
                 '</div>',
                 '<div class="divider">', '</div>',
-                '<div class="jobInfo">',
-                '<p class="job_title">', capitalizeFirst(this.options.job.title), '</p>',
+                '<div id="jobInfo">',
+                '<span class="job_title">', capitalizeFirst(this.options.job.title), '</span>',
+                '<p class="location">', '<span class="secondary-text">Location</span><br>', this.options.location, '</p>',
                 '<p class="skills">', '<span class="secondary-text">Skills</span><br>', jobTags(this.options.skills, 6), '</p>',
-                '</div>',
-                '<div class="compensation">',
-                '<p>', '<span class="secondary-text">Compensation</span><br>',
+                '<p class="compensation">', '<span class="secondary-text">Compensation</span><br>',
                 capitalizeFirst(this.options.job.job_type), '<br>',
                 salaryFormat(this.options.job.salary_min, this.options.job.salary_max), '<br>',
                 equityFormat(this.options.job.equity_min, this.options.job.equity_max),

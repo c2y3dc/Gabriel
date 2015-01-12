@@ -67,6 +67,7 @@ define(function(require, exports, module) {
             _createProfileView.call(this);
             _createFeedbackView.call(this);
             _setListeners.call(this);
+            textResize("jobInfo");
 
         }.bind(this));
     }

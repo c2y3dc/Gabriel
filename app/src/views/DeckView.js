@@ -29,7 +29,9 @@ define(function(require, exports, module) {
         this.mainNode = this.add(this.rootModifier);
 
         _createLightbox.call(this);
-        _createSlides.call(this);
+        _createSlides.call(this, function(){
+            console.log('slide created');
+        });
 
         this.on('swipeLeft', this.swipeLeft.bind(this));
         this.on('swipeRight', this.swipeRight.bind(this));
@@ -266,7 +268,8 @@ define(function(require, exports, module) {
         }
         // console.log('SLIDES ARRAY', this.slides);
 
-        this.showNextSlide();
+        this.showNextSlide(function(){
+        }.bind(this));
     }
 
     module.exports = DeckView;

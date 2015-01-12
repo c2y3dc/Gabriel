@@ -6,13 +6,13 @@ function truncate(str, n) {
 }
 
 function capitalizeFirst(str) {
-  var lower = str.toLowerCase();
-  if (str === 'full-time') {
-    lower = 'full time'
-  }
-  return lower.replace(/(^| )(\w)/g, function(x) {
-    return x.toUpperCase();
-  });
+    var lower = str.toLowerCase();
+    if (str === 'full-time') {
+        lower = 'full time'
+    }
+    return lower.replace(/(^| )(\w)/g, function(x) {
+        return x.toUpperCase();
+    });
 }
 
 function salaryFormat(n, m) {
@@ -45,16 +45,33 @@ function exitApp() {
 }
 
 function jobTags(tags, num) {
-    if(tags && tags != ''){
+    if (tags && tags != '') {
         return tags.slice(0, num).join(', ');
     } else {
         return 'No skills provided'
     }
 }
 
+function fontReSize(length) {
+    if (length > 50) {
+        return '10px';
+    } else if (length > 40) {
+        return '12px';
+    } else if (length > 30) {
+        return '14px';
+    } else if (length > 20) {
+        return '16px';
+    } else {
+        return '20px';
+    }
+}
 
-
-
-
-
-
+function textResize(id) {
+    var container = "#" + id;
+    console.log(container);
+    while ($(container).find("span").width() > $(container).width()) {
+        var currentFontSize = parseInt($(container).find("span").css("font-size"));
+        $(container).find("span").css("font-size", currentFontSize - 1);
+        console.log(currentFontSize);
+    }
+}

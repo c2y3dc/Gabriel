@@ -72,7 +72,7 @@ html {
 
 .front-card {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  padding: 0px 10px 10px 10px;
+  width: 100%;
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.125);
   z-index: 1000;
@@ -96,11 +96,7 @@ html {
 .product_desc {
   font-size: 0.5em;
 }
-.high-concept {
-  margin-top: 165px;
-  font-size: 0.7em;
-  font-style: italic;
-}
+
 /* LANDING PAGE CSS */
 
 .landing-buttons {
@@ -132,77 +128,74 @@ font-weight: 300; */
 }
 /* Card Styles */
 .card_header {
-  display: block;
+  width: 90%;
+  padding: 0.8rem 0.8rem;
+  height: 4.65rem;
 }
+
 .logo_url {
-  position: relative;
-  width: 25%;
-  height: 25%;
-  margin: 12.5px 0 10px 2.5px;
+  width: 4.5rem;
+  height: 4.5rem;
+  float: left;
+  margin-right: 0.65rem;
   border-radius: 12.5%;
   border: 1px solid rgba(0, 0, 0, 0.125);
 }
 .startup_name {
   font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
-  position: absolute;
-  width: 50%;
-  top: 0%;
-  left: 32.5%;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   color: rgba(0, 0, 0, .85);
+  padding: 0;
+  margin-top: 0.3rem;
+  margin-bottom: 0;
 }
 .high_concept {
+  margin-top: 0.2rem;
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  font-size: 0.75rem;
   font-weight: 300;
   color: #9E9E9E;
-  position: absolute;
-  top: 6%;
-  left: 32.5%;
-  width: 65%;
 }
 .divider {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   width: 100%;
-  position: absolute;
-  right: 0%;
-  top: 23.5%;
+  margin-bottom: 0.2rem;
 }
-.job_title, .skills {
-  width: 90%;
+
+#jobInfo{
+  width: 87%;
+  padding: 0.8rem;
 }
+
 .job_title {
   font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: rgba(0, 0, 0, 0.9);
-  font-size: 20px;
   font-weight: 600;
-  position: absolute;
-  top: 22.5%;
+  font-size: 1.2rem;
 }
+
+.location {
+}
+
 .skills {
-  position: absolute;
-  top: 40%;
-  height: 20%;
 }
 .compensation {
-  position: absolute;
-  top: 65%;
 }
-.skills, .compensation {
+
+.skills, .compensation, .location {
   color: #000;
   font-weight: 300;
-  line-height: 20px;
   letter-spacing: 0.25px;
-  font-size: 14px;
+  font-size: 0.8rem;
 }
+
 .secondary-text {
   color: rgba(0, 0, 0, .35);
-  font-size: 13px;
+  font-size: 0.85rem;
   font-weight: 400;
   letter-spacing: 0.25px;
-  line-height: 20px;
+  line-height: 1.3rem;
   text-transform: uppercase;
 }
-.
 /* Landing Page */
