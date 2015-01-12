@@ -228,6 +228,10 @@ define(function(require, exports, module) {
 
     function _setListeners() {
 
+        this.deckView.on('firstSlideReady', function() {
+            this._eventOutput.emit('firstSlideReady');
+        }.bind(this));
+
         this.profileSurface.on('click', function() {
             this._eventOutput.emit('menuToggle');
         }.bind(this));
@@ -249,7 +253,7 @@ define(function(require, exports, module) {
             });
             if (this.deckView.options.slideArrived) {
                 this.deckView.options.slideArrived = false;
-                this.deckView._eventOutput.emit('swipeLeft');
+                this.deckView._eventOutput.emit('swipeItLeft');
             }
             //this._eventOutput.emit('buttonToggle');
         }.bind(this));
@@ -266,7 +270,7 @@ define(function(require, exports, module) {
             });
             if (this.deckView.options.slideArrived) {
                 this.deckView.options.slideArrived = false;
-                this.deckView._eventOutput.emit('swipeRight');
+                this.deckView._eventOutput.emit('swipeItRight');
             }
         }.bind(this));
     }

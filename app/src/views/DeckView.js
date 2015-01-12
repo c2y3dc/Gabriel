@@ -50,7 +50,7 @@ define(function(require, exports, module) {
             inTransform: Transform.translate(300, 0, 0),
             outTransform: Transform.translate(-500, 0, 0),
             inTransition: {
-                duration: 350,
+                duration: 250,
                 curve: 'easeOut'
             },
             outTransition: {
@@ -68,7 +68,7 @@ define(function(require, exports, module) {
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
         this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
-        this.lightbox.options.inTransform = Transform.translate(40, 0, 0);
+        this.lightbox.options.inTransform = Transform.translate(50, 0, 0);
         slide.options.position.set([-500, 0], {
             curve: 'easeOut',
             period: 800,
@@ -113,7 +113,7 @@ define(function(require, exports, module) {
     DeckView.prototype.swipeRight = function() {
         var slide = this.slides[this.currentIndex];
         this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
-        this.lightbox.options.inTransform = Transform.translate(-40, 0, 0);
+        this.lightbox.options.inTransform = Transform.translate(-50, 0, 0);
         slide.options.position.set([500, 0], {
             curve: 'easeOut',
             period: 800,
@@ -171,41 +171,40 @@ define(function(require, exports, module) {
         var slide = this.slides[this.currentIndex];
         var angle = slide.options.toggle ? 0 : -Math.PI;
         //disables click/touch during flip animation:
-        slide.frontSurface.setProperties({
-            pointerEvents: 'none'
-        });
-        // slide.backSurface.setProperties({
+        // slide.frontSurface.setProperties({
         //     pointerEvents: 'none'
         // });
-        slide.flipForwardButton.setProperties({
-            pointerEvents: 'none'
-        });
+        // // slide.backSurface.setProperties({
+        // //     pointerEvents: 'none'
+        // // });
+        // slide.flipForwardButton.setProperties({
+        //     pointerEvents: 'none'
+        // });
 
-        //adds click/touch back in after animation:
-        setTimeout(function(){
-            slide.frontSurface.setProperties({
-                pointerEvents: 'auto'
-            });
-            // slide.backSurface.setProperties({
-            //     pointerEvents: 'auto'
-            // });
-            slide.flipForwardButton.setProperties({
-                pointerEvents: 'auto'
-            });
-        }.bind(this), 500);
+        // //adds click/touch back in after animation:
+        // setTimeout(function(){
+        //     slide.frontSurface.setProperties({
+        //         pointerEvents: 'auto'
+        //     });
+        //     // slide.backSurface.setProperties({
+        //     //     pointerEvents: 'auto'
+        //     // });
+        //     slide.flipForwardButton.setProperties({
+        //         pointerEvents: 'auto'
+        //     });
+        // }.bind(this), 500);
 
-        if(!slide.options.toggle){
-            slide.fadeIn();
-            console.log('fadein called')
-        }else{
-            slide.fadeOut();
-            console.log('fadeout called')
-        }
+        // if(!slide.options.toggle){
+        //     slide.fadeIn();
+        //     console.log('fadein called')
+        // }else{
+        //     slide.fadeOut();
+        //     console.log('fadeout called')
+        // }
 
         slide.flipper.setAngle(angle, {
-            curve: Easing.linear,
-            duration: 400,
-            period: 400
+            curve: 'easeOut',
+            duration: 450,
         }, function() {
             slide.options.toggle = !slide.options.toggle;
         }.bind(this));
@@ -266,9 +265,9 @@ define(function(require, exports, module) {
             }.bind(this));
         }
         // console.log('SLIDES ARRAY', this.slides);
-
         this.showNextSlide(function(){
-        }.bind(this));
+            this._eventOutput.emit('firstSlideReady');
+        }.bind(this));   
     }
 
     module.exports = DeckView;

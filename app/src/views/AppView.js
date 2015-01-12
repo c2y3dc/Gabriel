@@ -49,7 +49,6 @@ define(function(require, exports, module) {
 
         this.landingView.on('loaded', function() {
             ///var results = this.getOptions('jobs');
-            _removeLoadingView.call(this);
             this.angel = this.landingView.options.angel;
             this.gabrielMenu = true;
             this.settingsMenu = true;
@@ -67,9 +66,9 @@ define(function(require, exports, module) {
             _createProfileView.call(this);
             _createFeedbackView.call(this);
             _setListeners.call(this);
-            textResize("jobInfo");
 
         }.bind(this));
+
     }
 
     AppView.prototype = Object.create(View.prototype);
@@ -324,11 +323,11 @@ define(function(require, exports, module) {
         });
         this.add(this.loadingModifier).add(this.loadingView);
     }
-    
+
     function _removeLoadingView() {
-        this.loadingModifier.setTransform(Transform.translate(window.innerWidth * 4, 0, 201), { duration: 0 });
+        this.loadingModifier.setTransform(Transform.translate(window.innerWidth * 4, 0, 201));
     }
-    // Create different views
+
     function _createPageView() {
         this.pageView = new PageView({
             initialData: this.landingView.options.initialData,
@@ -441,6 +440,10 @@ define(function(require, exports, module) {
 
 
     function _setListeners() {
+        this.pageView.on('firstSlideReady', function() {
+            _removeLoadingView.call(this);
+        }.bind(this));
+
         this.pageView.on('menuToggle', this.toggleGabrielPage.bind(this));
         this.aboutView.on('menuToggle', this.toggleAboutPage.bind(this));
         this.settingsView.on('menuToggle', this.toggleSettingsPage.bind(this));

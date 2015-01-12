@@ -272,7 +272,7 @@ define(function(require, exports, module) {
             } else {
                 this.options.position.set([0, 0], {
                     method: 'spring',
-                    dampingRatio : 0, 
+                    dampingRatio : 1, 
                     period : 200,
                     velocity: velocity
                 });
@@ -393,6 +393,11 @@ define(function(require, exports, module) {
 
 
     function _setListeners() {
+        this.frontSurface.on('click', function() {
+            if (!this.options.toggle) {
+                this._eventOutput.emit('flip');
+            }
+        }.bind(this));
         this.flipForwardButton.on('click', function() {
             if (!this.options.toggle) {
                 this._eventOutput.emit('flip');
