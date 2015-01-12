@@ -47,7 +47,7 @@ define(function(require, exports, module) {
         size: [window.innerWidth * 0.858, window.innerHeight * 0.688],
         lightboxOpts: {
             inTransform: Transform.translate(300, 0, 0),
-            outTransform: Transform.translate(-500, 0, 0),
+            outTransform: Transform.translate(-50, 0, 0),
             inTransition: {
                 duration: 250,
                 curve: 'easeOut'
@@ -112,7 +112,7 @@ define(function(require, exports, module) {
     DeckView.prototype.swipeRight = function() {
         var slide = this.slides[this.currentIndex];
         this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
-        this.lightbox.options.inTransform = Transform.translate(-50, 0, 0);
+        this.lightbox.options.inTransform = Transform.translate(-500, 0, 0);
         slide.options.position.set([500, 0], {
             curve: 'easeOut',
             period: 800,
@@ -213,27 +213,27 @@ define(function(require, exports, module) {
         this.currentIndex++;
         if (this.currentIndex === Object.keys(this.slides).length) {
             this.currentIndex = 0;
-            this.pageCount++;
-            this.options.jobs = {};
-            var index = 0;
-            ANGEL.get('/1/tags/1692/jobs', {
-                data: {
-                    page: this.pageCount
-                }
-            }).done(function(data) {
-                console.log(data);
-                data.jobs.forEach(function(job) {
-                    if (job.job_type === 'full-time' && job.salary_min > 70000 && job.currency_code === "USD") {
-                        this.options.jobs[index] = job;
-                        index++;
-                    }
-                }.bind(this));
+            // this.pageCount++;
+            // this.options.jobs = {};
+            // var index = 0;
+            // ANGEL.get('/1/tags/1692/jobs', {
+            //     data: {
+            //         page: this.pageCount
+            //     }
+            // }).done(function(data) {
+            //     console.log(data);
+            //     data.jobs.forEach(function(job) {
+            //         if (job.job_type === 'full-time' && job.salary_min > 70000 && job.currency_code === "USD") {
+            //             this.options.jobs[index] = job;
+            //             index++;
+            //         }
+            //     }.bind(this));
 
-                _createSlides.call(this);
+            //     _createSlides.call(this);
 
-            }.bind(this)).fail(function(oops) {
-                console.log('unable to get job data');
-            }.bind(this));
+            // }.bind(this)).fail(function(oops) {
+            //     console.log('unable to get job data');
+            // }.bind(this));
 
         }
         this.slides[this.currentIndex].options.position.set([0, 0]);

@@ -18,6 +18,8 @@ define(function(require, exports, module) {
 
         this.bodySurface = new Surface({
             size: [undefined, undefined],
+            classes: ['loader'],
+            content: '<div class="loader"> </div>',
             properties: {
                 backgroundColor: '#FDFDFD'
             }

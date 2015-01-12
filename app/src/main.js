@@ -15,7 +15,6 @@ define(function(require, exports, module) {
 
         var appView = new AppView();
         mainContext.add(appView);
-        
     }
 
     if (window.cordova)
