@@ -30,11 +30,10 @@ define(function(require, exports, module) {
 
         _createLightbox.call(this);
         _createSlides.call(this, function(){
-            console.log('slide created');
         });
 
-        this.on('swipeLeft', this.swipeLeft.bind(this));
-        this.on('swipeRight', this.swipeRight.bind(this));
+        this.on('swipeItLeft', this.swipeLeft.bind(this));
+        this.on('swipeItRight', this.swipeRight.bind(this));
     }
 
     DeckView.prototype = Object.create(View.prototype);
@@ -51,11 +50,11 @@ define(function(require, exports, module) {
             inTransform: Transform.translate(300, 0, 0),
             outTransform: Transform.translate(-500, 0, 0),
             inTransition: {
-                duration: 500,
-                curve: Easing.outBack
+                duration: 350,
+                curve: 'easeOut'
             },
             outTransition: {
-                duration: 350,
+                duration: 250,
                 curve: Easing.inQuad
             }
         }
@@ -68,11 +67,11 @@ define(function(require, exports, module) {
 
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
-        this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
-        this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
+        this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
+        this.lightbox.options.inTransform = Transform.translate(40, 0, 0);
         slide.options.position.set([-500, 0], {
-            method: 'spring',
-            period: 450,
+            curve: 'easeOut',
+            period: 800,
         });
 
         //OUR API CALL TO ARCHIVE GOES HERE
@@ -113,11 +112,11 @@ define(function(require, exports, module) {
 
     DeckView.prototype.swipeRight = function() {
         var slide = this.slides[this.currentIndex];
-        this.lightbox.options.outTransform = Transform.translate(500, 0, 0);
-        this.lightbox.options.inTransform = Transform.translate(-300, 0, 0);
+        this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
+        this.lightbox.options.inTransform = Transform.translate(-40, 0, 0);
         slide.options.position.set([500, 0], {
-            method: 'spring',
-            period: 450,
+            curve: 'easeOut',
+            period: 800,
         });
         //THIS IS WHERE OUR API CALL TO CONNECT GOES
 

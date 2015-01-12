@@ -1,4 +1,5 @@
 define(function(require, exports, module) {
+    'use strict';
     var View = require('famous/core/View');
     var Surface = require('famous/core/Surface');
     var Transform = require('famous/core/Transform');
@@ -128,7 +129,6 @@ define(function(require, exports, module) {
     }
 
     function _createCardFront() {
-        console.log(this.options.job.title.length);
         this.frontSurfaceModifier = new StateModifier({
             transform: Transform.translate(0, 0, 0.9)
         });
@@ -214,7 +214,7 @@ define(function(require, exports, module) {
 
         var content = '';
 
-        descParser = function() {
+        var descParser = function() {
             var textString = this.options.job.description.slice();
             var spaceCount = 0;
             var lastIndex = 0;
@@ -239,7 +239,6 @@ define(function(require, exports, module) {
             classes: ['back-card'],
             content: '<div class="back-card-desc">' + content + '</div>'
         });
-        console.log(this.options.job);
     }
 
     function _createHandle() {
@@ -263,6 +262,7 @@ define(function(require, exports, module) {
         sync.on('end', function(data) {
             var currentPosition = this.options.position.get();
             var velocity = data.velocity;
+            console.log(velocity);
             if (currentPosition[0] < -window.innerWidth / 6) {
                 // this._eventOutput.emit('swipeLeft0');
                 this._eventOutput.emit('swipeLeft');
@@ -272,7 +272,8 @@ define(function(require, exports, module) {
             } else {
                 this.options.position.set([0, 0], {
                     method: 'spring',
-                    period: 150,
+                    dampingRatio : 0, 
+                    period : 200,
                     velocity: velocity
                 });
             }
@@ -398,7 +399,6 @@ define(function(require, exports, module) {
             }
         }.bind(this));
         this.backSurface.on('click', function() {
-            console.log('clicked')
             this.shadowModifier.setOpacity(0);
             if (this.options.toggle) {
                 this._eventOutput.emit('flip');
@@ -406,7 +406,6 @@ define(function(require, exports, module) {
             }
         }.bind(this));
         this.backSurface.on('touchstart', function() {
-            console.log('sensed it');
             this.shadowModifier.setOpacity(0);
         }.bind(this));
     }

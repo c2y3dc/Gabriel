@@ -1,116 +1,115 @@
 div {
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  /* cursor: arrow; */
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    /* cursor: arrow; */
 }
 html {
-  background: #2D2D2D;
-  font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 300;
+    background: #2D2D2D;
+    font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 300;
 }
 .famous-root {
-  background-color: #FDFDFD !important;
+    background-color: #FDFDFD !important;
 }
 .backfaceVisibility {
-  -webkit-backface-visibility: visible;
-  backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
 }
 .ionic-blue-background {
-  background: linear-gradient(to right, #296ad4 0%, #4e8ef7 100%);
-  border-bottom: 1px solid #4677E1;
+    background: linear-gradient(to right, #296ad4 0%, #4e8ef7 100%);
+    border-bottom: 1px solid #4677E1;
 }
 .ionic-footer-background {
-  background: linear-gradient(to right, #5488DC 0%, #71A4F7 100%);
-  background: linear-gradient(to right, #2155aa 0%, #3e72c6 100%);
-  border-top: 1px solid #3677E1;
+    background: linear-gradient(to right, #5488DC 0%, #71A4F7 100%);
+    background: linear-gradient(to right, #2155aa 0%, #3e72c6 100%);
+    border-top: 1px solid #3677E1;
 }
 .main-body-background {
-  background: linear-gradient(to right, #2155aa 0%, #3e72c6 100%);
+    background: linear-gradient(to right, #2155aa 0%, #3e72c6 100%);
 }
 .strip-view {
-  background-color: #444444;
+    background-color: #444444;
 }
 .menu-titles {
-  color: white;
-  font-weight: 300;
-  font-size: 18px;
-  text-transform: 'uppercase';
-  pointer-events: 'none';
+    color: white;
+    font-weight: 300;
+    font-size: 18px;
+    text-transform: 'uppercase';
+    pointer-events: 'none';
 }
 .header-title {
-  color: #ffffff;
-  font-size: 18px;
-  font-weight:
+    color: #ffffff;
+    font-size: 18px;
+    font-weight:
 }
 .no-button {
-  color: ##2155aa;
-  border-radius: 2px;
-  text-align: center;
-  line-height: 40px;
-  background-color: white;
+    color: ##2155aa;
+    border-radius: 2px;
+    text-align: center;
+    line-height: 40px;
+    background-color: white;
 }
 .yes-button {
-  border: 2px solid #A8C7FF;
-  color: #A8C7FF;
-  border-radius: 2px;
-  text-align: center;
-  line-height: 40px;
-  background-color: #3677E1;
+    border: 2px solid #A8C7FF;
+    color: #A8C7FF;
+    border-radius: 2px;
+    text-align: center;
+    line-height: 40px;
+    background-color: #3677E1;
 }
 .button-hover {
-  background-color: red;
+    background-color: red;
 }
 .circle-image {
-  background-repeat: no-repeat;
-  background-position: 50%;
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
 }
 /* CARD CSS */
 
 .front-card {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  width: 100%;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.97);
-  /* box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.50); */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.97);
+    /* box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.50); */
 }
 .back-card {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  padding: 15px;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  background-color: rgba(255, 255, 255, 0.95);
-  z-index: 10000;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch; 
-  /* box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.50); */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: rgba(255, 255, 255, 0.95);
+    z-index: 10000;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    /* box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.50); */
 }
 .back-card-desc {
-  font-size: 1em;
+    font-size: 1em;
 }
 .product_desc {
-  font-size: 0.5em;
+    font-size: 0.5em;
 }
-
 /* LANDING PAGE CSS */
 
 .landing-buttons {
-  /* background-color: #4e8ef7; */
-  /* box-shadow: 3px; */
-/*   border-radius: 2px;
+    /* background-color: #4e8ef7; */
+    /* box-shadow: 3px; */
+    /*   border-radius: 2px;
 text-align: center;
 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 color: #ffffff;
 padding: 4px; */
 }
 .landing-name {
-  /* background-color: 'transparent'; */
-  /* text-align: center;
+    /* background-color: 'transparent'; */
+    /* text-align: center;
   font-family: 'Josefin Sans',"Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #9E9E9E;
   font-size: 64px;
@@ -119,7 +118,7 @@ padding: 4px; */
   font-weight: 100; */
 }
 .landing-tagLine {
-/*   text-align: center;
+    /*   text-align: center;
 font-family: 'Josefin Sans',"Helvetica Neue", Helvetica, Arial, sans-serif;
 color: #999999;
 font-size: 16px;
@@ -127,75 +126,63 @@ letter-spacing: 1px;
 font-weight: 300; */
 }
 /* Card Styles */
-.card_header {
-  width: 90%;
-  padding: 0.8rem 0.8rem;
-  height: 4.65rem;
-}
 
+.card_header {
+    width: 90%;
+    padding: 0.8rem 0.8rem;
+    height: 4.65rem;
+}
 .logo_url {
-  width: 4.5rem;
-  height: 4.5rem;
-  float: left;
-  margin-right: 0.65rem;
-  border-radius: 12.5%;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+    width: 4.5rem;
+    height: 4.5rem;
+    float: left;
+    margin-right: 0.65rem;
+    border-radius: 12.5%;
+    border: 1px solid rgba(0, 0, 0, 0.125);
 }
 .startup_name {
-  font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: rgba(0, 0, 0, .85);
-  padding: 0;
-  margin-top: 0.3rem;
-  margin-bottom: 0;
+    font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(0, 0, 0, .85);
+    padding: 0;
+    margin-top: 0.3rem;
+    margin-bottom: 0;
 }
 .high_concept {
-  margin-top: 0.2rem;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 0.75rem;
-  font-weight: 300;
-  color: #9E9E9E;
+    margin-top: 0.2rem;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: #9E9E9E;
 }
 .divider {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-  width: 100%;
-  margin-bottom: 0.2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    width: 100%;
+    margin-bottom: 0.2rem;
 }
-
-#jobInfo{
-  width: 87%;
-  padding: 0.8rem;
+#jobInfo {
+    width: 87%;
+    padding: 0.8rem;
 }
-
 .job_title {
-  font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: rgba(0, 0, 0, 0.9);
-  font-weight: 600;
-  font-size: 1.2rem;
+    font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: rgba(0, 0, 0, 0.9);
+    font-weight: 600;
+    font-size: 1.2rem;
 }
-
-.location {
+.location {} .skills {} .compensation {} .skills, .compensation, .location {
+    color: #000;
+    font-weight: 300;
+    letter-spacing: 0.25px;
+    font-size: 0.8rem;
 }
-
-.skills {
-}
-.compensation {
-}
-
-.skills, .compensation, .location {
-  color: #000;
-  font-weight: 300;
-  letter-spacing: 0.25px;
-  font-size: 0.8rem;
-}
-
 .secondary-text {
-  color: rgba(0, 0, 0, .35);
-  font-size: 0.85rem;
-  font-weight: 400;
-  letter-spacing: 0.25px;
-  line-height: 1.3rem;
-  text-transform: uppercase;
+    color: rgba(0, 0, 0, .35);
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.25px;
+    line-height: 1.3rem;
+    text-transform: uppercase;
 }
 /* Landing Page */
