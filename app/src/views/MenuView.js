@@ -5,7 +5,6 @@ define(function(require, exports, module) {
     var Timer = require('famous/utilities/Timer');
     var Surface = require('famous/core/Surface');
 
-    var StripView = require('views/StripView');
     var MenuHeaderView = require('views/MenuHeaderView');
 
     function MenuView() {
@@ -14,7 +13,6 @@ define(function(require, exports, module) {
         _createBacking.call(this);
         _createMenuHeader.call(this);
 
-        // _createStripViews.call(this);
         _setListeners.call(this);
     }
 
@@ -48,28 +46,6 @@ define(function(require, exports, module) {
         this.add(backing);
     }
 
-    function _createStripViews() {
-        this.stripSurfaces = [];
-        this.stripModifiers = [];
-        var yOffset = this.options.topOffset;
-        for (var i = 0; i < this.options.stripData.length; i++) {
-            var stripView = new StripView({
-                iconUrl: this.options.stripData[i].iconUrl,
-                title: this.options.stripData[i].title
-            });
-
-            this.stripSurfaces.push(stripView);
-            var stripModifier = new StateModifier({
-                transform: Transform.translate(0, yOffset, 0)
-            });
-
-            this.stripModifiers.push(stripModifier);
-            this.add(stripModifier).add(stripView);
-
-            yOffset += this.options.stripOffset;
-        }
-    }
-
     function _createMenuHeader() {
         this.menuHeaderView = new MenuHeaderView({
             user: this.options.userData,
@@ -79,32 +55,6 @@ define(function(require, exports, module) {
         this.add(this.menuHeaderView);
     }
 
-    // MenuView.prototype.resetStrips = function() {
-    //     for (var i = 0; i < this.stripModifiers.length; i++) {
-    //         var initX = -this.options.stripWidth;
-    //         var initY = this.options.topOffset + this.options.stripOffset * i + this.options.stripWidth * Math.tan(-this.options.angle);
-    //
-    //         this.stripModifiers[i].setTransform(Transform.translate(initX, initY, 0));
-    //     }
-    // };
-
-    // MenuView.prototype.animateStrips = function() {
-    //     this.resetStrips();
-    //
-    //     var transition = this.options.transition;
-    //     var delay = this.options.staggerDelay;
-    //     var stripOffset = this.options.stripOffset;
-    //     var topOffset = this.options.topOffset;
-    //
-    //     for (var i = 0; i < this.stripModifiers.length; i++) {
-    //         Timer.setTimeout(function(i) {
-    //             var yOffset = topOffset + stripOffset * i;
-    //
-    //                               this.stripModifiers[i].setTransform(
-    //                 Transform.translate(0, yOffset, 0), transition);
-    //         }.bind(this, i), i * delay);
-    //     }
-    // };
 
     function _setListeners() {
         // Menu surface
@@ -112,33 +62,6 @@ define(function(require, exports, module) {
             console.log('im clicked');
             this._eventOutput.emit('gabrielOnly');
         }.bind(this));
-        // Home StripView
-        // this.stripSurfaces[0].backgroundSurface.on('click', function() {
-        //     console.log('home is clicked');
-        //     this._eventOutput.emit('gabrielOnly');
-        // }.bind(this));
-        // // About StripView
-        // this.stripSurfaces[1].backgroundSurface.on('click', function() {
-        //     this._eventOutput.emit('aboutOnly');
-        // }.bind(this));
-        // // Settings StripView
-        // this.stripSurfaces[2].backgroundSurface.on('click', function() {
-        //     this._eventOutput.emit('settingsOnly');
-        //     if (window.cordova) {
-        //         window.cookies.clear(function() {
-        //             console.log('Cookies cleared!');
-        //             exitApp();
-        //         });
-        //     }
-        // }.bind(this));
-        // // Share Gabriel StripView
-        // this.stripSurfaces[3].backgroundSurface.on('click', function() {
-        //     this._eventOutput.emit('sharingOnly');
-        // }.bind(this));
-        // // Rate Our App StripView
-        // this.stripSurfaces[3].backgroundSurface.on('click', function() {
-        //     this._eventOutput.emit('rateOnly');
-        // }.bind(this));
     }
     module.exports = MenuView;
 });

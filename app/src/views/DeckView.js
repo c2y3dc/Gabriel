@@ -11,10 +11,10 @@ define(function(require, exports, module) {
     var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
     var ImageSurface = require('famous/surfaces/ImageSurface');
+
     Transitionable.registerMethod('spring', SpringTransition);
     Transitionable.registerMethod('wall', WallTransition);
     Transitionable.registerMethod('snap', SnapTransition);
-
 
 
     function DeckView() {
@@ -77,7 +77,7 @@ define(function(require, exports, module) {
 
         //Saves current startup's id
         var sid = this.slides[this.currentIndex].options.job.startup.id;
-        
+
         // //Archive POST REQ
         console.log("startup_id", sid);
 
@@ -123,7 +123,7 @@ define(function(require, exports, module) {
         var sid = this.slides[this.currentIndex].options.job.startup.id;
 
         console.log("startup_id", sid);
-        
+
         // //Interested POST REQ
             ANGEL.post('/1/talent/pairing', {
             data: {
@@ -247,7 +247,7 @@ define(function(require, exports, module) {
                 skills: skills,
                 location: location
             });
-           
+
 
             this.slides[i] = slide;
             // adding click listener

@@ -229,14 +229,12 @@ define(function(require, exports, module) {
             } else {
                 window.open('https://www.angel.co/logout');
             }
-            
+
             console.log("LANDING", this.options.landingView);
             this.options.landingView.setTransform(function(){
                 return Transform.translate(0,0,0);
             }, {duration:400});
         }.bind(this));
-        //console.log('this OPTIONS after and outside popup', this.options);
-
     }
 
 
