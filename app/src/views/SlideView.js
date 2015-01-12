@@ -19,8 +19,8 @@ define(function(require, exports, module) {
     var Transitionable = require('famous/transitions/Transitionable');
     var SnapTransition = require('famous/transitions/SnapTransition');
     Transitionable.registerMethod('spring', SnapTransition);
-   
-    
+
+
     require('helpers/methods');
 
 
@@ -28,6 +28,7 @@ define(function(require, exports, module) {
     function SlideView() {
         // this.helperMethod = new Helper();
         View.apply(this, arguments);
+        console.log(this.options.job.description);
         this.options.position = new Transitionable([0, 0]);
         this.rootModifier = new StateModifier({
             align: [.5, .5],
@@ -215,10 +216,12 @@ define(function(require, exports, module) {
     }
 
     function _createCardBack() {
-
-
-            var content = this.options.job.description.slice();
-            if (content.length===0) content = 'No Description Provided';
+        var content;
+        if (!this.options.job.description || this.options.job.description === '') {
+            content = 'No Description Provided';
+        } else {
+            content = this.options.job.description.slice();
+        }
 
 
         // descParser = function() {
@@ -250,20 +253,20 @@ define(function(require, exports, module) {
         // }
 
         // descParser.call(this);
-// <<<<<<< HEAD
+        // <<<<<<< HEAD
 
-//         this.backSurface = new Surface({
-//             size: this.options.size,
-//             classes: ['back-card'],
-//             content: '<div class="back-card-desc">' + stripNewLines(truncate(this.options.job.description, 1000)) + '</div>'
-// =======
+        //         this.backSurface = new Surface({
+        //             size: this.options.size,
+        //             classes: ['back-card'],
+        //             content: '<div class="back-card-desc">' + stripNewLines(truncate(this.options.job.description, 1000)) + '</div>'
+        // =======
 
-        content = content.replace(/\s\s/g,"</div></br><div>")
-                    .replace(/: /g,":</div></br><div>")
-                    .replace(/\s-\s/g,"</div></div>-")
-                    .replace(/\s\s/g,"</div></br><div>")
-                    .replace(/\s([^A-Za-z0-9,.()\/])/g,"</div><div>$1")
-                    .replace(/-([A-Z])/g,"</div><div>-$1");
+        content = content.replace(/\s\s/g, "</div></br><div>")
+            .replace(/: /g, ":</div></br><div>")
+            .replace(/\s-\s/g, "</div></div>-")
+            .replace(/\s\s/g, "</div></br><div>")
+            .replace(/\s([^A-Za-z0-9,.()\/])/g, "</div><div>$1")
+            .replace(/-([A-Z])/g, "</div><div>-$1");
 
         content = '<div>' + content + '</div>';
 
