@@ -46,6 +46,18 @@ define(function(require, exports, module) {
         });
 
         this.add(layoutModifier).add(this.layout);
+
+        // this.bodySurface = new Surface({
+        //     size: [undefined, undefined],
+        //     classes: ['loader'],
+        //     content: '<div class="loader"> </div>',
+        //     properties: {
+        //         backgroundColor: '#FDFDFD'
+        //     }
+        // });
+        
+        // this.bodyModifier = new StateModifier({
+        //     transform: Transform.translate(0, 0, 201)
     }
 
     function _createHeader() {

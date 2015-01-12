@@ -39,7 +39,6 @@ define(function(require, exports, module) {
         }.bind(this));
 
         this.landingView.on('loaded', function() {
-            _removeLoadingView.call(this);
             this.angel = this.landingView.options.angel;
             this.gabrielMenu = true;
 
@@ -51,6 +50,7 @@ define(function(require, exports, module) {
             _setListeners.call(this);
 
         }.bind(this));
+
     }
 
     AppView.prototype = Object.create(View.prototype);
@@ -59,7 +59,7 @@ define(function(require, exports, module) {
     AppView.DEFAULT_OPTIONS = {
         userData: {},
         angel: {},
-        initialData: {},
+        jobs: {},
         slideLeftX: window.innerWidth - window.innerWidth / 8,
         transition: {
             duration: 500,
@@ -137,13 +137,12 @@ define(function(require, exports, module) {
     }
 
     function _removeLoadingView() {
-        this.loadingModifier.setTransform(Transform.translate(window.innerWidth * 4, 0, 201), { duration: 0 });
+        this.loadingModifier.setTransform(Transform.translate(window.innerWidth * 4, 0, 201));
     }
 
-    // Create different views
     function _createPageView() {
         this.pageView = new PageView({
-            initialData: this.landingView.options.initialData,
+            jobs: this.landingView.options.jobs,
             angel: this.options.angel
         });
         this.pageModifier = new StateModifier({
@@ -178,6 +177,10 @@ define(function(require, exports, module) {
 
 
     function _setListeners() {
+        this.pageView.on('firstSlideReady', function() {
+            _removeLoadingView.call(this);
+        }.bind(this));
+
         this.pageView.on('menuToggle', this.toggleGabrielPage.bind(this));
 
         this.menuView.on('gabrielOnly', this.showGabrielPage.bind(this));
