@@ -159,7 +159,7 @@ define(function(require, exports, module) {
                 color: '#8F8F8F',
                 letterSpacing: '1px',
                 fontWeight: 600,
-                lineHeight: this.options.height * 0.079 + 'px'
+                lineHeight: this.options.height * 0.083 + 'px'
             }
         });
 
@@ -176,7 +176,7 @@ define(function(require, exports, module) {
                 color: '#FFFFFF',
                 letterSpacing: '1px',
                 fontWeight: 600,
-                lineHeight: this.options.height * 0.079 + 'px'
+                lineHeight: this.options.height * 0.083 + 'px'
             }
         });
 
@@ -249,7 +249,7 @@ define(function(require, exports, module) {
             });
             if (this.deckView.options.slideArrived) {
                 this.deckView.options.slideArrived = false;
-                this.deckView._eventOutput.emit('swipeItLeft');
+                this.deckView._eventOutput.emit('swipeLeft');
             }
             //this._eventOutput.emit('buttonToggle');
         }.bind(this));
@@ -266,7 +266,7 @@ define(function(require, exports, module) {
             });
             if (this.deckView.options.slideArrived) {
                 this.deckView.options.slideArrived = false;
-                this.deckView._eventOutput.emit('swipeItRight');
+                this.deckView._eventOutput.emit('swipeRight');
             }
         }.bind(this));
     }
