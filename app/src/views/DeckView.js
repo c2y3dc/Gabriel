@@ -11,10 +11,10 @@ define(function(require, exports, module) {
     var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
     var ImageSurface = require('famous/surfaces/ImageSurface');
+
     Transitionable.registerMethod('spring', SpringTransition);
     Transitionable.registerMethod('wall', WallTransition);
     Transitionable.registerMethod('snap', SnapTransition);
-
 
 
     function DeckView() {

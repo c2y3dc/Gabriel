@@ -46,7 +46,7 @@ define(function(require, exports, module) {
         _createFlipper.call(this);
         //var rootNode = _createCard.call(this);
         _createHandle.call(this);
-        _createShadowBox.call(this);
+        //_createShadowBox.call(this);
         _setListeners.call(this);
 
     }
@@ -71,53 +71,54 @@ define(function(require, exports, module) {
         job_type: 'Full Time'
     };
 
-    SlideView.prototype.fadeIn = function() {
-        this.shadowBox.setProperties({
-            pointerEvents: 'auto'
-        });
-        this.cardModifier.setTransform(
+    // SlideView.prototype.fadeIn = function() {
 
-            Transform.translate(0, 0, 350), {
-                duration: 200,
-                curve: Easing.easeOut
-            }
-        );
-        this.cardModifier.setTransform(
-            Transform.translate(0, 0, 1.5), {
-                duration: 200,
-                curve: Easing.easeIn
-            }
-        );
-        this.shadowModifier.setOpacity(0.85, {
-            duration: 1500,
-            curve: 'easeOut'
-        });
-    };
+    //     this.shadowBox.setProperties({
+    //         pointerEvents: 'auto'
+    //     });
 
-    SlideView.prototype.fadeOut = function() {
-        this.shadowBox.setProperties({
-            pointerEvents: 'none'
-        });
-        this.cardModifier.setTransform(
-            Transform.translate(0, 0, 350), {
-                duration: 200,
-                curve: Easing.easeOut
-            }
-        );
-        this.cardModifier.setTransform(
-            Transform.translate(0, 0, 1.5), {
-                duration: 200,
-                curve: Easing.easeIn
-            }
-        );
-        this.shadowModifier.setOpacity(0, {
-            duration: 1500,
-            curve: 'easeOut'
-        });
-    };
+    //     this.cardModifier.setTransform(
+
+    //         Transform.translate(0, 0, 350), {
+    //             duration: 200,
+    //             curve: Easing.easeOut
+    //         }
+    //     );
+    //     this.cardModifier.setTransform(
+    //         Transform.translate(0, 0, 1.5), {
+    //             duration: 200,
+    //             curve: Easing.easeIn
+    //         }
+    //     );
+
+    //     this.shadowModifier.setOpacity(0.85, {
+    //         duration: 1500,
+    //         curve: 'easeOut'
+    //     });
+    // };
+
+    // SlideView.prototype.fadeOut = function() {
+
+    //     this.cardModifier.setTransform(
+    //         Transform.translate(0, 0, 350), {
+    //             duration: 200,
+    //             curve: Easing.easeOut
+    //         }
+    //     );
+    //     this.cardModifier.setTransform(
+    //         Transform.translate(0, 0, 1.5), {
+    //             duration: 200,
+    //             curve: Easing.easeIn
+    //         }
+    //     );
+
+    //     this.shadowModifier.setOpacity(0, {
+    //         duration: 1500,
+    //         curve: 'easeOut'
+    //     });
+    // };
 
     function _createFlipper() {
-
         this.flipper = new Flipper();
         _createCardFront.call(this);
         _createCardBack.call(this);
@@ -163,13 +164,12 @@ define(function(require, exports, module) {
 
         this.frontNode.add(this.frontSurface);
 
-        // // this.flipForwardButton = new ImageSurface({
-        // //     size: [this.options.width * 0.07, this.options.width * 0.12],
-        // //     content: 'img/flip.svg'
-        // //         // properties: {
-        // //         //   border: '1px solid rgba(255, 255, 255, 0.85)'
-        // //         // }
-        // // });
+
+        // this.flipForwardButton = new ImageSurface({
+        //     size: [this.options.width * 0.07, this.options.width * 0.12],
+        //     content: 'img/flip.svg'
+        // });
+
 
         // this.flipModifier = new StateModifier({
         //     transform: Transform.translate(this.options.width * 0.395, this.options.height * 0, 0.9)
@@ -208,6 +208,9 @@ define(function(require, exports, module) {
         // //this.frontNode.add(jobTitleModifier).add(jobTitleSurface);
         // this.frontNode.add(this.companyLogoModifier).add(this.companyLogoSurface);
         //this.frontNode.add(jobLocationModifier).add(jobLocationSurface);
+
+        //this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
+
     }
 
     function _createCardBack() {
@@ -237,7 +240,7 @@ define(function(require, exports, module) {
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card'],
-            content: '<div class="back-card-desc">' + stripNewLines(truncate(this.options.job.description,1000))+ '</div>'
+            content: '<div class="back-card-desc">' + stripNewLines(truncate(this.options.job.description, 1000)) + '</div>'
         });
     }
 
@@ -264,16 +267,14 @@ define(function(require, exports, module) {
             var velocity = data.velocity;
             console.log(velocity);
             if (currentPosition[0] < -window.innerWidth / 6) {
-                // this._eventOutput.emit('swipeLeft0');
                 this._eventOutput.emit('swipeLeft');
             } else if (currentPosition[0] > window.innerWidth / 6) {
-                //this._eventOutput.emit('swipeRight0');
                 this._eventOutput.emit('swipeRight');
             } else {
                 this.options.position.set([0, 0], {
                     method: 'spring',
-                    dampingRatio : 1, 
-                    period : 200,
+                    dampingRatio: 1,
+                    period: 200,
                     velocity: velocity
                 });
             }
@@ -312,68 +313,8 @@ define(function(require, exports, module) {
                 background: 'transparent'
             }
         });
-
         this.mainNode.add(this.background);
     }
-
-    // function _createCard() {
-    //     var cardSizeX = this.options.size[0] - 2 * 5;
-    //     var cardSizeY = this.options.size[1] - 2 * 5;
-    //     var card = new ImageSurface({
-    //         size: [50, 50],
-    //         classes: ['circle-image'],
-    //         content: this.options.job.startup.logo_url,
-    //         properties: {
-    //             zIndex: 2
-    //         }
-    //     });
-
-    //     this.cardModifier = new StateModifier({
-    //         origin: [0, 0],
-    //         align: [0, 0],
-    //         transform: Transform.translate(20, 20, 2),
-    //     });
-
-    //     this.mainNode.add(this.cardModifier).add(card);
-
-    //     var title = new Surface({
-    //         size: [200, 75],
-    //         content: this.options.job.title,
-    //         properties: {
-    //             zIndex: 2,
-    //             color: 'black'
-    //         }
-    //     });
-
-    //     this.jobTitleModifier = new StateModifier({
-    //         origin: [0, 0],
-    //         align: [0, 0],
-    //         transform: Transform.translate(90, 25, 2),
-    //     });
-
-    //     this.mainNode.add(this.jobTitleModifier).add(title);
-
-    //     var description = new Surface({
-    //         size: [window.innerWidth - window.innerWidth / 5, window.innerHeight - window.innerHeight / 2],
-    //         content: (this.options.job.description.trunc(800) || 'no description'),
-    //         properties: {
-    //             zIndex: 2,
-    //             color: 'black',
-    //             overflow: 'hidden',
-    //             fontSize: '9px'
-    //         }
-    //     });
-
-    //     this.descriptionModifier = new StateModifier({
-    //         origin: [0, 0],
-    //         align: [0, 0],
-    //         transform: Transform.translate(20, 90, 2),
-    //     });
-
-    //     this.mainNode.add(this.descriptionModifier).add(description);
-
-    //     return this.mainNode;
-    // }
 
     function _createShadowBox() {
         this.shadowBox = new Surface({
@@ -382,13 +323,14 @@ define(function(require, exports, module) {
                 backgroundColor: 'gray',
                 pointerEvents: 'none'
             }
-        })
+        });
         this.shadowModifier = new StateModifier({
             opacity: 0,
             transform: Transform.translate(0, 0, -10),
         });
 
         this.mainNode.add(this.shadowModifier).add(this.shadowBox);
+        return this.mainNode;
     }
 
 
@@ -404,17 +346,13 @@ define(function(require, exports, module) {
         //     }
         // }.bind(this));
         this.backSurface.on('click', function() {
-            this.shadowModifier.setOpacity(0);
+            //this.shadowModifier.setOpacity(0);
             if (this.options.toggle) {
                 this._eventOutput.emit('flip');
-                this.shadowModifier.setOpacity(0);
+                //this.shadowModifier.setOpacity(0);
             }
-        }.bind(this));
-        this.backSurface.on('touchstart', function() {
-            this.shadowModifier.setOpacity(0);
         }.bind(this));
     }
 
     module.exports = SlideView;
-
 });
