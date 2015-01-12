@@ -257,8 +257,8 @@ define(function(require, exports, module) {
 
         this.backSurface = new Surface({
             size: this.options.size,
-            classes: ['back-card'],
-            content: '<div class="back-card-desc">' + content + '</div>'
+            classes: ['back-card', 'back-card-desc'],
+            content: '<div>' + content + '</div>'
         });
         console.log(this.options.job);
     }

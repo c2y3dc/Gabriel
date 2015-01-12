@@ -173,9 +173,9 @@ define(function(require, exports, module) {
         slide.frontSurface.setProperties({
             pointerEvents: 'none'
         });
-        // slide.backSurface.setProperties({
-        //     pointerEvents: 'none'
-        // });
+        slide.backSurface.setProperties({
+            pointerEvents: 'none'
+        });
         slide.flipForwardButton.setProperties({
             pointerEvents: 'none'
         });
@@ -185,9 +185,9 @@ define(function(require, exports, module) {
             slide.frontSurface.setProperties({
                 pointerEvents: 'auto'
             });
-            // slide.backSurface.setProperties({
-            //     pointerEvents: 'auto'
-            // });
+            slide.backSurface.setProperties({
+                pointerEvents: 'auto'
+            });
             slide.flipForwardButton.setProperties({
                 pointerEvents: 'auto'
             });
