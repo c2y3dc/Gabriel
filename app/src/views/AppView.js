@@ -77,7 +77,7 @@ define(function(require, exports, module) {
     AppView.DEFAULT_OPTIONS = {
         userData: {},
         angel: {},
-        initialData: {},
+        jobs: {},
         slideLeftX: window.innerWidth - window.innerWidth / 8,
         transition: {
             duration: 500,
@@ -330,7 +330,7 @@ define(function(require, exports, module) {
 
     function _createPageView() {
         this.pageView = new PageView({
-            initialData: this.landingView.options.initialData,
+            jobs: this.landingView.options.jobs,
             angel: this.options.angel
         });
         this.pageModifier = new StateModifier({

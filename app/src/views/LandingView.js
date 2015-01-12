@@ -29,6 +29,7 @@ define(function(require, exports, module) {
         height: window.innerHeight,
         angel: {},
         initialData: {},
+        jobs: {}
     };
 
     function _createBackground() {
@@ -158,7 +159,9 @@ define(function(require, exports, module) {
             }).done(function(result) {
                 //this event triggers splash page:
                 this._eventOutput.emit('loggedin')
-
+                this.rootModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0), {
+                    duration: 500
+                });
                 this.options.angel = result;
                 ANGEL = result;
                 result.get('/1/me').done(function(data) {
@@ -168,20 +171,40 @@ define(function(require, exports, module) {
                 }.bind(this)).fail(function(oops) {
                     console.log('unable to get user data');
                 }.bind(this));
+                var jobs = {};
+                var pageCount = 1;
+                var max = 2;
+                var index = 0;
+                while (pageCount <= max) {
+                    result.get('/1/tags/1692/jobs', {
+                        data: {
+                            page: pageCount
+                        }
+                    }).done(function(data) {
 
-                result.get('/1/jobs').done(function(data) {
-                    this.options.initialData = data;
-                    console.log(data);
-                    this._eventOutput.emit('loaded');
-                    // this.rootModifier.setOpacity(0, {
-                    //     duration: 1000
-                    // });
-                    this.rootModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0), {
-                        duration: 500
-                    });
-                }.bind(this)).fail(function(oops) {
-                    console.log('unable to get job data');
-                }.bind(this));
+                        data.jobs.forEach(function(job) {
+                            if (job.job_type === 'full-time' && job.salary_min > 70000 && job.currency_code === "USD") {
+                                jobs[index] = job;
+                                index++;
+                            }
+                        }.bind(this));
+                        if (pageCount > max) {
+                            this.options.jobs = jobs;
+                            this._eventOutput.emit('loaded');
+                        }
+
+                        console.log(jobs);
+
+                        // this.rootModifier.setOpacity(0, {
+                        //     duration: 1000
+                        // });
+
+                    }.bind(this)).fail(function(oops) {
+                        console.log('unable to get job data');
+                    }.bind(this));
+                    pageCount++;
+                }
+
             }.bind(this));
 
         }.bind(this));

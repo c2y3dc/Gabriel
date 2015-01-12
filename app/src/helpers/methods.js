@@ -77,10 +77,10 @@ function textResize(id) {
 }
 
 function newLine2Break(str, is_xhtml) {
-    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br /><br />' : '<br><br>';
     return  str.replace(/[\r\n]{1,}/g, breakTag);
 }
 
 function stripNewLines(str){
-    return str.replace(/[\r\n]{1,}/g, "<br />");
+    return str.replace(/[\r\n]{1,}/g, "<br /><br />");
 }

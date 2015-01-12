@@ -41,11 +41,10 @@ define(function(require, exports, module) {
 
     DeckView.DEFAULT_OPTIONS = {
         slideArrived: true,
-        initialData: {},
+        jobs: {},
         height: window.innerHeight,
         width: window.innerWidth,
         size: [window.innerWidth * 0.858, window.innerHeight * 0.688],
-        jobs: undefined,
         lightboxOpts: {
             inTransform: Transform.translate(300, 0, 0),
             outTransform: Transform.translate(-500, 0, 0),
@@ -226,8 +225,8 @@ define(function(require, exports, module) {
     function _createSlides() {
         this.slides = {};
         this.currentIndex = 0;
-        for (var i = 0; i < this.options.initialData.jobs.length; i++) {
-            var tags = this.options.initialData.jobs[i].tags;
+        for (var i = 0; i < Object.keys(this.options.jobs).length /5; i++) {
+            var tags = this.options.jobs[i].tags;
             var skills = [];
             var location = [];
 
@@ -242,8 +241,8 @@ define(function(require, exports, module) {
 
             var slide = new SlideView({
                 size: this.options.size,
-                job: this.options.initialData.jobs[i],
-                logo_url: this.options.initialData.jobs[i].startup.logo_url,
+                job: this.options.jobs[i],
+                logo_url: this.options.jobs[i].startup.logo_url,
                 skills: skills,
                 location: location
             });
