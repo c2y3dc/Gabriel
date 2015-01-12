@@ -43,3 +43,18 @@ function exitApp() {
         navigator.device.exitApp();
     }
 }
+
+function jobTags(tags, num) {
+    if(tags && tags != ''){
+        return tags.slice(0, num).join(', ');
+    } else {
+        return 'No skills provided'
+    }
+}
+
+
+
+
+
+
+

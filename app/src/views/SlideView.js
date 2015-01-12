@@ -78,7 +78,7 @@ define(function(require, exports, module) {
 
             Transform.translate(0, 0, 350), {
                 duration: 200,
-                curve: Easing.easeOut    
+                curve: Easing.easeOut
             }
         );
         this.cardModifier.setTransform(
@@ -140,21 +140,21 @@ define(function(require, exports, module) {
             classes: ['front-card'],
             content: [
                 '<div class="card_header">',
-                  '<img class="logo_url" src="', this.options.job.startup.logo_url, '">',
-                  '<p class="startup_name">', this.options.job.startup.name, '</p>',
-                  '<p class="high_concept">', truncate(this.options.job.startup.high_concept, 120), '</p>',
+                '<img class="logo_url" src="', this.options.job.startup.logo_url, '">',
+                '<p class="startup_name">', this.options.job.startup.name, '</p>',
+                '<p class="high_concept">', truncate(this.options.job.startup.high_concept, 120), '</p>',
                 '</div>',
                 '<div class="divider">', '</div>',
                 '<div class="jobInfo">',
-                  '<p class="job_title">', capitalizeFirst(this.options.job.title), '</p>',
-                  '<p class="skills">', '<span class="secondary-text">Tech Stack</span><br>', this.options.skills, '</p>',
+                '<p class="job_title">', capitalizeFirst(this.options.job.title), '</p>',
+                '<p class="skills">', '<span class="secondary-text">Skills</span><br>', jobTags(this.options.skills, 6), '</p>',
                 '</div>',
                 '<div class="compensation">',
-                  '<p>', '<span class="secondary-text">Compensation</span><br>',
-                  capitalizeFirst(this.options.job.job_type), '<br>',
-                  salaryFormat(this.options.job.salary_min, this.options.job.salary_max), '<br>',
-                  equityFormat(this.options.job.equity_min, this.options.job.equity_max),
-                  '</p>',
+                '<p>', '<span class="secondary-text">Compensation</span><br>',
+                capitalizeFirst(this.options.job.job_type), '<br>',
+                salaryFormat(this.options.job.salary_min, this.options.job.salary_max), '<br>',
+                equityFormat(this.options.job.equity_min, this.options.job.equity_max),
+                '</p>',
                 '</div>'
             ].join('')
         });
@@ -164,9 +164,9 @@ define(function(require, exports, module) {
         this.flipForwardButton = new ImageSurface({
             size: [this.options.width * 0.07, this.options.width * 0.12],
             content: 'img/flip.svg'
-            // properties: {
-            //   border: '1px solid rgba(255, 255, 255, 0.85)'
-            // }
+                // properties: {
+                //   border: '1px solid rgba(255, 255, 255, 0.85)'
+                // }
         });
 
         this.flipModifier = new StateModifier({
@@ -210,21 +210,21 @@ define(function(require, exports, module) {
 
     function _createCardBack() {
 
-            var content = '';
+        var content = '';
 
         descParser = function() {
             var textString = this.options.job.description.slice();
             var spaceCount = 0;
             var lastIndex = 0;
-            for (var i=0; i<textString.length; i++){
+            for (var i = 0; i < textString.length; i++) {
                 if (spaceCount > 5) {
                     var paragraph = '<p>' + textString.slice(lastIndex, i) + '</p>';
                     content = content + paragraph;
                     spaceCount = 0;
-                }else if (i === textString.length-1){
+                } else if (i === textString.length - 1) {
                     var paragraph = '<p>' + textString.slice(lastIndex) + '</p>';
                     content = content + paragraph;
-                }else if (textString[i] === ' ') {
+                } else if (textString[i] === ' ') {
                     spaceCount++;
                 }
             }
