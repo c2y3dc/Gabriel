@@ -19,7 +19,8 @@ define(function(require, exports, module) {
     var Transitionable = require('famous/transitions/Transitionable');
     var SnapTransition = require('famous/transitions/SnapTransition');
     Transitionable.registerMethod('spring', SnapTransition);
-
+   
+    
     require('helpers/methods');
 
 
@@ -215,32 +216,62 @@ define(function(require, exports, module) {
 
     function _createCardBack() {
 
-        //var content = '';
 
-        // var descParser = function() {
+            var content = this.options.job.description.slice();
+            if (content.length===0) content = 'No Description Provided';
+
+
+        // descParser = function() {
         //     var textString = this.options.job.description.slice();
+
+        //     console.log(textString);
         //     var spaceCount = 0;
         //     var lastIndex = 0;
-        //     for (var i = 0; i < textString.length; i++) {
-        //         if (spaceCount > 5) {
+        //     for (var i=0; i<textString.length; i++){
+        //         if (spaceCount > 1) {
         //             var paragraph = '<p>' + textString.slice(lastIndex, i) + '</p>';
         //             content = content + paragraph;
         //             spaceCount = 0;
-        //         } else if (i === textString.length - 1) {
+        //             lastIndex = i;
+        //         }else if (i === textString.length-1){
         //             var paragraph = '<p>' + textString.slice(lastIndex) + '</p>';
         //             content = content + paragraph;
-        //         } else if (textString[i] === ' ') {
-        //             spaceCount++;
+        //             return;
+        //         }else {
+        //             if (textString[i] === ' ') {
+        //                 spaceCount++;
+        //             } else {
+        //                 spaceCount = 0;
+        //             }
         //         }
+        //         // console.log('text', textString, 'i', i, 'spaceCount', spaceCount);
+
         //     }
         // }
 
         // descParser.call(this);
+// <<<<<<< HEAD
+
+//         this.backSurface = new Surface({
+//             size: this.options.size,
+//             classes: ['back-card'],
+//             content: '<div class="back-card-desc">' + stripNewLines(truncate(this.options.job.description, 1000)) + '</div>'
+// =======
+
+        content = content.replace(/\s\s/g,"</div></br><div>")
+                    .replace(/: /g,":</div></br><div>")
+                    .replace(/\s-\s/g,"</div></div>-")
+                    .replace(/\s\s/g,"</div></br><div>")
+                    .replace(/\s([^A-Za-z0-9,.()\/])/g,"</div><div>$1")
+                    .replace(/-([A-Z])/g,"</div><div>-$1");
+
+        content = '<div>' + content + '</div>';
 
         this.backSurface = new Surface({
             size: this.options.size,
-            classes: ['back-card'],
-            content: '<div class="back-card-desc">' + stripNewLines(truncate(this.options.job.description, 1000)) + '</div>'
+            classes: ['back-card', 'back-card-desc'],
+            content: '<div>' + content + '</div>'
+
         });
     }
 
