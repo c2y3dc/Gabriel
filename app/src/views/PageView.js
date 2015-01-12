@@ -36,10 +36,9 @@ define(function(require, exports, module) {
 
     PageView.DEFAULT_OPTIONS = {
 
-        initialData: {},
+        jobs: {},
         width: window.innerWidth,
         height: window.innerHeight,
-        jobs: undefined,
         headerSize: window.innerHeight * 0.1127,
         headerWidth: window.innerWidth,
         footerSize: window.innerHeight * 0.167,
@@ -146,7 +145,7 @@ define(function(require, exports, module) {
                 color: '#8F8F8F',
                 letterSpacing: '1px',
                 fontWeight: 600,
-                lineHeight: this.options.height * 0.079 + 'px'
+                lineHeight: this.options.height * 0.083 + 'px'
             }
         });
 
@@ -163,7 +162,7 @@ define(function(require, exports, module) {
                 color: '#FFFFFF',
                 letterSpacing: '1px',
                 fontWeight: 600,
-                lineHeight: this.options.height * 0.079 + 'px'
+                lineHeight: this.options.height * 0.083 + 'px'
             }
         });
 
@@ -202,7 +201,7 @@ define(function(require, exports, module) {
 
     function _createDeckView() {
         this.deckView = new DeckView({
-            initialData: this.options.initialData
+            jobs: this.options.jobs
         });
 
         this.deckModifier = new StateModifier({
@@ -213,6 +212,10 @@ define(function(require, exports, module) {
     }
 
     function _setListeners() {
+
+        this.deckView.on('firstSlideReady', function() {
+            this._eventOutput.emit('firstSlideReady');
+        }.bind(this));
 
         this.profileSurface.on('click', function() {
             this._eventOutput.emit('menuToggle');
@@ -230,7 +233,7 @@ define(function(require, exports, module) {
             });
             if (this.deckView.options.slideArrived) {
                 this.deckView.options.slideArrived = false;
-                this.deckView._eventOutput.emit('swipeLeft');
+                this.deckView._eventOutput.emit('swipeItLeft');
             }
         }.bind(this));
 
@@ -246,7 +249,7 @@ define(function(require, exports, module) {
             });
             if (this.deckView.options.slideArrived) {
                 this.deckView.options.slideArrived = false;
-                this.deckView._eventOutput.emit('swipeRight');
+                this.deckView._eventOutput.emit('swipeItRight');
             }
         }.bind(this));
     }
