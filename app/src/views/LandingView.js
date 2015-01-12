@@ -17,7 +17,6 @@ define(function(require, exports, module) {
         _createName.call(this);
         _createTagLine.call(this);
         // _createWings.call(this);
-
         _setListeners.call(this);
         //console.log('INSIDE CONSTRUCTOR',this.options);
     }
@@ -29,7 +28,7 @@ define(function(require, exports, module) {
         width: window.innerWidth,
         height: window.innerHeight,
         angel: {},
-        initialData: {}
+        initialData: {},
     };
 
     function _createBackground() {
@@ -172,6 +171,7 @@ define(function(require, exports, module) {
 
                 result.get('/1/jobs').done(function(data) {
                     this.options.initialData = data;
+                    console.log(data);
                     this._eventOutput.emit('loaded');
                     // this.rootModifier.setOpacity(0, {
                     //     duration: 1000

@@ -75,3 +75,12 @@ function textResize(id) {
         console.log(currentFontSize);
     }
 }
+
+function newLine2Break(str, is_xhtml) {
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+    return  str.replace(/[\r\n]{1,}/g, breakTag);
+}
+
+function stripNewLines(str){
+    return str.replace(/[\r\n]{1,}/g, "<br />");
+}

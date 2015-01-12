@@ -163,19 +163,19 @@ define(function(require, exports, module) {
 
         this.frontNode.add(this.frontSurface);
 
-        this.flipForwardButton = new ImageSurface({
-            size: [this.options.width * 0.07, this.options.width * 0.12],
-            content: 'img/flip.svg'
-                // properties: {
-                //   border: '1px solid rgba(255, 255, 255, 0.85)'
-                // }
-        });
+        // // this.flipForwardButton = new ImageSurface({
+        // //     size: [this.options.width * 0.07, this.options.width * 0.12],
+        // //     content: 'img/flip.svg'
+        // //         // properties: {
+        // //         //   border: '1px solid rgba(255, 255, 255, 0.85)'
+        // //         // }
+        // // });
 
-        this.flipModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.395, this.options.height * 0, 0.9)
-        });
+        // this.flipModifier = new StateModifier({
+        //     transform: Transform.translate(this.options.width * 0.395, this.options.height * 0, 0.9)
+        // });
 
-        this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
+        // this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
 
 
         // this.companyBackgroundSurface = new ImageSurface({
@@ -212,32 +212,32 @@ define(function(require, exports, module) {
 
     function _createCardBack() {
 
-        var content = '';
+        //var content = '';
 
-        var descParser = function() {
-            var textString = this.options.job.description.slice();
-            var spaceCount = 0;
-            var lastIndex = 0;
-            for (var i = 0; i < textString.length; i++) {
-                if (spaceCount > 5) {
-                    var paragraph = '<p>' + textString.slice(lastIndex, i) + '</p>';
-                    content = content + paragraph;
-                    spaceCount = 0;
-                } else if (i === textString.length - 1) {
-                    var paragraph = '<p>' + textString.slice(lastIndex) + '</p>';
-                    content = content + paragraph;
-                } else if (textString[i] === ' ') {
-                    spaceCount++;
-                }
-            }
-        }
+        // var descParser = function() {
+        //     var textString = this.options.job.description.slice();
+        //     var spaceCount = 0;
+        //     var lastIndex = 0;
+        //     for (var i = 0; i < textString.length; i++) {
+        //         if (spaceCount > 5) {
+        //             var paragraph = '<p>' + textString.slice(lastIndex, i) + '</p>';
+        //             content = content + paragraph;
+        //             spaceCount = 0;
+        //         } else if (i === textString.length - 1) {
+        //             var paragraph = '<p>' + textString.slice(lastIndex) + '</p>';
+        //             content = content + paragraph;
+        //         } else if (textString[i] === ' ') {
+        //             spaceCount++;
+        //         }
+        //     }
+        // }
 
-        descParser.call(this);
+        // descParser.call(this);
 
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card'],
-            content: '<div class="back-card-desc">' + content + '</div>'
+            content: '<div class="back-card-desc">' + stripNewLines(truncate(this.options.job.description,1000))+ '</div>'
         });
     }
 
@@ -316,64 +316,64 @@ define(function(require, exports, module) {
         this.mainNode.add(this.background);
     }
 
-    function _createCard() {
-        var cardSizeX = this.options.size[0] - 2 * 5;
-        var cardSizeY = this.options.size[1] - 2 * 5;
-        var card = new ImageSurface({
-            size: [50, 50],
-            classes: ['circle-image'],
-            content: this.options.job.startup.logo_url,
-            properties: {
-                zIndex: 2
-            }
-        });
+    // function _createCard() {
+    //     var cardSizeX = this.options.size[0] - 2 * 5;
+    //     var cardSizeY = this.options.size[1] - 2 * 5;
+    //     var card = new ImageSurface({
+    //         size: [50, 50],
+    //         classes: ['circle-image'],
+    //         content: this.options.job.startup.logo_url,
+    //         properties: {
+    //             zIndex: 2
+    //         }
+    //     });
 
-        this.cardModifier = new StateModifier({
-            origin: [0, 0],
-            align: [0, 0],
-            transform: Transform.translate(20, 20, 2),
-        });
+    //     this.cardModifier = new StateModifier({
+    //         origin: [0, 0],
+    //         align: [0, 0],
+    //         transform: Transform.translate(20, 20, 2),
+    //     });
 
-        this.mainNode.add(this.cardModifier).add(card);
+    //     this.mainNode.add(this.cardModifier).add(card);
 
-        var title = new Surface({
-            size: [200, 75],
-            content: this.options.job.title,
-            properties: {
-                zIndex: 2,
-                color: 'black'
-            }
-        });
+    //     var title = new Surface({
+    //         size: [200, 75],
+    //         content: this.options.job.title,
+    //         properties: {
+    //             zIndex: 2,
+    //             color: 'black'
+    //         }
+    //     });
 
-        this.jobTitleModifier = new StateModifier({
-            origin: [0, 0],
-            align: [0, 0],
-            transform: Transform.translate(90, 25, 2),
-        });
+    //     this.jobTitleModifier = new StateModifier({
+    //         origin: [0, 0],
+    //         align: [0, 0],
+    //         transform: Transform.translate(90, 25, 2),
+    //     });
 
-        this.mainNode.add(this.jobTitleModifier).add(title);
+    //     this.mainNode.add(this.jobTitleModifier).add(title);
 
-        var description = new Surface({
-            size: [window.innerWidth - window.innerWidth / 5, window.innerHeight - window.innerHeight / 2],
-            content: (this.options.job.description.trunc(800) || 'no description'),
-            properties: {
-                zIndex: 2,
-                color: 'black',
-                overflow: 'hidden',
-                fontSize: '9px'
-            }
-        });
+    //     var description = new Surface({
+    //         size: [window.innerWidth - window.innerWidth / 5, window.innerHeight - window.innerHeight / 2],
+    //         content: (this.options.job.description.trunc(800) || 'no description'),
+    //         properties: {
+    //             zIndex: 2,
+    //             color: 'black',
+    //             overflow: 'hidden',
+    //             fontSize: '9px'
+    //         }
+    //     });
 
-        this.descriptionModifier = new StateModifier({
-            origin: [0, 0],
-            align: [0, 0],
-            transform: Transform.translate(20, 90, 2),
-        });
+    //     this.descriptionModifier = new StateModifier({
+    //         origin: [0, 0],
+    //         align: [0, 0],
+    //         transform: Transform.translate(20, 90, 2),
+    //     });
 
-        this.mainNode.add(this.descriptionModifier).add(description);
+    //     this.mainNode.add(this.descriptionModifier).add(description);
 
-        return this.mainNode;
-    }
+    //     return this.mainNode;
+    // }
 
     function _createShadowBox() {
         this.shadowBox = new Surface({
@@ -398,11 +398,11 @@ define(function(require, exports, module) {
                 this._eventOutput.emit('flip');
             }
         }.bind(this));
-        this.flipForwardButton.on('click', function() {
-            if (!this.options.toggle) {
-                this._eventOutput.emit('flip');
-            }
-        }.bind(this));
+        // this.flipForwardButton.on('click', function() {
+        //     if (!this.options.toggle) {
+        //         this._eventOutput.emit('flip');
+        //     }
+        // }.bind(this));
         this.backSurface.on('click', function() {
             this.shadowModifier.setOpacity(0);
             if (this.options.toggle) {
