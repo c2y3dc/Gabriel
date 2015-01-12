@@ -177,13 +177,17 @@ define(function(require, exports, module) {
 
 
     function _setListeners() {
+
         this.pageView.on('firstSlideReady', function() {
             _removeLoadingView.call(this);
         }.bind(this));
 
+
         this.pageView.on('menuToggle', this.toggleGabrielPage.bind(this));
 
         this.menuView.on('gabrielOnly', this.showGabrielPage.bind(this));
+
+
     }
 
     module.exports = AppView;
