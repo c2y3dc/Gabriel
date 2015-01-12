@@ -202,36 +202,36 @@ define(function(require, exports, module) {
 //         //     console.log('fadeout called')
 //         // }
 // =======
-        slide.frontSurface.setProperties({
-            pointerEvents: 'none'
-        });
-        slide.backSurface.setProperties({
-            pointerEvents: 'none'
-        });
-        slide.flipForwardButton.setProperties({
-            pointerEvents: 'none'
-        });
+        // slide.frontSurface.setProperties({
+        //     pointerEvents: 'none'
+        // });
+        // slide.backSurface.setProperties({
+        //     pointerEvents: 'none'
+        // });
+        // slide.flipForwardButton.setProperties({
+        //     pointerEvents: 'none'
+        // });
 
-        //adds click/touch back in after animation:
-        setTimeout(function(){
-            slide.frontSurface.setProperties({
-                pointerEvents: 'auto'
-            });
-            slide.backSurface.setProperties({
-                pointerEvents: 'auto'
-            });
-            slide.flipForwardButton.setProperties({
-                pointerEvents: 'auto'
-            });
-        }.bind(this), 500);
+        // //adds click/touch back in after animation:
+        // setTimeout(function(){
+        //     slide.frontSurface.setProperties({
+        //         pointerEvents: 'auto'
+        //     });
+        //     slide.backSurface.setProperties({
+        //         pointerEvents: 'auto'
+        //     });
+        //     slide.flipForwardButton.setProperties({
+        //         pointerEvents: 'auto'
+        //     });
+        // }.bind(this), 500);
 
-        if(!slide.options.toggle){
-            slide.fadeIn();
-            console.log('fadein called')
-        }else{
-            slide.fadeOut();
-            console.log('fadeout called')
-        }
+        // if(!slide.options.toggle){
+        //     slide.fadeIn();
+        //     console.log('fadein called')
+        // }else{
+        //     slide.fadeOut();
+        //     console.log('fadeout called')
+        // }
 
         slide.flipper.setAngle(angle, {
             curve: 'easeOut',
