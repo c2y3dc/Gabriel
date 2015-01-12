@@ -19,6 +19,7 @@ define(function(require, exports, module) {
 
     function DeckView() {
         View.apply(this, arguments);
+        this.pageCount = 1;
         this.rootModifier = new StateModifier({
             size: this.options.size,
             transform: Transform.translate(0, this.options.height * 0.0444, 0),
@@ -29,8 +30,7 @@ define(function(require, exports, module) {
         this.mainNode = this.add(this.rootModifier);
 
         _createLightbox.call(this);
-        _createSlides.call(this, function(){
-        });
+        _createSlides.call(this, function() {});
 
         this.on('swipeItLeft', this.swipeLeft.bind(this));
         this.on('swipeItRight', this.swipeRight.bind(this));
@@ -77,21 +77,21 @@ define(function(require, exports, module) {
 
         //Saves current startup's id
         var sid = this.slides[this.currentIndex].options.job.startup.id;
-        
+
         // //Archive POST REQ
         console.log("startup_id", sid);
 
-            ANGEL.post('/1/talent/pairing', {
+        ANGEL.post('/1/talent/pairing', {
             data: {
                 startup_id: sid,
                 user_id: ME.id,
                 user_interested: 1
             }
-            }).done(function(data) {
-                console.log("Archive doneRes", data);
-            }.bind(this)).fail(function(oops) {
-                console.log("already archive'd / unable to archive", oops);
-            }.bind(this));
+        }).done(function(data) {
+            console.log("Archive doneRes", data);
+        }.bind(this)).fail(function(oops) {
+            console.log("already archive'd / unable to archive", oops);
+        }.bind(this));
 
         //UNFOLLOWS POST REQ
         // ANGEL.del('/1/follows', {
@@ -123,20 +123,20 @@ define(function(require, exports, module) {
         var sid = this.slides[this.currentIndex].options.job.startup.id;
 
         console.log("startup_id", sid);
-        
+
         // //Interested POST REQ
-            ANGEL.post('/1/talent/pairing', {
+        ANGEL.post('/1/talent/pairing', {
             data: {
                 startup_id: sid,
                 user_id: ME.id,
                 user_note: "",
                 user_interested: 1
             }
-            }).done(function(data) {
-                console.log("Intro doneRes", data);
-            }.bind(this)).fail(function(oops) {
-                console.log("already intro'd / unable to intro", oops);
-            }.bind(this));
+        }).done(function(data) {
+            console.log("Intro doneRes", data);
+        }.bind(this)).fail(function(oops) {
+            console.log("already intro'd / unable to intro", oops);
+        }.bind(this));
 
         //FOLLOWS POST REQ
         // ANGEL.post('/1/follows', {
@@ -211,7 +211,31 @@ define(function(require, exports, module) {
 
     DeckView.prototype.showNextSlide = function(callback) {
         this.currentIndex++;
-        if (this.currentIndex === Object.keys(this.slides).length) this.currentIndex = 0;
+        if (this.currentIndex === Object.keys(this.slides).length) {
+            this.currentIndex = 0;
+            this.pageCount++;
+            this.options.jobs = {};
+            var index = 0;
+            ANGEL.get('/1/tags/1692/jobs', {
+                data: {
+                    page: this.pageCount
+                }
+            }).done(function(data) {
+                console.log(data);
+                data.jobs.forEach(function(job) {
+                    if (job.job_type === 'full-time' && job.salary_min > 70000 && job.currency_code === "USD") {
+                        this.options.jobs[index] = job;
+                        index++;
+                    }
+                }.bind(this));
+
+                _createSlides.call(this);
+
+            }.bind(this)).fail(function(oops) {
+                console.log('unable to get job data');
+            }.bind(this));
+
+        }
         this.slides[this.currentIndex].options.position.set([0, 0]);
         var slide = this.slides[this.currentIndex];
         this.lightbox.show(slide, callback);
@@ -225,16 +249,16 @@ define(function(require, exports, module) {
     function _createSlides() {
         this.slides = {};
         this.currentIndex = 0;
-        for (var i = 0; i < Object.keys(this.options.jobs).length /5; i++) {
+        for (var i = 0; i < Object.keys(this.options.jobs).length; i++) {
             var tags = this.options.jobs[i].tags;
             var skills = [];
             var location = [];
 
-            tags.forEach(function(element){
-                if(element.tag_type === "SkillTag"){
+            tags.forEach(function(element) {
+                if (element.tag_type === "SkillTag") {
                     skills.push(element.display_name);
                 }
-                if(element.tag_type === "LocationTag"){
+                if (element.tag_type === "LocationTag") {
                     location.push(element.display_name);
                 }
             });
@@ -246,7 +270,7 @@ define(function(require, exports, module) {
                 skills: skills,
                 location: location
             });
-           
+
 
             this.slides[i] = slide;
             // adding click listener
@@ -260,13 +284,13 @@ define(function(require, exports, module) {
                 this.options.slideArrived = !this.options.slideArrived;
             }.bind(this));
             slide.on('touchend', function() {
-               this.options.slideArrived = !this.options.slideArrived;
+                this.options.slideArrived = !this.options.slideArrived;
             }.bind(this));
         }
         // console.log('SLIDES ARRAY', this.slides);
-        this.showNextSlide(function(){
+        this.showNextSlide(function() {
             this._eventOutput.emit('firstSlideReady');
-        }.bind(this));   
+        }.bind(this));
     }
 
     module.exports = DeckView;

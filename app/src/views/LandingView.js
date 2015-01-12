@@ -173,7 +173,7 @@ define(function(require, exports, module) {
                 }.bind(this));
                 var jobs = {};
                 var pageCount = 1;
-                var max = 2;
+                var max = 1;
                 var index = 0;
                 while (pageCount <= max) {
                     result.get('/1/tags/1692/jobs', {
