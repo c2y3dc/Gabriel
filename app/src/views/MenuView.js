@@ -59,8 +59,7 @@ define(function(require, exports, module) {
     function _setListeners() {
         // Menu surface
         this.menuHeaderView.cancelSurface.on('click', function() {
-            console.log('im clicked');
-            this._eventOutput.emit('gabrielOnly');
+            this._eventOutput.emit('menuToggle');
         }.bind(this));
     }
     module.exports = MenuView;

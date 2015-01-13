@@ -13,6 +13,7 @@ define(function(require, exports, module) {
     var GenericSync = require("famous/inputs/GenericSync");
     var MouseSync = require("famous/inputs/MouseSync");
     var TouchSync = require("famous/inputs/TouchSync");
+    var ModifierChain = require('famous/modifiers/ModifierChain');
 
     Transitionable.registerMethod('spring', SpringTransition);
     Transitionable.registerMethod('wall', WallTransition);
@@ -70,43 +71,35 @@ define(function(require, exports, module) {
 
     // GabrielPage Toggle
     AppView.prototype.showFullGabrielPage = function(callback) {
-        this.pageModifier.setTransform(Transform.translate(0, 0, 0.9), this.options.transition, callback);
+        //this.pageModifier.setTransform(Transform.translate(0, 0, 0.9), this.options.transition, callback);
     };
 
     AppView.prototype.removeGabrielPage = function() {
-        this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), {
-            duration: 450,
-            curve: 'easeOut'
-        });
+        // this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), {
+        //     duration: 450,
+        //     curve: 'easeOut'
+        // });
     };
 
     AppView.prototype.toggleGabrielPage = function() {
-        if (this.gabrielMenu) {
+        // if (this.gabrielMenu) {
 
-            // this.menuModifier.setTransform(Transform.translate(0, 0, 0));
-            this.removeGabrielPage();
-            this.showFullMenuPage();
-        } else {
-            this.showFullGabrielPage();
-        }
-        this.gabrielMenu = !this.gabrielMenu;
+        //     // this.menuModifier.setTransform(Transform.translate(0, 0, 0));
+        //     this.showFullMenuPage();
+        // } else {
+        //     this.showFullGabrielPage();
+        // }
+        // this.gabrielMenu = !this.gabrielMenu;
     };
 
     AppView.prototype.showGabrielPage = function() {
-        this.gabrielMenu = true;
-        this.showFullGabrielPage(function() {
-            this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, -100), this.options.transition);
-        }.bind(this));
+        // this.gabrielMenu = true;
+        // this.showFullGabrielPage(function() {
+        //     this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, -100), this.options.transition);
+        // }.bind(this));
     };
 
-    // MenuPage Toggle
-    AppView.prototype.showFullMenuPage = function() {
-        this.menuModifier.setTransform(Transform.translate(0, 0, 0));
-    };
-
-    AppView.prototype.removeMenuPage = function() {
-        this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), this.options.transition);
-    };
+   
 
     AppView.prototype.toggleMenuPage = function() {
         if (this.gabrielMenu) {
@@ -118,10 +111,10 @@ define(function(require, exports, module) {
         this.gabrielMenu = !this.gabrielMenu;
     };
 
-    AppView.prototype.showMenuPage = function() {
-        this.gabrielMenu = true;
-        this.showFullMenuPage();
-    };
+    // AppView.prototype.showMenuPage = function() {
+    //     this.gabrielMenu = true;
+    //     this.showFullMenuPage();
+    // };
 
 
     function _createLoadingPage() {
@@ -148,16 +141,49 @@ define(function(require, exports, module) {
         this.add(this.pageModifier).add(this.pageView);
     }
 
+     // MenuPage Toggle
+    AppView.prototype.showFullMenuPage = function() {
+        this.pageModifier.setOpacity(0, {duration: 275});
+        this.pageModifier.setTransform(Transform.translate(0,0,-700), {duration: 275});
+        this.menuView.xState.setTransform(Transform.translate(0,0,700), {duration: 60}, function(){
+            this.menuView.xState.setTransform(Transform.translate(0,0,0.9), {duration: 275});
+            this.menuView.xState.setOpacity(1, {duration: 275});
+        }.bind(this));
+    };
+
+    AppView.prototype.removeMenuPage = function() {
+        this.pageModifier.setOpacity(1, {duration: 300});
+        this.pageModifier.setTransform(Transform.translate(0,0,0.1), {duration: 300});
+        this.menuView.xState.setOpacity(0, {duration: 200});
+        this.menuView.xState.setTransform(Transform.translate(0,0,700), {duration: 200}, function(){
+            this.menuView.xState.setTransform(Transform.translate(-window.innerWidth * 2,0,700), {duration: 0 });
+        }.bind(this));
+    };
+
     function _createMenuView() {
         this.menuView = new MenuView({
             userData: this.landingView.options.userData,
             landingView: this.landingView
         });
-        this.menuModifier = new StateModifier({
-            transfoårm: Transform.translate(-window.innerWidth, 0, 0)
+
+        this.menuView.xState = new StateModifier({
+            opacity: 0,
+            transform: Transform.translate(-window.innerWidth * 2, 0, 700)
         });
 
-        this.add(this.menuModifier).add(this.menuView);
+        this.menuView.yState = new StateModifier();
+
+        this.menuView.zState = new StateModifier();
+
+        this.menuView.chain = new ModifierChain();
+
+        this.menuView.chain.addModifier(this.menuView.xState);
+
+        this.menuView.chain.addModifier(this.menuView.yState);
+
+        this.add(this.menuView.chain).add(this.menuView);
+
+       
     }
 
     function _createLandingView() {
@@ -177,9 +203,10 @@ define(function(require, exports, module) {
             _removeLoadingView.call(this);
         }.bind(this));
 
-        this.pageView.on('menuToggle', this.toggleGabrielPage.bind(this));
+        this.pageView.on('menuToggle', this.toggleMenuPage.bind(this));
+        this.menuView.on('menuToggle', this.toggleMenuPage.bind(this));
 
-        this.menuView.on('gabrielOnly', this.showGabrielPage.bind(this));
+        //this.menuView.on('gabrielOnly', this.showGabrielPage.bind(this));
     }
 
     module.exports = AppView;
