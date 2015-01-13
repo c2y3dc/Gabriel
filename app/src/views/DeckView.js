@@ -80,7 +80,7 @@ define(function(require, exports, module) {
         var sid = this.slides[this.currentIndex].options.job.startup.id;
 
         // //Archive POST REQ
-        console.log("startup_id", sid);
+        //console.log("startup_id", sid);
 
         ANGEL.post('/1/talent/pairing', {
             data: {
@@ -89,9 +89,9 @@ define(function(require, exports, module) {
                 user_interested: 1
             }
         }).done(function(data) {
-            console.log("Archive doneRes", data);
+            //console.log("Archive doneRes", data);
         }.bind(this)).fail(function(oops) {
-            console.log("already archive'd / unable to archive", oops);
+            //console.log("already archive'd / unable to archive", oops);
         }.bind(this));
 
         //UNFOLLOWS POST REQ
@@ -123,7 +123,7 @@ define(function(require, exports, module) {
         //Saves current startup's id
         var sid = this.slides[this.currentIndex].options.job.startup.id;
 
-        console.log("startup_id", sid);
+        //console.log("startup_id", sid);
 
         // //Interested POST REQ
         ANGEL.post('/1/talent/pairing', {
@@ -134,9 +134,9 @@ define(function(require, exports, module) {
                 user_interested: 1
             }
         }).done(function(data) {
-            console.log("Intro doneRes", data);
+            //console.log("Intro doneRes", data);
         }.bind(this)).fail(function(oops) {
-            console.log("already intro'd / unable to intro", oops);
+            //console.log("already intro'd / unable to intro", oops);
         }.bind(this));
 
         //FOLLOWS POST REQ

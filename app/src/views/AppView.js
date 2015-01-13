@@ -35,7 +35,7 @@ define(function(require, exports, module) {
         _createLandingView.call(this);
 
         this.landingView.on('loggedin', function() {
-            console.log('logged in');
+            
             _createLoadingPage.call(this);
         }.bind(this));
 
@@ -82,13 +82,11 @@ define(function(require, exports, module) {
 
     AppView.prototype.toggleGabrielPage = function() {
         if (this.gabrielMenu) {
-            console.log('remove garielPage page');
 
             // this.menuModifier.setTransform(Transform.translate(0, 0, 0));
             this.removeGabrielPage();
             this.showFullMenuPage();
         } else {
-            console.log('show full Gariel Page');
             this.showFullGabrielPage();
         }
         this.gabrielMenu = !this.gabrielMenu;
@@ -112,17 +110,15 @@ define(function(require, exports, module) {
 
     AppView.prototype.toggleMenuPage = function() {
         if (this.gabrielMenu) {
-            console.log('remove garielPage page');
+           
             this.removeMenuPage();
         } else {
-            console.log('show full Gariel Page');
             this.showFullMenuPage();
         }
         this.gabrielMenu = !this.gabrielMenu;
     };
 
     AppView.prototype.showMenuPage = function() {
-        console.log('show full GarielPage');
         this.gabrielMenu = true;
         this.showFullMenuPage();
     };

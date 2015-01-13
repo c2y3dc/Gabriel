@@ -13,6 +13,7 @@ define(function(require, exports, module) {
     var GenericSync = require("famous/inputs/GenericSync");
     var MouseSync = require("famous/inputs/MouseSync");
     var TouchSync = require("famous/inputs/TouchSync");
+    var RenderNode = require('famous/core/RenderNode');
 
     var Transitionable = require('famous/transitions/Transitionable');
     var SnapTransition = require('famous/transitions/SnapTransition');
@@ -78,6 +79,10 @@ define(function(require, exports, module) {
         this.flipper.setBack(this.backNode);
 
         this.cardNode.add(this.flipper);
+
+        
+        _createInterestedFeedback.call(this);
+        _createArchiveFeedback.call(this);        
     }
 
     function _createCardFront() {
@@ -113,7 +118,7 @@ define(function(require, exports, module) {
             ].join('')
         });
 
-        this.frontNode.add(this.frontSurface);
+        this.frontNode.add(this.frontSurface); 
     }
 
     function _createCardBack() {
@@ -189,6 +194,81 @@ define(function(require, exports, module) {
 
     }
 
+        
+    function _createArchiveFeedback() {           
+        this.archiveFeedbackSurface = new Surface({        
+            size: [this.options.width * 0.225, this.options.height * 0.05],
+                    content: 'ARCHIVE',
+                    properties: {          
+                fontSize: this.options.width * 0.03 + 'px',
+                          color: '#8f8f8f',
+                          border: '1px solid #8f8f8f',
+                          borderRadius: '4px',
+                          textAlign: 'center',
+                          letterSpacing: this.options.width * 0.002 + 'px',
+                          lineHeight: this.options.height * 0.045 + 'px',
+                          fontWeight: 600,
+                        
+            }      
+        });
+
+        this.archiveFeedbackSurface.node = new RenderNode();
+
+        this.archiveFeedbackSurface.archiveMod = new Modifier({        
+            opacity: 0,
+            transform: Transform.translate(this.options.width * 0.29, -this.options.height * 0.275, 0.9)      
+        });
+
+        this.archiveFeedbackSurface.rotationMod = new Modifier({
+            transform: Transform.rotate(0, 0, 0.5)  
+        })
+
+        this.archiveFeedbackSurface.node.add(this.archiveFeedbackSurface.archiveMod).add(this.archiveFeedbackSurface.rotationMod).add(this.archiveFeedbackSurface);
+
+              
+        this.frontNode.add(this.archiveFeedbackSurface.node);    
+    }
+
+        
+    function _createInterestedFeedback() {      
+        console.log('interested is called');      
+        this.interestedFeedbackSurface = new Surface({        
+            size: [this.options.width * 0.225, this.options.height * 0.05],
+                    content: 'INTERESTED',
+                    properties: {          
+                fontSize: this.options.width * 0.03 + 'px',
+                          color: '#fff',
+                          backgroundColor: '#34C9AB',
+                          border: '1px solid #34C9AB',
+                          borderRadius: '4px',
+                          textAlign: 'center',
+                          letterSpacing: this.options.width * 0.002 + 'px',
+                          lineHeight: this.options.height * 0.045 + 'px',
+                          fontWeight: 600,
+                        
+            }      
+        });
+
+              
+
+        this.interestedFeedbackSurface.node = new RenderNode();
+
+        this.interestedFeedbackSurface.interestedMod = new Modifier({        
+            opacity: 0,
+                    transform: Transform.translate(-this.options.width * 0.29, -this.options.height * 0.275, 0.9)      
+        });
+
+        this.interestedFeedbackSurface.rotationMod = new Modifier({
+            transform: Transform.rotate(0, 0, -0.5)
+        })
+
+
+        this.interestedFeedbackSurface.node.add(this.interestedFeedbackSurface.interestedMod).add(this.interestedFeedbackSurface.rotationMod).add(this.interestedFeedbackSurface);
+
+        this.frontNode.add(this.interestedFeedbackSurface.node);        
+
+    }
+
     function _createHandle() {
         var sync = new GenericSync({
             "mouse": {},
@@ -205,12 +285,20 @@ define(function(require, exports, module) {
                 currentPosition[0] + data.delta[0],
                 currentPosition[1] + data.delta[1]
             ]);
+
+            console.log(currentPosition[0]);
+            if (currentPosition[0] > 0) {
+                this._eventOutput.emit('opacitateRight');
+            } else if (currentPosition[0] < 0) {
+                this._eventOutput.emit('opacitateLeft')
+            }
+
         }.bind(this));
 
         sync.on('end', function(data) {
             var currentPosition = this.options.position.get();
             var velocity = data.velocity;
-            console.log(velocity);
+            //console.log(velocity);
             if (currentPosition[0] < -window.innerWidth / 6) {
                 this._eventOutput.emit('swipeLeft');
             } else if (currentPosition[0] > window.innerWidth / 6) {
@@ -263,17 +351,37 @@ define(function(require, exports, module) {
 
     function _setListeners() {
 
+        this.on('opacitateRight',
+            function() {
+                this.archiveFeedbackSurface.archiveMod.setOpacity(0);
+                this.interestedFeedbackSurface.interestedMod.opacityFrom(function() {
+                    var currentPosition = this.options.position.get();
+                    return (currentPosition[0] / 250)
+                }.bind(this));
+
+            }.bind(this));
+
+        this.on('opacitateLeft',
+            function() {
+                this.interestedFeedbackSurface.interestedMod.setOpacity(0);
+                this.archiveFeedbackSurface.archiveMod.opacityFrom(function() {
+                    var currentPosition = this.options.position.get();
+                    return (Math.abs(currentPosition[0] / 250))
+                }.bind(this));
+
+            }.bind(this));
+
+
         this.frontSurface.on('click', function() {
             if (!this.options.toggle) {
-                this._eventOutput.emit('flip');
+                this._eventOutput.emit('flip')
+
             }
         }.bind(this));
 
-        this.backSurface.on('click', function() {
-
+        this.backSurface.on('click', function() {;
             if (this.options.toggle) {
                 this._eventOutput.emit('flip');
-
             }
         }.bind(this));
     }

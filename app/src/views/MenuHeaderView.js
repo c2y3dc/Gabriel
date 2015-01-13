@@ -220,7 +220,7 @@ define(function(require, exports, module) {
     function _setListeners() {
 
       this.cancelSurface.on('click', function() {
-        console.log('im clicked');
+        //console.log('im clicked');
         this._eventOutput.emit('gabrielOnly');
       });
         this.logoutButton.on('click', function() {

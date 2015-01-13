@@ -2,7 +2,7 @@
 'use strict'
 define(function(require, exports, module) {
     function start() {
-        console.log("start that app");
+        //console.log("start that app");
         // import dependencies
         var Engine = require('famous/core/Engine');
         var AppView = require('views/AppView');
