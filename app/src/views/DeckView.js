@@ -323,15 +323,12 @@ define(function(require, exports, module) {
             }.bind(this));
         }
         // console.log('SLIDES ARRAY', this.slides);
-<<<<<<< HEAD
+
         this.showNextSlide(function() {
             this._eventOutput.emit('firstSlideReady');
         }.bind(this));
-=======
 
-        this.showNextSlide();
-
->>>>>>> switching branches
+ 
     }
 
 
