@@ -1,4 +1,5 @@
 define(function(require, exports, module) {
+    'use strict';
     var View = require('famous/core/View');
     var Surface = require('famous/core/Surface');
     var Transform = require('famous/core/Transform');

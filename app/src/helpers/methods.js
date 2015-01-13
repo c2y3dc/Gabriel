@@ -1,6 +1,6 @@
 function truncate(str, n) {
     if (str && str.length > 0)
-        return str.length > n ? str.substr(0, n - 1) : str;
+        return str.length > n ? str.substr(0, n - 1) + '&hellip;' : str;
     else
         return 'No Description'
 }
@@ -8,7 +8,7 @@ function truncate(str, n) {
 function capitalizeFirst(str) {
     var lower = str.toLowerCase();
     if (str === 'full-time') {
-        lower = 'full time'
+        lower = 'full time';
     }
     return lower.replace(/(^| )(\w)/g, function(x) {
         return x.toUpperCase();
@@ -45,42 +45,19 @@ function exitApp() {
 }
 
 function jobTags(tags, num) {
-    if (tags && tags != '') {
+    if (tags && tags !== '') {
         return tags.slice(0, num).join(', ');
     } else {
-        return 'No skills provided'
+        return 'No skills provided';
     }
 }
 
-function fontReSize(length) {
-    if (length > 50) {
-        return '10px';
-    } else if (length > 40) {
-        return '12px';
-    } else if (length > 30) {
-        return '14px';
-    } else if (length > 20) {
-        return '16px';
-    } else {
-        return '20px';
-    }
-}
-
-function textResize(id) {
-    var container = "#" + id;
-    console.log(container);
-    while ($(container).find("span").width() > $(container).width()) {
-        var currentFontSize = parseInt($(container).find("span").css("font-size"));
-        $(container).find("span").css("font-size", currentFontSize - 1);
-        console.log(currentFontSize);
-    }
-}
 
 function newLine2Break(str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br /><br />' : '<br><br>';
-    return  str.replace(/[\r\n]{1,}/g, breakTag);
+    return str.replace(/[\r\n]{1,}/g, breakTag);
 }
 
-function stripNewLines(str){
+function stripNewLines(str) {
     return str.replace(/[\r\n]{1,}/g, "<br /><br />");
 }

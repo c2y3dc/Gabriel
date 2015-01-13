@@ -1,4 +1,5 @@
 define(function(require, exports, module) {
+    'use strict';
     var View = require('famous/core/View');
     var StateModifier = require('famous/modifiers/StateModifier');
     var Modifier = require('famous/core/Modifier');
@@ -9,9 +10,9 @@ define(function(require, exports, module) {
     var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
     var FastClick = require('famous/inputs/FastClick');
-    var MouseSync = require('famous/inputs/MouseSync');
-    var TouchSync = require('famous/inputs/TouchSync');
-    var GenericSync = require('famous/inputs/GenericSync');
+    var GenericSync = require("famous/inputs/GenericSync");
+    var MouseSync = require("famous/inputs/MouseSync");
+    var TouchSync = require("famous/inputs/TouchSync");
 
     Transitionable.registerMethod('spring', SpringTransition);
     Transitionable.registerMethod('wall', WallTransition);
@@ -25,7 +26,7 @@ define(function(require, exports, module) {
 
     GenericSync.register({
         'mouse': MouseSync,
-        'touch': TouchSync
+        'touch': TouchSync,
     });
 
     function AppView() {
@@ -94,7 +95,6 @@ define(function(require, exports, module) {
     };
 
     AppView.prototype.showGabrielPage = function() {
-        console.log('show full GarielPage');
         this.gabrielMenu = true;
         this.showFullGabrielPage(function() {
             this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, -100), this.options.transition);
@@ -158,7 +158,7 @@ define(function(require, exports, module) {
             landingView: this.landingView
         });
         this.menuModifier = new StateModifier({
-            transform: Transform.translate(-window.innerWidth, 0, 0)
+            transfoårm: Transform.translate(-window.innerWidth, 0, 0)
         });
 
         this.add(this.menuModifier).add(this.menuView);
@@ -168,11 +168,11 @@ define(function(require, exports, module) {
         this.landingView = new LandingView();
         this.landingModifier = new StateModifier({
             transform: Transform.translate(0, 0, 1)
-        })
+        });
 
         this.add(this.landingModifier).add(this.landingView);
-        this.options.angel = this.landingView.options.results
-        this.options.initialData = this.landingView.options.initialData
+        this.options.angel = this.landingView.options.results;
+        this.options.initialData = this.landingView.options.initialData;
     }
 
 

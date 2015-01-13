@@ -55,7 +55,7 @@ define(function(require, exports, module) {
         //         backgroundColor: '#FDFDFD'
         //     }
         // });
-        
+
         // this.bodyModifier = new StateModifier({
         //     transform: Transform.translate(0, 0, 201)
     }
@@ -105,38 +105,35 @@ define(function(require, exports, module) {
     }
 
     function _createBody() {
-      this.node = this.layout.content;
+        this.node = this.layout.content;
 
-      this.cardSurface = new Surface({
-        size: [window.innerWidth * 0.82, window.innerHeight * 0.687],
-        // content: [
-        //   ''
-        // ].join(''),
-        properties: {
-          backgroundColor: '#FAFAFA',
-          border: '1px solid rgba(0, 0, 0, 0.125)',
-          borderRadius: '8px'
-        }
-      });
+        this.cardSurface = new Surface({
+            size: [window.innerWidth * 0.82, window.innerHeight * 0.687],
+            properties: {
+                backgroundColor: '#FAFAFA',
+                border: '1px solid rgba(0, 0, 0, 0.125)',
+                borderRadius: '8px'
+            }
+        });
 
-      this.cardModifier = new StateModifier({
-        transform: Transform.translate(0, this.options.height * 0.025, 0),
-        origin: [0.5, 0],
-        align: [0.5, 0]
-      })
+        this.cardModifier = new StateModifier({
+            transform: Transform.translate(0, this.options.height * 0.025, 0),
+            origin: [0.5, 0],
+            align: [0.5, 0]
+        });
 
-      this.loadingGif = new ImageSurface({
-        size: [44, 44],
-        content: 'img/loading.gif'
-      });
+        this.loadingGif = new ImageSurface({
+            size: [44, 44],
+            content: 'img/loading.gif'
+        });
 
-      this.loadingModifier = new StateModifier({
-        origin: [0.5, 0.5],
-        align: [0.5, 0.5]
-      });
+        this.loadingModifier = new StateModifier({
+            origin: [0.5, 0.5],
+            align: [0.5, 0.5]
+        });
 
-      this.node.add(this.cardModifier).add(this.cardSurface);
-      this.node.add(this.loadingModifier).add(this.loadingGif);
+        this.node.add(this.cardModifier).add(this.cardSurface);
+        this.node.add(this.loadingModifier).add(this.loadingGif);
     }
     module.exports = LoadingView;
 });

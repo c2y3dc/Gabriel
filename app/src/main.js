@@ -6,9 +6,8 @@ define(function(require, exports, module) {
         // import dependencies
         var Engine = require('famous/core/Engine');
         var AppView = require('views/AppView');
-
         require('helpers/methods');
-        require('jquery');
+        //require('jquery');
         // create the main context
         var mainContext = Engine.createContext();
         mainContext.setPerspective(2000);
