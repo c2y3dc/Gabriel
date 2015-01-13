@@ -84,8 +84,8 @@ define(function(require, exports, module) {
         ANGEL.post('/1/talent/pairing', {
             data: {
                 startup_id: sid,
-                user_id: ME.id,
-                user_interested: 1
+                // user_id: ME.id,
+                user_interested: 0
             }
         }).done(function(data) {
             console.log("Archive doneRes", data);
@@ -128,7 +128,7 @@ define(function(require, exports, module) {
         ANGEL.post('/1/talent/pairing', {
             data: {
                 startup_id: sid,
-                user_id: ME.id,
+                // user_id: ME.id,
                 user_note: "",
                 user_interested: 1
             }
