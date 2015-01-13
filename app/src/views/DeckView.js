@@ -66,8 +66,11 @@ define(function(require, exports, module) {
 
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
-        this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
-        this.lightbox.options.inTransform = Transform.translate(50, 0, 0);
+
+        this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
+        this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
+        console.log(this.lightbox.show)
+
         slide.options.position.set([-500, 0], {
             curve: 'easeOut',
             period: 800,
@@ -320,10 +323,14 @@ define(function(require, exports, module) {
             }.bind(this));
         }
         // console.log('SLIDES ARRAY', this.slides);
+
         this.showNextSlide(function() {
             this._eventOutput.emit('firstSlideReady');
         }.bind(this));
+
+ 
     }
+
 
     module.exports = DeckView;
 });

@@ -127,6 +127,19 @@ define(function(require, exports, module) {
         this.showFullMenuPage();
     };
 
+    AppView.prototype.signout = function(){
+        console.log('recognizes prototype function');
+        this._eventOutput.emit('signoutClicked').bind(this);
+        delete this.pageView;
+        delete this.menuView.menuHeaderView;
+        delete this.menuView;
+        delete this.angel;
+        delete this.landingView.options.angel;
+        delete this.landingView.options.userData;
+        OAuth.clearCache('angel_list');
+        this.landingView.rootModifier.setTransform(Transform.translate(0, 0, 5), {duration: 300});
+    };
+
 
     function _createLoadingPage() {
         this.loadingView = new LoadingView();
@@ -177,13 +190,19 @@ define(function(require, exports, module) {
 
 
     function _setListeners() {
+
         this.pageView.on('firstSlideReady', function() {
             _removeLoadingView.call(this);
         }.bind(this));
 
+        this.menuView.on('signoutClicked', this.signout.bind(this));
+
+
         this.pageView.on('menuToggle', this.toggleGabrielPage.bind(this));
 
         this.menuView.on('gabrielOnly', this.showGabrielPage.bind(this));
+
+
     }
 
     module.exports = AppView;

@@ -265,7 +265,7 @@ define(function(require, exports, module) {
             .replace(/: /g, ":</div></br><div>")
             .replace(/\s-\s/g, "</div></div>-")
             .replace(/\s\s/g, "</div></br><div>")
-            .replace(/\s([^A-Za-z0-9,.()\/])/g, "</div><div>$1")
+            .replace(/\s([^A-Za-z0-9,.&()\/])/g, "</div><div>$1")
             .replace(/-([A-Z])/g, "</div><div>-$1");
 
         content = '<div>' + content + '</div>';
