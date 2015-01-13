@@ -22,6 +22,7 @@ define(function(require, exports, module) {
 
     var LandingView = require('views/LandingView');
     var LoadingView = require('views/LoadingView');
+    var Main = require('main');
 
     GenericSync.register({
         'mouse': MouseSync,
@@ -129,15 +130,27 @@ define(function(require, exports, module) {
 
     AppView.prototype.signout = function(){
         console.log('recognizes prototype function');
-        this._eventOutput.emit('signoutClicked').bind(this);
-        delete this.pageView;
-        delete this.menuView.menuHeaderView;
-        delete this.menuView;
-        delete this.angel;
-        delete this.landingView.options.angel;
-        delete this.landingView.options.userData;
+        // this.landingView.rootModifier.setTransform(Transform.translate(0, 0, 5), {duration: 300});
         OAuth.clearCache('angel_list');
-        this.landingView.rootModifier.setTransform(Transform.translate(0, 0, 5), {duration: 300});
+        // Create the event.
+        var event = document.createEvent('Event');
+
+// Define that the event name is 'build'.
+        event.initEvent('build', true, true);
+
+// Listen for the event.
+        document.addEventListener('build', function (e) {
+  // e.target matches document from above
+        }, false);
+
+// target can be any Element or other EventTarget.
+        var build = function(){
+            document.dispatchEvent(event);
+        };
+
+        setTimeout(build, 300)
+        delete this;
+
     };
 
 
