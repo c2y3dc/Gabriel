@@ -29,7 +29,11 @@ define(function(require, exports, module) {
     };
 
     function _createBackground() {
-        this.backgroundSurface = new ImageSurface({});
+        this.backgroundSurface = new Surface({
+            properties: {
+                backgroundColor: 'white'
+            }
+        });
 
         this.rootModifier = new StateModifier({
             transform: Transform.translate(0, 0, 200)

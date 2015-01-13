@@ -226,7 +226,7 @@ define(function(require, exports, module) {
         this.logoutButton.on('click', function() {
 
             this._eventOutput.emit('signoutClicked');
-            OAuth.clearCache();
+            // OAuth.clearCache();
                 // window.open('https://www.angel.co/logout');
                 
         });
