@@ -130,7 +130,7 @@ define(function(require, exports, module) {
 
     AppView.prototype.signout = function(){
         console.log('recognizes prototype function');
-        this.landingView.rootModifier.setTransform(Transform.translate(0, 0, 5), {duration: 300});
+        // this.landingView.rootModifier.setTransform(Transform.translate(0, 0, 5), {duration: 300});
         OAuth.clearCache('angel_list');
         // Create the event.
         var event = document.createEvent('Event');
