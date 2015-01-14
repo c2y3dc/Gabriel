@@ -16,15 +16,6 @@ html {
     -webkit-backface-visibility: visible;
     backface-visibility: visible;
 }
-.ionic-blue-background {
-    background: linear-gradient(to right, #296ad4 0%, #4e8ef7 100%);
-    border-bottom: 1px solid #4677E1;
-}
-.ionic-footer-background {
-    background: linear-gradient(to right, #5488DC 0%, #71A4F7 100%);
-    background: linear-gradient(to right, #2155aa 0%, #3e72c6 100%);
-    border-top: 1px solid #3677E1;
-}
 .main-body-background {
     background: linear-gradient(to right, #2155aa 0%, #3e72c6 100%);
 }
@@ -87,12 +78,9 @@ html {
     width: 100%;
     border-radius: 8px;
     border: 1px solid rgba(0, 0, 0, 0.125);
-    z-index: 1000;
-    background-color: rgba(255, 255, 255, 0.97);
-    background-image: url("../img/flip.svg");
+    background-color: rgba(255, 255, 255, 0.95);
     background-repeat: no-repeat;
     background-position: right center;
-    /* box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.50); */
 }
 .back-card {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -140,8 +128,12 @@ html {
     padding: 0.8rem 0.8rem;
     height: 4.65rem;
 }
-.flip-button {
-    background-image: url("../img/flip.svg");
+.flip_button {
+  position: absolute;
+  top: 44%;
+  left: 90.85%;
+
+  width: 10%;
 }
 .logo_url {
     width: 4.5rem;

@@ -105,6 +105,7 @@ define(function(require, exports, module) {
                 '<p class="high_concept">', truncate(this.options.job.startup.high_concept, 120), '</p>',
                 '</div>',
                 '<div class="divider">', '</div>',
+                '<img class="flip_button" src="img/flip.svg">',
                 '<div id="jobInfo">',
                 '<span class="job_title">', capitalizeFirst(this.options.job.title), '</span>',
                 '<p class="location">', '<span class="secondary-text">Location</span><br>', this.options.location, '</p>',
@@ -170,7 +171,7 @@ define(function(require, exports, module) {
 
         // this.contextSize = this.backNode.getSize();
 
-        // this.contentSize = window.innerHeight; // Most Likely you keep track of this when creating 
+        // this.contentSize = window.innerHeight; // Most Likely you keep track of this when creating
 
         // this.scrollbarSize = this.contextSize[1] * this.contextSize[1] / (this.contentSize);
 
