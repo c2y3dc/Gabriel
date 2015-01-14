@@ -24,6 +24,7 @@ define(function(require, exports, module) {
 
     var LandingView = require('views/LandingView');
     var LoadingView = require('views/LoadingView');
+    var Main = require('main');
 
     GenericSync.register({
         'mouse': MouseSync,
@@ -36,7 +37,7 @@ define(function(require, exports, module) {
         _createLandingView.call(this);
 
         this.landingView.on('loggedin', function() {
-            
+
             _createLoadingPage.call(this);
         }.bind(this));
 
@@ -69,41 +70,8 @@ define(function(require, exports, module) {
         }
     };
 
-    // GabrielPage Toggle
-    AppView.prototype.showFullGabrielPage = function(callback) {
-        //this.pageModifier.setTransform(Transform.translate(0, 0, 0.9), this.options.transition, callback);
-    };
-
-    AppView.prototype.removeGabrielPage = function() {
-        // this.pageModifier.setTransform(Transform.translate(window.innerHeight * 2, 0, 0), {
-        //     duration: 450,
-        //     curve: 'easeOut'
-        // });
-    };
-
-    AppView.prototype.toggleGabrielPage = function() {
-        // if (this.gabrielMenu) {
-
-        //     // this.menuModifier.setTransform(Transform.translate(0, 0, 0));
-        //     this.showFullMenuPage();
-        // } else {
-        //     this.showFullGabrielPage();
-        // }
-        // this.gabrielMenu = !this.gabrielMenu;
-    };
-
-    AppView.prototype.showGabrielPage = function() {
-        // this.gabrielMenu = true;
-        // this.showFullGabrielPage(function() {
-        //     this.menuModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, -100), this.options.transition);
-        // }.bind(this));
-    };
-
-   
-
     AppView.prototype.toggleMenuPage = function() {
         if (this.gabrielMenu) {
-           
             this.removeMenuPage();
         } else {
             this.showFullMenuPage();
@@ -111,11 +79,48 @@ define(function(require, exports, module) {
         this.gabrielMenu = !this.gabrielMenu;
     };
 
-    // AppView.prototype.showMenuPage = function() {
-    //     this.gabrielMenu = true;
-    //     this.showFullMenuPage();
-    // };
 
+    AppView.prototype.removeMenuPage = function() {
+        this.pageModifier.setOpacity(1, {
+            duration: 175
+        });
+        this.pageModifier.setTransform(Transform.translate(0, 0, 0.1), {
+            duration: 175
+        });
+        this.menuView.xState.setOpacity(0, {
+            duration: 175
+        });
+        this.menuView.xState.setTransform(Transform.translate(0, 0, 700), {
+            duration: 175
+        }, function() {
+            this.menuView.xState.setTransform(Transform.translate(-window.innerWidth * 2, 0, 700), {
+                duration: 0
+            });
+        }.bind(this));
+    };
+
+
+    AppView.prototype.signout = function() {
+        console.log('recognizes prototype function');
+        // this.landingView.rootModifier.setTransform(Transform.translate(0, 0, 5), {duration: 300});
+        OAuth.clearCache('angel_list');
+        // Create the event.
+        var event = document.createEvent('Event');
+        // Define that the event name is 'build'.
+        event.initEvent('build', true, true);
+        // Listen for the event.
+        document.addEventListener('build', function(e) {
+            // e.target matches document from above
+        }, false);
+        // target can be any Element or other EventTarget.
+        var build = function() {
+            document.dispatchEvent(event);
+        };
+
+        setTimeout(build, 300)
+        delete this;
+
+    };
 
     function _createLoadingPage() {
         this.loadingView = new LoadingView();
@@ -141,22 +146,23 @@ define(function(require, exports, module) {
         this.add(this.pageModifier).add(this.pageView);
     }
 
-     // MenuPage Toggle
+    // MenuPage Toggle
     AppView.prototype.showFullMenuPage = function() {
-        this.pageModifier.setOpacity(0, {duration: 175});
-        this.pageModifier.setTransform(Transform.translate(0,0,-700), {duration: 175});
-        this.menuView.xState.setTransform(Transform.translate(0,0,700), {duration: 60}, function(){
-            this.menuView.xState.setTransform(Transform.translate(0,0,0.9), {duration: 175});
-            this.menuView.xState.setOpacity(1, {duration: 175});
-        }.bind(this));
-    };
-
-    AppView.prototype.removeMenuPage = function() {
-        this.pageModifier.setOpacity(1, {duration: 175});
-        this.pageModifier.setTransform(Transform.translate(0,0,0.1), {duration: 175});
-        this.menuView.xState.setOpacity(0, {duration: 175});
-        this.menuView.xState.setTransform(Transform.translate(0,0,700), {duration: 175}, function(){
-            this.menuView.xState.setTransform(Transform.translate(-window.innerWidth * 2,0,700), {duration: 0 });
+        this.pageModifier.setOpacity(0, {
+            duration: 175
+        });
+        this.pageModifier.setTransform(Transform.translate(0, 0, -700), {
+            duration: 175
+        });
+        this.menuView.xState.setTransform(Transform.translate(0, 0, 700), {
+            duration: 60
+        }, function() {
+            this.menuView.xState.setTransform(Transform.translate(0, 0, 0.9), {
+                duration: 175
+            });
+            this.menuView.xState.setOpacity(1, {
+                duration: 175
+            });
         }.bind(this));
     };
 
@@ -172,18 +178,12 @@ define(function(require, exports, module) {
         });
 
         this.menuView.yState = new StateModifier();
-
-        this.menuView.zState = new StateModifier();
-
         this.menuView.chain = new ModifierChain();
 
         this.menuView.chain.addModifier(this.menuView.xState);
-
         this.menuView.chain.addModifier(this.menuView.yState);
 
         this.add(this.menuView.chain).add(this.menuView);
-
-       
     }
 
     function _createLandingView() {
@@ -206,7 +206,7 @@ define(function(require, exports, module) {
         this.pageView.on('menuToggle', this.toggleMenuPage.bind(this));
         this.menuView.on('menuToggle', this.toggleMenuPage.bind(this));
 
-        //this.menuView.on('gabrielOnly', this.showGabrielPage.bind(this));
+        this.menuView.on('signoutClicked', this.signout.bind(this));
     }
 
     module.exports = AppView;
