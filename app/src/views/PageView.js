@@ -40,7 +40,7 @@ define(function(require, exports, module) {
         jobs: {},
         width: window.innerWidth,
         height: window.innerHeight,
-        headerSize: window.innerHeight * 0.1127,
+        headerSize: 60,
         headerWidth: window.innerWidth,
         footerSize: window.innerHeight * 0.167,
         footerWidth: window.innerWidth,
@@ -89,15 +89,15 @@ define(function(require, exports, module) {
 
         /*HEADER SURFACES*/
         this.profileSurface = new ImageSurface({
-            size: [20, 20],
+            size: [26, 26],
             content: 'img/profile.svg'
         });
 
         this.titleSurface = new Surface({
             size: [true, 44],
-            content: 'DISCOVERY',
+            content: 'GABRIEL',
             properties: {
-                fontSize: this.options.width * 0.042 + 'px',
+                fontSize: '0.9rem',
                 color: 'rgba(0, 0, 0, 0.75)',
                 fontWeight: 600
             }
@@ -105,15 +105,15 @@ define(function(require, exports, module) {
 
         /*HEADER MODIFIERS */
         var profileModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.07, this.options.headerSize * 0.18, 100),
+            transform: Transform.translate(this.options.width * 0.048, 0, 0.9),
             origin: [0, 0],
-            align: [0, 0.5]
+            align: [0, 0.4]
         });
 
         var titleModifier = new StateModifier({
-            transform: Transform.translate(0, this.options.headerSize * 0.25, 100),
+            transform: Transform.translate(0, 0, 0.9),
             origin: [0.5, 0],
-            align: [0.5, 0.5]
+            align: [0.5, 0.55]
         });
 
         this.layout.header.add(profileModifier).add(this.profileSurface);

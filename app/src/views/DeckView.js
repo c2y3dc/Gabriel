@@ -49,11 +49,11 @@ define(function(require, exports, module) {
             inTransform: Transform.translate(300, 0, 0),
             outTransform: Transform.translate(-50, 0, 0),
             inTransition: {
-                duration: 250,
+                duration: 225,
                 curve: 'easeOut'
             },
             outTransition: {
-                duration: 250,
+                duration: 225,
                 curve: Easing.inQuad
             }
         }

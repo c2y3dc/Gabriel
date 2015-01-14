@@ -58,7 +58,7 @@ define(function(require, exports, module) {
     // Create menu toggle
     function _createCancelButton() {
         this.cancelSurface = new ImageSurface({
-            size: [22, 22],
+            size: [28, 28],
             content: 'img/cancel.svg'
         });
 
