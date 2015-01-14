@@ -42,13 +42,12 @@ define(function(require, exports, module) {
 
         this.mainNode = this.add(this.rootModifier);
         this.cardNode = this.mainNode.add(this.cardModifier);
-
+        _createNoteView.call(this);
         //_createBackground.call(this);
         _createFlipper.call(this);
         //var rootNode = _createCard.call(this);
         _createHandle.call(this);
         //_createShadowBox.call(this);
-        _createNoteView.call(this);
         _setListeners.call(this);
 
     }
@@ -75,9 +74,9 @@ define(function(require, exports, module) {
 
     SlideView.prototype.showNote = function() {
 
-        this.noteModifier.setTransform(Transform.translate(0, 200, 10), {
+        this.noteModifier.setTransform(Transform.translate(0, 0, 10), {
             curve: 'easeOut',
-            duration: 400
+            duration: 600
         }, function() {
 
         }.bind(this));
@@ -87,7 +86,7 @@ define(function(require, exports, module) {
 
     SlideView.prototype.hideNote = function() {
 
-        this.noteModifier.setTransform(Transform.translate(0, window.height * 2, 10), {
+        this.noteModifier.setTransform(Transform.translate(0, window.height * 2, 1), {
             curve: 'easeOut',
             duration: 400
         }, function() {}.bind(this));
@@ -249,7 +248,7 @@ define(function(require, exports, module) {
     function _createNoteView() {
         this.noteView = new NoteView();
         this.noteModifier = new StateModifier({
-            transform: Transform.translate(0, window.innerHeight * 2, 1)
+            transform: Transform.translate(0, window.innerHeight * 2, 10)
         });
         this.add(this.noteModifier).add(this.noteView);
     }
@@ -409,7 +408,13 @@ define(function(require, exports, module) {
     function _setListeners() {
 
         this.noteSurface.on('touchstart', this.showNote.bind(this));
-        this.noteView.on('click', this.hideNote.bind(this));
+        //this.noteView.on('click', this.hideNote.bind(this));
+        this.noteView.submitButtonSurface.on('click', function() {
+            this.options.note = this.noteView.inputSurface.getValue();
+            console.log(this.options.note);
+            this.noteView.inputSurface.setValue('Message Sent');
+            this._eventOutput.emit('swipeRight');
+        }.bind(this))
 
         this.on('opacitateRight',
             function() {

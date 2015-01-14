@@ -3,7 +3,6 @@ define(function(require, exports, module) {
 
     var AppView = require('views/AppView');
     var Engine = require('famous/core/Engine');
-    var Timer = require('famous/utilities/Timer');
 
     function start() {
         //console.log("start that app");
@@ -33,8 +32,10 @@ define(function(require, exports, module) {
         window.addEventListener('native.keyboardshow', keyboardShowHandler);
 
         function keyboardShowHandler(e) {
+            var keyboardHeight = e.keyboardHeight;
             console.log('Keyboard height is: ' + e.keyboardHeight);
         }
+
         window.addEventListener('native.keyboardhide', keyboardHideHandler);
 
         function keyboardHideHandler(e) {

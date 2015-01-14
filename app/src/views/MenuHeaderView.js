@@ -119,7 +119,7 @@ define(function(require, exports, module) {
             size: [true, true],
             content: 'img/pin.svg'
         });
-
+        
         this.locationPinModifier = new StateModifier({
             origin: [0.5, 0.5],
             align: [0.341, 0.395]
