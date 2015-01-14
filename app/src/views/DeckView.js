@@ -69,7 +69,6 @@ define(function(require, exports, module) {
 
         this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
-        console.log(this.lightbox.show)
 
         slide.options.position.set([-500, 0], {
             curve: 'easeOut',
@@ -113,7 +112,7 @@ define(function(require, exports, module) {
         }.bind(this));
 
         slide.archiveFeedbackSurface.archiveMod.opacityFrom(1);
-        
+
     };
 
     DeckView.prototype.swipeRight = function() {
