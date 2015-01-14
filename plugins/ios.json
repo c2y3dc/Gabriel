@@ -23,6 +23,10 @@
                         {
                             "xml": "<access origin=\"https://oauth.io\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -50,6 +54,9 @@
             "PACKAGE_NAME": "com.famous.hr109.gabriel"
         },
         "com.oauthio.plugins.oauthio": {
+            "PACKAGE_NAME": "com.famous.hr109.gabriel"
+        },
+        "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.famous.hr109.gabriel"
         }
     },

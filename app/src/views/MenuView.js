@@ -58,7 +58,7 @@ define(function(require, exports, module) {
 
     function _setListeners() {
         this.menuHeaderView.logoutButton.on('signoutClicked', function() {
-            console.log('signoutClicked');
+            //console.log('signoutClicked');
             this._eventOutput.emit('signoutClicked');
         }.bind(this));
         // Menu surface

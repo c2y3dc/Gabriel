@@ -19,7 +19,7 @@ define(function(require, exports, module) {
     var SnapTransition = require('famous/transitions/SnapTransition');
     Transitionable.registerMethod('spring', SnapTransition);
 
-    require('helpers/methods');
+    var NoteView = require('views/NoteView');
 
 
     // runs once for each new instance
@@ -39,13 +39,16 @@ define(function(require, exports, module) {
             transform: Transform.translate(0, 0, 0.9)
         });
 
+
         this.mainNode = this.add(this.rootModifier);
         this.cardNode = this.mainNode.add(this.cardModifier);
+
         //_createBackground.call(this);
         _createFlipper.call(this);
         //var rootNode = _createCard.call(this);
         _createHandle.call(this);
         //_createShadowBox.call(this);
+        _createNoteView.call(this);
         _setListeners.call(this);
 
     }
@@ -70,6 +73,28 @@ define(function(require, exports, module) {
         job_type: 'Full Time'
     };
 
+    SlideView.prototype.showNote = function() {
+
+        this.noteModifier.setTransform(Transform.translate(0, 200, 10), {
+            curve: 'easeOut',
+            duration: 400
+        }, function() {
+
+        }.bind(this));
+
+        return this.noteModifier;
+    }
+
+    SlideView.prototype.hideNote = function() {
+
+        this.noteModifier.setTransform(Transform.translate(0, window.height * 2, 10), {
+            curve: 'easeOut',
+            duration: 400
+        }, function() {}.bind(this));
+
+        return this.noteModifier;
+    }
+
     function _createFlipper() {
         this.flipper = new Flipper();
         _createCardFront.call(this);
@@ -80,7 +105,7 @@ define(function(require, exports, module) {
 
         this.cardNode.add(this.flipper);
 
-
+        _createNoteButton.call(this);
         _createInterestedFeedback.call(this);
         _createArchiveFeedback.call(this);        
     }
@@ -194,6 +219,41 @@ define(function(require, exports, module) {
 
     }
 
+    function _createNoteButton() {         
+        this.noteSurface = new Surface({        
+            size: [this.options.width * 0.225, this.options.height * 0.05],
+                    content: 'NOTE',
+                    properties: {          
+                fontSize: this.options.width * 0.03 + 'px',
+                          color: '#34C9AB',
+                          backgroundColor: 'white',
+                          border: '1px solid #34C9AB',
+                          borderRadius: '4px',
+                          textAlign: 'center',
+                          letterSpacing: this.options.width * 0.002 + 'px',
+                          lineHeight: this.options.height * 0.045 + 'px',
+                          fontWeight: 600,
+                        
+            }      
+        });
+
+              
+        this.noteMod = new StateModifier({        
+            transform: Transform.translate(this.options.width * 0.29, this.options.height * 0.3, 0.9)      
+        });
+
+        this.frontNode.add(this.noteMod).add(this.noteSurface);
+
+    }
+
+    function _createNoteView() {
+        this.noteView = new NoteView();
+        this.noteModifier = new StateModifier({
+            transform: Transform.translate(0, window.innerHeight * 2, 1)
+        });
+        this.add(this.noteModifier).add(this.noteView);
+    }
+
         
     function _createArchiveFeedback() {           
         this.archiveFeedbackSurface = new Surface({        
@@ -243,8 +303,7 @@ define(function(require, exports, module) {
                           textAlign: 'center',
                           letterSpacing: this.options.width * 0.002 + 'px',
                           lineHeight: this.options.height * 0.045 + 'px',
-                          fontWeight: 600,
-                        
+                          fontWeight: 600        
             }      
         });
 
@@ -340,7 +399,7 @@ define(function(require, exports, module) {
             // undefined size will inherit size from parent modifier
             properties: {
                 backgroundColor: '#FFFFF5',
-                boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)',
+                //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)',
                 background: 'transparent'
             }
         });
@@ -348,6 +407,9 @@ define(function(require, exports, module) {
     }
 
     function _setListeners() {
+
+        this.noteSurface.on('touchstart', this.showNote.bind(this));
+        this.noteView.on('click', this.hideNote.bind(this));
 
         this.on('opacitateRight',
             function() {

@@ -11,6 +11,7 @@ define(function(require, exports, module) {
     var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
     var ImageSurface = require('famous/surfaces/ImageSurface');
+    var RenderNode = require('famous/core/RenderNode');
 
     Transitionable.registerMethod('spring', SpringTransition);
     Transitionable.registerMethod('wall', WallTransition);
@@ -46,14 +47,15 @@ define(function(require, exports, module) {
         width: window.innerWidth,
         size: [window.innerWidth * 0.858, window.innerHeight * 0.688],
         lightboxOpts: {
+            overlap: true,
             inTransform: Transform.translate(300, 0, 0),
             outTransform: Transform.translate(-50, 0, 0),
             inTransition: {
-                duration: 225,
+                duration: 300,
                 curve: 'easeOut'
             },
             outTransition: {
-                duration: 225,
+                duration: 300,
                 curve: Easing.inQuad
             }
         }
@@ -69,7 +71,6 @@ define(function(require, exports, module) {
 
         this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
-        console.log(this.lightbox.show)
 
         slide.options.position.set([-500, 0], {
             curve: 'easeOut',
@@ -79,7 +80,7 @@ define(function(require, exports, module) {
         //OUR API CALL TO ARCHIVE GOES HERE
 
         //Saves current startup's id
-        
+
         var sid = this.slides[this.currentIndex].options.job.startup.id;
 
         // //Archive POST REQ
@@ -170,13 +171,13 @@ define(function(require, exports, module) {
     };
 
     DeckView.prototype.flip = function() {
-
         var slide = this.slides[this.currentIndex];
         var angle = slide.options.toggle ? 0 : -Math.PI;
-       
+
+
         slide.flipper.setAngle(angle, {
-            curve: 'easeOut',
-            duration: 450,
+            curve: Easing.outCurve,
+            duration: 400,
         }, function() {
             slide.options.toggle = !slide.options.toggle;
         }.bind(this));
@@ -187,7 +188,7 @@ define(function(require, exports, module) {
         if (this.currentIndex === Object.keys(this.slides).length) {
             this.currentIndex = 0;
         }
-        
+
         this.slides[this.currentIndex].options.position.set([0, 0]);
         var slide = this.slides[this.currentIndex];
         this.lightbox.show(slide, callback);
@@ -196,6 +197,7 @@ define(function(require, exports, module) {
     function _createLightbox() {
         this.lightbox = new Lightbox(this.options.lightboxOpts);
         this.mainNode.add(this.lightbox);
+        this.lightbox.hide();
     }
 
     function _createSlides() {
@@ -223,12 +225,16 @@ define(function(require, exports, module) {
                 location: location
             });
 
+            slide.node = new RenderNode();
+            slide.mod = new StateModifier();
 
-            this.slides[i] = slide;
-            // adding click listener
-            // on click, calling .showNextSlide()
-            // note that we're binding showNextSlide to the slideshow
-            // to maintain the correct context when called
+            slide.node.add(slide.mod).add(slide);
+
+            this.slides[i] = slide
+                // adding click listener
+                // on click, calling .showNextSlide()
+                // note that we're binding showNextSlide to the slideshow
+                // to maintain the correct context when called
             slide.on('swipeRight', this.swipeRight.bind(this));
             slide.on('swipeLeft', this.swipeLeft.bind(this));
             slide.on('flip', this.flip.bind(this));
@@ -245,7 +251,7 @@ define(function(require, exports, module) {
             this._eventOutput.emit('firstSlideReady');
         }.bind(this));
 
- 
+
     }
 
 
