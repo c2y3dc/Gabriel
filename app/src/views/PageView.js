@@ -90,7 +90,7 @@ define(function(require, exports, module) {
 
         /*HEADER SURFACES*/
         this.profileSurface = new ImageSurface({
-            size: [22, 22],
+            size: [23, 23],
             content: 'img/profile.svg'
         });
 
@@ -106,7 +106,7 @@ define(function(require, exports, module) {
 
         /*HEADER MODIFIERS */
         var profileModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.07, this.options.headerSize * 0.18, 100),
+            transform: Transform.translate(this.options.width * 0.07, this.options.headerSize * 0.16, 100),
             origin: [0, 0],
             align: [0, 0.5]
         });

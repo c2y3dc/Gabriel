@@ -15,6 +15,7 @@ define(function(require, exports, module) {
         _createLocationPin.call(this);
         _createUserLocation.call(this);
         _createUserBio.call(this);
+        _createFollower.call(this);
         _createBuiltWithFamous.call(this);
         _createLogoutButton.call(this);
 
@@ -58,12 +59,12 @@ define(function(require, exports, module) {
     // Create menu toggle
     function _createCancelButton() {
         this.cancelSurface = new ImageSurface({
-            size: [22, 22],
+            size: [23, 23],
             content: 'img/cancel.svg'
         });
 
         var menuModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.05, this.options.height * 0.05, 1),
+            transform: Transform.translate(this.options.width * 0.05, this.options.height * 0.055, 1),
             origin: [0, 0],
             align: [0, 0]
         })
@@ -173,6 +174,20 @@ define(function(require, exports, module) {
         this.add(userBioModifier).add(userBioSurface);
     }
 
+    function _createFollower() {
+      this.follower = new Surface({
+        classes: ['followers'],
+        size: [true, true],
+        content: 'Followed by ' + this.options.user.follower_count + ' ' + puralize(this.options.user.follower_count)
+      });
+
+      this.followerModifier = new StateModifier({
+        origin: [0.5, 0.5],
+        align: [0.5, 0.725]
+      });
+
+      this.add(this.followerModifier).add(this.follower);
+    }
     function _createBuiltWithFamous() {
         this.famousSurface = new Surface({
             size: [true, true],

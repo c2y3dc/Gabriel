@@ -52,6 +52,9 @@ function jobTags(tags, num) {
     }
 }
 
+function puralize(number) {
+  return number > 1 ? 'people' : 'person';
+}
 
 function newLine2Break(str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br /><br />' : '<br><br>';
