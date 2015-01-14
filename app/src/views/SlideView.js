@@ -14,7 +14,7 @@ define(function(require, exports, module) {
     var MouseSync = require("famous/inputs/MouseSync");
     var TouchSync = require("famous/inputs/TouchSync");
     var RenderNode = require('famous/core/RenderNode');
-
+    //var FastClick = require('famous/inputs/FastClick');
     var Transitionable = require('famous/transitions/Transitionable');
     var SnapTransition = require('famous/transitions/SnapTransition');
     Transitionable.registerMethod('spring', SnapTransition);
@@ -80,7 +80,7 @@ define(function(require, exports, module) {
 
         this.cardNode.add(this.flipper);
 
-        
+
         _createInterestedFeedback.call(this);
         _createArchiveFeedback.call(this);        
     }
@@ -230,8 +230,7 @@ define(function(require, exports, module) {
     }
 
         
-    function _createInterestedFeedback() {      
-        console.log('interested is called');      
+    function _createInterestedFeedback() {           
         this.interestedFeedbackSurface = new Surface({        
             size: [this.options.width * 0.225, this.options.height * 0.05],
                     content: 'INTERESTED',
@@ -286,7 +285,6 @@ define(function(require, exports, module) {
                 currentPosition[1] + data.delta[1]
             ]);
 
-            console.log(currentPosition[0]);
             if (currentPosition[0] > 0) {
                 this._eventOutput.emit('opacitateRight');
             } else if (currentPosition[0] < 0) {

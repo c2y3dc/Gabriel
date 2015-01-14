@@ -226,7 +226,6 @@ define(function(require, exports, module) {
                 window.open('https://www.angel.co/logout');
             }
 
-            console.log("LANDING", this.options.landingView);
             this.options.landingView.setTransform(function() {
                 return Transform.translate(0, 0, 0);
             }, {

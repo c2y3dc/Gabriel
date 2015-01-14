@@ -8,7 +8,7 @@ define(function(require, exports, module) {
     var HeaderFooter = require('famous/views/HeaderFooterLayout');
     var ImageSurface = require('famous/surfaces/ImageSurface');
 
-    var FastClick = require('famous/inputs/FastClick');
+    //var FastClick = require('famous/inputs/FastClick');
     var ScrollSync = require("famous/inputs/ScrollSync");
     var MouseSync = require('famous/inputs/MouseSync');
     var TouchSync = require('famous/inputs/TouchSync');
@@ -218,9 +218,14 @@ define(function(require, exports, module) {
             this._eventOutput.emit('firstSlideReady');
         }.bind(this));
 
+        // this.profileSurface.on('click', function(e) {
+        //     if (e.detail !== null) return false;
+        // }.bind(this));
+
         this.profileSurface.on('click', function() {
             this._eventOutput.emit('menuToggle');
         }.bind(this));
+
 
         this.archiveSurface.on('touchstart', function() {
             this.archiveModifier.setOpacity(0.5, {
