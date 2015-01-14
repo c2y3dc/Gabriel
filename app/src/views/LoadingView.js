@@ -102,7 +102,28 @@ define(function(require, exports, module) {
                 backgroundColor: 'rgba(255, 255, 255, 0.95)',
                 border: '1px dotted rgba(0, 0, 0, 0.125)',
                 borderRadius: '8px'
-            }
+            },
+            content: [
+            '<div class="loading_card">',
+            '<div class="loading_top">',
+            '<div class="loading_img"></div>',
+            '<p class="loading_startup_name"><br></p>',
+            '<p class="loading_high_concept"><br></p>',
+            '</div>',
+            '<div class="loading_divider">', '</div>',
+            '<div id="loadingJobInfo">',
+            '<p class="loading_job_title"></p>',
+            '<p class="loading_location"><br></p>',
+            '<p class="loading_location_description"><br></p>',
+            '<p class="loading_skills"><br></p>',
+            '<p class="loading_skills_description1"><br></p>',
+            '<p class="loading_skills_description2"><br></p>',
+            '</div>',
+            '<div class="loading_bottom">',
+            '<p class="loading_text">Loading Text</p>',
+            '<div class="loading_bar">Loading Bar</div>',
+            '</div>',
+            ].join('')
         });
 
         this.cardModifier = new StateModifier({
@@ -120,18 +141,12 @@ define(function(require, exports, module) {
         // });
         // progressBar.animate(1);
 
-        this.loadingBar = new Surface({
-          content: '<div id="container"></div>'
-        });
-
         this.loadingModifier = new StateModifier({
             origin: [0.5, 0.5],
             align: [0.5, 0.5]
         });
 
         this.node.add(this.cardModifier).add(this.cardSurface);
-        // this.node.add(this.loadingModifier).add(this.loadingGif);
-        this.node.add(this.loadingModifier).add(this.loadingBar);
     }
     module.exports = LoadingView;
 });
