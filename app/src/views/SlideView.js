@@ -203,7 +203,7 @@ define(function(require, exports, module) {
                     properties: {          
                 fontSize: this.options.width * 0.03 + 'px',
                           color: '#8f8f8f',
-                          border: '1px solid #8f8f8f',
+                          border: '2px solid #8f8f8f',
                           borderRadius: '4px',
                           textAlign: 'center',
                           letterSpacing: this.options.width * 0.002 + 'px',
@@ -237,15 +237,14 @@ define(function(require, exports, module) {
                     content: 'INTERESTED',
                     properties: {          
                 fontSize: this.options.width * 0.03 + 'px',
-                          color: '#fff',
-                          backgroundColor: '#34C9AB',
-                          border: '1px solid #34C9AB',
+                          color: '#34C9AB',
+                          backgroundColor: 'rgba(245, 245, 245, 0.3)',
+                          border: '2px solid #34C9AB',
                           borderRadius: '4px',
                           textAlign: 'center',
                           letterSpacing: this.options.width * 0.002 + 'px',
                           lineHeight: this.options.height * 0.045 + 'px',
                           fontWeight: 600,
-                        
             }      
         });
 
@@ -355,7 +354,7 @@ define(function(require, exports, module) {
                 this.archiveFeedbackSurface.archiveMod.setOpacity(0);
                 this.interestedFeedbackSurface.interestedMod.opacityFrom(function() {
                     var currentPosition = this.options.position.get();
-                    return (currentPosition[0] / 250)
+                    return (currentPosition[0] / 200)
                 }.bind(this));
 
             }.bind(this));
@@ -365,7 +364,7 @@ define(function(require, exports, module) {
                 this.interestedFeedbackSurface.interestedMod.setOpacity(0);
                 this.archiveFeedbackSurface.archiveMod.opacityFrom(function() {
                     var currentPosition = this.options.position.get();
-                    return (Math.abs(currentPosition[0] / 250))
+                    return (Math.abs(currentPosition[0] / 200))
                 }.bind(this));
 
             }.bind(this));
