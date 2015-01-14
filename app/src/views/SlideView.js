@@ -105,6 +105,7 @@ define(function(require, exports, module) {
                 '<p class="high_concept">', truncate(this.options.job.startup.high_concept, 120), '</p>',
                 '</div>',
                 '<div class="divider">', '</div>',
+                '<img class="flip_button" src="img/flip.svg">',
                 '<div id="jobInfo">',
                 '<span class="job_title">', capitalizeFirst(this.options.job.title), '</span>',
                 '<p class="location">', '<span class="secondary-text">Location</span><br>', this.options.location, '</p>',
@@ -144,7 +145,7 @@ define(function(require, exports, module) {
             .replace(/\s([^A-Za-z0-9,.&()\/])/g, "</div><div>$1")
             .replace(/-([A-Z])/g, "</div><div>-$1");
 
-        content = '<div>' + content + '</div>';
+        content = '<div class="job_description">' + content + '</div>';
 
         this.backView = new View({
             size: [undefined, undefined]
@@ -170,7 +171,7 @@ define(function(require, exports, module) {
 
         // this.contextSize = this.backNode.getSize();
 
-        // this.contentSize = window.innerHeight; // Most Likely you keep track of this when creating 
+        // this.contentSize = window.innerHeight; // Most Likely you keep track of this when creating
 
         // this.scrollbarSize = this.contextSize[1] * this.contextSize[1] / (this.contentSize);
 
@@ -202,11 +203,11 @@ define(function(require, exports, module) {
                     properties: {          
                 fontSize: this.options.width * 0.03 + 'px',
                           color: '#8f8f8f',
-                          border: '1px solid #8f8f8f',
+                          border: '2px solid #8f8f8f',
                           borderRadius: '4px',
                           textAlign: 'center',
                           letterSpacing: this.options.width * 0.002 + 'px',
-                          lineHeight: this.options.height * 0.045 + 'px',
+                          lineHeight: this.options.height * 0.05 + 'px',
                           fontWeight: 600,
                         
             }      
@@ -235,16 +236,14 @@ define(function(require, exports, module) {
             size: [this.options.width * 0.225, this.options.height * 0.05],
                     content: 'INTERESTED',
                     properties: {          
-                fontSize: this.options.width * 0.03 + 'px',
-                          color: '#fff',
-                          backgroundColor: '#34C9AB',
-                          border: '1px solid #34C9AB',
+                          fontSize: this.options.width * 0.03 + 'px',
+                          color: '#34C9AB',
+                          border: '2px solid #34C9AB',
                           borderRadius: '4px',
                           textAlign: 'center',
                           letterSpacing: this.options.width * 0.002 + 'px',
-                          lineHeight: this.options.height * 0.045 + 'px',
+                          lineHeight: this.options.height * 0.05 + 'px',
                           fontWeight: 600,
-                        
             }      
         });
 
@@ -354,7 +353,7 @@ define(function(require, exports, module) {
                 this.archiveFeedbackSurface.archiveMod.setOpacity(0);
                 this.interestedFeedbackSurface.interestedMod.opacityFrom(function() {
                     var currentPosition = this.options.position.get();
-                    return (currentPosition[0] / 250)
+                    return (currentPosition[0] / 200)
                 }.bind(this));
 
             }.bind(this));
@@ -364,7 +363,7 @@ define(function(require, exports, module) {
                 this.interestedFeedbackSurface.interestedMod.setOpacity(0);
                 this.archiveFeedbackSurface.archiveMod.opacityFrom(function() {
                     var currentPosition = this.options.position.get();
-                    return (Math.abs(currentPosition[0] / 250))
+                    return (Math.abs(currentPosition[0] / 200))
                 }.bind(this));
 
             }.bind(this));

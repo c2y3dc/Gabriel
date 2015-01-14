@@ -5,10 +5,9 @@
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="Oval-50-+-Line-+-arrow395" sketch:type="MSLayerGroup">
-            <path d="M24.5617647,0.981580835 C11.3479684,1.31492952 0.75,11.0515825 0.75,23.0140109 C0.75,34.9764393 11.3479684,44.7130923 24.5617647,45.046441 L24.5617647,0.981580835 Z" id="Oval-50" stroke="#000000" opacity="0.15" sketch:type="MSShapeGroup"></path>
-            <path d="M24.5,0.5 L24.5,45.5" id="Line" stroke="#FFFFFF" stroke-linecap="square" opacity="0.4" sketch:type="MSShapeGroup"></path>
-            <g id="arrow395" transform="translate(16.000000, 23.500000) rotate(-180.000000) translate(-16.000000, -23.500000) translate(11.000000, 14.000000)" stroke="#000000" stroke-width="0.5" fill="#231F20" sketch:type="MSShapeGroup" opacity="0.15">
+        <g id="Oval-50-+-Line-+-arrow395" sketch:type="MSLayerGroup" stroke="#000000" opacity="0.15">
+            <path d="M24.5617647,0.981580835 C11.3479684,1.31492952 0.75,11.0515825 0.75,23.0140109 C0.75,34.9764393 11.3479684,44.7130923 24.5617647,45.046441 L24.5617647,0.981580835 Z" id="Oval-50" sketch:type="MSShapeGroup"></path>
+            <g id="arrow395" transform="translate(16.000000, 23.500000) rotate(-180.000000) translate(-16.000000, -23.500000) translate(11.000000, 14.000000)" stroke-width="0.5" fill="#231F20" sketch:type="MSShapeGroup">
                 <path d="M9.48766667,18.8571607 L0.022,9.49966071 L9.48766667,0.142839286 L9.978,0.656517857 L1.033,9.49966071 L9.978,18.3431429 L9.48766667,18.8571607 Z" id="Shape"></path>
             </g>
         </g>

@@ -53,7 +53,7 @@ define(function(require, exports, module) {
     function _createBacking() {
         var backing = new Surface({
             properties: {
-                backgroundColor: '#FDFDFD'
+                backgroundColor: 'rgba(250, 250, 250, 0.15)'
             }
         });
         this.add(backing);
@@ -75,6 +75,7 @@ define(function(require, exports, module) {
     function _createHeader() {
         var backgroundSurface = new Surface({
             properties: {
+                background: 'url("img/grey.png") repeat top right',
                 backgroundColor: '#F9F9F9',
                 opacity: 0.95,
                 borderBottom: '1px solid rgba(0, 0, 0, 0.15)'
@@ -89,23 +90,23 @@ define(function(require, exports, module) {
 
         /*HEADER SURFACES*/
         this.profileSurface = new ImageSurface({
-            size: [20, 20],
+            size: [23, 23],
             content: 'img/profile.svg'
         });
 
         this.titleSurface = new Surface({
             size: [true, 44],
-            content: 'DISCOVERY',
+            content: 'GABRIEL',
             properties: {
                 fontSize: this.options.width * 0.042 + 'px',
                 color: 'rgba(0, 0, 0, 0.75)',
-                fontWeight: 600
+                fontWeight: 400
             }
         });
 
         /*HEADER MODIFIERS */
         var profileModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.07, this.options.headerSize * 0.18, 100),
+            transform: Transform.translate(this.options.width * 0.07, this.options.headerSize * 0.16, 100),
             origin: [0, 0],
             align: [0, 0.5]
         });

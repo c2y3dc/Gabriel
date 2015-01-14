@@ -69,7 +69,6 @@ define(function(require, exports, module) {
 
         this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
-        console.log(this.lightbox.show)
 
         slide.options.position.set([-500, 0], {
             curve: 'easeOut',
@@ -79,7 +78,7 @@ define(function(require, exports, module) {
         //OUR API CALL TO ARCHIVE GOES HERE
 
         //Saves current startup's id
-        
+
         var sid = this.slides[this.currentIndex].options.job.startup.id;
 
         // //Archive POST REQ
@@ -111,6 +110,9 @@ define(function(require, exports, module) {
         this.showNextSlide(function() {
             this.options.slideArrived = true
         }.bind(this));
+
+        slide.interestedFeedbackSurface.interestedMod.opacityFrom(0);
+        slide.archiveFeedbackSurface.archiveMod.opacityFrom(1);
     };
 
     DeckView.prototype.swipeRight = function() {
@@ -121,6 +123,8 @@ define(function(require, exports, module) {
             curve: 'easeOut',
             period: 800,
         });
+
+
         //THIS IS WHERE OUR API CALL TO CONNECT GOES
 
         //Saves current startup's id
@@ -167,13 +171,16 @@ define(function(require, exports, module) {
             this.options.slideArrived = true;
             this.options.okToFlip = true;
         }.bind(this));
+
+        slide.archiveFeedbackSurface.archiveMod.opacityFrom(0);
+        slide.interestedFeedbackSurface.interestedMod.opacityFrom(1);
     };
 
     DeckView.prototype.flip = function() {
 
         var slide = this.slides[this.currentIndex];
         var angle = slide.options.toggle ? 0 : -Math.PI;
-       
+
         slide.flipper.setAngle(angle, {
             curve: 'easeOut',
             duration: 450,
@@ -187,7 +194,7 @@ define(function(require, exports, module) {
         if (this.currentIndex === Object.keys(this.slides).length) {
             this.currentIndex = 0;
         }
-        
+
         this.slides[this.currentIndex].options.position.set([0, 0]);
         var slide = this.slides[this.currentIndex];
         this.lightbox.show(slide, callback);
@@ -245,7 +252,8 @@ define(function(require, exports, module) {
             this._eventOutput.emit('firstSlideReady');
         }.bind(this));
 
- 
+        slide.interestedFeedbackSurface.interestedMod.opacityFrom(0);
+        slide.archiveFeedbackSurface.archiveMod.opacityFrom(0);
     }
 
 
