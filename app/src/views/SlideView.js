@@ -207,7 +207,7 @@ define(function(require, exports, module) {
                           borderRadius: '4px',
                           textAlign: 'center',
                           letterSpacing: this.options.width * 0.002 + 'px',
-                          lineHeight: this.options.height * 0.045 + 'px',
+                          lineHeight: this.options.height * 0.05 + 'px',
                           fontWeight: 600,
                         
             }      
@@ -243,7 +243,7 @@ define(function(require, exports, module) {
                           borderRadius: '4px',
                           textAlign: 'center',
                           letterSpacing: this.options.width * 0.002 + 'px',
-                          lineHeight: this.options.height * 0.045 + 'px',
+                          lineHeight: this.options.height * 0.05 + 'px',
                           fontWeight: 600,
             }      
         });
