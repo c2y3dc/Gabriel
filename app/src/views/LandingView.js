@@ -124,10 +124,11 @@ define(function(require, exports, module) {
                 result.get('/1/me').done(function(data) {
                     this.options.userData = data;
                     ME = data;
-                    console.log(this.options.userData);
+                    //console.log(this.options.userData);
                 }.bind(this)).fail(function(oops) {
-                    console.log('unable to get user data');
+                    //console.log('unable to get user data');
                 }.bind(this));
+                
                 var jobs = {};
                 var pageCount = 1;
                 var max = 1;
@@ -149,12 +150,6 @@ define(function(require, exports, module) {
                             this.options.jobs = jobs;
                             this._eventOutput.emit('loaded');
                         }
-
-                        console.log(jobs);
-
-                        // this.rootModifier.setOpacity(0, {
-                        //     duration: 1000
-                        // });
 
                     }.bind(this)).fail(function(oops) {
                         console.log('unable to get job data');

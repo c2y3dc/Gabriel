@@ -62,10 +62,18 @@ define(function(require, exports, module) {
             this._eventOutput.emit('signoutClicked');
         }.bind(this));
         // Menu surface
-        this.menuHeaderView.cancelSurface.on('click', function() {
-            console.log('im clicked');
-            this._eventOutput.emit('gabrielOnly');
+        // 
+        
+        // this.menuHeaderView.cancelSurface.on('click', function(e) {
+        //     if (e.detail !== null) return false;
+        // }.bind(this));
+
+        this.menuHeaderView.cancelSurface.on('touchstart', function() {
+            this._eventOutput.emit('menuToggle');
         }.bind(this));
+
+      
+
     }
     module.exports = MenuView;
 });

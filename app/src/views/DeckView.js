@@ -79,10 +79,11 @@ define(function(require, exports, module) {
         //OUR API CALL TO ARCHIVE GOES HERE
 
         //Saves current startup's id
+        
         var sid = this.slides[this.currentIndex].options.job.startup.id;
 
         // //Archive POST REQ
-        console.log("startup_id", sid);
+        //console.log("startup_id", sid);
 
         ANGEL.post('/1/talent/pairing', {
             data: {
@@ -91,9 +92,9 @@ define(function(require, exports, module) {
                 user_interested: 0
             }
         }).done(function(data) {
-            console.log("Archive doneRes", data);
+            //console.log("Archive doneRes", data);
         }.bind(this)).fail(function(oops) {
-            console.log("already archive'd / unable to archive", oops);
+            //console.log("already archive'd / unable to archive", oops);
         }.bind(this));
 
         //UNFOLLOWS POST REQ
@@ -125,7 +126,7 @@ define(function(require, exports, module) {
         //Saves current startup's id
         var sid = this.slides[this.currentIndex].options.job.startup.id;
 
-        console.log("startup_id", sid);
+        //console.log("startup_id", sid);
 
         // //Interested POST REQ
         ANGEL.post('/1/talent/pairing', {
@@ -136,9 +137,9 @@ define(function(require, exports, module) {
                 user_interested: 1
             }
         }).done(function(data) {
-            console.log("Intro doneRes", data);
+            //console.log("Intro doneRes", data);
         }.bind(this)).fail(function(oops) {
-            console.log("already intro'd / unable to intro", oops);
+            //console.log("already intro'd / unable to intro", oops);
         }.bind(this));
 
         //FOLLOWS POST REQ
@@ -172,70 +173,7 @@ define(function(require, exports, module) {
 
         var slide = this.slides[this.currentIndex];
         var angle = slide.options.toggle ? 0 : -Math.PI;
-        //disables click/touch during flip animation:
-// <<<<<<< HEAD
-//         // slide.frontSurface.setProperties({
-//         //     pointerEvents: 'none'
-//         // });
-//         // // slide.backSurface.setProperties({
-//         // //     pointerEvents: 'none'
-//         // // });
-//         // slide.flipForwardButton.setProperties({
-//         //     pointerEvents: 'none'
-//         // });
-
-//         // //adds click/touch back in after animation:
-//         // setTimeout(function(){
-//         //     slide.frontSurface.setProperties({
-//         //         pointerEvents: 'auto'
-//         //     });
-//         //     // slide.backSurface.setProperties({
-//         //     //     pointerEvents: 'auto'
-//         //     // });
-//         //     slide.flipForwardButton.setProperties({
-//         //         pointerEvents: 'auto'
-//         //     });
-//         // }.bind(this), 500);
-
-//         // if(!slide.options.toggle){
-//         //     slide.fadeIn();
-//         //     console.log('fadein called')
-//         // }else{
-//         //     slide.fadeOut();
-//         //     console.log('fadeout called')
-//         // }
-// =======
-        // slide.frontSurface.setProperties({
-        //     pointerEvents: 'none'
-        // });
-        // slide.backSurface.setProperties({
-        //     pointerEvents: 'none'
-        // });
-        // slide.flipForwardButton.setProperties({
-        //     pointerEvents: 'none'
-        // });
-
-        // //adds click/touch back in after animation:
-        // setTimeout(function(){
-        //     slide.frontSurface.setProperties({
-        //         pointerEvents: 'auto'
-        //     });
-        //     slide.backSurface.setProperties({
-        //         pointerEvents: 'auto'
-        //     });
-        //     slide.flipForwardButton.setProperties({
-        //         pointerEvents: 'auto'
-        //     });
-        // }.bind(this), 500);
-
-        // if(!slide.options.toggle){
-        //     slide.fadeIn();
-        //     console.log('fadein called')
-        // }else{
-        //     slide.fadeOut();
-        //     console.log('fadeout called')
-        // }
-
+       
         slide.flipper.setAngle(angle, {
             curve: 'easeOut',
             duration: 450,
@@ -248,29 +186,8 @@ define(function(require, exports, module) {
         this.currentIndex++;
         if (this.currentIndex === Object.keys(this.slides).length) {
             this.currentIndex = 0;
-            // this.pageCount++;
-            // this.options.jobs = {};
-            // var index = 0;
-            // ANGEL.get('/1/tags/1692/jobs', {
-            //     data: {
-            //         page: this.pageCount
-            //     }
-            // }).done(function(data) {
-            //     console.log(data);
-            //     data.jobs.forEach(function(job) {
-            //         if (job.job_type === 'full-time' && job.salary_min > 70000 && job.currency_code === "USD") {
-            //             this.options.jobs[index] = job;
-            //             index++;
-            //         }
-            //     }.bind(this));
-
-            //     _createSlides.call(this);
-
-            // }.bind(this)).fail(function(oops) {
-            //     console.log('unable to get job data');
-            // }.bind(this));
-
         }
+        
         this.slides[this.currentIndex].options.position.set([0, 0]);
         var slide = this.slides[this.currentIndex];
         this.lightbox.show(slide, callback);

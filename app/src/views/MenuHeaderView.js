@@ -219,25 +219,22 @@ define(function(require, exports, module) {
 
     function _setListeners() {
 
-        this.cancelSurface.on('click', function() {
-            console.log('im clicked');
-            this._eventOutput.emit('gabrielOnly');
-        });
+
         this.logoutButton.on('click', function() {
+
 
             this._eventOutput.emit('signoutClicked');
             // OAuth.clearCache();
-                // window.open('https://www.angel.co/logout');
-                
+            // window.open('https://www.angel.co/logout');
+
         });
-            
+
         //     console.log("LANDING", this.options.landingView);
         //     this.options.landingView.rootModifier.setTransform(function(){
         //         return Transform.translate(0,0,0);
         //     }, {duration:400});
         // }.bind(this));
         //console.log('this OPTIONS after and outside popup', this.options);
-
     }
 
 

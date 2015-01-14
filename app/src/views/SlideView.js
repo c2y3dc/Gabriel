@@ -10,16 +10,14 @@ define(function(require, exports, module) {
     var Flipper = require("famous/views/Flipper");
     var Scrollview = require("famous/views/Scrollview");
     var Easing = require('famous/transitions/Easing');
-
-    var ScrollSync = require("famous/inputs/ScrollSync");
-    var MouseSync = require('famous/inputs/MouseSync');
-    var TouchSync = require('famous/inputs/TouchSync');
-    var GenericSync = require('famous/inputs/GenericSync');
-
+    var GenericSync = require("famous/inputs/GenericSync");
+    var MouseSync = require("famous/inputs/MouseSync");
+    var TouchSync = require("famous/inputs/TouchSync");
+    var RenderNode = require('famous/core/RenderNode');
+    //var FastClick = require('famous/inputs/FastClick');
     var Transitionable = require('famous/transitions/Transitionable');
     var SnapTransition = require('famous/transitions/SnapTransition');
     Transitionable.registerMethod('spring', SnapTransition);
-
 
     require('helpers/methods');
 
@@ -28,7 +26,6 @@ define(function(require, exports, module) {
     function SlideView() {
         // this.helperMethod = new Helper();
         View.apply(this, arguments);
-        console.log(this.options.job.description);
         this.options.position = new Transitionable([0, 0]);
         this.rootModifier = new StateModifier({
             align: [.5, .5],
@@ -73,62 +70,19 @@ define(function(require, exports, module) {
         job_type: 'Full Time'
     };
 
-    // SlideView.prototype.fadeIn = function() {
-
-    //     this.shadowBox.setProperties({
-    //         pointerEvents: 'auto'
-    //     });
-
-    //     this.cardModifier.setTransform(
-
-    //         Transform.translate(0, 0, 350), {
-    //             duration: 200,
-    //             curve: Easing.easeOut
-    //         }
-    //     );
-    //     this.cardModifier.setTransform(
-    //         Transform.translate(0, 0, 1.5), {
-    //             duration: 200,
-    //             curve: Easing.easeIn
-    //         }
-    //     );
-
-    //     this.shadowModifier.setOpacity(0.85, {
-    //         duration: 1500,
-    //         curve: 'easeOut'
-    //     });
-    // };
-
-    // SlideView.prototype.fadeOut = function() {
-
-    //     this.cardModifier.setTransform(
-    //         Transform.translate(0, 0, 350), {
-    //             duration: 200,
-    //             curve: Easing.easeOut
-    //         }
-    //     );
-    //     this.cardModifier.setTransform(
-    //         Transform.translate(0, 0, 1.5), {
-    //             duration: 200,
-    //             curve: Easing.easeIn
-    //         }
-    //     );
-
-    //     this.shadowModifier.setOpacity(0, {
-    //         duration: 1500,
-    //         curve: 'easeOut'
-    //     });
-    // };
-
     function _createFlipper() {
         this.flipper = new Flipper();
         _createCardFront.call(this);
         _createCardBack.call(this);
 
         this.flipper.setFront(this.frontNode);
-        this.flipper.setBack(this.backSurface);
+        this.flipper.setBack(this.backNode);
 
         this.cardNode.add(this.flipper);
+
+
+        _createInterestedFeedback.call(this);
+        _createArchiveFeedback.call(this);        
     }
 
     function _createCardFront() {
@@ -142,7 +96,7 @@ define(function(require, exports, module) {
             size: this.options.size,
             classes: ['front-card'],
             properties: {
-                fontSize: fontReSize(this.options.job.title.length)
+                fontSize: this.options.job.title.length
             },
             content: [
                 '<div class="card_header">',
@@ -164,58 +118,14 @@ define(function(require, exports, module) {
             ].join('')
         });
 
-        this.frontNode.add(this.frontSurface);
-
-
-        // this.flipForwardButton = new ImageSurface({
-        //     size: [this.options.width * 0.07, this.options.width * 0.12],
-        //     content: 'img/flip.svg'
-        // });
-
-
-        // this.flipModifier = new StateModifier({
-        //     transform: Transform.translate(this.options.width * 0.395, this.options.height * 0, 0.9)
-        // });
-
-        // this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
-
-
-        // this.companyBackgroundSurface = new ImageSurface({
-        //   size: [this.options.width * 0.9, this.options.height * 0.222],
-        //   content: 'img/companybg.png'
-        // });
-
-        // this.companyBackgroundModifier = new StateModifier({
-        //   transform: Transform.translate(0, -this.options.height * 0.23, 0.9)
-        // });
-
-        //this.frontNode.add(this.companyBackgroundModifier).add(this.companyBackgroundSurface);
-
-        // this.companyLogoSurface = new ImageSurface({
-        //   size: [this.options.width * 0.1875, this.options.width * 0.1875],
-        //   content: this.options.logo_url,
-        //   properties: {
-        //     backgroundColor: '#FFFFFF',
-        //     borderRadius: '2px',
-        //     border: '3px solid #FFFFFF',
-        //     boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.30)'
-        //   }
-        // });
-
-        // this.companyLogoModifier = new StateModifier({
-        //   transform: Transform.translate(this.options.width * 0.32, -this.options.height * 0.27, 0.8)
-        // });
-
-
-        // //this.frontNode.add(jobTitleModifier).add(jobTitleSurface);
-        // this.frontNode.add(this.companyLogoModifier).add(this.companyLogoSurface);
-        //this.frontNode.add(jobLocationModifier).add(jobLocationSurface);
-
-        //this.frontNode.add(this.flipModifier).add(this.flipForwardButton);
-
+        this.frontNode.add(this.frontSurface); 
     }
 
     function _createCardBack() {
+        this.backSurfaceModifier = new StateModifier();
+
+        this.backNode = this.cardNode.add(this.backSurfaceModifier);
+        var backSurfaces = [];
         var content;
         if (!this.options.job.description || this.options.job.description === '') {
             content = 'No Description Provided';
@@ -223,43 +133,9 @@ define(function(require, exports, module) {
             content = this.options.job.description.slice();
         }
 
+        this.backScrollView = new Scrollview();
 
-        // descParser = function() {
-        //     var textString = this.options.job.description.slice();
-
-        //     console.log(textString);
-        //     var spaceCount = 0;
-        //     var lastIndex = 0;
-        //     for (var i=0; i<textString.length; i++){
-        //         if (spaceCount > 1) {
-        //             var paragraph = '<p>' + textString.slice(lastIndex, i) + '</p>';
-        //             content = content + paragraph;
-        //             spaceCount = 0;
-        //             lastIndex = i;
-        //         }else if (i === textString.length-1){
-        //             var paragraph = '<p>' + textString.slice(lastIndex) + '</p>';
-        //             content = content + paragraph;
-        //             return;
-        //         }else {
-        //             if (textString[i] === ' ') {
-        //                 spaceCount++;
-        //             } else {
-        //                 spaceCount = 0;
-        //             }
-        //         }
-        //         // console.log('text', textString, 'i', i, 'spaceCount', spaceCount);
-
-        //     }
-        // }
-
-        // descParser.call(this);
-        // <<<<<<< HEAD
-
-        //         this.backSurface = new Surface({
-        //             size: this.options.size,
-        //             classes: ['back-card'],
-        //             content: '<div class="back-card-desc">' + stripNewLines(truncate(this.options.job.description, 1000)) + '</div>'
-        // =======
+        this.backScrollView.sequenceFrom(backSurfaces);
 
         content = content.replace(/\s\s/g, "</div></br><div>")
             .replace(/: /g, ":</div></br><div>")
@@ -270,18 +146,132 @@ define(function(require, exports, module) {
 
         content = '<div>' + content + '</div>';
 
+        this.backView = new View({
+            size: [undefined, undefined]
+        });
+
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card', 'back-card-desc'],
             content: '<div>' + content + '</div>'
-
         });
+
+        this.backSurface.pipe(this.backScrollView);
+
+        this.backSurface.state = new StateModifier({
+            transform: Transform.translate(0, 0, 0.9)
+        })
+
+        this.backView.add(this.backSurface.state).add(this.backSurface);
+
+        backSurfaces.push(this.backView);
+
+        this.backNode.add(this.backScrollView);
+
+        // this.contextSize = this.backNode.getSize();
+
+        // this.contentSize = window.innerHeight; // Most Likely you keep track of this when creating 
+
+        // this.scrollbarSize = this.contextSize[1] * this.contextSize[1] / (this.contentSize);
+
+        // this.scrollbar = new Surface({
+        //     size: [10, this.scrollbarSize],
+        //     properties: {
+        //         backgroundColor: 'rgb(52, 201, 171)'
+        //     }
+        // })
+
+        // console.log(this.scrollbar);
+
+        // this.scrollbar.draggable = new Draggable({
+        //     xRange: [0, 0],
+        //     yRange: [0, this.contextSize[1] - this.scrollbarSize]
+        // })
+
+        // this.scrollbar.pipe(this.scrollbar.draggable);
+
+        // this.backNode.add(this.scrollbar.draggable).add(this.scrollbar);
+
+    }
+
+        
+    function _createArchiveFeedback() {           
+        this.archiveFeedbackSurface = new Surface({        
+            size: [this.options.width * 0.225, this.options.height * 0.05],
+                    content: 'ARCHIVE',
+                    properties: {          
+                fontSize: this.options.width * 0.03 + 'px',
+                          color: '#8f8f8f',
+                          border: '1px solid #8f8f8f',
+                          borderRadius: '4px',
+                          textAlign: 'center',
+                          letterSpacing: this.options.width * 0.002 + 'px',
+                          lineHeight: this.options.height * 0.045 + 'px',
+                          fontWeight: 600,
+                        
+            }      
+        });
+
+        this.archiveFeedbackSurface.node = new RenderNode();
+
+        this.archiveFeedbackSurface.archiveMod = new Modifier({        
+            opacity: 0,
+            transform: Transform.translate(this.options.width * 0.29, -this.options.height * 0.275, 0.9)      
+        });
+
+        this.archiveFeedbackSurface.rotationMod = new Modifier({
+            transform: Transform.rotate(0, 0, 0.5)  
+        })
+
+        this.archiveFeedbackSurface.node.add(this.archiveFeedbackSurface.archiveMod).add(this.archiveFeedbackSurface.rotationMod).add(this.archiveFeedbackSurface);
+
+              
+        this.frontNode.add(this.archiveFeedbackSurface.node);    
+    }
+
+        
+    function _createInterestedFeedback() {           
+        this.interestedFeedbackSurface = new Surface({        
+            size: [this.options.width * 0.225, this.options.height * 0.05],
+                    content: 'INTERESTED',
+                    properties: {          
+                fontSize: this.options.width * 0.03 + 'px',
+                          color: '#fff',
+                          backgroundColor: '#34C9AB',
+                          border: '1px solid #34C9AB',
+                          borderRadius: '4px',
+                          textAlign: 'center',
+                          letterSpacing: this.options.width * 0.002 + 'px',
+                          lineHeight: this.options.height * 0.045 + 'px',
+                          fontWeight: 600,
+                        
+            }      
+        });
+
+              
+
+        this.interestedFeedbackSurface.node = new RenderNode();
+
+        this.interestedFeedbackSurface.interestedMod = new Modifier({        
+            opacity: 0,
+                    transform: Transform.translate(-this.options.width * 0.29, -this.options.height * 0.275, 0.9)      
+        });
+
+        this.interestedFeedbackSurface.rotationMod = new Modifier({
+            transform: Transform.rotate(0, 0, -0.5)
+        })
+
+
+        this.interestedFeedbackSurface.node.add(this.interestedFeedbackSurface.interestedMod).add(this.interestedFeedbackSurface.rotationMod).add(this.interestedFeedbackSurface);
+
+        this.frontNode.add(this.interestedFeedbackSurface.node);        
+
     }
 
     function _createHandle() {
         var sync = new GenericSync({
             "mouse": {},
-            "touch": {},
+            "touch": {}
         });
         // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
         this.frontSurface.pipe(sync);
@@ -294,12 +284,19 @@ define(function(require, exports, module) {
                 currentPosition[0] + data.delta[0],
                 currentPosition[1] + data.delta[1]
             ]);
+
+            if (currentPosition[0] > 0) {
+                this._eventOutput.emit('opacitateRight');
+            } else if (currentPosition[0] < 0) {
+                this._eventOutput.emit('opacitateLeft')
+            }
+
         }.bind(this));
 
         sync.on('end', function(data) {
             var currentPosition = this.options.position.get();
             var velocity = data.velocity;
-            console.log(velocity);
+            //console.log(velocity);
             if (currentPosition[0] < -window.innerWidth / 6) {
                 this._eventOutput.emit('swipeLeft');
             } else if (currentPosition[0] > window.innerWidth / 6) {
@@ -350,40 +347,39 @@ define(function(require, exports, module) {
         this.mainNode.add(this.background);
     }
 
-    function _createShadowBox() {
-        this.shadowBox = new Surface({
-            size: [window.innerWidth, window.innerHeight],
-            properties: {
-                backgroundColor: 'gray',
-                pointerEvents: 'none'
-            }
-        });
-        this.shadowModifier = new StateModifier({
-            opacity: 0,
-            transform: Transform.translate(0, 0, -10),
-        });
-
-        this.mainNode.add(this.shadowModifier).add(this.shadowBox);
-        return this.mainNode;
-    }
-
-
     function _setListeners() {
+
+        this.on('opacitateRight',
+            function() {
+                this.archiveFeedbackSurface.archiveMod.setOpacity(0);
+                this.interestedFeedbackSurface.interestedMod.opacityFrom(function() {
+                    var currentPosition = this.options.position.get();
+                    return (currentPosition[0] / 250)
+                }.bind(this));
+
+            }.bind(this));
+
+        this.on('opacitateLeft',
+            function() {
+                this.interestedFeedbackSurface.interestedMod.setOpacity(0);
+                this.archiveFeedbackSurface.archiveMod.opacityFrom(function() {
+                    var currentPosition = this.options.position.get();
+                    return (Math.abs(currentPosition[0] / 250))
+                }.bind(this));
+
+            }.bind(this));
+
+
         this.frontSurface.on('click', function() {
             if (!this.options.toggle) {
-                this._eventOutput.emit('flip');
+                this._eventOutput.emit('flip')
+
             }
         }.bind(this));
-        // this.flipForwardButton.on('click', function() {
-        //     if (!this.options.toggle) {
-        //         this._eventOutput.emit('flip');
-        //     }
-        // }.bind(this));
-        this.backSurface.on('click', function() {
-            //this.shadowModifier.setOpacity(0);
+
+        this.backSurface.on('click', function() {;
             if (this.options.toggle) {
                 this._eventOutput.emit('flip');
-                //this.shadowModifier.setOpacity(0);
             }
         }.bind(this));
     }
