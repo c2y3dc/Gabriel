@@ -222,7 +222,7 @@ define(function(require, exports, module) {
         //     if (e.detail !== null) return false;
         // }.bind(this));
 
-        this.profileSurface.on('click', function() {
+        this.profileSurface.on('touchstart', function() {
             this._eventOutput.emit('menuToggle');
         }.bind(this));
 

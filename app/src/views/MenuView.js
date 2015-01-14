@@ -63,8 +63,8 @@ define(function(require, exports, module) {
         // this.menuHeaderView.cancelSurface.on('click', function(e) {
         //     if (e.detail !== null) return false;
         // }.bind(this));
-        
-        this.menuHeaderView.cancelSurface.on('click', function() {
+
+        this.menuHeaderView.cancelSurface.on('touchstart', function() {
             this._eventOutput.emit('menuToggle');
         }.bind(this));
 
