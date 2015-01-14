@@ -85,7 +85,7 @@ html {
 .back-card {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     padding: 0.8rem;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     border-radius: 8px;
     border: 1px solid rgba(0, 0, 0, 0.125);
     background-color: rgba(255, 255, 255, 0.95);
@@ -155,7 +155,7 @@ html {
 .high_concept {
     margin-top: 0.2rem;
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 300;
     color: #9E9E9E;
 }
@@ -178,14 +178,14 @@ html {
     color: #000;
     font-weight: 300;
     letter-spacing: 0.25px;
-    font-size: 0.8rem;
+    line-height: 1.15rem;
+    font-size: 0.85rem;
 }
 .secondary-text {
     color: rgba(0, 0, 0, .35);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 400;
     letter-spacing: 0.25px;
     line-height: 1.3rem;
     text-transform: uppercase;
 }
-/* Landing Page */

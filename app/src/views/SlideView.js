@@ -145,7 +145,7 @@ define(function(require, exports, module) {
             .replace(/\s([^A-Za-z0-9,.&()\/])/g, "</div><div>$1")
             .replace(/-([A-Z])/g, "</div><div>-$1");
 
-        content = '<div>' + content + '</div>';
+        content = '<div class="job_description">' + content + '</div>';
 
         this.backView = new View({
             size: [undefined, undefined]
