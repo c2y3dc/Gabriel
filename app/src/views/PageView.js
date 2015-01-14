@@ -100,7 +100,7 @@ define(function(require, exports, module) {
             properties: {
                 fontSize: this.options.width * 0.042 + 'px',
                 color: 'rgba(0, 0, 0, 0.75)',
-                fontWeight: 600
+                fontWeight: 400
             }
         });
 

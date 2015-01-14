@@ -236,9 +236,8 @@ define(function(require, exports, module) {
             size: [this.options.width * 0.225, this.options.height * 0.05],
                     content: 'INTERESTED',
                     properties: {          
-                fontSize: this.options.width * 0.03 + 'px',
+                          fontSize: this.options.width * 0.03 + 'px',
                           color: '#34C9AB',
-                          backgroundColor: 'rgba(245, 245, 245, 0.3)',
                           border: '2px solid #34C9AB',
                           borderRadius: '4px',
                           textAlign: 'center',

@@ -111,8 +111,8 @@ define(function(require, exports, module) {
             this.options.slideArrived = true
         }.bind(this));
 
+        slide.interestedFeedbackSurface.interestedMod.opacityFrom(0);
         slide.archiveFeedbackSurface.archiveMod.opacityFrom(1);
-
     };
 
     DeckView.prototype.swipeRight = function() {
@@ -172,6 +172,7 @@ define(function(require, exports, module) {
             this.options.okToFlip = true;
         }.bind(this));
 
+        slide.archiveFeedbackSurface.archiveMod.opacityFrom(0);
         slide.interestedFeedbackSurface.interestedMod.opacityFrom(1);
     };
 
@@ -251,7 +252,8 @@ define(function(require, exports, module) {
             this._eventOutput.emit('firstSlideReady');
         }.bind(this));
 
-
+        slide.interestedFeedbackSurface.interestedMod.opacityFrom(0);
+        slide.archiveFeedbackSurface.archiveMod.opacityFrom(0);
     }
 
 
