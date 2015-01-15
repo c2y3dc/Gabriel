@@ -14,6 +14,12 @@ define(function(require, exports, module) {
         document.body.classList.add('famous-root');
         document.documentElement.classList.add('famous-root');
 
+        window.addEventListener('touchmove', function(e){
+            var classes = e.target.classList
+            var hasClassIWant = Array.prototype.indexOf.call(classes, 'back-card-desc')
+            if (hasClassIWant === -1) e.preventDefault()
+        })
+
         // create the main context
         var mainContext = Engine.createContext();
         mainContext.setPerspective(2000);
