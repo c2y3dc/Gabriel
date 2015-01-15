@@ -123,9 +123,8 @@ define(function(require, exports, module) {
     }
 
     function _createCardBack() {
-        this.backSurfaceModifier = new StateModifier();
-
-        this.backNode = this.cardNode.add(this.backSurfaceModifier);
+        
+        
         var backSurfaces = [];
         var content;
         if (!this.options.job.description || this.options.job.description === '') {
@@ -134,64 +133,39 @@ define(function(require, exports, module) {
             content = this.options.job.description.slice();
         }
 
-        this.backScrollView = new Scrollview();
+        
+        this.backModifier = new Modifier({});
+        
 
-        this.backScrollView.sequenceFrom(backSurfaces);
+        content = content.replace(/\s\s/g, "</div></br><div class='back-card-desc'>")
+            .replace(/: /g, ":</div></br><div class='back-card-desc'>")
+            .replace(/\s-\s/g, "</div><div class='back-card-desc'>-")
+            .replace(/\s\s/g, "</div></br><div class='back-card-desc'>")
+            .replace(/\s([^A-Za-z0-9,.&()\/])/g, "</div><div class='back-card-desc'>$1")
+            .replace(/-([A-Z])/g, "</div><div class='back-card-desc'>-$1");
 
-        content = content.replace(/\s\s/g, "</div></br><div>")
-            .replace(/: /g, ":</div></br><div>")
-            .replace(/\s-\s/g, "</div></div>-")
-            .replace(/\s\s/g, "</div></br><div>")
-            .replace(/\s([^A-Za-z0-9,.&()\/])/g, "</div><div>$1")
-            .replace(/-([A-Z])/g, "</div><div>-$1");
+        content = '<div class="back-card-desc">' + content + '</div>';
 
-        content = '<div class="job_description">' + content + '</div>';
-
-        this.backView = new View({
-            size: [undefined, undefined]
-        });
+        
 
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card'],
-            content: '<div class="back-card-desc"><div>' + content + '</div></div>'
+// <<<<<<< HEAD
+//             content: '<div class="back-card-desc"><div>' + content + '</div></div>'
+// =======
+            content: '<div class="back-card-desc scroll-container"><div>' + content + '</div></div>'
+// >>>>>>> 0fb0aee83cd47f2c186431de7183be5accb7a7a2
         });
 
-        this.backSurface.pipe(this.backScrollView);
+        
 
-        this.backSurface.state = new StateModifier({
-            transform: Transform.translate(0, 0, 0.9)
-        })
+        this.backNode = this.cardNode.add(this.backModifier);
+        this.backNode.add(this.backSurface);
 
-        this.backView.add(this.backSurface.state).add(this.backSurface);
+     
 
-        backSurfaces.push(this.backView);
-
-        this.backNode.add(this.backScrollView);
-
-        // this.contextSize = this.backNode.getSize();
-
-        // this.contentSize = window.innerHeight; // Most Likely you keep track of this when creating
-
-        // this.scrollbarSize = this.contextSize[1] * this.contextSize[1] / (this.contentSize);
-
-        // this.scrollbar = new Surface({
-        //     size: [10, this.scrollbarSize],
-        //     properties: {
-        //         backgroundColor: 'rgb(52, 201, 171)'
-        //     }
-        // })
-
-        // console.log(this.scrollbar);
-
-        // this.scrollbar.draggable = new Draggable({
-        //     xRange: [0, 0],
-        //     yRange: [0, this.contextSize[1] - this.scrollbarSize]
-        // })
-
-        // this.scrollbar.pipe(this.scrollbar.draggable);
-
-        // this.backNode.add(this.scrollbar.draggable).add(this.scrollbar);
+   
 
     }
 
@@ -237,7 +211,8 @@ define(function(require, exports, module) {
                     content: 'INTERESTED',
                     properties: {          
                           fontSize: this.options.width * 0.03 + 'px',
-                          color: '#34C9AB',
+                          color: '#fff',
+                          backgroundColor: '#34C9AB',
                           border: '2px solid #34C9AB',
                           borderRadius: '4px',
                           textAlign: 'center',
@@ -272,9 +247,10 @@ define(function(require, exports, module) {
             "mouse": {},
             "touch": {}
         });
+
+        var touch = new TouchSync({});
         // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
         this.frontSurface.pipe(sync);
-        // this.backSurface.pipe(sync);
 
         sync.on('update', function(data) {
             var currentPosition = this.options.position.get();

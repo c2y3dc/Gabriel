@@ -105,17 +105,19 @@ define(function(require, exports, module) {
         // this.landingView.rootModifier.setTransform(Transform.translate(0, 0, 5), {duration: 300});
         OAuth.clearCache('angel_list');
         // Create the event.
-        var event = document.createEvent('Event');
-        // Define that the event name is 'build'.
-        event.initEvent('build', true, true);
-        // Listen for the event.
-        document.addEventListener('build', function(e) {
-            // e.target matches document from above
-        }, false);
-        // target can be any Element or other EventTarget.
-        var build = function() {
-            document.dispatchEvent(event);
-        };
+        // var event = document.createEvent('Event');
+        // // Define that the event name is 'build'.
+        // event.initEvent('build', true, true);
+        // // Listen for the event.
+        // document.addEventListener('build', function(e) {
+        //     // e.target matches document from above
+        // }, false);
+        // // target can be any Element or other EventTarget.
+        // var build = function() {
+        //     document.dispatchEvent(event);
+        // };
+
+        window.location.reload();
 
         setTimeout(build, 300)
         delete this;

@@ -11,8 +11,17 @@ define(function(require, exports, module) {
         require('helpers/methods');
 
         Engine.setOptions({appMode: false});
-        document.body.classList.add('famous-root');
-        document.documentElement.classList.add('famous-root');
+
+        document.body.classList.add('famous-root');
+        document.documentElement.classList.add('famous-root');
+
+        window.addEventListener('touchmove', function(e){
+            var classes = e.target.classList
+            // var hasClassIWant = Array.prototype.indexOf.call(classes, 'back-card-desc')
+            // if (hasClassIWant === -1) e.preventDefault()
+            if (classes[0] != 'back-card-desc') e.preventDefault();
+        })
+
 
         // create the main context
         var mainContext = Engine.createContext();
@@ -31,10 +40,10 @@ define(function(require, exports, module) {
         //document.addEventListener('build', start);
         
         // COMMENT OUT BOTH LINES BELOW WHEN RUNNING ON MOBILE DEVICES
-        require('../lib/oauth-js/dist/oauth.min.js');
-        start();
         // require('../lib/oauth-js/dist/oauth.min.js');
         // start();
+        require('../lib/oauth-js/dist/oauth.min.js');
+        start();
     }
 
 
