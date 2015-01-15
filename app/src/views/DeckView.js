@@ -115,6 +115,9 @@ define(function(require, exports, module) {
             slide.noteView.inputSurface.setValue('');
             this.options.slideArrived = true
         }.bind(this));
+
+        slide.interestedFeedbackSurface.interestedMod.opacityFrom(0);
+        slide.archiveFeedbackSurface.archiveMod.opacityFrom(1);
     };
 
     DeckView.prototype.swipeRight = function() {
@@ -127,6 +130,8 @@ define(function(require, exports, module) {
             curve: 'easeOut',
             period: 800,
         });
+
+
         //THIS IS WHERE OUR API CALL TO CONNECT GOES
 
         //Saves current startup's id
@@ -175,12 +180,14 @@ define(function(require, exports, module) {
             this.options.slideArrived = true;
             this.options.okToFlip = true;
         }.bind(this));
+
+        slide.archiveFeedbackSurface.archiveMod.opacityFrom(0);
+        slide.interestedFeedbackSurface.interestedMod.opacityFrom(1);
     };
 
     DeckView.prototype.flip = function() {
         var slide = this.slides[this.currentIndex];
         var angle = slide.options.toggle ? 0 : -Math.PI;
-
 
         slide.flipper.setAngle(angle, {
             curve: Easing.outCurve,
@@ -259,7 +266,8 @@ define(function(require, exports, module) {
             this._eventOutput.emit('firstSlideReady');
         }.bind(this));
 
-
+        slide.interestedFeedbackSurface.interestedMod.opacityFrom(0);
+        slide.archiveFeedbackSurface.archiveMod.opacityFrom(0);
     }
 
 

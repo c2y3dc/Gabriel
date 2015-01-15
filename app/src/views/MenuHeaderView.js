@@ -15,6 +15,7 @@ define(function(require, exports, module) {
         _createLocationPin.call(this);
         _createUserLocation.call(this);
         _createUserBio.call(this);
+        _createFollower.call(this);
         _createBuiltWithFamous.call(this);
         _createLogoutButton.call(this);
         _setListeners.call(this);
@@ -57,18 +58,32 @@ define(function(require, exports, module) {
     // Create menu toggle
     function _createCancelButton() {
         this.cancelSurface = new ImageSurface({
-            size: [28, 28],
+            size: [23, 23],
             content: 'img/cancel.svg'
         });
 
-        var menuModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.05, this.options.height * 0.05, 1),
+        var cancelModifier = new StateModifier({
+            transform: Transform.translate(this.options.width * 0.05, this.options.height * 0.055, 1),
             origin: [0, 0],
             align: [0, 0]
         })
 
-        this.add(menuModifier).add(this.cancelSurface);
+        this.cancelTouchSurface = new Surface({
+            size: [this.options.width * 0.12, this.options.width * 0.12],
+            properties: {
+                background: 'transparent',
+                borderRadius: this.options.width * 0.075 + 'px'
+            }
+        });
+        this.cancelTouchModifier = new StateModifier({
+            transform: Transform.translate(this.options.width * 0.0275, this.options.height * 0.0375, 1.2)
+        });
+
+        this.add(this.cancelTouchModifier).add(this.cancelTouchSurface);
+        this.add(cancelModifier).add(this.cancelSurface);
     }
+
+
 
     // Create user image circle
     function _createUserImage() {
@@ -170,6 +185,21 @@ define(function(require, exports, module) {
         })
 
         this.add(userBioModifier).add(userBioSurface);
+    }
+
+    function _createFollower() {
+        this.follower = new Surface({
+            classes: ['followers'],
+            size: [true, true],
+            content: 'Followed by ' + this.options.user.follower_count + ' ' + puralize(this.options.user.follower_count)
+        });
+
+        this.followerModifier = new StateModifier({
+            origin: [0.5, 0.5],
+            align: [0.5, 0.725]
+        });
+
+        this.add(this.followerModifier).add(this.follower);
     }
 
     function _createBuiltWithFamous() {

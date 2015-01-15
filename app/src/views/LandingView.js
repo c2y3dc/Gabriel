@@ -31,7 +31,7 @@ define(function(require, exports, module) {
     function _createBackground() {
         this.backgroundSurface = new Surface({
             properties: {
-                backgroundColor: 'white'
+                background: 'url("img/grey.png") repeat top right'
             }
         });
 
@@ -97,7 +97,8 @@ define(function(require, exports, module) {
                 textAlign: 'center',
                 letterSpacing: this.options.width * 0.002 + 'px',
                 lineHeight: this.options.height * 0.08 + 'px',
-                fontWeight: 600
+                fontWeight: 600,
+                backgroundColor: 'rgba(250, 250, 250, .4)'
             }
         })
         this.loginButtonModifier = new StateModifier({
@@ -124,17 +125,17 @@ define(function(require, exports, module) {
                 result.get('/1/me').done(function(data) {
                     this.options.userData = data;
                     ME = data;
-                    //console.log(this.options.userData);
+                    // console.log(this.options.userData);
                 }.bind(this)).fail(function(oops) {
                     //console.log('unable to get user data');
                 }.bind(this));
-                
+
                 var jobs = {};
                 var pageCount = 1;
                 var max = 1;
                 var index = 0;
                 while (pageCount <= max) {
-                    result.get('/1/tags/1693/jobs', {
+                    result.get('/1/tags/1694/jobs', {
                         data: {
                             page: pageCount
                         }

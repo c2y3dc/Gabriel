@@ -5,6 +5,8 @@ define(function(require, exports, module) {
     var StateModifier = require('famous/modifiers/StateModifier');
     var HeaderFooter = require('famous/views/HeaderFooterLayout');
     var ImageSurface = require('famous/surfaces/ImageSurface');
+    // var ProgressBar = require('progressbar');
+
 
     function LoadingView() {
         View.apply(this, arguments);
@@ -21,8 +23,7 @@ define(function(require, exports, module) {
     LoadingView.DEFAULT_OPTIONS = {
         width: window.innerWidth,
         height: window.innerHeight,
-        size: [window.innerWidth * 0.9, window.innerHeight * 0.687],
-        headerSize: window.innerHeight * 0.15,
+        headerSize: window.innerHeight * 0.1127,
         footerSize: window.innerHeight * 0.167
     };
 
@@ -46,58 +47,46 @@ define(function(require, exports, module) {
         });
 
         this.add(layoutModifier).add(this.layout);
-
-        // this.bodySurface = new Surface({
-        //     size: [undefined, undefined],
-        //     classes: ['loader'],
-        //     content: '<div class="loader"> </div>',
-        //     properties: {
-        //         backgroundColor: '#FDFDFD'
-        //     }
-        // });
-
-        // this.bodyModifier = new StateModifier({
-        //     transform: Transform.translate(0, 0, 201)
     }
 
     function _createHeader() {
         var headerSurface = new Surface({
+          classes: ['testing'],
             properties: {
+                background: 'url("img/grey.png") repeat top right',
                 backgroundColor: '#F9F9F9',
                 borderBottom: '1px solid rgba(0, 0, 0, 0.15)'
             }
         });
 
         var headerModifier = new StateModifier({
-            transform: Transform.inFront
+            transform: Transform.translate(this.options.width * 0, this.options.height * 0.04, 0.9)
         });
+
         this.layout.header.add(headerModifier).add(headerSurface);
 
         this.profileSurface = new ImageSurface({
-            size: [20, 20],
+            size: [21, 21],
             content: 'img/profile.svg'
         });
 
         this.titleSurface = new Surface({
             size: [true, 44],
-            content: 'DISCOVERY',
+            content: 'GABRIEL',
             properties: {
-                fontSize: this.options.width * 0.042 + 'px',
-                color: 'rgba(0, 0, 0, 0.75)',
-                fontWeight: 600
+                fontSize: this.options.width * 0.03875 + 'px',
+                color: 'rgba(0, 0, 0, 0.6)',
+                letterSpacing: '-0.275px',
+                fontWeight: 400
             }
         });
 
         var profileModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.07, this.options.headerSize * 0.18, 0),
-            origin: [0, 0],
-            align: [0, 0.5]
+            transform: Transform.translate(this.options.width * 0.095, this.options.height * 0.095, 0.9)
         });
 
         var titleModifier = new StateModifier({
-            transform: Transform.translate(0, this.options.headerSize * 0.25, 0),
-            origin: [0.5, 0],
-            align: [0.5, 0.5]
+            transform: Transform.translate(this.options.width * 0.4275, this.options.height * 0.10875, 0.9)
         });
 
         this.layout.header.add(profileModifier).add(this.profileSurface);
@@ -108,18 +97,37 @@ define(function(require, exports, module) {
         this.node = this.layout.content;
 
         this.cardSurface = new Surface({
-            size: [window.innerWidth * 0.82, window.innerHeight * 0.687],
+            size: [window.innerWidth * 0.82, window.innerHeight * 0.65],
             properties: {
-                backgroundColor: '#FAFAFA',
-                border: '1px solid rgba(0, 0, 0, 0.125)',
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                border: '1px dotted rgba(0, 0, 0, 0.125)',
                 borderRadius: '8px'
-            }
+            },
+            content: [
+            '<div class="loading_card">',
+            '<div class="loading_top">',
+            '<div class="loading_img"></div>',
+            '<p class="loading_startup_name"><br></p>',
+            '<p class="loading_high_concept"><br></p>',
+            '</div>',
+            '<div class="loading_divider">', '</div>',
+            '<div id="loadingJobInfo">',
+            '<p class="loading_job_title"></p>',
+            '<p class="loading_location"><br></p>',
+            '<p class="loading_location_description"><br></p>',
+            '<p class="loading_skills"><br></p>',
+            '<p class="loading_skills_description1"><br></p>',
+            '<p class="loading_skills_description2"><br></p>',
+            '</div>',
+            '<div class="loading_bottom">',
+            '<p class="loading_text">Loading Text</p>',
+            '<div class="loading_bar">Loading Bar</div>',
+            '</div>',
+            ].join('')
         });
 
         this.cardModifier = new StateModifier({
-            transform: Transform.translate(0, this.options.height * 0.025, 0),
-            origin: [0.5, 0],
-            align: [0.5, 0]
+            transform: Transform.translate(this.options.width * 0.09, this.options.height * 0.0625, 0)
         });
 
         this.loadingGif = new ImageSurface({
@@ -127,13 +135,18 @@ define(function(require, exports, module) {
             content: 'img/loading.gif'
         });
 
+        // var progressBar = new ProgressBar.Square('#container', {
+        //   strokeWidth: 2,
+        //   color: '#fcb03c'
+        // });
+        // progressBar.animate(1);
+
         this.loadingModifier = new StateModifier({
             origin: [0.5, 0.5],
             align: [0.5, 0.5]
         });
 
         this.node.add(this.cardModifier).add(this.cardSurface);
-        this.node.add(this.loadingModifier).add(this.loadingGif);
     }
     module.exports = LoadingView;
 });

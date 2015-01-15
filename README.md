@@ -64,6 +64,7 @@ cordova plugin add org.apache.cordova.device
 cordova plugin add org.apache.cordova.console
 cordova plugin add org.apache.cordova.inappbrowser
 cordova plugin add https://github.com/oauth-io/oauth-phonegap
+cordova plugin add com.ionic.keyboard
 cordova plugin add https://github.com/bez4pieci/Phonegap-Cookies-Plugin.git
 cordova run android -d
 ```
@@ -76,6 +77,7 @@ cordova plugin add org.apache.cordova.device
 cordova plugin add org.apache.cordova.console
 cordova plugin add org.apache.cordova.inappbrowser
 cordova plugin add https://github.com/oauth-io/oauth-phonegap
+cordova plugin add com.ionic.keyboard
 cordova plugin add https://github.com/bez4pieci/Phonegap-Cookies-Plugin.git
 cordova build ios -d
 ```
@@ -115,7 +117,7 @@ else{
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://github.com/FamousInternal/gabriel-hr109/issues)
 
 
 ## Contributing
