@@ -10,6 +10,10 @@ define(function(require, exports, module) {
         // import dependencies
         require('helpers/methods');
 
+        Engine.setOptions({appMode: false});
+        document.body.classList.add('famous-root');
+        document.documentElement.classList.add('famous-root');
+
         // create the main context
         var mainContext = Engine.createContext();
         mainContext.setPerspective(2000);
@@ -27,10 +31,10 @@ define(function(require, exports, module) {
         //document.addEventListener('build', start);
         
         // COMMENT OUT BOTH LINES BELOW WHEN RUNNING ON MOBILE DEVICES
-        require('../lib/oauth-js/dist/oauth.min.js');
-        start();
         // require('../lib/oauth-js/dist/oauth.min.js');
         // start();
+        require('../lib/oauth-js/dist/oauth.min.js');
+        start();
     }
 
 
