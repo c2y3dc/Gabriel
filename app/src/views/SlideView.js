@@ -85,7 +85,7 @@ define(function(require, exports, module) {
     }
 
     SlideView.prototype.hideNote = function() {
-        console.log('hideNote')
+        cordova.plugins.Keyboard.close();
         this.noteModifier.setTransform(Transform.translate(0, window.innerHeight * 1.5, 10), {
             curve: Easing.outCurve,
             duration: 600
