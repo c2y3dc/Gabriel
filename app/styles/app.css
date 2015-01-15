@@ -100,9 +100,9 @@ html {
 }
 
 .back-card-desc {
+    -webkit-overflow-scrolling: touch;
     overflow-y: scroll;
     /* white-space: pre-line;*/
-    -webkit-overflow-scrolling: touch;
 }
 
 /*::-webkit-scrollbar {

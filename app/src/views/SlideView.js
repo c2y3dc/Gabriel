@@ -151,7 +151,7 @@ define(function(require, exports, module) {
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card'],
-            content: '<div class="scroll-container"><div class="back-card-desc">' + content + '</div></div>'
+            content: '<div class="scroll-container">' + content + '</div>'
         });
 
         

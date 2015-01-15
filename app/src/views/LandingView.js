@@ -26,7 +26,8 @@ define(function(require, exports, module) {
         angel: {},
         initialData: {},
         jobs: {},
-        userLoc: []
+        userLoc: [],
+        userSkills: []
     };
 
     function _createBackground() {
@@ -129,6 +130,9 @@ define(function(require, exports, module) {
                     this.options.userData.locations.forEach(function(loc){
                         this.options.userLoc.push(loc.id);
                     }.bind(this));
+                    this.options.userData.skills.forEach(function(skill){
+                        this.options.userSkills.push(skill.id);
+                    }.bind(this));
                     if (this.options.userLoc.length === 0) this.options.userLoc = [1692];
                     var locCount = 0;
                     var index = 0;
@@ -137,10 +141,19 @@ define(function(require, exports, module) {
                             ).done(function(data){
                                 locCount++
                                 data.jobs.forEach(function(job){
-                                    if (job.job_type === 'full-time' && job.salary_min > 70000 && job.currency_code === "USD") {
-                                        this.options.jobs[index] = job;
-                                        index++;
-                                    }
+                                    // console.log(job);
+                                    console.log(this.options.userSkills, "USER SKILLS");
+                                    job.tags.forEach(function(skill){
+                                        console.log(skill.id, "JOB SKILL ID");
+                                        if(this.options.userSkills.indexOf(skill.id) !== -1){
+
+                                            console.log('in the if block MATCHMATCHMATCH', index);
+                                            this.options.jobs[index] = job;
+                                            index++;
+                                        }
+
+                                    }.bind(this));
+
 
                                 }.bind(this))
 
