@@ -89,6 +89,18 @@ define(function(require, exports, module) {
         this.layout.header.add(backgroundModifier).add(backgroundSurface);
 
         /*HEADER SURFACES*/
+        this.profileTouchSurface = new Surface({
+          size: [this.options.width * 0.12, this.options.width * 0.12],
+          properties: {
+            background: 'transparent',
+            borderRadius: this.options.width * 0.075 + 'px'
+          }
+        });
+
+        this.profileTouchModifier = new StateModifier({
+          transform: Transform.translate(this.options.width * 0.0275, this.options.height * 0.0375, 1.2)
+        });
+
         this.profileSurface = new ImageSurface({
             size: [23, 23],
             content: 'img/profile.svg'
@@ -113,6 +125,7 @@ define(function(require, exports, module) {
             transform: Transform.translate(this.options.width * 0.42, this.options.height * 0.065, 0.9)
         });
 
+        this.layout.header.add(this.profileTouchModifier).add(this.profileTouchSurface);
         this.layout.header.add(profileModifier).add(this.profileSurface);
         this.layout.header.add(titleModifier).add(this.titleSurface);
     }
@@ -215,7 +228,7 @@ define(function(require, exports, module) {
         //     if (e.detail !== null) return false;
         // }.bind(this));
 
-        this.profileSurface.on('touchstart', function() {
+        this.profileTouchSurface.on('touchstart', function() {
             this._eventOutput.emit('menuToggle');
         }.bind(this));
 
