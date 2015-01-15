@@ -152,10 +152,14 @@ define(function(require, exports, module) {
             size: this.options.size,
             classes: ['back-card'],
 // <<<<<<< HEAD
-//             content: '<div class="back-card-desc"><div>' + content + '</div></div>'
+// // <<<<<<< HEAD
+// //             content: '<div class="back-card-desc"><div>' + content + '</div></div>'
+// // =======
+//             content: '<div class="back-card-desc scroll-container"><div>' + content + '</div></div>'
+// // >>>>>>> 0fb0aee83cd47f2c186431de7183be5accb7a7a2
 // =======
-            content: '<div class="back-card-desc scroll-container"><div>' + content + '</div></div>'
-// >>>>>>> 0fb0aee83cd47f2c186431de7183be5accb7a7a2
+            content: '<div class="scroll-container">' + content + '</div>'
+// >>>>>>> c05fd783f86660cf6437ba99eb656e2d8e55925d
         });
 
         

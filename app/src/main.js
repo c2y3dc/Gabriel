@@ -10,17 +10,22 @@ define(function(require, exports, module) {
         // import dependencies
         require('helpers/methods');
 
-        Engine.setOptions({appMode: false});
 
-        document.body.classList.add('famous-root');
-        document.documentElement.classList.add('famous-root');
+        // Engine.setOptions({appMode: false});
+        // document.body.classList.add('famous-root');
+        // document.documentElement.classList.add('famous-root');
 
-        window.addEventListener('touchmove', function(e){
-            var classes = e.target.classList
-            // var hasClassIWant = Array.prototype.indexOf.call(classes, 'back-card-desc')
-            // if (hasClassIWant === -1) e.preventDefault()
-            if (classes[0] != 'back-card-desc') e.preventDefault();
-        })
+        // window.addEventListener('touchmove', function(e){
+        //     var classes = e.target.classList
+        //     // var hasClassIWant = Array.prototype.indexOf.call(classes, 'back-card-desc')
+        //     if (classes[0] == 'back-card-desc' || classes[0] == 'scroll-container'){
+        //         console.log('yay');
+        //     }else{
+        //      e.preventDefault();
+               
+        //     }        
+        // })
+
 
 
         // create the main context
@@ -33,7 +38,7 @@ define(function(require, exports, module) {
 
     if (window.cordova){
         document.addEventListener('deviceready', start, false);
-        document.addEventListener('build', start, false);
+        // document.addEventListener('build', start, false);
     }else {
         //UNCOMMENT THE LINE BELOW WHEN RUNNING ON MOBILE DEVICES
         // document.addEventListener('DOMContentLoaded', start);
