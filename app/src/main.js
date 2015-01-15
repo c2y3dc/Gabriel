@@ -16,8 +16,9 @@ define(function(require, exports, module) {
 
         window.addEventListener('touchmove', function(e){
             var classes = e.target.classList
-            var hasClassIWant = Array.prototype.indexOf.call(classes, 'back-card-desc')
-            if (hasClassIWant === -1) e.preventDefault()
+            // var hasClassIWant = Array.prototype.indexOf.call(classes, 'back-card-desc')
+            // if (hasClassIWant === -1) e.preventDefault()
+            if (classes[0] != 'back-card-desc') e.preventDefault();
         })
 
         // create the main context

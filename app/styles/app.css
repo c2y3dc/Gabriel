@@ -82,6 +82,7 @@ html {
     background-repeat: no-repeat;
     background-position: right center;
 }
+
 .back-card {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     padding: 0.8rem;
@@ -100,7 +101,7 @@ html {
 
 .back-card-desc {
     /* white-space: pre-line;*/
-    overflow: scroll;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -109,6 +110,10 @@ html {
 }
 ::-webkit-scrollbar:vertical {
     width: 12px;
+}
+
+::-webkit-scrollbar:vertical {
+    width: 0px;
 }
 
 ::-webkit-scrollbar-thumb {

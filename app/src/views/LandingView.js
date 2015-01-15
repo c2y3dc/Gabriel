@@ -25,7 +25,8 @@ define(function(require, exports, module) {
         height: window.innerHeight,
         angel: {},
         initialData: {},
-        jobs: {}
+        jobs: {},
+        userLoc: []
     };
 
     function _createBackground() {
@@ -125,38 +126,62 @@ define(function(require, exports, module) {
                 result.get('/1/me').done(function(data) {
                     this.options.userData = data;
                     ME = data;
+                    this.options.userData.locations.forEach(function(loc){
+                        this.options.userLoc.push(loc.id);
+                    }.bind(this));
+                    if (this.options.userLoc.length === 0) this.options.userLoc = [1692];
+                    var locCount = 0;
+                    var index = 0;
+                    this.options.userLoc.forEach(function(id){
+                        ANGEL.get('/1/tags/'+id+'/jobs', {data:{page:1}}
+                            ).done(function(data){
+                                locCount++
+                                data.jobs.forEach(function(job){
+                                    if (job.job_type === 'full-time' && job.salary_min > 70000 && job.currency_code === "USD") {
+                                        this.options.jobs[index] = job;
+                                        index++;
+                                    }
+
+                                }.bind(this))
+
+                                console.log('In the loop')
+            
+                                if(locCount == this.options.userLoc.length) this._eventOutput.emit('loaded');
+                            }.bind(this))
+                    
+                        }.bind(this))
                     // console.log(this.options.userData);
                 }.bind(this)).fail(function(oops) {
-                    //console.log('unable to get user data');
+                    console.log('unable to get user data');
                 }.bind(this));
 
-                var jobs = {};
-                var pageCount = 1;
-                var max = 1;
-                var index = 0;
-                while (pageCount <= max) {
-                    result.get('/1/tags/1692/jobs', {
-                        data: {
-                            page: pageCount
-                        }
-                    }).done(function(data) {
+                // var jobs = {};
+                // var pageCount = 1;
+                // var max = 1;
+                // var index = 0;
+                // while (pageCount <= max) {
+                //     result.get('/1/tags/1692/jobs', {
+                //         data: {
+                //             page: pageCount
+                //         }
+                //     }).done(function(data) {
 
-                        data.jobs.forEach(function(job) {
-                            if (job.job_type === 'full-time' && job.salary_min > 70000 && job.currency_code === "USD") {
-                                jobs[index] = job;
-                                index++;
-                            }
-                        }.bind(this));
-                        if (pageCount > max) {
-                            this.options.jobs = jobs;
-                            this._eventOutput.emit('loaded');
-                        }
+                //         data.jobs.forEach(function(job) {
+                //             if (job.job_type === 'full-time' && job.salary_min > 70000 && job.currency_code === "USD") {
+                //                 jobs[index] = job;
+                //                 index++;
+                //             }
+                //         }.bind(this));
+                //         if (pageCount > max) {
+                //             this.options.jobs = jobs;
+                //             this._eventOutput.emit('loaded');
+                //         }
 
-                    }.bind(this)).fail(function(oops) {
-                        console.log('unable to get job data');
-                    }.bind(this));
-                    pageCount++;
-                }
+                //     }.bind(this)).fail(function(oops) {
+                //         console.log('unable to get job data');
+                //     }.bind(this));
+                //     pageCount++;
+                // }
 
             }.bind(this));
 
