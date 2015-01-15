@@ -67,15 +67,18 @@ define(function(require, exports, module) {
         startup_location: 'San Francisco, CA',
         salary_min: '100k',
         salary_max: '150k',
-        job_type: 'Full Time'
+        job_type: 'Full Time',
+        noteToggle: false
     };
 
     SlideView.prototype.showNote = function() {
+        this.options.noteToggle = true;
         this.noteModifier.setTransform(Transform.translate(0, 0, 10), {
             method: 'spring',
             dampingRatio: 1,
             period: 450
-        }, function() {}.bind(this));
+        }, function() {
+        }.bind(this));
 
         this.noteModifier.setOpacity(1, {
             duration: 0
@@ -85,11 +88,12 @@ define(function(require, exports, module) {
     };
 
     SlideView.prototype.hideNote = function() {
-
-        this.noteModifier.setTransform(Transform.translate(0, window.innerHeight * 1.3, 10), {
+        this.noteModifier.setTransform(Transform.translate(0, window.innerHeight * 2, 10), {
             curve: 'easeOut',
             duration: 300
-        }, function() {}.bind(this));
+        }, function() {
+            this.options.noteToggle = false;
+        }.bind(this));
 
         this.noteModifier.setOpacity(1, {
             duration: 0
@@ -378,7 +382,8 @@ define(function(require, exports, module) {
             if (window.cordova) {
                 native.keyboardhide;
             }
-        }.bind(this));   
+        }.bind(this));
+
         this.noteView.submitButtonSurface.on('touchend', function() {
             this.options.note = this.noteView.inputSurface.getValue();
             this.noteView.inputSurface.setValue('');
@@ -391,9 +396,8 @@ define(function(require, exports, module) {
                 this.archiveFeedbackSurface.archiveMod.setOpacity(0);
                 this.interestedFeedbackSurface.interestedMod.opacityFrom(function() {
                     var currentPosition = this.options.position.get();
-                    return (currentPosition[0] / 200)
+                    return (currentPosition[0] / 200);
                 }.bind(this));
-
             }.bind(this));
 
         this.on('opacitateLeft',
@@ -401,21 +405,20 @@ define(function(require, exports, module) {
                 this.interestedFeedbackSurface.interestedMod.setOpacity(0);
                 this.archiveFeedbackSurface.archiveMod.opacityFrom(function() {
                     var currentPosition = this.options.position.get();
-                    return (Math.abs(currentPosition[0] / 200))
+                    return (Math.abs(currentPosition[0] / 200));
                 }.bind(this));
-
             }.bind(this));
 
 
         this.frontSurface.on('click', function() {
-            if (!this.options.toggle) {
+            if (!this.options.toggle && !this.options.note) {
                 this._eventOutput.emit('flip')
 
             }
         }.bind(this));
 
         this.backSurface.on('click', function() {;
-            if (this.options.toggle) {
+            if (this.options.toggle && !this.options.note) {
                 this._eventOutput.emit('flip');
             }
         }.bind(this));

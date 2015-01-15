@@ -29,20 +29,20 @@ define(function(require, exports, module) {
         try {
             // disable keyboard scrolling
             cordova.plugins.Keyboard.disableScroll(true);
+            //keyboardHeight = 260;
         } catch (err) {
             console.error(err, 'no Keyboard');
         }
         // add listeners for keyboard show/hide
         // 
         window.addEventListener('native.keyboardshow', keyboardShowHandler);
-
         function keyboardShowHandler(e) {
+            console.log('hello');
             var keyboardHeight = e.keyboardHeight;
             console.log('Keyboard height is: ' + e.keyboardHeight);
         }
 
         window.addEventListener('native.keyboardhide', keyboardHideHandler);
-
         function keyboardHideHandler(e) {
             console.log('Hidden Keyboard');
         }

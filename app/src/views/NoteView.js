@@ -1,12 +1,13 @@
 define(function(require, exports, module) {
     var View = require('famous/core/View');
     var Surface = require('famous/core/Surface');
-    //var Transform = require('famous/core/Transform');
+    var Transform = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
     var InputSurface = require('famous/surfaces/InputSurface');
     var TextareaSurface = require('famous/surfaces/TextareaSurface');
     var SubmitInputSurface = require('famous/surfaces/SubmitInputSurface');
     var ImageSurface = require('famous/surfaces/ImageSurface');
+    //var FastClick = require('famous/inputs/FastClick');
     //var Easing = require('famous/transitions/Easing');
 
     //var ContainerSurface = require('famous/surfaces/ContainerSurface');
@@ -36,7 +37,6 @@ define(function(require, exports, module) {
     NoteView.DEFAULT_OPTIONS = {
         note: ''
     };
-
     // function _createBackground() {
     //     this.rootModifier = new StateModifier({
     //         size: [undefined, undefined],
@@ -47,8 +47,6 @@ define(function(require, exports, module) {
 
     //     this.mainNode = this.add(this.rootModifier);
     // }
-
-
     function _createNote() {
 
         this.inputSurface = new TextareaSurface({
@@ -84,15 +82,14 @@ define(function(require, exports, module) {
 
 
     function _createCancelButton() {
-
         this.cancelButtonSurface = new ImageSurface({  
             classes: ['cancel-button'],
-            size: [25, 25],
+            size: [35, 35],
             content: 'img/cancel.svg' 
-        });     
+        });
+             
         this.cancelButtonMod = new StateModifier({
-            align: [1, -0.1],
-            origin: [1, 0]
+          transform: Transform.translate(window.innerWidth / 3, -window.innerHeight / 2.64, 0.9)
         });
 
         this.add(this.cancelButtonMod).add(this.cancelButtonSurface);
@@ -120,12 +117,6 @@ define(function(require, exports, module) {
         this.inputSurface.on('touchstart', function() {
             if (window.cordova) native.keyboardshow;
         }.bind(this));
-
-        // this.cancelButtonSurface.on('touchstart', function() {
-        //     if (window.cordova) {
-        //         native.keyboardhide;
-        //     }
-        // }.bind(this));
 
         //this.input.on('click', this.input)
         // this.cancelSurface.on('touchstart', function() {

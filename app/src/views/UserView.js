@@ -39,8 +39,6 @@ define(function(require, exports, module) {
 
     function UserView() {
         View.apply(this, arguments);
-
-        
             ///var results = this.getOptions('jobs');
             _removeLoadingView.call(this);
             this.angel = this.landingView.options.angel;
