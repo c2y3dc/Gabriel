@@ -415,6 +415,7 @@ define(function(require, exports, module) {
         this.noteView.submitButtonSurface.on('touchstart', function() {
             this.options.note = this.noteView.inputSurface.getValue();
             this.noteView.inputSurface.setValue('');
+            console.log('getVal', this.noteView.inputSurface.getValue());
             this._eventOutput.emit('swipeRight');
         }.bind(this))
 

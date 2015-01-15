@@ -12,6 +12,15 @@ define(function(require, exports, module) {
     var ContainerSurface = require('famous/surfaces/ContainerSurface');
     var FormContainerSurface = require('famous/surfaces/FormContainerSurface');
 
+    TextareaSurface.prototype.deploy = function deploy(target) {
+        if (this._placeholder !== '') target.placeholder = this._placeholder;
+        target.value = this._value;
+        target.name = this._name;
+        target.wrap = this._wrap;
+        target.cols = this._cols;
+        target.rows = this._rows;
+    };
+
     function NoteView() {
         View.apply(this, arguments);
         //_createBackground.call(this);
@@ -50,7 +59,7 @@ define(function(require, exports, module) {
             type: 'text',
             classes: ['create-note'],
             properties: {
-              padding: '28% 10%'
+                padding: '28% 10%'
             }
         });
 
@@ -80,8 +89,7 @@ define(function(require, exports, module) {
             classes: ['cancel-button'],
             size: [25, 25],
             content: 'img/cancel.svg' 
-        });    
-         
+        });     
         this.cancelButtonMod = new StateModifier({
             align: [1, -0.1],
             origin: [1, 0]

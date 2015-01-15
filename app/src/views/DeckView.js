@@ -69,8 +69,7 @@ define(function(require, exports, module) {
 
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
-        var data = slide.noteView.inputSurface.getValue();
-        console.log(data);
+        slide.noteView.inputSurface.setValue('');
         this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
 
@@ -113,6 +112,7 @@ define(function(require, exports, module) {
         //     }.bind(this));
 
         this.showNextSlide(function() {
+            slide.noteView.inputSurface.setValue('');
             this.options.slideArrived = true
         }.bind(this));
     };
@@ -120,7 +120,6 @@ define(function(require, exports, module) {
     DeckView.prototype.swipeRight = function() {
 
         var slide = this.slides[this.currentIndex];
-        console.log('FROM DECK VIEW', slide.options.note);
         slide.noteView.inputSurface.setValue('');
         this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(-500, 0, 0);
@@ -172,6 +171,7 @@ define(function(require, exports, module) {
         //this._eventOutput.emit('buttonToggle');
 
         this.showNextSlide(function() {
+            slide.noteView.inputSurface.setValue('');
             this.options.slideArrived = true;
             this.options.okToFlip = true;
         }.bind(this));
@@ -198,6 +198,7 @@ define(function(require, exports, module) {
 
         this.slides[this.currentIndex].options.position.set([0, 0]);
         var slide = this.slides[this.currentIndex];
+        slide.noteView.inputSurface.setValue('');
         this.lightbox.show(slide, callback);
     };
 
