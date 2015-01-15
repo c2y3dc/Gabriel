@@ -93,6 +93,7 @@ html {
     z-index: 10000;
     /* box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.50); */
     overflow: hidden;
+    overflow-y: scroll;
 }
 
 .scroll-container {
@@ -100,6 +101,7 @@ html {
 }
 
 .back-card-desc {
+
     -webkit-overflow-scrolling: touch;
     overflow-y: scroll;
     /* white-space: pre-line;*/
@@ -108,9 +110,9 @@ html {
 /*::-webkit-scrollbar {
     -webkit-appearance: none;
 }
-::-webkit-scrollbar:vertical {
+/*::-webkit-scrollbar:vertical {
     width: 12px;
-}
+}*/
 
 
 ::-webkit-scrollbar-thumb {
