@@ -9,7 +9,7 @@ define(function(require, exports, module) {
     var SpringTransition = require('famous/transitions/SpringTransition');
     var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
-    //var FastClick = require('famous/inputs/FastClick');
+    var FastClick = require('famous/inputs/FastClick');
     var GenericSync = require("famous/inputs/GenericSync");
     var MouseSync = require("famous/inputs/MouseSync");
     var TouchSync = require("famous/inputs/TouchSync");
@@ -91,7 +91,7 @@ define(function(require, exports, module) {
             period: 390,
         });
         this.menuView.xState.setOpacity(0, {
-            duration: 250,
+            duration: 275,
         });
         this.menuView.xState.setTransform(Transform.translate(0, 0, 700), {
             duration: 275,
@@ -157,10 +157,10 @@ define(function(require, exports, module) {
     // MenuPage Toggle
     AppView.prototype.showFullMenuPage = function() {
         this.pageModifier.setOpacity(0, {
-            duration: 350
+            duration: 375
         });
         this.pageModifier.setTransform(Transform.translate(0, 0, -700), {
-            duration: 325,
+            duration: 175,
             method: 'spring',
             dampingRatio: 1,
             period: 390

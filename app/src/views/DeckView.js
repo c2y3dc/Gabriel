@@ -53,12 +53,12 @@ define(function(require, exports, module) {
             inTransition: {
                 method: 'spring',
                 dampingRatio: 1,
-                period: 390
+                period: 290
             },
             outTransition: {
                 method: 'spring',
                 dampingRatio: 1,
-                period: 390
+                period: 290
             }
         }
     };
@@ -72,13 +72,13 @@ define(function(require, exports, module) {
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
         slide.noteView.inputSurface.setValue('');
-        this.lightbox.options.outTransform = Transform.translate(300, 0, 0);
+        this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
 
-        slide.options.position.set([-400, -100], {
+        slide.options.position.set([-500, 0], {
             method: 'spring',
             dampingRatio: 1,
-            period: 390
+            period: 290
         });
 
         //OUR API CALL TO ARCHIVE GOES HERE
@@ -97,7 +97,7 @@ define(function(require, exports, module) {
                 user_interested: 0
             }
         }).done(function(data) {
-            console.log(data);
+            //console.log(data);
             //console.log("Archive doneRes", data);
         }.bind(this)).fail(function(oops) {
             //console.log("already archive'd / unable to archive", oops);
@@ -128,12 +128,12 @@ define(function(require, exports, module) {
         var slide = this.slides[this.currentIndex];
         slide.noteView.inputSurface.setValue('');
         //this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
-        this.lightbox.options.outTransform = Transform.translate(-300, 0, 0);
+        this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(-300, 0, 0);
-        slide.options.position.set([400, 0], {
+        slide.options.position.set([500, 0], {
             method: 'spring',
             dampingRatio: 1,
-            period: 390,
+            period: 290,
         });
 
 
@@ -144,7 +144,7 @@ define(function(require, exports, module) {
 
         //console.log("startup_id", sid);
         // //Interested POST REQ
-        console.log('NOTE', slide.options.note);
+        //console.log('NOTE', slide.options.note);
         ANGEL.post('/1/talent/pairing', {
             data: {
                 startup_id: sid,
@@ -154,9 +154,9 @@ define(function(require, exports, module) {
             }
         }).done(function(data) {
 
-            console.log("Intro doneRes", data);
+            //console.log("Intro doneRes", data);
         }.bind(this)).fail(function(oops) {
-            console.log("already intro'd / unable to intro", oops);
+            //console.log("already intro'd / unable to intro", oops);
         }.bind(this));
 
         //FOLLOWS POST REQ
@@ -197,7 +197,7 @@ define(function(require, exports, module) {
         slide.flipper.setAngle(angle, {
             method: 'spring',
             dampingRatio: 1,
-            period: 600
+            period: 500
         }, function() {
             slide.options.toggle = !slide.options.toggle;
         }.bind(this));

@@ -9,7 +9,7 @@ define(function(require, exports, module) {
     var ImageSurface = require('famous/surfaces/ImageSurface');
 
     //var FastClick = require('famous/inputs/FastClick');
-    var ScrollSync = require("famous/inputs/ScrollSync");
+    //var ScrollSync = require("famous/inputs/ScrollSync");
     var MouseSync = require('famous/inputs/MouseSync');
     var TouchSync = require('famous/inputs/TouchSync');
     var GenericSync = require('famous/inputs/GenericSync');

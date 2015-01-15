@@ -1,16 +1,16 @@
 define(function(require, exports, module) {
     var View = require('famous/core/View');
     var Surface = require('famous/core/Surface');
-    var Transform = require('famous/core/Transform');
+    //var Transform = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
     var InputSurface = require('famous/surfaces/InputSurface');
     var TextareaSurface = require('famous/surfaces/TextareaSurface');
     var SubmitInputSurface = require('famous/surfaces/SubmitInputSurface');
     var ImageSurface = require('famous/surfaces/ImageSurface');
-    var Easing = require('famous/transitions/Easing');
+    //var Easing = require('famous/transitions/Easing');
 
-    var ContainerSurface = require('famous/surfaces/ContainerSurface');
-    var FormContainerSurface = require('famous/surfaces/FormContainerSurface');
+    //var ContainerSurface = require('famous/surfaces/ContainerSurface');
+    //var FormContainerSurface = require('famous/surfaces/FormContainerSurface');
 
     TextareaSurface.prototype.deploy = function deploy(target) {
         if (this._placeholder !== '') target.placeholder = this._placeholder;
@@ -118,16 +118,14 @@ define(function(require, exports, module) {
     function _setListeners() {
 
         this.inputSurface.on('touchstart', function() {
-            if (window.cordova) {
-                native.keyboardshow;
-            }
+            if (window.cordova) native.keyboardshow;
         }.bind(this));
 
-        this.cancelButtonSurface.on('touchstart', function() {
-            if (window.cordova) {
-                native.keyboardhide;
-            }
-        }.bind(this));
+        // this.cancelButtonSurface.on('touchstart', function() {
+        //     if (window.cordova) {
+        //         native.keyboardhide;
+        //     }
+        // }.bind(this));
 
         //this.input.on('click', this.input)
         // this.cancelSurface.on('touchstart', function() {

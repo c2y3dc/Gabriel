@@ -85,15 +85,15 @@ define(function(require, exports, module) {
     };
 
     SlideView.prototype.hideNote = function() {
+
         this.noteModifier.setTransform(Transform.translate(0, window.innerHeight * 1.3, 10), {
-            method: 'snap',
-            dampingRatio: 1,
-            period: 1000
+            curve: 'easeOut',
+            duration: 300
         }, function() {}.bind(this));
 
-        // this.noteModifier.setOpacity(0, {
-        //     duration: 600
-        // });
+        this.noteModifier.setOpacity(1, {
+            duration: 0
+        });
 
         return this.noteModifier;
     };
@@ -373,8 +373,13 @@ define(function(require, exports, module) {
     function _setListeners() {
 
         this.noteSurface.on('touchstart', this.showNote.bind(this));
-        this.noteView.cancelButtonSurface.on('touchstart', this.hideNote.bind(this));
-        this.noteView.submitButtonSurface.on('touchstart', function() {
+        this.noteView.cancelButtonSurface.on('touchstart', function() {
+            this.hideNote();
+            if (window.cordova) {
+                native.keyboardhide;
+            }
+        }.bind(this));   
+        this.noteView.submitButtonSurface.on('touchend', function() {
             this.options.note = this.noteView.inputSurface.getValue();
             this.noteView.inputSurface.setValue('');
             //console.log('getVal', this.noteView.inputSurface.getValue());
