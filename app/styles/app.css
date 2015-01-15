@@ -52,12 +52,12 @@ html {
     color: #2155aa;
     border-radius: 2px;
     text-align: center;
-    line-height: 40px;
     background-color: white;
     display: table-cell;
     vertical-align: middle;
     text-transform: uppercase;
     text-align: center;
+    padding: 1rem;
 }
 .button-hover {
     background-color: red;
@@ -157,11 +157,11 @@ textarea::-webkit-input-placeholder {
     font-size: 0.8rem;
     padding: 1rem;
 }
-.create-notes {
-    background-color: #34C9AB;
+.create-note {
+    background-color: white;
     border: none;
-    color: white;
-    font-size: 0.9rem;
+    color: #222;
+    font-size: 0.8rem;
 }
 .logo_url {
     width: 4.5rem;

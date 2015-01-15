@@ -6,6 +6,8 @@ define(function(require, exports, module) {
     var InputSurface = require('famous/surfaces/InputSurface');
     var TextareaSurface = require('famous/surfaces/TextareaSurface');
     var SubmitInputSurface = require('famous/surfaces/SubmitInputSurface');
+    var ImageSurface = require('famous/surfaces/ImageSurface');
+    var Easing = require('famous/transitions/Easing');
 
     var ContainerSurface = require('famous/surfaces/ContainerSurface');
     var FormContainerSurface = require('famous/surfaces/FormContainerSurface');
@@ -14,6 +16,7 @@ define(function(require, exports, module) {
         View.apply(this, arguments);
         //_createBackground.call(this);
         _createNote.call(this);
+        _createCancelButton.call(this);
         _createSubmitButton.call(this);
         _setListeners.call(this);
     }
@@ -47,7 +50,7 @@ define(function(require, exports, module) {
             type: 'text',
             classes: ['create-note'],
             properties: {
-              padding: '25% 10%',
+              padding: '28% 10%'
             }
         });
 
@@ -71,6 +74,22 @@ define(function(require, exports, module) {
     }
 
 
+    function _createCancelButton() {
+
+        this.cancelButtonSurface = new ImageSurface({  
+            classes: ['cancel-button'],
+            size: [25, 25],
+            content: 'img/cancel.svg' 
+        });    
+         
+        this.cancelButtonMod = new StateModifier({
+            align: [1, -0.1],
+            origin: [1, 0]
+        });
+
+        this.add(this.cancelButtonMod).add(this.cancelButtonSurface);
+    }
+
     function _createSubmitButton() {
 
         this.submitButtonSurface = new Surface({  
@@ -86,7 +105,6 @@ define(function(require, exports, module) {
 
         this.add(this.submitButtonMod).add(this.submitButtonSurface);
     }
-
 
 
     function _setListeners() {

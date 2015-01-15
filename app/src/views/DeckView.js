@@ -63,12 +63,14 @@ define(function(require, exports, module) {
 
     DeckView.prototype.showCurrentSlide = function() {
         var slide = this.slides[this.currentIndex];
+        slide.noteView.inputSurface.setValue('');
         this.lightbox.show(slide);
     };
 
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
-
+        var data = slide.noteView.inputSurface.getValue();
+        console.log(data);
         this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
 
@@ -93,6 +95,7 @@ define(function(require, exports, module) {
                 user_interested: 0
             }
         }).done(function(data) {
+            console.log(data);
             //console.log("Archive doneRes", data);
         }.bind(this)).fail(function(oops) {
             //console.log("already archive'd / unable to archive", oops);
@@ -115,7 +118,10 @@ define(function(require, exports, module) {
     };
 
     DeckView.prototype.swipeRight = function() {
+
         var slide = this.slides[this.currentIndex];
+        console.log('FROM DECK VIEW', slide.options.note);
+        slide.noteView.inputSurface.setValue('');
         this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(-500, 0, 0);
         slide.options.position.set([500, 0], {
@@ -128,19 +134,20 @@ define(function(require, exports, module) {
         var sid = this.slides[this.currentIndex].options.job.startup.id;
 
         //console.log("startup_id", sid);
-
         // //Interested POST REQ
+        console.log('NOTE', slide.options.note);
         ANGEL.post('/1/talent/pairing', {
             data: {
                 startup_id: sid,
                 // user_id: ME.id,
-                user_note: "",
+                user_note: slide.options.note || null,
                 user_interested: 1
             }
         }).done(function(data) {
-            //console.log("Intro doneRes", data);
+              
+            console.log("Intro doneRes", data);
         }.bind(this)).fail(function(oops) {
-            //console.log("already intro'd / unable to intro", oops);
+            console.log("already intro'd / unable to intro", oops);
         }.bind(this));
 
         //FOLLOWS POST REQ
@@ -246,8 +253,8 @@ define(function(require, exports, module) {
             }.bind(this));
         }
         // console.log('SLIDES ARRAY', this.slides);
-
         this.showNextSlide(function() {
+            slide.noteView.inputSurface.setValue('');
             this._eventOutput.emit('firstSlideReady');
         }.bind(this));
 

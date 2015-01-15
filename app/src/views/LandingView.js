@@ -134,7 +134,7 @@ define(function(require, exports, module) {
                 var max = 1;
                 var index = 0;
                 while (pageCount <= max) {
-                    result.get('/1/tags/1692/jobs', {
+                    result.get('/1/tags/1693/jobs', {
                         data: {
                             page: pageCount
                         }
