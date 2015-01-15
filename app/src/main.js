@@ -18,7 +18,22 @@ define(function(require, exports, module) {
             var classes = e.target.classList
             // var hasClassIWant = Array.prototype.indexOf.call(classes, 'back-card-desc')
             // if (hasClassIWant === -1) e.preventDefault()
-            if (classes[0] != 'back-card-desc') e.preventDefault();
+            // if (classes[0] !== 'back-card-desc'){
+            
+             e.preventDefault();
+            // }
+                
+        })
+
+        window.addEventListener('touchmove', function(e){
+            var classes = e.target.classList
+            // var hasClassIWant = Array.prototype.indexOf.call(classes, 'back-card-desc')
+            // if (hasClassIWant === -1) e.preventDefault()
+            if (classes[0] == 'back-card-desc'){
+            
+             console.log('yay');
+            }
+                
         })
 
         // create the main context

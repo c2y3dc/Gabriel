@@ -146,7 +146,9 @@ define(function(require, exports, module) {
 
                                 console.log('In the loop')
             
-                                if(locCount == this.options.userLoc.length) this._eventOutput.emit('loaded');
+                                if(locCount == this.options.userLoc.length) 
+                                    if(this.options.jobs.length===0){alert('Sorry but there are no jobs in your area for your skills')}
+                                    this._eventOutput.emit('loaded');
                             }.bind(this))
                     
                         }.bind(this))
