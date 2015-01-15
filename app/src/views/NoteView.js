@@ -118,12 +118,17 @@ define(function(require, exports, module) {
     function _setListeners() {
 
         this.inputSurface.on('touchstart', function() {
-
             if (window.cordova) {
-                native.keyboardshow
+                native.keyboardshow;
             }
-
         }.bind(this));
+
+        this.cancelButtonSurface.on('touchstart', function() {
+            if (window.cordova) {
+                native.keyboardhide;
+            }
+        }.bind(this));
+
         //this.input.on('click', this.input)
         // this.cancelSurface.on('touchstart', function() {
         //     if (window.cordova) {

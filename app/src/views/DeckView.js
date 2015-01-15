@@ -48,15 +48,17 @@ define(function(require, exports, module) {
         size: [window.innerWidth * 0.858, window.innerHeight * 0.688],
         lightboxOpts: {
             overlap: true,
-            inTransform: Transform.translate(300, 0, 0),
-            outTransform: Transform.translate(-50, 0, 0),
+            inTransform: Transform.translate(0, 0, 0),
+            outTransform: Transform.translate(0, 0, 0),
             inTransition: {
-                duration: 300,
-                curve: 'easeOut'
+                method: 'spring',
+                dampingRatio: 1,
+                period: 390
             },
             outTransition: {
-                duration: 300,
-                curve: Easing.inQuad
+                method: 'spring',
+                dampingRatio: 1,
+                period: 390
             }
         }
     };
@@ -70,12 +72,13 @@ define(function(require, exports, module) {
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
         slide.noteView.inputSurface.setValue('');
-        this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
+        this.lightbox.options.outTransform = Transform.translate(300, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
 
-        slide.options.position.set([-500, 0], {
-            curve: 'easeOut',
-            period: 800,
+        slide.options.position.set([-400, -100], {
+            method: 'spring',
+            dampingRatio: 1,
+            period: 390
         });
 
         //OUR API CALL TO ARCHIVE GOES HERE
@@ -124,11 +127,13 @@ define(function(require, exports, module) {
 
         var slide = this.slides[this.currentIndex];
         slide.noteView.inputSurface.setValue('');
-        this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
-        this.lightbox.options.inTransform = Transform.translate(-500, 0, 0);
-        slide.options.position.set([500, 0], {
-            curve: 'easeOut',
-            period: 800,
+        //this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
+        this.lightbox.options.outTransform = Transform.translate(-300, 0, 0);
+        this.lightbox.options.inTransform = Transform.translate(-300, 0, 0);
+        slide.options.position.set([400, 0], {
+            method: 'spring',
+            dampingRatio: 1,
+            period: 390,
         });
 
 
@@ -148,7 +153,7 @@ define(function(require, exports, module) {
                 user_interested: 1
             }
         }).done(function(data) {
-              
+
             console.log("Intro doneRes", data);
         }.bind(this)).fail(function(oops) {
             console.log("already intro'd / unable to intro", oops);
@@ -190,8 +195,9 @@ define(function(require, exports, module) {
         var angle = slide.options.toggle ? 0 : -Math.PI;
 
         slide.flipper.setAngle(angle, {
-            curve: Easing.outCurve,
-            duration: 400,
+            method: 'spring',
+            dampingRatio: 1,
+            period: 600
         }, function() {
             slide.options.toggle = !slide.options.toggle;
         }.bind(this));

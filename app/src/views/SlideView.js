@@ -71,32 +71,32 @@ define(function(require, exports, module) {
     };
 
     SlideView.prototype.showNote = function() {
-
         this.noteModifier.setTransform(Transform.translate(0, 0, 10), {
-            curve: Easing.outCurve,
-            duration: 600
+            method: 'spring',
+            dampingRatio: 1,
+            period: 450
         }, function() {}.bind(this));
 
         this.noteModifier.setOpacity(1, {
-            duration: 600
+            duration: 0
         });
 
         return this.noteModifier;
-    }
+    };
 
     SlideView.prototype.hideNote = function() {
-        cordova.plugins.Keyboard.close();
-        this.noteModifier.setTransform(Transform.translate(0, window.innerHeight * 1.5, 10), {
-            curve: Easing.outCurve,
-            duration: 600
+        this.noteModifier.setTransform(Transform.translate(0, window.innerHeight * 1.3, 10), {
+            method: 'snap',
+            dampingRatio: 1,
+            period: 1000
         }, function() {}.bind(this));
 
-        this.noteModifier.setOpacity(0, {
-            duration: 600
-        });
+        // this.noteModifier.setOpacity(0, {
+        //     duration: 600
+        // });
 
         return this.noteModifier;
-    }
+    };
 
     function _createFlipper() {
         this.flipper = new Flipper();
@@ -194,7 +194,7 @@ define(function(require, exports, module) {
                           borderRadius: '4px',
                           textAlign: 'center',
                           letterSpacing: this.options.width * 0.002 + 'px',
-                          lineHeight: this.options.height * 0.045 + 'px',
+                          lineHeight: this.options.height * 0.048 + 'px',
                           fontWeight: 600,
                         
             }      
@@ -377,9 +377,9 @@ define(function(require, exports, module) {
         this.noteView.submitButtonSurface.on('touchstart', function() {
             this.options.note = this.noteView.inputSurface.getValue();
             this.noteView.inputSurface.setValue('');
-            console.log('getVal', this.noteView.inputSurface.getValue());
+            //console.log('getVal', this.noteView.inputSurface.getValue());
             this._eventOutput.emit('swipeRight');
-        }.bind(this))
+        }.bind(this));
 
         this.on('opacitateRight',
             function() {
