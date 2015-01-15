@@ -153,8 +153,8 @@ define(function(require, exports, module) {
 
         this.backSurface = new Surface({
             size: this.options.size,
-            classes: ['back-card', 'back-card-desc'],
-            content: '<div>' + content + '</div>'
+            classes: ['back-card'],
+            content: '<div class="back-card-desc"><div>' + content + '</div></div>'
         });
 
         this.backSurface.pipe(this.backScrollView);
@@ -274,7 +274,7 @@ define(function(require, exports, module) {
         });
         // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
         this.frontSurface.pipe(sync);
-        this.backSurface.pipe(sync);
+        // this.backSurface.pipe(sync);
 
         sync.on('update', function(data) {
             var currentPosition = this.options.position.get();
