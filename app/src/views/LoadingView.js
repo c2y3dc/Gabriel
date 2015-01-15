@@ -5,7 +5,7 @@ define(function(require, exports, module) {
     var StateModifier = require('famous/modifiers/StateModifier');
     var HeaderFooter = require('famous/views/HeaderFooterLayout');
     var ImageSurface = require('famous/surfaces/ImageSurface');
-    var ProgressBar = require('progressbar');
+    // var ProgressBar = require('progressbar');
 
 
     function LoadingView() {

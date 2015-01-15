@@ -90,22 +90,23 @@ html {
     border: 1px solid rgba(0, 0, 0, 0.125);
     background-color: rgba(255, 255, 255, 0.95);
     z-index: 10000;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
     /* box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.50); */
 }
+
 .back-card-desc {
     /* white-space: pre-line;*/
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
+
 ::-webkit-scrollbar {
     -webkit-appearance: none;
 }
 ::-webkit-scrollbar:vertical {
     width: 12px;
 }
-::-webkit-scrollbar:horizontal {
-    height: 12px;
-}
+
 ::-webkit-scrollbar-thumb {
     background-color: rgb(52, 201, 171);
     border-radius: 10px;
@@ -115,6 +116,7 @@ html {
     border-radius: 10px;
     background-color: #ffffff;
 }
+
 .product_desc {
     font-size: 0.5em;
 }
