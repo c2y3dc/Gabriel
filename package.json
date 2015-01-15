@@ -39,6 +39,11 @@
     "time-grunt": "^1.0.0"
   },
   "scripts": {
+    "start": "npm run grunt && npm run copy-android && npm run build-android && npm run deploy-android",
+    "grunt": "grunt -f",
+    "copy-android": "cp -R www/ xwalk/assets/www",
+    "build-android": "xwalk/cordova/build",
+    "deploy-android": "adb install -r xwalk/bin/Gabriel-debug.apk",
     "test": "grunt test"
   },
   "dependencies": {
