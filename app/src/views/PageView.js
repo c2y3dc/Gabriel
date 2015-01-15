@@ -83,12 +83,24 @@ define(function(require, exports, module) {
         });
 
         var backgroundModifier = new StateModifier({
-            transform: Transform.inFront
+            transform: Transform.translate(0, 0, 0.9)
         });
 
         this.layout.header.add(backgroundModifier).add(backgroundSurface);
 
         /*HEADER SURFACES*/
+        this.profileTouchSurface = new Surface({
+          size: [this.options.width * 0.12, this.options.width * 0.12],
+          properties: {
+            background: 'transparent',
+            borderRadius: this.options.width * 0.075 + 'px'
+          }
+        });
+
+        this.profileTouchModifier = new StateModifier({
+          transform: Transform.translate(this.options.width * 0.0275, this.options.height * 0.0375, 1.2)
+        });
+
         this.profileSurface = new ImageSurface({
             size: [23, 23],
             content: 'img/profile.svg'
@@ -106,27 +118,20 @@ define(function(require, exports, module) {
 
         /*HEADER MODIFIERS */
         var profileModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.07, this.options.headerSize * 0.16, 100),
-            origin: [0, 0],
-            align: [0, 0.5]
+            transform: Transform.translate(this.options.width * 0.05, this.options.height * 0.05, 0.9)
         });
 
         var titleModifier = new StateModifier({
-            transform: Transform.translate(0, this.options.headerSize * 0.25, 100),
-            origin: [0.5, 0],
-            align: [0.5, 0.5]
+            transform: Transform.translate(this.options.width * 0.42, this.options.height * 0.065, 0.9)
         });
 
+        this.layout.header.add(this.profileTouchModifier).add(this.profileTouchSurface);
         this.layout.header.add(profileModifier).add(this.profileSurface);
         this.layout.header.add(titleModifier).add(this.titleSurface);
     }
 
     function _createFooter() {
-        var backgroundSurface = new Surface({
-            properties: {
-                // backgroundColor: '#FDFDFD'
-            }
-        });
+        var backgroundSurface = new Surface();
 
         var backgroundModifier = new StateModifier({
             transform: Transform.behind
@@ -223,7 +228,7 @@ define(function(require, exports, module) {
         //     if (e.detail !== null) return false;
         // }.bind(this));
 
-        this.profileSurface.on('touchstart', function() {
+        this.profileTouchSurface.on('touchstart', function() {
             this._eventOutput.emit('menuToggle');
         }.bind(this));
 
