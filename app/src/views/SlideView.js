@@ -134,29 +134,30 @@ define(function(require, exports, module) {
         }
 
         
-
+        this.backModifier = new Modifier({});
         
 
-        content = content.replace(/\s\s/g, "</div></br><div>")
-            .replace(/: /g, ":</div></br><div>")
-            .replace(/\s-\s/g, "</div></div>-")
-            .replace(/\s\s/g, "</div></br><div>")
-            .replace(/\s([^A-Za-z0-9,.&()\/])/g, "</div><div>$1")
-            .replace(/-([A-Z])/g, "</div><div>-$1");
+        content = content.replace(/\s\s/g, "</div></br><div class='back-card-desc'>")
+            .replace(/: /g, ":</div></br><div class='back-card-desc'>")
+            .replace(/\s-\s/g, "</div><div class='back-card-desc'>-")
+            .replace(/\s\s/g, "</div></br><div class='back-card-desc'>")
+            .replace(/\s([^A-Za-z0-9,.&()\/])/g, "</div><div class='back-card-desc'>$1")
+            .replace(/-([A-Z])/g, "</div><div class='back-card-desc'>-$1");
 
-        content = '<div>' + content + '</div>';
+        content = '<div class="back-card-desc">' + content + '</div>';
 
         
 
         this.backSurface = new Surface({
             size: this.options.size,
             classes: ['back-card'],
-            content: '<div class="back-card-desc"><div>' + content + '</div></div>'
+            content: '<div class="back-card-desc scroll-container"><div>' + content + '</div></div>'
         });
 
         
 
-        this.cardNode.add(this.backSurface);
+        this.backNode = this.cardNode.add(this.backModifier);
+        this.backNode.add(this.backSurface);
 
      
 
