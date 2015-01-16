@@ -13,6 +13,7 @@ define(function(require, exports, module) {
         _createName.call(this);
         _createTagLine.call(this);
         _setListeners.call(this);
+        _signIn.call(this);
     }
 
     LandingView.prototype = Object.create(View.prototype);
@@ -109,9 +110,23 @@ define(function(require, exports, module) {
         this.root.add(this.loginButtonModifier).add(this.loginButton);
     }
 
-    function _setListeners() {
-        this.loginButton.on('click', function() {
-            //call oauth.io popup
+    function _signIn() {
+        result = OAuth.create('angel_list')
+        // return result ? Promise.resolve(result) : OAuth.popup('angel')
+        if(result){
+
+            Promise.resolve(result)
+                .then(function(){
+                    _OAuthCreation.call(this);
+                }.bind(this))
+                .catch(function(){
+                    _OAuthCreation.call(this);
+                }.bind(this))
+        
+        }
+    }
+
+    function _OAuthCreation() {
             OAuth.initialize('8zrAzDgK9i-ryXuI6xHqjHkNpug');
             OAuth.popup('angel_list', {
                 cache: true
@@ -153,7 +168,7 @@ define(function(require, exports, module) {
 
                                     }.bind(this));
 
-                                }.bind(this))
+                                }.bind(this));
                                 console.log('In the loop')
             
                                 if(locCount == this.options.userLoc.length) 
@@ -161,7 +176,7 @@ define(function(require, exports, module) {
                                     console.log("matched jobs count: ", index-1);
                                     if(this.options.jobs.length===0){alert('Sorry but there are no jobs in your area for your skills')}
                                     this._eventOutput.emit('loaded');
-                            }.bind(this))
+                            }.bind(this));
                     
                         }.bind(this))
                     // console.log(this.options.userData);
@@ -228,7 +243,13 @@ define(function(require, exports, module) {
 // >>>>>>> master
 
             }.bind(this));
+    }
 
+
+    function _setListeners() {
+        this.loginButton.on('click', function() {
+            //call oauth.io popup
+            _OAuthCreation.call(this);
         }.bind(this));
     }
     module.exports = LandingView;
