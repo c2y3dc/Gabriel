@@ -31,6 +31,7 @@ define(function(require, exports, module) {
         'touch': TouchSync,
     });
 
+
     function AppView() {
         View.apply(this, arguments);
 
@@ -60,6 +61,8 @@ define(function(require, exports, module) {
     AppView.prototype.constructor = AppView;
 
     AppView.DEFAULT_OPTIONS = {
+        defaultSize: [window.innerWidth, window.innerHeight],
+        mainSize: [window.innerWidth, window.innerHeight],
         userData: {},
         angel: {},
         jobs: {},
@@ -69,6 +72,7 @@ define(function(require, exports, module) {
             curve: 'easeOut'
         }
     };
+
 
     AppView.prototype.toggleMenuPage = function() {
         if (this.gabrielMenu) {

@@ -74,32 +74,28 @@ define(function(require, exports, module) {
 
     SlideView.prototype.showNote = function() {
         this.options.noteToggle = true;
+        if (window.cordova) {
+            cordova.plugins.Keyboard.close();
+        }
         this.noteModifier.setTransform(Transform.translate(0, 0, 10), {
             method: 'spring',
             dampingRatio: 1,
-            period: 450
-        }, function() {
-        }.bind(this));
+            period: 200
+        }, function() {}.bind(this));
 
         this.noteModifier.setOpacity(1, {
             duration: 0
         });
+
 
         return this.noteModifier;
     };
 
-    SlideView.prototype.hideNote = function() {
-        this.noteModifier.setTransform(Transform.translate(0, window.innerHeight * 2, 10), {
-            curve: 'easeOut',
-            duration: 300
-        }, function() {
-            this.options.noteToggle = false;
-        }.bind(this));
-
-        this.noteModifier.setOpacity(1, {
-            duration: 0
-        });
-
+    SlideView.prototype.hideNote = function(callback) {
+        if (window.cordova) {
+            cordova.plugins.Keyboard.close();
+        }
+        this.noteModifier.setTransform(Transform.translate(0, window.innerHeight * 2, 10), {}, callback);
         return this.noteModifier;
     };
 
@@ -377,18 +373,20 @@ define(function(require, exports, module) {
 
     function _setListeners() {
 
-        this.noteSurface.on('touchend', this.showNote.bind(this));
+        this.noteSurface.on('touchend', function() {
+            this.options.noteToggle = true;
+            this.showNote();
+        }.bind(this));
         this.noteView.cancelButtonSurface.on('touchstart', function() {
-            if (window.cordova) {
-               cordova.plugins.Keyboard.close();
-            }
-            this.hideNote();
+            this.hideNote(function() {
+                this.options.noteToggle = false;
+            }.bind(this));
         }.bind(this));
 
         this.noteView.submitButtonSurface.on('touchend', function() {
             this.options.note = this.noteView.inputSurface.getValue();
             if (window.cordova) {
-               cordova.plugins.Keyboard.close();
+                cordova.plugins.Keyboard.close();
             }
             this.hideNote();
             //console.log('getVal', this.noteView.inputSurface.getValue());
@@ -423,7 +421,7 @@ define(function(require, exports, module) {
         }.bind(this));
 
         this.backSurface.on('click', function() {;
-             this.options.flipping = true;
+            this.options.flipping = true;
             if (this.options.toggle && !this.options.noteToggle) {
                 this._eventOutput.emit('flip');
             }

@@ -55,7 +55,6 @@ define(function(require, exports, module) {
         this.add(this.menuHeaderView);
     }
 
-
     function _setListeners() {
         this.menuHeaderView.logoutButton.on('signoutClicked', function() {
             //console.log('signoutClicked');

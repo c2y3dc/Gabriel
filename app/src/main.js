@@ -3,6 +3,7 @@ define(function(require, exports, module) {
 
     var AppView = require('views/AppView');
     var Engine = require('famous/core/Engine');
+    var Timer = require('famous/utilities/Timer');
 
     function start() {
         //console.log("start that app");
@@ -19,6 +20,10 @@ define(function(require, exports, module) {
 
         var appView = new AppView();
         mainContext.add(appView);
+
+        // Timer.setInterval(function() {
+        //     console.log('After tick=', mainContext.getSize());
+        // }, 1000);
     }
 
     if (window.cordova) {
@@ -28,8 +33,7 @@ define(function(require, exports, module) {
         // - requires ionic keyboard plugin
         try {
             // disable keyboard scrolling
-            cordova.plugins.Keyboard.disableScroll(false);
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            cordova.plugins.Keyboard.disableScroll(true);
             //keyboardHeight = 260;
         } catch (err) {
             console.error(err, 'no Keyboard');
@@ -37,6 +41,7 @@ define(function(require, exports, module) {
         // add listeners for keyboard show/hide
         // 
         window.addEventListener('native.keyboardshow', keyboardShowHandler);
+
         function keyboardShowHandler(e) {
             console.log('hello');
             var keyboardHeight = e.keyboardHeight;
@@ -44,6 +49,7 @@ define(function(require, exports, module) {
         }
 
         window.addEventListener('native.keyboardhide', keyboardHideHandler);
+
         function keyboardHideHandler(e) {
             console.log('Hidden Keyboard');
         }
@@ -54,8 +60,8 @@ define(function(require, exports, module) {
         //document.addEventListener('build', start);
 
         // COMMENT OUT BOTH LINES BELOW WHEN RUNNING ON MOBILE DEVICES
-        require('../lib/oauth-js/dist/oauth.min.js');
-        start();
+        //require('../lib/oauth-js/dist/oauth.min.js');
+        //start();
     }
 
 

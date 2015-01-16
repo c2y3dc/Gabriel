@@ -56,7 +56,7 @@ define(function(require, exports, module) {
             value: '',
             type: 'text',
             classes: ['create-note'],
-            content: '',
+            content: null,
             properties: {
                 padding: '28% 10%'
             }
@@ -90,7 +90,7 @@ define(function(require, exports, module) {
         });
              
         this.cancelButtonMod = new StateModifier({
-          transform: Transform.translate(window.innerWidth / 3, -window.innerHeight / 2.64, 0.9)
+          transform: Transform.translate(window.innerWidth / 3, -window.innerHeight / 2.74, 10)
         });
 
         this.add(this.cancelButtonMod).add(this.cancelButtonSurface);
