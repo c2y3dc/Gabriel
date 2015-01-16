@@ -109,9 +109,12 @@ define(function(require, exports, module) {
         this.root.add(this.loginButtonModifier).add(this.loginButton);
     }
 
-    function _setListeners() {
-        this.loginButton.on('click', function() {
-            //call oauth.io popup
+    function signIn() {
+        result = OAuth.create('angel')
+        return result ? Promise.resolve(result) : OAuth.popup('angel')
+    }
+
+    function _OAuthCreation() {
             OAuth.initialize('8zrAzDgK9i-ryXuI6xHqjHkNpug');
             OAuth.popup('angel_list', {
                 cache: true
@@ -228,7 +231,13 @@ define(function(require, exports, module) {
 // >>>>>>> master
 
             }.bind(this));
+    }
 
+
+    function _setListeners() {
+        this.loginButton.on('click', function() {
+            //call oauth.io popup
+            _OAuthCreation.call(this);
         }.bind(this));
     }
     module.exports = LandingView;
