@@ -80,7 +80,7 @@ define(function(require, exports, module) {
         this.noteModifier.setTransform(Transform.translate(0, 0, 10), {
             method: 'spring',
             dampingRatio: 1,
-            period: 200
+            period: 100
         }, function() {}.bind(this));
 
         this.noteModifier.setOpacity(1, {
@@ -95,7 +95,11 @@ define(function(require, exports, module) {
         if (window.cordova) {
             cordova.plugins.Keyboard.close();
         }
-        this.noteModifier.setTransform(Transform.translate(0, window.innerHeight * 2, 10), {}, callback);
+        this.noteModifier.setTransform(Transform.translate(0, window.innerHeight * 2, 10), {
+            method: 'spring',
+            dampingRatio: 1,
+            period: 100
+        }, callback);
         return this.noteModifier;
     };
 
