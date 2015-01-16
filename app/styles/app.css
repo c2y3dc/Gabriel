@@ -97,13 +97,14 @@ html {
 }
 
 .scroll-container {
-    height: inherit;
+    /*height: inherit;*/
 }
 
 .back-card-desc {
 
-    -webkit-overflow-scrolling: touch;
-    overflow-y: scroll;
+    /*-webkit-overflow-scrolling: touch;*/
+    /*overflow-y: scroll;*/
+
     /* white-space: pre-line;*/
 }
 
