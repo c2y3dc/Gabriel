@@ -7,6 +7,7 @@ define(function(require, exports, module) {
     var Modifier = require('famous/core/Modifier');
     var SlideData = require('data/SlideData');
     var ImageSurface = require('famous/surfaces/ImageSurface');
+    var ContainerSurface = require('famous/surfaces/ContainerSurface');
     var Flipper = require("famous/views/Flipper");
     var Scrollview = require("famous/views/Scrollview");
     var Easing = require('famous/transitions/Easing');
@@ -14,6 +15,7 @@ define(function(require, exports, module) {
     var MouseSync = require("famous/inputs/MouseSync");
     var TouchSync = require("famous/inputs/TouchSync");
     var RenderNode = require('famous/core/RenderNode');
+    var SequentialLayout = require("famous/views/SequentialLayout");
     //var FastClick = require('famous/inputs/FastClick');
     var Transitionable = require('famous/transitions/Transitionable');
     var SnapTransition = require('famous/transitions/SnapTransition');
@@ -168,22 +170,81 @@ define(function(require, exports, module) {
             content = this.options.job.description.slice();
         }
 
-        content = content.replace(/\s\s/g, "</div></br><div>")
-            .replace(/: /g, ":</div></br><div>")
-            .replace(/\s-\s/g, "</div></div>-")
-            .replace(/\s\s/g, "</div></br><div>")
-            .replace(/\s([^A-Za-z0-9,.&()\/])/g, "</div><div>$1")
-            .replace(/-([A-Z])/g, "</div><div>-$1");
 
-        content = '<div>' + content + '</div>';
+        
+        this.backModifier = new Modifier({});
+        
 
-        this.backSurface = new Surface({
-            size: this.options.size,
+        content = content.replace(/\s\s/g, "</div></br><div class='back-card-desc'>")
+            .replace(/: /g, ":</div></br><div class='back-card-desc'>")
+            .replace(/\s-\s/g, "</div><div class='back-card-desc'>-")
+            .replace(/\s\s/g, "</div></br><div class='back-card-desc'>")
+            .replace(/\s([^A-Za-z0-9,.&()\/])/g, "</div><div class='back-card-desc'>$1")
+            .replace(/-([A-Z])/g, "</div><div class='back-card-desc'>-$1");
+
+
+        content = '<div class="back-card-desc">' + content + '</div>';
+
+
+        content = content.split('</br>');
+
+        this.scrollSurfaces = [];
+
+        this.backSurface = new ContainerSurface({
             classes: ['back-card'],
-            content: '<div class="back-card-desc"><div>' + content + '</div></div>'
+
+            size: this.options.size,
+            
+
         });
 
-        this.backNode = this.cardNode.add(this.backSurfaceModifier);
+        this.scrollModifier = new Modifier();
+
+        this.scrollview = new Scrollview({});
+       
+        var prevSurface;
+        
+        content.forEach(function(div){
+            var divSurface = new Surface({
+                classes: ['scroll-container'],
+                size: [undefined, true],
+                content: div
+            });
+
+            divSurface.pipe(this.scrollview);
+
+            divSurface.node = new RenderNode();
+            divSurface.mod = new Modifier({
+                align: function(){
+                    if(!prevSurface){
+                        return [0,0];
+                    }else{
+                        return [0,prevSurface.height];
+                    }
+                }
+            });
+
+
+            divSurface.node.add(divSurface.mod).add(divSurface);
+
+            this.scrollSurfaces.push(divSurface.node);
+
+            prevSurface = divSurface;
+        }.bind(this));
+
+        var scrollLayout = [];
+
+        var sequentialLayout = new SequentialLayout({itemSpacing:10});
+        sequentialLayout.sequenceFrom(this.scrollSurfaces);
+        scrollLayout.push(sequentialLayout);
+
+        this.scrollview.sequenceFrom(scrollLayout);
+
+        this.backSurface.add(this.scrollview);
+        
+        console.log(this.scrollSurfaces, 'SHOULD HAVE AN ARRAY OF SURFACES');
+        
+        this.backNode = this.cardNode.add(this.backModifier);
         this.backNode.add(this.backSurface);
     }
 
@@ -303,7 +364,6 @@ define(function(require, exports, module) {
         var touch = new TouchSync({});
         // now surface's events are piped to `MouseSync`, `TouchSync` and `ScrollSync`
         this.frontSurface.pipe(sync);
-        // this.backSurface.pipe(touch);
 
         sync.on('update', function(data) {
             var currentPosition = this.options.position.get();
@@ -381,6 +441,7 @@ define(function(require, exports, module) {
             this.options.noteToggle = true;
             this.showNote();
         }.bind(this));
+
         this.noteView.cancelButtonSurface.on('touchstart', function() {
             this.hideNote(function() {
                 this.options.noteToggle = false;

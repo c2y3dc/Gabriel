@@ -15,6 +15,7 @@ node_modules
 
 # Project Files #
 #################
+xwalk/
 dist
 .tmp
 app/lib
