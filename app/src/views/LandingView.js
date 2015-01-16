@@ -153,7 +153,7 @@ define(function(require, exports, module) {
 
                                     }.bind(this));
 
-                                }.bind(this))
+                                }.bind(this));
                                 console.log('In the loop')
             
                                 if(locCount == this.options.userLoc.length) 
@@ -161,7 +161,7 @@ define(function(require, exports, module) {
                                     console.log("matched jobs count: ", index-1);
                                     if(this.options.jobs.length===0){alert('Sorry but there are no jobs in your area for your skills')}
                                     this._eventOutput.emit('loaded');
-                            }.bind(this))
+                            }.bind(this));
                     
                         }.bind(this))
                     // console.log(this.options.userData);
