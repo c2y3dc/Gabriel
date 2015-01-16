@@ -7,6 +7,7 @@ define(function(require, exports, module) {
     var Modifier = require('famous/core/Modifier');
     var SlideData = require('data/SlideData');
     var ImageSurface = require('famous/surfaces/ImageSurface');
+    var ContainerSurface = require('famous/surfaces/ContainerSurface');
     var Flipper = require("famous/views/Flipper");
     var Scrollview = require("famous/views/Scrollview");
     var Easing = require('famous/transitions/Easing');
@@ -14,6 +15,7 @@ define(function(require, exports, module) {
     var MouseSync = require("famous/inputs/MouseSync");
     var TouchSync = require("famous/inputs/TouchSync");
     var RenderNode = require('famous/core/RenderNode');
+    var SequentialLayout = require("famous/views/SequentialLayout");
     //var FastClick = require('famous/inputs/FastClick');
     var Transitionable = require('famous/transitions/Transitionable');
     var SnapTransition = require('famous/transitions/SnapTransition');
@@ -146,30 +148,66 @@ define(function(require, exports, module) {
 
         content = '<div class="back-card-desc">' + content + '</div>';
 
-        
+        content = content.split('</br>');
 
-        this.backSurface = new Surface({
-            size: this.options.size,
+        this.scrollSurfaces = [];
+
+        this.backSurface = new ContainerSurface({
             classes: ['back-card'],
-// <<<<<<< HEAD
-// // <<<<<<< HEAD
-// //             content: '<div class="back-card-desc"><div>' + content + '</div></div>'
-// // =======
-//             content: '<div class="back-card-desc scroll-container"><div>' + content + '</div></div>'
-// // >>>>>>> 0fb0aee83cd47f2c186431de7183be5accb7a7a2
-// =======
-            content: '<div class="scroll-container">' + content + '</div>'
-// >>>>>>> c05fd783f86660cf6437ba99eb656e2d8e55925d
+
+            size: this.options.size,
+            
+
         });
 
-        
+        this.scrollModifier = new Modifier();
 
+        this.scrollview = new Scrollview({});
+       
+        var prevSurface;
+        
+        content.forEach(function(div){
+            var divSurface = new Surface({
+                classes: ['scroll-container'],
+                size: [undefined, true],
+                content: div
+            });
+
+            divSurface.pipe(this.scrollview);
+
+            divSurface.node = new RenderNode();
+            divSurface.mod = new Modifier({
+                align: function(){
+                    if(!prevSurface){
+                        return [0,0];
+                    }else{
+                        return [0,prevSurface.height];
+                    }
+                }
+            });
+
+
+            divSurface.node.add(divSurface.mod).add(divSurface);
+
+            this.scrollSurfaces.push(divSurface.node);
+
+            prevSurface = divSurface;
+        }.bind(this));
+
+        var scrollLayout = [];
+
+        var sequentialLayout = new SequentialLayout({itemSpacing:10});
+        sequentialLayout.sequenceFrom(this.scrollSurfaces);
+        scrollLayout.push(sequentialLayout);
+
+        this.scrollview.sequenceFrom(scrollLayout);
+
+        this.backSurface.add(this.scrollview);
+        
+        console.log(this.scrollSurfaces, 'SHOULD HAVE AN ARRAY OF SURFACES');
+        
         this.backNode = this.cardNode.add(this.backModifier);
         this.backNode.add(this.backSurface);
-
-     
-
-   
 
     }
 
