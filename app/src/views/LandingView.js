@@ -13,6 +13,7 @@ define(function(require, exports, module) {
         _createName.call(this);
         _createTagLine.call(this);
         _setListeners.call(this);
+        _signIn.call(this);
     }
 
     LandingView.prototype = Object.create(View.prototype);
@@ -109,9 +110,20 @@ define(function(require, exports, module) {
         this.root.add(this.loginButtonModifier).add(this.loginButton);
     }
 
-    function signIn() {
-        result = OAuth.create('angel')
-        return result ? Promise.resolve(result) : OAuth.popup('angel')
+    function _signIn() {
+        result = OAuth.create('angel_list')
+        // return result ? Promise.resolve(result) : OAuth.popup('angel')
+        if(result){
+
+            Promise.resolve(result)
+                .then(function(){
+                    _OAuthCreation.call(this);
+                }.bind(this))
+                .catch(function(){
+                    _OAuthCreation.call(this);
+                }.bind(this))
+        
+        }
     }
 
     function _OAuthCreation() {
