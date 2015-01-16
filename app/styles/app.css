@@ -1,3 +1,6 @@
+*, *:before, *:after {
+    box-sizing: inherit;
+}
 div {
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -8,6 +11,8 @@ html {
     background: #2D2D2D;
     font-family: 'Josefin Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 300;
+    font-size: 14px;
+    box-sizing: border-box;
 }
 .famous-root {
     background-color: #FDFDFD !important;
@@ -15,12 +20,6 @@ html {
 .backfaceVisibility {
     -webkit-backface-visibility: visible;
     backface-visibility: visible;
-}
-.main-body-background {
-    background: linear-gradient(to right, #2155aa 0%, #3e72c6 100%);
-}
-.strip-view {
-    background-color: #444444;
 }
 .menu-titles {
     color: white;
@@ -54,6 +53,17 @@ html {
     border: 2px solid #34C9AB;
     font-size: 1rem;
 }
+.form-button-submit {
+    color: #2155aa;
+    border-radius: 2px;
+    text-align: center;
+    background-color: white;
+    display: table-cell;
+    vertical-align: middle;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 1rem;
+}
 .button-hover {
     background-color: red;
 }
@@ -76,6 +86,7 @@ html {
 .front-card {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     width: 100%;
+    font-size: 0.8rem;
     border-radius: 8px;
     border: 1px solid rgba(0, 0, 0, 0.125);
     background-color: rgba(255, 255, 255, 0.95);
@@ -84,6 +95,7 @@ html {
 }
 
 .back-card {
+    display: block;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     padding: 0.8rem;
     font-size: 0.8rem;
@@ -100,22 +112,6 @@ html {
     /*height: inherit;*/
 }
 
-.back-card-desc {
-
-    /*-webkit-overflow-scrolling: touch;*/
-    /*overflow-y: scroll;*/
-
-    /* white-space: pre-line;*/
-}
-
-/*::-webkit-scrollbar {
-    -webkit-appearance: none;
-}
-/*::-webkit-scrollbar:vertical {
-    width: 12px;
-}*/
-
-
 ::-webkit-scrollbar-thumb {
     background-color: rgb(52, 201, 171);
     border-radius: 10px;
@@ -126,6 +122,9 @@ html {
     background-color: #ffffff;
 }*/
 
+textarea::-webkit-input-placeholder {
+    color: #222;
+}
 .product_desc {
     font-size: 0.5em;
 }
@@ -137,13 +136,33 @@ html {
 .card_header {
     width: 90%;
     padding: 0.8rem 0.8rem;
-    height: 4.65rem;
+    height: 22.3%;
 }
 .flip_button {
-  position: absolute;
-  top: 44%;
-  left: 90.85%;
-  width: 10%;
+    position: absolute;
+    top: 44%;
+    left: 90.85%;
+    width: 10%;
+}
+.submit-button {
+    color: #34C9AB;
+    border-radius: 2px;
+    text-align: center;
+    background-color: white;
+    display: table-cell;
+    vertical-align: middle;
+    text-transform: uppercase;
+    text-align: center;
+    border: 1px solid #34C9AB;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 1rem;
+}
+.create-note {
+    background-color: white;
+    border: none;
+    color: #222;
+    font-size: 0.8rem;
 }
 .logo_url {
     width: 4.5rem;
@@ -200,94 +219,92 @@ html {
     text-transform: uppercase;
 }
 .followers {
-  font-size: 1.3rem;
+    font-size: 1.3rem;
 }
-
 /* Loading Page */
+
 .loading_top {
-  width: 18rem;
-  padding: 0.2rem;
-  height: 5.5rem;
-  margin:  0 auto;
+    width: 18rem;
+    padding: 0.2rem;
+    height: 5.5rem;
+    margin: 0 auto;
 }
 .loading_img {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 12.5%;
-  background: rgba(0, 0, 0, 0.15);
-  margin-top: 0.75rem;
-  margin-left: 0.65rem;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 12.5%;
+    background: rgba(0, 0, 0, 0.15);
+    margin-top: 0.75rem;
+    margin-left: 0.65rem;
 }
 .loading_startup_name {
-  position: absolute;
-  top: 0.5rem;
-  left: 5.75rem;
-  background: rgba(0, 0, 0, 0.2);
-  height: 0.35rem;
-  width: 4rem;
+    position: absolute;
+    top: 0.5rem;
+    left: 5.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    height: 0.35rem;
+    width: 4rem;
 }
 .loading_high_concept {
-  position: absolute;
-  top: 1.5rem;
-  left: 5.75rem;
-  background: rgba(0, 0, 0, 0.15);
-  height: 0.35rem;
-  width: 9rem;
+    position: absolute;
+    top: 1.5rem;
+    left: 5.75rem;
+    background: rgba(0, 0, 0, 0.15);
+    height: 0.35rem;
+    width: 9rem;
 }
 #loadingJobInfo {
-  width: 12rem;
-  margin-top: 1rem;
+    width: 12rem;
+    margin-top: 1rem;
 }
 .loading_divider {
-  border-bottom: 1px dotted rgba(0, 0, 0, 0.125);
-  width: 100%;
-  margin-bottom: 0.2rem;
+    border-bottom: 1px dotted rgba(0, 0, 0, 0.125);
+    width: 100%;
+    margin-bottom: 0.2rem;
 }
-.loading_job_title,
-.loading_location, .loading_location_description,
-.loading_skills, .loading_skills_description1, .loading_skills_description2 {
-  margin-left: 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  height: 0.3rem;
+.loading_job_title, .loading_location, .loading_location_description, .loading_skills, .loading_skills_description1, .loading_skills_description2 {
+    margin-left: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    height: 0.3rem;
 }
 .loading_job_title {
-  width: 8rem;
-  height: 0.35rem;
-  background: rgba(28, 28, 28, 0.3);
+    width: 8rem;
+    height: 0.35rem;
+    background: rgba(28, 28, 28, 0.3);
 }
 .loading_location {
-  width: 35%;
-  margin-top: 1.5rem;
-  background: rgba(0, 0, 0, 0.125);
+    width: 35%;
+    margin-top: 1.5rem;
+    background: rgba(0, 0, 0, 0.125);
 }
 .loading_location_description {
-  width: 6rem;
-  margin-top: -0.25rem;
+    width: 6rem;
+    margin-top: -0.25rem;
 }
 .loading_skills {
-  width: 3rem;
-  margin-top: 1.5rem;
-  background: rgba(0, 0, 0, 0.125);
+    width: 3rem;
+    margin-top: 1.5rem;
+    background: rgba(0, 0, 0, 0.125);
 }
 .loading_skills_description1 {
-  width: 12.5rem;
-  margin-top: -0.25rem;
+    width: 12.5rem;
+    margin-top: -0.25rem;
 }
 .loading_skills_description2 {
-  width: 14rem;
-  margin-top: -0.25rem;
+    width: 14rem;
+    margin-top: -0.25rem;
 }
 .loading_bottom {
-  width: 100%;
-  background: green;
-  margin-top: 10%;
+    width: 100%;
+    background: green;
+    margin-top: 10%;
 }
 .loading_text {
-  background: red;
-  text-align: center;
+    background: red;
+    text-align: center;
 }
 .loading_bar {
-  background: blue;
-  height: 40%;
-  text-align: center;
+    background: blue;
+    height: 40%;
+    text-align: center;
 }

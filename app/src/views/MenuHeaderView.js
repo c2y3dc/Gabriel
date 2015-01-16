@@ -18,7 +18,6 @@ define(function(require, exports, module) {
         _createFollower.call(this);
         _createBuiltWithFamous.call(this);
         _createLogoutButton.call(this);
-
         _setListeners.call(this);
     }
 
@@ -135,7 +134,7 @@ define(function(require, exports, module) {
             size: [true, true],
             content: 'img/pin.svg'
         });
-
+        
         this.locationPinModifier = new StateModifier({
             origin: [0.5, 0.5],
             align: [0.341, 0.395]
@@ -251,12 +250,9 @@ define(function(require, exports, module) {
 
 
         this.logoutButton.on('click', function() {
-
-
             this._eventOutput.emit('signoutClicked');
             // OAuth.clearCache();
             // window.open('https://www.angel.co/logout');
-
         });
 
         //     console.log("LANDING", this.options.landingView);
@@ -266,7 +262,5 @@ define(function(require, exports, module) {
         // }.bind(this));
         //console.log('this OPTIONS after and outside popup', this.options);
     }
-
-
     module.exports = MenuHeaderView;
 });

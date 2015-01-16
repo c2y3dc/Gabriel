@@ -9,7 +9,7 @@ define(function(require, exports, module) {
     var ImageSurface = require('famous/surfaces/ImageSurface');
 
     //var FastClick = require('famous/inputs/FastClick');
-    var ScrollSync = require("famous/inputs/ScrollSync");
+    //var ScrollSync = require("famous/inputs/ScrollSync");
     var MouseSync = require('famous/inputs/MouseSync');
     var TouchSync = require('famous/inputs/TouchSync');
     var GenericSync = require('famous/inputs/GenericSync');
@@ -40,7 +40,7 @@ define(function(require, exports, module) {
         jobs: {},
         width: window.innerWidth,
         height: window.innerHeight,
-        headerSize: window.innerHeight * 0.1127,
+        headerSize: 60,
         headerWidth: window.innerWidth,
         footerSize: window.innerHeight * 0.167,
         footerWidth: window.innerWidth,
@@ -110,7 +110,7 @@ define(function(require, exports, module) {
             size: [true, 44],
             content: 'GABRIEL',
             properties: {
-                fontSize: this.options.width * 0.042 + 'px',
+                fontSize: '0.9rem',
                 color: 'rgba(0, 0, 0, 0.75)',
                 fontWeight: 400
             }
@@ -118,7 +118,9 @@ define(function(require, exports, module) {
 
         /*HEADER MODIFIERS */
         var profileModifier = new StateModifier({
-            transform: Transform.translate(this.options.width * 0.05, this.options.height * 0.05, 0.9)
+            transform: Transform.translate(this.options.width * 0.048, 0, 0.9),
+            origin: [0, 0],
+            align: [0, 0.4]
         });
 
         var titleModifier = new StateModifier({
@@ -243,7 +245,7 @@ define(function(require, exports, module) {
             this.archiveModifier.setOpacity(1, {
                 duration: 10
             });
-            if (this.deckView.options.slideArrived) {
+            if (this.deckView.options.slideArrived && !this.deckView.options.flipping) {
                 this.deckView.options.slideArrived = false;
                 this.deckView._eventOutput.emit('swipeItLeft');
             }
@@ -259,7 +261,7 @@ define(function(require, exports, module) {
             this.interestedModifier.setOpacity(1, {
                 duration: 10
             });
-            if (this.deckView.options.slideArrived) {
+            if (this.deckView.options.slideArrived && !this.deckView.options.flipping) {
                 this.deckView.options.slideArrived = false;
                 this.deckView._eventOutput.emit('swipeItRight');
             }

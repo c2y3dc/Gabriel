@@ -21,7 +21,7 @@ define(function(require, exports, module) {
     var SnapTransition = require('famous/transitions/SnapTransition');
     Transitionable.registerMethod('spring', SnapTransition);
 
-    require('helpers/methods');
+    var NoteView = require('views/NoteView');
 
 
     // runs once for each new instance
@@ -41,13 +41,13 @@ define(function(require, exports, module) {
             transform: Transform.translate(0, 0, 0.9)
         });
 
+
         this.mainNode = this.add(this.rootModifier);
         this.cardNode = this.mainNode.add(this.cardModifier);
+        _createNoteView.call(this);
         //_createBackground.call(this);
         _createFlipper.call(this);
-        //var rootNode = _createCard.call(this);
         _createHandle.call(this);
-        //_createShadowBox.call(this);
         _setListeners.call(this);
 
     }
@@ -69,7 +69,40 @@ define(function(require, exports, module) {
         startup_location: 'San Francisco, CA',
         salary_min: '100k',
         salary_max: '150k',
-        job_type: 'Full Time'
+        job_type: 'Full Time',
+        noteToggle: false,
+        flipping: false
+    };
+
+    SlideView.prototype.showNote = function() {
+        this.options.noteToggle = true;
+        if (window.cordova) {
+            cordova.plugins.Keyboard.close();
+        }
+        this.noteModifier.setTransform(Transform.translate(0, 0, 10), {
+            method: 'spring',
+            dampingRatio: 1,
+            period: 100
+        }, function() {}.bind(this));
+
+        this.noteModifier.setOpacity(1, {
+            duration: 0
+        });
+
+
+        return this.noteModifier;
+    };
+
+    SlideView.prototype.hideNote = function(callback) {
+        if (window.cordova) {
+            cordova.plugins.Keyboard.close();
+        }
+        this.noteModifier.setTransform(Transform.translate(0, window.innerHeight * 2, 10), {
+            method: 'spring',
+            dampingRatio: 1,
+            period: 100
+        }, callback);
+        return this.noteModifier;
     };
 
     function _createFlipper() {
@@ -82,7 +115,7 @@ define(function(require, exports, module) {
 
         this.cardNode.add(this.flipper);
 
-
+        _createNoteButton.call(this);
         _createInterestedFeedback.call(this);
         _createArchiveFeedback.call(this);        
     }
@@ -125,15 +158,18 @@ define(function(require, exports, module) {
     }
 
     function _createCardBack() {
-        
-        
-        var backSurfaces = [];
+
+        this.backSurfaceModifier = new StateModifier({
+            transform: Transform.translate(0, 0, 0.9)
+        });
+
         var content;
         if (!this.options.job.description || this.options.job.description === '') {
             content = 'No Description Provided';
         } else {
             content = this.options.job.description.slice();
         }
+
 
         
         this.backModifier = new Modifier({});
@@ -146,7 +182,9 @@ define(function(require, exports, module) {
             .replace(/\s([^A-Za-z0-9,.&()\/])/g, "</div><div class='back-card-desc'>$1")
             .replace(/-([A-Z])/g, "</div><div class='back-card-desc'>-$1");
 
+
         content = '<div class="back-card-desc">' + content + '</div>';
+
 
         content = content.split('</br>');
 
@@ -208,7 +246,42 @@ define(function(require, exports, module) {
         
         this.backNode = this.cardNode.add(this.backModifier);
         this.backNode.add(this.backSurface);
+    }
 
+    function _createNoteButton() {         
+        this.noteSurface = new Surface({        
+            size: [this.options.width * 0.225, this.options.height * 0.05],
+                    content: 'NOTE',
+                    properties: {          
+                fontSize: this.options.width * 0.03 + 'px',
+                          color: '#34C9AB',
+                          backgroundColor: 'white',
+                          border: '1px solid #34C9AB',
+                          borderRadius: '4px',
+                          textAlign: 'center',
+                          letterSpacing: this.options.width * 0.002 + 'px',
+                          lineHeight: this.options.height * 0.048 + 'px',
+                          fontWeight: 600,
+                        
+            }      
+        });
+
+              
+        this.noteMod = new StateModifier({        
+            transform: Transform.translate(this.options.width * 0.29, this.options.height * 0.3, 0.9)      
+        });
+
+        this.frontNode.add(this.noteMod).add(this.noteSurface);
+
+    }
+
+    function _createNoteView() {
+        this.noteView = new NoteView();
+        this.noteModifier = new StateModifier({
+            opacity: 0,
+            transform: Transform.translate(0, window.innerHeight * 1.5, 10)
+        });
+        this.add(this.noteModifier).add(this.noteView);
     }
 
         
@@ -252,19 +325,18 @@ define(function(require, exports, module) {
             size: [this.options.width * 0.225, this.options.height * 0.05],
                     content: 'INTERESTED',
                     properties: {          
-                          fontSize: this.options.width * 0.03 + 'px',
+                fontSize: this.options.width * 0.03 + 'px',
                           color: '#fff',
-                          backgroundColor: '#34C9AB',
+                backgroundColor: '#34C9AB',
                           border: '2px solid #34C9AB',
                           borderRadius: '4px',
                           textAlign: 'center',
                           letterSpacing: this.options.width * 0.002 + 'px',
                           lineHeight: this.options.height * 0.05 + 'px',
                           fontWeight: 600,
+
             }      
         });
-
-              
 
         this.interestedFeedbackSurface.node = new RenderNode();
 
@@ -276,7 +348,6 @@ define(function(require, exports, module) {
         this.interestedFeedbackSurface.rotationMod = new Modifier({
             transform: Transform.rotate(0, 0, -0.5)
         })
-
 
         this.interestedFeedbackSurface.node.add(this.interestedFeedbackSurface.interestedMod).add(this.interestedFeedbackSurface.rotationMod).add(this.interestedFeedbackSurface);
 
@@ -357,7 +428,7 @@ define(function(require, exports, module) {
             // undefined size will inherit size from parent modifier
             properties: {
                 backgroundColor: '#FFFFF5',
-                boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)',
+                //boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.5)',
                 background: 'transparent'
             }
         });
@@ -366,14 +437,34 @@ define(function(require, exports, module) {
 
     function _setListeners() {
 
+        this.noteSurface.on('touchend', function() {
+            this.options.noteToggle = true;
+            this.showNote();
+        }.bind(this));
+
+        this.noteView.cancelButtonSurface.on('touchstart', function() {
+            this.hideNote(function() {
+                this.options.noteToggle = false;
+            }.bind(this));
+        }.bind(this));
+
+        this.noteView.submitButtonSurface.on('touchend', function() {
+            this.options.note = this.noteView.inputSurface.getValue();
+            if (window.cordova) {
+                cordova.plugins.Keyboard.close();
+            }
+            this.hideNote();
+            //console.log('getVal', this.noteView.inputSurface.getValue());
+            this._eventOutput.emit('swipeRight');
+        }.bind(this));
+
         this.on('opacitateRight',
             function() {
                 this.archiveFeedbackSurface.archiveMod.setOpacity(0);
                 this.interestedFeedbackSurface.interestedMod.opacityFrom(function() {
                     var currentPosition = this.options.position.get();
-                    return (currentPosition[0] / 200)
+                    return (currentPosition[0] / 200);
                 }.bind(this));
-
             }.bind(this));
 
         this.on('opacitateLeft',
@@ -381,21 +472,22 @@ define(function(require, exports, module) {
                 this.interestedFeedbackSurface.interestedMod.setOpacity(0);
                 this.archiveFeedbackSurface.archiveMod.opacityFrom(function() {
                     var currentPosition = this.options.position.get();
-                    return (Math.abs(currentPosition[0] / 200))
+                    return (Math.abs(currentPosition[0] / 200));
                 }.bind(this));
-
             }.bind(this));
 
 
         this.frontSurface.on('click', function() {
-            if (!this.options.toggle) {
+            this.options.flipping = true;
+            if (!this.options.toggle && !this.options.noteToggle) {
                 this._eventOutput.emit('flip')
 
             }
         }.bind(this));
 
         this.backSurface.on('click', function() {;
-            if (this.options.toggle) {
+            this.options.flipping = true;
+            if (this.options.toggle && !this.options.noteToggle) {
                 this._eventOutput.emit('flip');
             }
         }.bind(this));

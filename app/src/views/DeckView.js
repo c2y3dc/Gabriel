@@ -11,6 +11,7 @@ define(function(require, exports, module) {
     var WallTransition = require('famous/transitions/WallTransition');
     var SnapTransition = require('famous/transitions/SnapTransition');
     var ImageSurface = require('famous/surfaces/ImageSurface');
+    var RenderNode = require('famous/core/RenderNode');
 
     Transitionable.registerMethod('spring', SpringTransition);
     Transitionable.registerMethod('wall', WallTransition);
@@ -40,21 +41,25 @@ define(function(require, exports, module) {
     DeckView.prototype.constructor = DeckView;
 
     DeckView.DEFAULT_OPTIONS = {
+        flipping: true,
         slideArrived: true,
         jobs: {},
         height: window.innerHeight,
         width: window.innerWidth,
         size: [window.innerWidth * 0.858, window.innerHeight * 0.688],
         lightboxOpts: {
-            inTransform: Transform.translate(300, 0, 0),
-            outTransform: Transform.translate(-50, 0, 0),
+            overlap: true,
+            inTransform: Transform.translate(0, 0, 0),
+            outTransform: Transform.translate(0, 0, 0),
             inTransition: {
-                duration: 250,
-                curve: 'easeOut'
+                method: 'spring',
+                dampingRatio: 1,
+                period: 290
             },
             outTransition: {
-                duration: 250,
-                curve: Easing.inQuad
+                method: 'spring',
+                dampingRatio: 1,
+                period: 290
             }
         }
     };
@@ -66,13 +71,13 @@ define(function(require, exports, module) {
 
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
-
-        this.lightbox.options.outTransform = Transform.translate(-500, 0, 0);
+        this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
 
         slide.options.position.set([-500, 0], {
-            curve: 'easeOut',
-            period: 800,
+            method: 'spring',
+            dampingRatio: 1,
+            period: 290
         });
 
         //OUR API CALL TO ARCHIVE GOES HERE
@@ -91,6 +96,7 @@ define(function(require, exports, module) {
                 user_interested: 0
             }
         }).done(function(data) {
+            //console.log(data);
             //console.log("Archive doneRes", data);
         }.bind(this)).fail(function(oops) {
             //console.log("already archive'd / unable to archive", oops);
@@ -111,17 +117,19 @@ define(function(require, exports, module) {
             this.options.slideArrived = true
         }.bind(this));
 
-        slide.interestedFeedbackSurface.interestedMod.opacityFrom(0);
-        slide.archiveFeedbackSurface.archiveMod.opacityFrom(1);
+        //slide.interestedFeedbackSurface.interestedMod.opacityFrom(0);
+        //slide.archiveFeedbackSurface.archiveMod.opacityFrom(1);
     };
 
     DeckView.prototype.swipeRight = function() {
         var slide = this.slides[this.currentIndex];
+        //this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
         this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
-        this.lightbox.options.inTransform = Transform.translate(-500, 0, 0);
+        this.lightbox.options.inTransform = Transform.translate(-300, 0, 0);
         slide.options.position.set([500, 0], {
-            curve: 'easeOut',
-            period: 800,
+            method: 'spring',
+            dampingRatio: 1,
+            period: 290,
         });
 
 
@@ -131,16 +139,17 @@ define(function(require, exports, module) {
         var sid = this.slides[this.currentIndex].options.job.startup.id;
 
         //console.log("startup_id", sid);
-
         // //Interested POST REQ
+        //console.log('NOTE', slide.options.note);
         ANGEL.post('/1/talent/pairing', {
             data: {
                 startup_id: sid,
                 // user_id: ME.id,
-                user_note: "",
+                user_note: slide.options.note || null,
                 user_interested: 1
             }
         }).done(function(data) {
+
             //console.log("Intro doneRes", data);
         }.bind(this)).fail(function(oops) {
             //console.log("already intro'd / unable to intro", oops);
@@ -172,19 +181,20 @@ define(function(require, exports, module) {
             this.options.okToFlip = true;
         }.bind(this));
 
-        slide.archiveFeedbackSurface.archiveMod.opacityFrom(0);
-        slide.interestedFeedbackSurface.interestedMod.opacityFrom(1);
+        //slide.archiveFeedbackSurface.archiveMod.opacityFrom(0);
+        //slide.interestedFeedbackSurface.interestedMod.opacityFrom(1);
     };
 
     DeckView.prototype.flip = function() {
-
         var slide = this.slides[this.currentIndex];
         var angle = slide.options.toggle ? 0 : -Math.PI;
-
+        this.options.flipping = true;
         slide.flipper.setAngle(angle, {
-            curve: 'easeOut',
-            duration: 450,
+            method: 'spring',
+            dampingRatio: 1,
+            period: 500
         }, function() {
+            this.options.flipping = false;
             slide.options.toggle = !slide.options.toggle;
         }.bind(this));
     }
@@ -197,12 +207,14 @@ define(function(require, exports, module) {
 
         this.slides[this.currentIndex].options.position.set([0, 0]);
         var slide = this.slides[this.currentIndex];
+        slide.noteView.inputSurface.setValue('');
         this.lightbox.show(slide, callback);
     };
 
     function _createLightbox() {
         this.lightbox = new Lightbox(this.options.lightboxOpts);
         this.mainNode.add(this.lightbox);
+        this.lightbox.hide();
     }
 
     function _createSlides() {
@@ -234,12 +246,16 @@ define(function(require, exports, module) {
                 location: location
             });
 
+            slide.node = new RenderNode();
+            slide.mod = new StateModifier();
 
-            this.slides[i] = slide;
-            // adding click listener
-            // on click, calling .showNextSlide()
-            // note that we're binding showNextSlide to the slideshow
-            // to maintain the correct context when called
+            slide.node.add(slide.mod).add(slide);
+
+            this.slides[i] = slide
+                // adding click listener
+                // on click, calling .showNextSlide()
+                // note that we're binding showNextSlide to the slideshow
+                // to maintain the correct context when called
             slide.on('swipeRight', this.swipeRight.bind(this));
             slide.on('swipeLeft', this.swipeLeft.bind(this));
             slide.on('flip', this.flip.bind(this));
@@ -251,13 +267,13 @@ define(function(require, exports, module) {
             }.bind(this));
         }
         // console.log('SLIDES ARRAY', this.slides);
-
         this.showNextSlide(function() {
             this._eventOutput.emit('firstSlideReady');
         }.bind(this));
 
-        slide.interestedFeedbackSurface.interestedMod.opacityFrom(0);
-        slide.archiveFeedbackSurface.archiveMod.opacityFrom(0);
+        //slide.interestedFeedbackSurface.interestedMod.opacityFrom(0);
+        //slide.archiveFeedbackSurface.archiveMod.opacityFrom(0);
+
     }
 
 

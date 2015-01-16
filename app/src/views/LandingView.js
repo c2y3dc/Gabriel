@@ -3,8 +3,6 @@ define(function(require, exports, module) {
     var Surface = require('famous/core/Surface');
     var Transform = require('famous/core/Transform');
     var StateModifier = require('famous/modifiers/StateModifier');
-    var ImageSurface = require('famous/surfaces/ImageSurface');
-    var Utility = require('famous/utilities/Utility');
 
     function LandingView() {
         View.apply(this, arguments);
@@ -41,7 +39,7 @@ define(function(require, exports, module) {
             transform: Transform.translate(0, 0, 200)
         });
 
-        this.root = this.add(this.rootModifier)
+        this.root = this.add(this.rootModifier);
         this.root.add(this.backgroundSurface);
     }
 
@@ -58,11 +56,12 @@ define(function(require, exports, module) {
                 letterSpacing: '2px',
                 fontWeight: 100
             }
-        })
+        });
+
         this.nameModifier = new StateModifier({
             origin: [0, 0.5],
             align: [0.1, 0.5],
-        })
+        });
         this.root.add(this.nameModifier).add(this.name);
     }
 
@@ -77,12 +76,12 @@ define(function(require, exports, module) {
                 fontSize: this.options.width * 0.04 + 'px',
                 fontWeight: 300
             }
-        })
+        });
         this.tagLineModifier = new StateModifier({
             transform: Transform.translate(this.options.width * 0.11, this.options.height * 0.01, 0),
             origin: [0, 0],
             align: [0, 0.5]
-        })
+        });
 
         this.root.add(this.tagLineModifier).add(this.tagLine);
     }
@@ -102,7 +101,7 @@ define(function(require, exports, module) {
                 fontWeight: 600,
                 backgroundColor: 'rgba(250, 250, 250, .4)'
             }
-        })
+        });
         this.loginButtonModifier = new StateModifier({
             origin: [0.5, 0.5],
             align: [0.5, 0.70],
@@ -118,7 +117,7 @@ define(function(require, exports, module) {
                 cache: true
             }).done(function(result) {
                 //this event triggers splash page:
-                this._eventOutput.emit('loggedin')
+                this._eventOutput.emit('loggedin');
                 this.rootModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0), {
                     duration: 500
                 });
@@ -170,6 +169,35 @@ define(function(require, exports, module) {
                     console.log('unable to get user data');
                 }.bind(this));
 
+// <<<<<<< HEAD
+//                 var jobs = {};
+//                 var pageCount = 1;
+//                 var max = 1;
+//                 var index = 0;
+//                 while (pageCount <= max) {
+//                     result.get('/1/tags/1694/jobs', {
+//                         data: {
+//                             page: pageCount
+//                         }
+//                     }).done(function(data) {
+
+//                         data.jobs.forEach(function(job) {
+//                             if (job.job_type === 'full-time' && job.salary_min > 70000 && job.currency_code === "USD") {
+//                                 jobs[index] = job;
+//                                 index++;
+//                             }
+//                         }.bind(this));
+//                         if (pageCount > max) {
+//                             this.options.jobs = jobs;
+//                             this._eventOutput.emit('loaded');
+//                         }
+
+//                     }.bind(this)).fail(function(oops) {
+//                         console.log('unable to get job data');
+//                     }.bind(this));
+//                     pageCount++;
+//                 }
+// =======
                 // var jobs = {};
                 // var pageCount = 1;
                 // var max = 1;
@@ -197,6 +225,7 @@ define(function(require, exports, module) {
                 //     }.bind(this));
                 //     pageCount++;
                 // }
+// >>>>>>> master
 
             }.bind(this));
 
