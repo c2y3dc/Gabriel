@@ -141,12 +141,12 @@ define(function(require, exports, module) {
                             ).done(function(data){
                                 locCount++
                                 data.jobs.forEach(function(job){
-                                    // console.log(job);
                                     console.log(this.options.userSkills, "USER SKILLS");
+                                    var notPushed = true;
                                     job.tags.forEach(function(skill){
                                         console.log(skill.id, "JOB SKILL ID");
-                                        if(this.options.userSkills.indexOf(skill.id) !== -1){
-
+                                        if(notPushed && this.options.userSkills.indexOf(skill.id) !== -1){
+                                            notPushed = false;
                                             console.log('in the if block MATCHMATCHMATCH', index);
                                             this.options.jobs[index] = job;
                                             index++;
@@ -154,12 +154,12 @@ define(function(require, exports, module) {
 
                                     }.bind(this));
 
-
                                 }.bind(this))
-
                                 console.log('In the loop')
             
                                 if(locCount == this.options.userLoc.length) 
+                                // console.log(this.options.jobs);
+                                    console.log("matched jobs count: ", index-1);
                                     if(this.options.jobs.length===0){alert('Sorry but there are no jobs in your area for your skills')}
                                     this._eventOutput.emit('loaded');
                             }.bind(this))

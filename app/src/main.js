@@ -41,14 +41,13 @@ define(function(require, exports, module) {
         // document.addEventListener('build', start, false);
     }else {
         //UNCOMMENT THE LINE BELOW WHEN RUNNING ON MOBILE DEVICES
-        // document.addEventListener('DOMContentLoaded', start);
+        document.addEventListener('DOMContentLoaded', start);
         //document.addEventListener('build', start);
         
         // COMMENT OUT BOTH LINES BELOW WHEN RUNNING ON MOBILE DEVICES
         // require('../lib/oauth-js/dist/oauth.min.js');
         // start();
-        require('../lib/oauth-js/dist/oauth.min.js');
-        start();
+
     }
 
 

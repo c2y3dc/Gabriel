@@ -64,3 +64,8 @@ function newLine2Break(str, is_xhtml) {
 function stripNewLines(str) {
     return str.replace(/[\r\n]{1,}/g, "<br /><br />");
 }
+
+function shuffle(o){ //v1.0
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+};

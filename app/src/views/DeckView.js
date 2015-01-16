@@ -208,8 +208,12 @@ define(function(require, exports, module) {
     function _createSlides() {
         this.slides = {};
         this.currentIndex = 0;
+        // console.log(Object.keys(this.options.jobs))
+        var sArr = shuffle(Object.keys(this.options.jobs))
+        console.log(sArr);
+
         for (var i = 0; i < Object.keys(this.options.jobs).length; i++) {
-            var tags = this.options.jobs[i].tags;
+            var tags = this.options.jobs[sArr[i]].tags;
             var skills = [];
             var location = [];
 
@@ -224,8 +228,8 @@ define(function(require, exports, module) {
 
             var slide = new SlideView({
                 size: this.options.size,
-                job: this.options.jobs[i],
-                logo_url: this.options.jobs[i].startup.logo_url,
+                job: this.options.jobs[sArr[i]],
+                logo_url: this.options.jobs[sArr[i]].startup.logo_url,
                 skills: skills,
                 location: location
             });
