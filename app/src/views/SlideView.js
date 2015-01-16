@@ -68,7 +68,8 @@ define(function(require, exports, module) {
         salary_min: '100k',
         salary_max: '150k',
         job_type: 'Full Time',
-        noteToggle: false
+        noteToggle: false,
+        flipping: false
     };
 
     SlideView.prototype.showNote = function() {
@@ -376,17 +377,20 @@ define(function(require, exports, module) {
 
     function _setListeners() {
 
-        this.noteSurface.on('touchstart', this.showNote.bind(this));
+        this.noteSurface.on('touchend', this.showNote.bind(this));
         this.noteView.cancelButtonSurface.on('touchstart', function() {
-            this.hideNote();
             if (window.cordova) {
-                native.keyboardhide;
+               cordova.plugins.Keyboard.close();
             }
+            this.hideNote();
         }.bind(this));
 
         this.noteView.submitButtonSurface.on('touchend', function() {
             this.options.note = this.noteView.inputSurface.getValue();
-            this.noteView.inputSurface.setValue('');
+            if (window.cordova) {
+               cordova.plugins.Keyboard.close();
+            }
+            this.hideNote();
             //console.log('getVal', this.noteView.inputSurface.getValue());
             this._eventOutput.emit('swipeRight');
         }.bind(this));
@@ -411,14 +415,16 @@ define(function(require, exports, module) {
 
 
         this.frontSurface.on('click', function() {
-            if (!this.options.toggle && !this.options.note) {
+            this.options.flipping = true;
+            if (!this.options.toggle && !this.options.noteToggle) {
                 this._eventOutput.emit('flip')
 
             }
         }.bind(this));
 
         this.backSurface.on('click', function() {;
-            if (this.options.toggle && !this.options.note) {
+             this.options.flipping = true;
+            if (this.options.toggle && !this.options.noteToggle) {
                 this._eventOutput.emit('flip');
             }
         }.bind(this));

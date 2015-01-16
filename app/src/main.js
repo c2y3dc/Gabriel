@@ -23,12 +23,13 @@ define(function(require, exports, module) {
 
     if (window.cordova) {
         document.addEventListener('deviceready', start, false);
-        document.addEventListener('build', start, false);
+        //document.addEventListener('build', start, false);
         // Keyboard
         // - requires ionic keyboard plugin
         try {
             // disable keyboard scrolling
-            cordova.plugins.Keyboard.disableScroll(true);
+            cordova.plugins.Keyboard.disableScroll(false);
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             //keyboardHeight = 260;
         } catch (err) {
             console.error(err, 'no Keyboard');
@@ -53,8 +54,8 @@ define(function(require, exports, module) {
         //document.addEventListener('build', start);
 
         // COMMENT OUT BOTH LINES BELOW WHEN RUNNING ON MOBILE DEVICES
-        //require('../lib/oauth-js/dist/oauth.min.js');
-        //start();
+        require('../lib/oauth-js/dist/oauth.min.js');
+        start();
     }
 
 

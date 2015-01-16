@@ -245,7 +245,7 @@ define(function(require, exports, module) {
             this.archiveModifier.setOpacity(1, {
                 duration: 10
             });
-            if (this.deckView.options.slideArrived) {
+            if (this.deckView.options.slideArrived && !this.deckView.options.flipping) {
                 this.deckView.options.slideArrived = false;
                 this.deckView._eventOutput.emit('swipeItLeft');
             }
@@ -261,7 +261,7 @@ define(function(require, exports, module) {
             this.interestedModifier.setOpacity(1, {
                 duration: 10
             });
-            if (this.deckView.options.slideArrived) {
+            if (this.deckView.options.slideArrived && !this.deckView.options.flipping) {
                 this.deckView.options.slideArrived = false;
                 this.deckView._eventOutput.emit('swipeItRight');
             }

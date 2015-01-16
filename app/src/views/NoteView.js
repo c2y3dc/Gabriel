@@ -56,6 +56,7 @@ define(function(require, exports, module) {
             value: '',
             type: 'text',
             classes: ['create-note'],
+            content: '',
             properties: {
                 padding: '28% 10%'
             }
@@ -115,7 +116,7 @@ define(function(require, exports, module) {
     function _setListeners() {
 
         this.inputSurface.on('touchstart', function() {
-            if (window.cordova) native.keyboardshow;
+
         }.bind(this));
 
         //this.input.on('click', this.input)

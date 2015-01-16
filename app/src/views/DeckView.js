@@ -41,6 +41,7 @@ define(function(require, exports, module) {
     DeckView.prototype.constructor = DeckView;
 
     DeckView.DEFAULT_OPTIONS = {
+        flipping: true,
         slideArrived: true,
         jobs: {},
         height: window.innerHeight,
@@ -65,13 +66,11 @@ define(function(require, exports, module) {
 
     DeckView.prototype.showCurrentSlide = function() {
         var slide = this.slides[this.currentIndex];
-        slide.noteView.inputSurface.setValue('');
         this.lightbox.show(slide);
     };
 
     DeckView.prototype.swipeLeft = function() {
         var slide = this.slides[this.currentIndex];
-        slide.noteView.inputSurface.setValue('');
         this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(300, 0, 0);
 
@@ -115,7 +114,6 @@ define(function(require, exports, module) {
         //     }.bind(this));
 
         this.showNextSlide(function() {
-            slide.noteView.inputSurface.setValue('');
             this.options.slideArrived = true
         }.bind(this));
 
@@ -124,9 +122,7 @@ define(function(require, exports, module) {
     };
 
     DeckView.prototype.swipeRight = function() {
-
         var slide = this.slides[this.currentIndex];
-        slide.noteView.inputSurface.setValue('');
         //this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
         this.lightbox.options.outTransform = Transform.translate(0, 0, 0);
         this.lightbox.options.inTransform = Transform.translate(-300, 0, 0);
@@ -181,7 +177,6 @@ define(function(require, exports, module) {
         //this._eventOutput.emit('buttonToggle');
 
         this.showNextSlide(function() {
-            slide.noteView.inputSurface.setValue('');
             this.options.slideArrived = true;
             this.options.okToFlip = true;
         }.bind(this));
@@ -193,12 +188,13 @@ define(function(require, exports, module) {
     DeckView.prototype.flip = function() {
         var slide = this.slides[this.currentIndex];
         var angle = slide.options.toggle ? 0 : -Math.PI;
-
+        this.options.flipping = true;
         slide.flipper.setAngle(angle, {
             method: 'spring',
             dampingRatio: 1,
             period: 500
         }, function() {
+            this.options.flipping = false;
             slide.options.toggle = !slide.options.toggle;
         }.bind(this));
     }
@@ -268,7 +264,6 @@ define(function(require, exports, module) {
         }
         // console.log('SLIDES ARRAY', this.slides);
         this.showNextSlide(function() {
-            slide.noteView.inputSurface.setValue('');
             this._eventOutput.emit('firstSlideReady');
         }.bind(this));
 

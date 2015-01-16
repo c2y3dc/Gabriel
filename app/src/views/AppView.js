@@ -85,7 +85,7 @@ define(function(require, exports, module) {
             duration: 175
         });
         this.pageModifier.setTransform(Transform.translate(0, 0, 0.1), {
-            duration: 175,
+            duration: 275,
             method: 'spring',
             dampingRatio: 1,
             period: 390,
@@ -157,13 +157,13 @@ define(function(require, exports, module) {
     // MenuPage Toggle
     AppView.prototype.showFullMenuPage = function() {
         this.pageModifier.setOpacity(0, {
-            duration: 375
+            duration: 275
         });
         this.pageModifier.setTransform(Transform.translate(0, 0, -700), {
             duration: 175,
             method: 'spring',
             dampingRatio: 1,
-            period: 390
+            period: 400
         });
         this.menuView.xState.setTransform(Transform.translate(0, 0, 700), {
             duration: 60,
@@ -172,10 +172,10 @@ define(function(require, exports, module) {
                 duration: 175,
                 method: 'spring',
                 dampingRatio: 1,
-                period: 390
+                period: 400
             });
             this.menuView.xState.setOpacity(1, {
-                duration: 475
+                duration: 375
             });
         }.bind(this));
     };
