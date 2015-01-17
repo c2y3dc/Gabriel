@@ -120,8 +120,7 @@ define(function(require, exports, module) {
             '<p class="loading_skills_description2"><br></p>',
             '</div>',
             '<div class="loading_bottom">',
-            '<p class="loading_text">Loading Text</p>',
-            '<div class="loading_bar">Loading Bar</div>',
+            '<p class="loading_text">FINDING THE BEST JOBS FOR YOU</p>',
             '</div>',
             ].join('')
         });
@@ -131,8 +130,8 @@ define(function(require, exports, module) {
         });
 
         this.loadingGif = new ImageSurface({
-            size: [44, 44],
-            content: 'img/loading.gif'
+            size: [55, 55],
+            content: 'img/loading.GIF'
         });
 
         // var progressBar = new ProgressBar.Square('#container', {
@@ -142,11 +141,13 @@ define(function(require, exports, module) {
         // progressBar.animate(1);
 
         this.loadingModifier = new StateModifier({
-            origin: [0.5, 0.5],
-            align: [0.5, 0.5]
+          transform: Transform.translate(this.options.width * 0.4, this.options.height * 0.525, 0)
+            // origin: [0.5, 0.5],
+            // align: [0.5, 0.5]
         });
 
         this.node.add(this.cardModifier).add(this.cardSurface);
+        this.node.add(this.loadingModifier).add(this.loadingGif);
     }
     module.exports = LoadingView;
 });

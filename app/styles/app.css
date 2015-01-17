@@ -296,12 +296,12 @@ textarea::-webkit-input-placeholder {
 }
 .loading_bottom {
     width: 100%;
-    background: green;
     margin-top: 10%;
 }
 .loading_text {
-    background: red;
     text-align: center;
+    font-size: 1rem;
+    padding: 0.2rem 0;
 }
 .loading_bar {
     background: blue;

@@ -115,96 +115,101 @@ define(function(require, exports, module) {
 
     function _signIn() {
         result = OAuth.create('angel_list')
-        // return result ? Promise.resolve(result) : OAuth.popup('angel')
-        if(result){
+            // return result ? Promise.resolve(result) : OAuth.popup('angel')
+        if (result) {
 
             Promise.resolve(result)
-                .then(function(){
+                .then(function() {
                     _OAuthCreation.call(this);
                 }.bind(this))
-                .catch(function(){
+                .catch(function() {
                     _OAuthCreation.call(this);
                 }.bind(this))
-        
+
         }
     }
 
     function _OAuthCreation() {
-            if(this.options.index>100) {
-                console.log('returning')
-                return;
+        if (this.options.index > 100) {
+            console.log('returning')
+            return;
+        }
+        OAuth.initialize('8zrAzDgK9i-ryXuI6xHqjHkNpug');
+        OAuth.popup('angel_list', {
+            cache: true
+        }).done(function(result) {
+            //this event triggers splash page:
+            if (this.options.toBeLoggedIn) {
+                this._eventOutput.emit('loggedin');
+                this.options.toBeLoggedIn = false;
             }
-            OAuth.initialize('8zrAzDgK9i-ryXuI6xHqjHkNpug');
-            OAuth.popup('angel_list', {
-                cache: true
-            }).done(function(result) {
-                //this event triggers splash page:
-                if (this.options.toBeLoggedIn){
-                    this._eventOutput.emit('loggedin');
-                    this.options.toBeLoggedIn = false;
-                }
-                this.rootModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0), {
-                    duration: 500
-                });
-                this.options.angel = result;
-                ANGEL = result;
-                result.get('/1/me').done(function(data) {
-                    this.options.userData = data;
-                    ME = data;
-                    this.options.userData.locations.forEach(function(loc){
-                        this.options.userLoc.push(loc.id);
-                    }.bind(this));
-                    this.options.userData.skills.forEach(function(skill){
-                        this.options.userSkills.push(skill.id);
-                    }.bind(this));
-                    if (this.options.userLoc.length === 0) this.options.userLoc = [1692];
-                    var locCount = 0;
-                    this.options.userLoc.forEach(function(id){
-                        ANGEL.get('/1/tags/'+id+'/jobs', {data:{page:this.options.pageCount}}
-                            ).done(function(data){
-                                console.log("NEWPAGENEWPAGE, this.options.pageCount")
-                                locCount++
-                                data.jobs.forEach(function(job){
-                                    console.log(this.options.userSkills, "USER SKILLS");
-                                    var notPushed = true;
-                                    job.tags.forEach(function(skill){
-                                        console.log(skill.id, "JOB SKILL ID");
-                                        if(notPushed && this.options.userSkills.indexOf(skill.id) !== -1){
-                                            notPushed = false;
-                                            console.log('in the if block MATCHMATCHMATCH', this.options.index);
-                                            this.options.jobs[this.options.index] = job;
-                                            this.options.index++;
-                                        }
-
-                                    }.bind(this));
+            this.rootModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0), {
+                duration: 500
+            });
+            this.options.angel = result;
+            ANGEL = result;
+            result.get('/1/me').done(function(data) {
+                this.options.userData = data;
+                ME = data;
+                this.options.userData.locations.forEach(function(loc) {
+                    this.options.userLoc.push(loc.id);
+                }.bind(this));
+                this.options.userData.skills.forEach(function(skill) {
+                    this.options.userSkills.push(skill.id);
+                }.bind(this));
+                if (this.options.userLoc.length === 0) this.options.userLoc = [1692];
+                var locCount = 0;
+                this.options.userLoc.forEach(function(id) {
+                        ANGEL.get('/1/tags/' + id + '/jobs', {
+                            data: {
+                                page: this.options.pageCount
+                            }
+                        }).done(function(data) {
+                            console.log("NEWPAGENEWPAGE, this.options.pageCount")
+                            locCount++
+                            data.jobs.forEach(function(job) {
+                                console.log(this.options.userSkills, "USER SKILLS");
+                                var notPushed = true;
+                                job.tags.forEach(function(skill) {
+                                    console.log(skill.id, "JOB SKILL ID");
+                                    if (notPushed && this.options.userSkills.indexOf(skill.id) !== -1) {
+                                        notPushed = false;
+                                        console.log('in the if block MATCHMATCHMATCH', this.options.index);
+                                        this.options.jobs[this.options.index] = job;
+                                        this.options.index++;
+                                    }
 
                                 }.bind(this));
-                                console.log('In the loop')
-            
-                                if(locCount == this.options.userLoc.length) {
 
-                                    console.log("matched jobs count: ", this.options.index+1);
-                                    if(this.options.index > 100) {
-                                        console.log('LockedAndLoaded')
-                                        this._eventOutput.emit('loaded');
-                                        return;
-                                    }else{
-                                        this.options.pageCount++;
-                                        _OAuthCreation.call(this);
-                                    }
-                                    if(this.options.jobs.length===0){alert('Sorry but there are no jobs in your area for your skills')}
-                                }
-                                // console.log(this.options.jobs);
                             }.bind(this));
-                    
-                        }.bind(this))
-                    // console.log(this.options.userData);
-                }.bind(this)).fail(function(oops) {
-                    console.log('unable to get user data');
-                    window.location.reload();
-                }.bind(this));
+                            console.log('In the loop')
 
+                            if (locCount == this.options.userLoc.length) {
+
+                                console.log("matched jobs count: ", this.options.index + 1);
+                                if (this.options.index > 100) {
+                                    console.log('LockedAndLoaded')
+                                    this._eventOutput.emit('loaded');
+                                    return;
+                                } else {
+                                    this.options.pageCount++;
+                                    _OAuthCreation.call(this);
+                                }
+                                if (this.options.jobs.length === 0) {
+                                    alert('Sorry but there are no jobs in your area for your skills')
+                                }
+                            }
+                            // console.log(this.options.jobs);
+                        }.bind(this));
+
+                    }.bind(this))
+                    // console.log(this.options.userData);
+            }.bind(this)).fail(function(oops) {
+                console.log('unable to get user data');
+                window.location.reload();
             }.bind(this));
+
+        }.bind(this));
     }
 
 
