@@ -41,7 +41,7 @@ define(function(require, exports, module) {
     DeckView.prototype.constructor = DeckView;
 
     DeckView.DEFAULT_OPTIONS = {
-        flipping: true,
+        flipping: false,
         slideArrived: true,
         jobs: {},
         height: window.innerHeight,
