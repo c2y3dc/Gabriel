@@ -222,8 +222,6 @@ define(function(require, exports, module) {
         this.currentIndex = 0;
         // console.log(Object.keys(this.options.jobs))
         var sArr = shuffle(Object.keys(this.options.jobs))
-        console.log(sArr);
-        console.log(this.options.jobs);
 
         for (var i = 0; i < Object.keys(this.options.jobs).length; i++) {
             var tags = this.options.jobs[sArr[i]].tags;
