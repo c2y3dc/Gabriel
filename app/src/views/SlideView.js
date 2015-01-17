@@ -192,15 +192,17 @@ define(function(require, exports, module) {
 
         this.backSurface = new ContainerSurface({
             classes: ['back-card'],
-
             size: this.options.size,
-            
-
+        
         });
 
-        this.scrollModifier = new Modifier();
+        this.scrollModifier = new Modifier({
+            size: [undefined, 2]
+        });
 
-        this.scrollview = new Scrollview({});
+        this.scrollview = new Scrollview({
+            rails: true
+        });
        
         var prevSurface;
         
@@ -214,38 +216,34 @@ define(function(require, exports, module) {
             divSurface.pipe(this.scrollview);
 
             divSurface.node = new RenderNode();
-            divSurface.mod = new Modifier({
-                align: function(){
-                    if(!prevSurface){
-                        return [0,0];
-                    }else{
-                        return [0,prevSurface.height];
-                    }
-                }
-            });
+            divSurface.mod = new Modifier();
 
 
             divSurface.node.add(divSurface.mod).add(divSurface);
 
-            this.scrollSurfaces.push(divSurface.node);
+            this.scrollSurfaces.push(divSurface);
 
             prevSurface = divSurface;
         }.bind(this));
 
         var scrollLayout = [];
 
-        var sequentialLayout = new SequentialLayout({itemSpacing:10});
+        var sequentialLayout = new SequentialLayout({
+            size: [undefined, true],
+            itemSpacing: 10
+        });
+
         sequentialLayout.sequenceFrom(this.scrollSurfaces);
         scrollLayout.push(sequentialLayout);
 
         this.scrollview.sequenceFrom(scrollLayout);
 
-        this.backSurface.add(this.scrollview);
+        this.backSurface.add(this.scrollModifier).add(this.scrollview);
         
-        console.log(this.scrollSurfaces, 'SHOULD HAVE AN ARRAY OF SURFACES');
         
         this.backNode = this.cardNode.add(this.backModifier);
         this.backNode.add(this.backSurface);
+
     }
 
     // function _createNoteButton() {         
