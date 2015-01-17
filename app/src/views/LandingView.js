@@ -26,7 +26,10 @@ define(function(require, exports, module) {
         initialData: {},
         jobs: {},
         userLoc: [],
-        userSkills: []
+        userSkills: [],
+        toBeLoggedIn: true,
+        index: 0,
+        pageCount: 1
     };
 
     function _createBackground() {
@@ -127,12 +130,19 @@ define(function(require, exports, module) {
     }
 
     function _OAuthCreation() {
+            if(this.options.index>100) {
+                console.log('returning')
+                return;
+            }
             OAuth.initialize('8zrAzDgK9i-ryXuI6xHqjHkNpug');
             OAuth.popup('angel_list', {
                 cache: true
             }).done(function(result) {
                 //this event triggers splash page:
-                this._eventOutput.emit('loggedin');
+                if (this.options.toBeLoggedIn){
+                    this._eventOutput.emit('loggedin');
+                    this.options.toBeLoggedIn = false;
+                }
                 this.rootModifier.setTransform(Transform.translate(-window.innerWidth * 2, 0, 0), {
                     duration: 500
                 });
@@ -149,10 +159,10 @@ define(function(require, exports, module) {
                     }.bind(this));
                     if (this.options.userLoc.length === 0) this.options.userLoc = [1692];
                     var locCount = 0;
-                    var index = 0;
                     this.options.userLoc.forEach(function(id){
-                        ANGEL.get('/1/tags/'+id+'/jobs', {data:{page:1}}
+                        ANGEL.get('/1/tags/'+id+'/jobs', {data:{page:this.options.pageCount}}
                             ).done(function(data){
+                                console.log("NEWPAGENEWPAGE, this.options.pageCount")
                                 locCount++
                                 data.jobs.forEach(function(job){
                                     console.log(this.options.userSkills, "USER SKILLS");
@@ -161,9 +171,9 @@ define(function(require, exports, module) {
                                         console.log(skill.id, "JOB SKILL ID");
                                         if(notPushed && this.options.userSkills.indexOf(skill.id) !== -1){
                                             notPushed = false;
-                                            console.log('in the if block MATCHMATCHMATCH', index);
-                                            this.options.jobs[index] = job;
-                                            index++;
+                                            console.log('in the if block MATCHMATCHMATCH', this.options.index);
+                                            this.options.jobs[this.options.index] = job;
+                                            this.options.index++;
                                         }
 
                                     }.bind(this));
@@ -171,11 +181,20 @@ define(function(require, exports, module) {
                                 }.bind(this));
                                 console.log('In the loop')
             
-                                if(locCount == this.options.userLoc.length) 
-                                // console.log(this.options.jobs);
-                                    console.log("matched jobs count: ", index-1);
+                                if(locCount == this.options.userLoc.length) {
+                                    
+                                    console.log("matched jobs count: ", this.options.index+1);
+                                    if(this.options.index > 100) {
+                                        console.log('LockedAndLoaded')
+                                        this._eventOutput.emit('loaded');
+                                        return;
+                                    }else{
+                                        this.options.pageCount++;
+                                        _OAuthCreation.call(this);
+                                    }
                                     if(this.options.jobs.length===0){alert('Sorry but there are no jobs in your area for your skills')}
-                                    this._eventOutput.emit('loaded');
+                                }
+                                // console.log(this.options.jobs);
                             }.bind(this));
                     
                         }.bind(this))
@@ -183,64 +202,6 @@ define(function(require, exports, module) {
                 }.bind(this)).fail(function(oops) {
                     console.log('unable to get user data');
                 }.bind(this));
-
-// <<<<<<< HEAD
-//                 var jobs = {};
-//                 var pageCount = 1;
-//                 var max = 1;
-//                 var index = 0;
-//                 while (pageCount <= max) {
-//                     result.get('/1/tags/1694/jobs', {
-//                         data: {
-//                             page: pageCount
-//                         }
-//                     }).done(function(data) {
-
-//                         data.jobs.forEach(function(job) {
-//                             if (job.job_type === 'full-time' && job.salary_min > 70000 && job.currency_code === "USD") {
-//                                 jobs[index] = job;
-//                                 index++;
-//                             }
-//                         }.bind(this));
-//                         if (pageCount > max) {
-//                             this.options.jobs = jobs;
-//                             this._eventOutput.emit('loaded');
-//                         }
-
-//                     }.bind(this)).fail(function(oops) {
-//                         console.log('unable to get job data');
-//                     }.bind(this));
-//                     pageCount++;
-//                 }
-// =======
-                // var jobs = {};
-                // var pageCount = 1;
-                // var max = 1;
-                // var index = 0;
-                // while (pageCount <= max) {
-                //     result.get('/1/tags/1692/jobs', {
-                //         data: {
-                //             page: pageCount
-                //         }
-                //     }).done(function(data) {
-
-                //         data.jobs.forEach(function(job) {
-                //             if (job.job_type === 'full-time' && job.salary_min > 70000 && job.currency_code === "USD") {
-                //                 jobs[index] = job;
-                //                 index++;
-                //             }
-                //         }.bind(this));
-                //         if (pageCount > max) {
-                //             this.options.jobs = jobs;
-                //             this._eventOutput.emit('loaded');
-                //         }
-
-                //     }.bind(this)).fail(function(oops) {
-                //         console.log('unable to get job data');
-                //     }.bind(this));
-                //     pageCount++;
-                // }
-// >>>>>>> master
 
             }.bind(this));
     }
