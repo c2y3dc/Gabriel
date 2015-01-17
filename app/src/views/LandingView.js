@@ -182,7 +182,7 @@ define(function(require, exports, module) {
                                 console.log('In the loop')
             
                                 if(locCount == this.options.userLoc.length) {
-                                    
+
                                     console.log("matched jobs count: ", this.options.index+1);
                                     if(this.options.index > 100) {
                                         console.log('LockedAndLoaded')
@@ -201,6 +201,7 @@ define(function(require, exports, module) {
                     // console.log(this.options.userData);
                 }.bind(this)).fail(function(oops) {
                     console.log('unable to get user data');
+                    window.location.reload();
                 }.bind(this));
 
             }.bind(this));
