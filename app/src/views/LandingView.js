@@ -175,6 +175,7 @@ define(function(require, exports, module) {
     function _jobQuery() {
         if (this.options.userLoc.length === 0) this.options.userLoc = [1692];
         var locCount = 0;
+        if (this.options.userSkills.length === 0) this.options.userSkills = [14781];
         this.options.userLoc.forEach(function(id){
             this.options.angel.get('/1/tags/'+id+'/jobs', {data:{page:this.options.pageCount}}).done(function(data){
                 locCount++
