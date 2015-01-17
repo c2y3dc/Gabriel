@@ -207,7 +207,7 @@ define(function(require, exports, module) {
 
         this.slides[this.currentIndex].options.position.set([0, 0]);
         var slide = this.slides[this.currentIndex];
-        slide.noteView.inputSurface.setValue('');
+        // slide.noteView.inputSurface.setValue('');
         this.lightbox.show(slide, callback);
     };
 
